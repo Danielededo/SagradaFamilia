@@ -44,4 +44,18 @@ class AppTest{
         System.out.println(carta4.toString());
         System.out.println(carta5.toString());
     }
+    @Test
+    public void testVetrata(){
+        Virtus virtus = new Virtus();
+        Die dado =new Die();
+        virtus.createVirtus();
+        dado.randomdado();
+        dado.setDicecolor(Colour.GREEN);
+        System.out.println(dado.getFace());
+        System.out.println(virtus.getSlot(3,1).isOccupate());
+        virtus.getSlot(3,1).setDie(dado);
+        System.out.println(virtus.getSlot(3,1).isOccupate());
+    }
+
+
 }

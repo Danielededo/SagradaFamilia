@@ -1,5 +1,5 @@
 package Dice;
 
 public enum  Colour {
-    RED,YELLOW,GREEN,BLUE,PURPLE
+    RED,YELLOW,GREEN,BLUE,PURPLE,WHITE
 }
