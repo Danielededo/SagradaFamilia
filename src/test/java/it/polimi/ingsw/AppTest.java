@@ -45,7 +45,7 @@ class AppTest{
         System.out.println(carta5.toString());
     }
     @Test
-    public void testVetrata(){
+    public void testGlassWindow(){
         Virtus virtus = new Virtus();
         Die dado =new Die();
         virtus.createVirtus();
@@ -57,5 +57,12 @@ class AppTest{
         System.out.println(virtus.getSlot(3,1).isOccupate());
     }
 
+    @Test
+    public void testcreateCards(){
+        SunCatcher c = new SunCatcher();
+        c.createSunCatcher();
+        assertEquals(3,c.getSlot(3,1).getValue());
+        assertEquals(Colour.WHITE, c.getSlot(3,1).getSlotcolour());
+    }
 
 }
