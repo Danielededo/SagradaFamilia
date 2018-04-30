@@ -61,4 +61,8 @@ public class Slot {
             }
         }
     }
+
+    public Die getDice() {
+        return dice;
+    }
 }

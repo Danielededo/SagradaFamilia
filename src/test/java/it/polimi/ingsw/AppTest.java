@@ -44,8 +44,17 @@ class AppTest{
         System.out.println(carta4.toString());
         System.out.println(carta5.toString());
     }
+
     @Test
-    public void testGlassWindow(){
+    void testcreateWindow(){
+        SunCatcher c = new SunCatcher();
+        c.createSunCatcher();
+        assertEquals(3,c.getSlot(3,1).getValue());
+        assertEquals(Colour.WHITE, c.getSlot(3,1).getSlotcolour());
+    }
+
+    @Test
+    void testWindow(){
         Virtus virtus = new Virtus();
         Die dado =new Die();
         virtus.createVirtus();
@@ -58,11 +67,42 @@ class AppTest{
     }
 
     @Test
-    public void testcreateCards(){
-        SunCatcher c = new SunCatcher();
-        c.createSunCatcher();
-        assertEquals(3,c.getSlot(3,1).getValue());
-        assertEquals(Colour.WHITE, c.getSlot(3,1).getSlotcolour());
+    void testsetDice(){
+        Die a = new Die();
+        Die b = new Die();
+        Comitas comitas = new Comitas();
+        comitas.createComitas();
+        a.randomdado();
+        System.out.println(a.getFace());
+        b.randomdado();
+        System.out.println(b.getFace());
+        a.setDicecolor(Colour.YELLOW);
+        b.setDicecolor(Colour.YELLOW);
+        comitas.getSlot(2,3).setDie(a);
+        comitas.getSlot(2,3).setDie(b);
+        System.out.println(comitas.getSlot(2,3).getDice());
+        assertEquals(a,comitas.getSlot(2,3).getDice());
     }
 
+    @Test
+    void testRiempimento(){
+        WaterofLife window = new WaterofLife();
+        window.createWaterofLife();
+        for(int i=0; i<=3; i++){
+            for(int j=0;j<=4;j++){
+                Die a = new Die();
+                a.randomdado();
+                System.out.print(a.getFace()+ "     ");
+                a.setDicecolor(Colour.BLUE);
+                window.getSlot(i,j).setDie(a);
+            }
+            System.out.println();
+        }
+        for(int i=0; i<=3; i++) {
+            for (int j = 0; j <= 4; j++) {
+                System.out.print(window.getSlot(i, j).isOccupate()+ "   ");
+            }
+            System.out.println();
+        }
+        }
 }
