@@ -1,6 +1,6 @@
 package Cards;
 
-public class PublicObject extends Card{
+public abstract class PublicObject extends Card{
     private String effect;
     private int punteggio;
 
@@ -26,4 +26,5 @@ public class PublicObject extends Card{
                 ", effect='" + effect + '\'' +
                 '}';
     }
+    public abstract int calcola_punteggio(GlassWindow scheme);
 }

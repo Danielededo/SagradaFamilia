@@ -14,7 +14,6 @@ public class GlassWindow extends Scheme {
         return link;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
