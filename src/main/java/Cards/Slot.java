@@ -11,6 +11,14 @@ public class Slot {
     private Die dice;
     private boolean occupate = false;
 
+    public Slot() {
+    }
+
+    public Slot(int value, Colour slotcolour) {
+        this.value = value;
+        this.slotcolour = slotcolour;
+    }
+
     public void setLine(int line) {
         this.line = line;
     }

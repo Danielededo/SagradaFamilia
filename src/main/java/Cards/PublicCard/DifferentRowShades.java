@@ -2,6 +2,8 @@ package Cards.PublicCard;
 
 import Cards.GlassWindow;
 import Cards.PublicObject;
+import java.util.ArrayList;
+import java.lang.*;
 
 public class DifferentRowShades extends PublicObject {
     public DifferentRowShades() {
@@ -11,7 +13,30 @@ public class DifferentRowShades extends PublicObject {
         setEffect("Rows without repeated shades");
     }
 
+    private int numberrow(GlassWindow scheme) {
+        int cont=0;
+        int cont1=0;
+        for (int i=0;i<4;i++){
+            int[] array={1,2,3,4,5,6};
+            for (int j=0;j<5;j++){
+                if (scheme.getSlot(i,j).isOccupate()){
+                    array[scheme.getSlot(i,j).getDice().getFace()-1]=0;
+                }
+            }
+            for (int z=0;z<6;z++) {
+                if (array[z]!=0) {
+                    cont1++;
+                }
+            }
+            if (cont1==1) {
+                cont++;
+            }
+            cont1=0;
+        }
+        return cont;
+    }
+
     public int calcola_punteggio(GlassWindow scheme) {
-        return 0;
+        return numberrow(scheme)*getPunteggio();
     }
 }

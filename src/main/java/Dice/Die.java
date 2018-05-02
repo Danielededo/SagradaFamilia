@@ -6,6 +6,14 @@ public class Die {
     private int[] number = {1, 2, 3, 4, 5, 6};
     private Colour dicecolor;
 
+    public Die() {
+    }
+
+    public Die(int face, Colour dicecolor) {
+        this.face = face;
+        this.dicecolor = dicecolor;
+    }
+
     public int randomdado(){
         Random random = new Random();
         int k;
@@ -29,6 +37,7 @@ public class Die {
     public int getFace() {
         return face;
     }
+
 
     public Colour getDicecolor() {
         return dicecolor;
