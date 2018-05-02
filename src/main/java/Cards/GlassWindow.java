@@ -1,10 +1,14 @@
 package Cards;
 
+import java.util.Arrays;
+
 public class GlassWindow extends Scheme {
     private String name;
+    private  static final int width = 4;
+    private static final int height = 5;
     private int difficulty;
     private int link;
-    private Slot[][] scheme = new Slot[4][5];
+    private Slot[][] scheme = new Slot[width][height];
 
     public void setLink(int link) {
         this.link = link;
@@ -28,8 +32,13 @@ public class GlassWindow extends Scheme {
         scheme.setColumn(j);
     }
 
+    @Override
     public String toString() {
-        return null;
+        return "GlassWindow{" +
+                "name='" + name + '\'' +
+                ", difficulty=" + difficulty +
+                ", scheme=" + Arrays.toString(scheme) +
+                '}';
     }
 
     public String getName() {
@@ -43,4 +52,5 @@ public class GlassWindow extends Scheme {
     public Slot getSlot(int i, int j) {
         return scheme[i][j];
     }
+
 }

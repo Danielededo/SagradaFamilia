@@ -1,15 +1,16 @@
 package it.polimi.ingsw;
 
-import Cards.*;
-import Cards.SchemeCard.*;
+import Cards.Card;
+import Cards.GlassWindow;
 import Cards.PrivateCard.*;
 import Cards.PublicCard.*;
+import Cards.PublicObject;
+import Cards.SchemeCard.*;
+import Cards.Slot;
 import Dice.Colour;
 import Dice.Die;
 import Dice.Sack;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -52,17 +53,15 @@ class AppTest{
 
     @Test
     void testcreateWindow(){
-        SunCatcher c = new SunCatcher();
-        c.createSunCatcher();
+        GlassWindow c = new SunCatcher();
         assertEquals(3,c.getSlot(3,1).getValue());
         assertEquals(Colour.WHITE, c.getSlot(3,1).getSlotcolour());
     }
 
     @Test
     void testWindow(){
-        Virtus virtus = new Virtus();
+        GlassWindow virtus = new Virtus();
         Die dado =new Die();
-        virtus.createVirtus();
         dado.randomdado();
         dado.setDicecolor(Colour.GREEN);
         System.out.println(dado.getFace());
@@ -75,8 +74,7 @@ class AppTest{
     void testsetDice(){
         Die a = new Die();
         Die b = new Die();
-        Comitas comitas = new Comitas();
-        comitas.createComitas();
+        GlassWindow comitas = new Comitas();
         a.randomdado();
         System.out.println(a.getFace());
         b.randomdado();
@@ -91,8 +89,7 @@ class AppTest{
 
     @Test
     void testRiempimento(){
-        WaterofLife window = new WaterofLife();
-        window.createWaterofLife();
+        GlassWindow window = new WaterofLife();
         for(int i=0; i<=3; i++){
             for(int j=0;j<=4;j++){
                 Die a = new Die();
@@ -113,8 +110,7 @@ class AppTest{
 
     @Test
     void testacalculate_score(){
-        ViaLux luce = new ViaLux();
-        luce.createViaLux();
+        GlassWindow luce = new ViaLux();
         BlueShades privata=new BlueShades();
         int sum;
         for(int i=0; i<=3; i++){
@@ -360,7 +356,7 @@ class AppTest{
 
     @Test
     void test_clear_shades(){
-        PublicObject card=new DifferentShades();
+        PublicObject card = new DifferentShades();
         GlassWindow window = new AuroraeMagnificus();
         for(int i=0; i<=3; i++){
             for(int j=0;j<=4;j++){
@@ -382,20 +378,20 @@ class AppTest{
     }
 
     @Test
-    void testa_colored_diagonals(){
-        GlassWindow vetrata=new GlassWindow();
-        PublicObject card=new ColoredDiagonals();
-        Slot s=new Slot(0,Colour.WHITE);
-        Slot t=new Slot(0,Colour.WHITE);
-        Slot u=new Slot(0,Colour.WHITE);
-        Slot v=new Slot(0,Colour.WHITE);
-        Slot z=new Slot(0,Colour.WHITE);
-        Slot x=new Slot(0,Colour.WHITE);
-        Die a=new Die();
-        Die b=new Die();
-        Die c=new Die();
-        Die d=new Die();
-        Die e=new Die();
+    void testa_colored_diagonals() {
+        GlassWindow vetrata = new GlassWindow();
+        PublicObject card = new ColoredDiagonals();
+        Slot s = new Slot(0, Colour.WHITE);
+        Slot t = new Slot(0, Colour.WHITE);
+        Slot u = new Slot(0, Colour.WHITE);
+        Slot v = new Slot(0, Colour.WHITE);
+        Slot z = new Slot(0, Colour.WHITE);
+        Slot x = new Slot(0, Colour.WHITE);
+        Die a = new Die();
+        Die b = new Die();
+        Die c = new Die();
+        Die d = new Die();
+        Die e = new Die();
         a.randomdado();
         a.setDicecolor(Colour.RED);
         b.randomdado();
@@ -412,33 +408,52 @@ class AppTest{
         v.setDie(d);
         z.setDie(e);
         x.setDie(b);
-        for (int i=1;i<3;i++){
-            vetrata.setSlot(s,i,0);
-            vetrata.setSlot(t,i,1);
-            vetrata.setSlot(u,i,2);
-            vetrata.setSlot(v,i,3);
-            vetrata.setSlot(z,i,4);
+        for (int i = 1; i < 3; i++) {
+            vetrata.setSlot(s, i, 0);
+            vetrata.setSlot(t, i, 1);
+            vetrata.setSlot(u, i, 2);
+            vetrata.setSlot(v, i, 3);
+            vetrata.setSlot(z, i, 4);
         }
-        vetrata.setSlot(s,3,0);
-        vetrata.setSlot(t,3,1);
-        vetrata.setSlot(x,3,2);
-        vetrata.setSlot(v,3,3);
-        vetrata.setSlot(z,3,4);
+        vetrata.setSlot(s, 3, 0);
+        vetrata.setSlot(t, 3, 1);
+        vetrata.setSlot(x, 3, 2);
+        vetrata.setSlot(v, 3, 3);
+        vetrata.setSlot(z, 3, 4);
 
-        vetrata.setSlot(s,0,0);
-        vetrata.setSlot(t,0,1);
-        vetrata.setSlot(s,0,2);
-        vetrata.setSlot(z,0,3);
-        vetrata.setSlot(t,0,4);
-        for(int i=0; i<=3; i++) {
+        vetrata.setSlot(s, 0, 0);
+        vetrata.setSlot(t, 0, 1);
+        vetrata.setSlot(s, 0, 2);
+        vetrata.setSlot(z, 0, 3);
+        vetrata.setSlot(t, 0, 4);
+        for (int i = 0; i <= 3; i++) {
             for (int j = 0; j <= 4; j++) {
                 if (vetrata.getSlot(i, j).isOccupate()) {
-                    System.out.print(vetrata.getSlot(i, j).isOccupate()+
-                            "-"+vetrata.getSlot(i,j).getDice().getDicecolor()+"   ");
-                }else System.out.print(vetrata.getSlot(i, j).isOccupate()+" ");
+                    System.out.print(vetrata.getSlot(i, j).isOccupate() +
+                            "-" + vetrata.getSlot(i, j).getDice().getDicecolor() + "   ");
+                } else System.out.print(vetrata.getSlot(i, j).isOccupate() + " ");
             }
             System.out.println();
         }
-        System.out.println("punteggio: "+card.calcola_punteggio(vetrata));
+        System.out.println("punteggio: " + card.calcola_punteggio(vetrata));
+    }
+    @Test
+    void testdiceremove() {
+        GlassWindow window = new Battlo();
+        Die a = new Die();
+        a.randomdado();
+        System.out.println(a.getFace());
+        a.setDicecolor(Colour.YELLOW);
+        Die b = new Die();
+        b.randomdado();
+        System.out.println(b.getFace());
+        b.setDicecolor(Colour.YELLOW);
+        window.getSlot(2,2).setDie(a);
+        window.getSlot(2,2).setDie(b);
+        System.out.println(window.getSlot(2,2).getDice());
+        window.getSlot(2,2).removeDie();
+        window.getSlot(2,2).setDie(b);
+        System.out.println(window.getSlot(2,2).getDice());
     }
 }
+

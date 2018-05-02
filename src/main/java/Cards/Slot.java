@@ -73,4 +73,7 @@ public class Slot {
     public Die getDice() {
         return dice;
     }
+
+    public void removeDie(){ this.setOccupate(false); }
+
 }
