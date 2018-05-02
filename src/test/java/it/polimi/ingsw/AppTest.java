@@ -141,24 +141,12 @@ class AppTest{
     @Test
     void testa_different_rowColors(){
         GlassWindow vetrata=new GlassWindow();
-        Slot s=new Slot();
-        Slot t=new Slot();
-        Slot u=new Slot();
-        Slot v=new Slot();
-        Slot z=new Slot();
-        Slot x=new Slot();
-        s.setSlotcolour(Colour.WHITE);
-        s.setValue(0);
-        t.setSlotcolour(Colour.WHITE);
-        t.setValue(0);
-        u.setSlotcolour(Colour.WHITE);
-        u.setValue(0);
-        v.setSlotcolour(Colour.WHITE);
-        v.setValue(0);
-        z.setSlotcolour(Colour.WHITE);
-        z.setValue(0);
-        x.setSlotcolour(Colour.RED);
-        x.setValue(0);
+        Slot s=new Slot(0,Colour.WHITE);
+        Slot t=new Slot(0,Colour.WHITE);
+        Slot u=new Slot(0,Colour.WHITE);
+        Slot v=new Slot(0,Colour.WHITE);
+        Slot z=new Slot(0,Colour.WHITE);
+        Slot x=new Slot(0,Colour.WHITE);
         Die a=new Die();
         Die b=new Die();
         Die c=new Die();
@@ -214,24 +202,12 @@ class AppTest{
     @Test
     void testa_different_columnColors(){
         GlassWindow vetrata=new GlassWindow();
-        Slot s=new Slot();
-        Slot t=new Slot();
-        Slot u=new Slot();
-        Slot v=new Slot();
-        Slot z=new Slot();
-        Slot x=new Slot();
-        s.setSlotcolour(Colour.WHITE);
-        s.setValue(0);
-        t.setSlotcolour(Colour.WHITE);
-        t.setValue(0);
-        u.setSlotcolour(Colour.WHITE);
-        u.setValue(0);
-        v.setSlotcolour(Colour.WHITE);
-        v.setValue(0);
-        z.setSlotcolour(Colour.WHITE);
-        z.setValue(0);
-        x.setSlotcolour(Colour.RED);
-        x.setValue(0);
+        Slot s=new Slot(0,Colour.WHITE);
+        Slot t=new Slot(0,Colour.WHITE);
+        Slot u=new Slot(0,Colour.WHITE);
+        Slot v=new Slot(0,Colour.WHITE);
+        Slot z=new Slot(0,Colour.WHITE);
+        Slot x=new Slot(0,Colour.WHITE);
         Die a=new Die();
         Die b=new Die();
         Die c=new Die();
@@ -285,24 +261,12 @@ class AppTest{
     void testadifferent_rowShades(){
         PublicObject card=new DifferentRowShades();
         GlassWindow vetrata=new GlassWindow();
-        Slot s=new Slot();
-        Slot t=new Slot();
-        Slot u=new Slot();
-        Slot v=new Slot();
-        Slot z=new Slot();
-        Slot x=new Slot();
-        s.setSlotcolour(Colour.WHITE);
-        s.setValue(0);
-        t.setSlotcolour(Colour.WHITE);
-        t.setValue(0);
-        u.setSlotcolour(Colour.WHITE);
-        u.setValue(0);
-        v.setSlotcolour(Colour.WHITE);
-        v.setValue(0);
-        z.setSlotcolour(Colour.WHITE);
-        z.setValue(0);
-        x.setSlotcolour(Colour.WHITE);
-        x.setValue(0);
+        Slot s=new Slot(0,Colour.WHITE);
+        Slot t=new Slot(0,Colour.WHITE);
+        Slot u=new Slot(0,Colour.WHITE);
+        Slot v=new Slot(0,Colour.WHITE);
+        Slot z=new Slot(0,Colour.WHITE);
+        Slot x=new Slot(0,Colour.WHITE);
         Die a=new Die(1,Colour.RED);
         Die b=new Die(2,Colour.PURPLE);
         Die c=new Die(3,Colour.YELLOW);
@@ -392,5 +356,89 @@ class AppTest{
             System.out.println();
         }
         System.out.println(card.calcola_punteggio(vetrata));
+    }
+
+    @Test
+    void test_clear_shades(){
+        PublicObject card=new DifferentShades();
+        GlassWindow window = new AuroraeMagnificus();
+        for(int i=0; i<=3; i++){
+            for(int j=0;j<=4;j++){
+                Die a = new Die();
+                a.randomdado();
+                System.out.print(a.getFace()+ "     ");
+                a.setDicecolor(Colour.BLUE);
+                window.getSlot(i,j).setDie(a);
+            }
+            System.out.println();
+        }
+        for(int i=0; i<=3; i++) {
+            for (int j = 0; j <= 4; j++) {
+                System.out.print(window.getSlot(i, j).isOccupate()+ "   ");
+            }
+            System.out.println();
+        }
+        System.out.println(card.calcola_punteggio(window));
+    }
+
+    @Test
+    void testa_colored_diagonals(){
+        GlassWindow vetrata=new GlassWindow();
+        PublicObject card=new ColoredDiagonals();
+        Slot s=new Slot(0,Colour.WHITE);
+        Slot t=new Slot(0,Colour.WHITE);
+        Slot u=new Slot(0,Colour.WHITE);
+        Slot v=new Slot(0,Colour.WHITE);
+        Slot z=new Slot(0,Colour.WHITE);
+        Slot x=new Slot(0,Colour.WHITE);
+        Die a=new Die();
+        Die b=new Die();
+        Die c=new Die();
+        Die d=new Die();
+        Die e=new Die();
+        a.randomdado();
+        a.setDicecolor(Colour.RED);
+        b.randomdado();
+        b.setDicecolor(Colour.BLUE);
+        c.randomdado();
+        c.setDicecolor(Colour.YELLOW);
+        d.randomdado();
+        d.setDicecolor(Colour.GREEN);
+        e.randomdado();
+        e.setDicecolor(Colour.PURPLE);
+        s.setDie(a);
+        t.setDie(b);
+        u.setDie(c);
+        v.setDie(d);
+        z.setDie(e);
+        x.setDie(b);
+        for (int i=1;i<3;i++){
+            vetrata.setSlot(s,i,0);
+            vetrata.setSlot(t,i,1);
+            vetrata.setSlot(u,i,2);
+            vetrata.setSlot(v,i,3);
+            vetrata.setSlot(z,i,4);
+        }
+        vetrata.setSlot(s,3,0);
+        vetrata.setSlot(t,3,1);
+        vetrata.setSlot(x,3,2);
+        vetrata.setSlot(v,3,3);
+        vetrata.setSlot(z,3,4);
+
+        vetrata.setSlot(s,0,0);
+        vetrata.setSlot(t,0,1);
+        vetrata.setSlot(s,0,2);
+        vetrata.setSlot(z,0,3);
+        vetrata.setSlot(t,0,4);
+        for(int i=0; i<=3; i++) {
+            for (int j = 0; j <= 4; j++) {
+                if (vetrata.getSlot(i, j).isOccupate()) {
+                    System.out.print(vetrata.getSlot(i, j).isOccupate()+
+                            "-"+vetrata.getSlot(i,j).getDice().getDicecolor()+"   ");
+                }else System.out.print(vetrata.getSlot(i, j).isOccupate()+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("punteggio: "+card.calcola_punteggio(vetrata));
     }
 }

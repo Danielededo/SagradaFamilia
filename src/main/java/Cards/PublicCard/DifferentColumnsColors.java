@@ -14,7 +14,7 @@ public class DifferentColumnsColors extends PublicObject {
         setEffect("Columns without repeated colors");
     }
 
-    public int numerocolonne(GlassWindow scheme){
+    private int numerocolonne(GlassWindow scheme){
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
         for (int i=0;i<5;i++){

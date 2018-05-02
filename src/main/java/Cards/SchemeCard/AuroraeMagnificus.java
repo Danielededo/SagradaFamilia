@@ -5,7 +5,7 @@ import Cards.GlassWindow;
 import Cards.Slot;
 
 public class AuroraeMagnificus extends GlassWindow {
-    public void createAuroraeMagnificus(){
+    public AuroraeMagnificus(){
         super.setName("Aurorae Magnificus");
         super.setLink(6);
         super.setDifficulty(4);

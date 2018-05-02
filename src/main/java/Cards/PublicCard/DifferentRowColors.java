@@ -14,7 +14,7 @@ public class DifferentRowColors extends PublicObject {
         setEffect("Rows without repeated colors");
     }
 
-    public int numerorighe(GlassWindow scheme) {
+    private int numerorighe(GlassWindow scheme) {
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
         for (int i=0;i<4;i++){
