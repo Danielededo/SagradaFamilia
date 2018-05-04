@@ -10,6 +10,10 @@ import Cards.Slot;
 import Dice.Colour;
 import Dice.Die;
 import Dice.Sack;
+import Game.Match;
+import Game.Player;
+import Game.Round;
+import Game.Stock;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -454,6 +458,33 @@ class AppTest{
         window.getSlot(2,2).removeDie();
         window.getSlot(2,2).setDie(b);
         System.out.println(window.getSlot(2,2).getDice());
+    }
+
+
+    @Test
+    void rotateturn(){
+        GlassWindow windowA = new Battlo();
+        GlassWindow windowB = new Virtus();
+        Player a = new Player ("mario");
+        Player b = new Player("daniele");
+        a.setWindow(windowA);
+        b.setWindow(windowB);
+        Match game = new Match(a,b);
+        Round round =new Round(game);
+        Stock stock = new Stock(game.getnumberPlayers());
+        Sack sack = new Sack();
+        sack.createdice();
+        for(int i=0; i<2*game.getnumberPlayers()+1; i++) {
+            stock.addDie(sack.extractdie());
+        }
+        int i=0;
+        stock.show_riserva();
+        for(int j=2*game.getnumberPlayers();j>0;j--){
+            round.getTurns().get(i).takeDie(stock,j);
+            i++;
+        }
+
+
     }
 }
 

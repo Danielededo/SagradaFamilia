@@ -67,6 +67,7 @@ public class Sack{
         Random random = new Random();
         int k=random.nextInt(dice.size());
         dado=dice.get(k);
+        dado.randomdado();
         dice.remove(k);
         return dado;
     }
