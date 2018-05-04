@@ -18,8 +18,10 @@ public class Stock {
     }
 
     public void show_riserva(){
+        int i=0;
         for (Die d : dicestock){
-            out.println("index dado:"+d.toString());
+            out.println("index"+i+": "+d.toString());
+            i++;
         }
     }
 
