@@ -462,7 +462,7 @@ class AppTest{
 
 
     @Test
-    void rotateturn(){
+    void rotateturn2Players(){
         GlassWindow windowA = new Battlo();
         GlassWindow windowB = new Virtus();
         Player a = new Player ("mario");
@@ -474,17 +474,17 @@ class AppTest{
         Stock stock = new Stock(game.getnumberPlayers());
         Sack sack = new Sack();
         sack.createdice();
-        for(int i=0; i<2*game.getnumberPlayers()+1; i++) {
+        for(int j=0; j<=2*game.getnumberPlayers(); j++) {
             stock.addDie(sack.extractdie());
         }
-        int i=0;
         stock.show_riserva();
-        for(int j=2*game.getnumberPlayers();j>0;j--){
-            round.getTurns().get(i).takeDie(stock,j);
-            i++;
+        int z=0;
+        for(int i=0;i<2*game.getnumberPlayers();i++){
+            round.getTurns().get(i).getOneplayer().getWindow().getSlot(2,3).setDie(stock.extract_die(z));
         }
-
-
+        System.out.println(a.getWindow().getSlot(2,3).getDice());
+        System.out.println(b.getWindow().getSlot(2,3).getDice());
     }
+
 }
 

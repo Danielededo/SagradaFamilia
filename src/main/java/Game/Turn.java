@@ -7,7 +7,11 @@ public class Turn {
         this.oneplayer=player;
     }
 
-    public void takeDie(Stock stock,int a){
+    public Player getOneplayer() {
+        return oneplayer;
+    }
+
+    public void takeDie(Stock stock, int a){
         stock.extract_die(a);
     }
 
