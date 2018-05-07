@@ -1,8 +1,6 @@
 package Cards;
 
-import java.util.Arrays;
-
-public class GlassWindow extends Scheme {
+public class GlassWindow  {
     private String name;
     private  static final int width = 4;
     private static final int height = 5;
@@ -34,10 +32,17 @@ public class GlassWindow extends Scheme {
 
     @Override
     public String toString() {
+        String string = "\n";
+        for (int i=0;i<4;i++){
+            for (int j=0;j<5;j++){
+                string += scheme[i][j].toString()+ "\t";
+            }
+            string+="\n";
+        }
         return "GlassWindow{" +
                 "name='" + name + '\'' +
                 ", difficulty=" + difficulty +
-                ", scheme=" + Arrays.toString(scheme) +
+                ", scheme=" + string +
                 '}';
     }
 

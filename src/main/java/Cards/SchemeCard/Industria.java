@@ -5,7 +5,7 @@ import Cards.GlassWindow;
 import Cards.Slot;
 
 public class Industria extends GlassWindow {
-    private Industria(){
+    public Industria(){
         super.setName("Industria");
         super.setLink(2);
         super.setDifficulty(5);

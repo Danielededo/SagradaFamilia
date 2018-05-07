@@ -30,7 +30,7 @@ public class Die {
     public String toString() {
         return "Die{" +
                 "face=" + face +
-                ", dicecolor=" + dicecolor +
+                ", dicecolor=" + dicecolor+
                 '}';
     }
 

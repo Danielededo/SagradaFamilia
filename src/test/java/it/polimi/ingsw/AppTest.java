@@ -1,12 +1,9 @@
 package it.polimi.ingsw;
 
-import Cards.Card;
-import Cards.GlassWindow;
+import Cards.*;
 import Cards.PrivateCard.*;
 import Cards.PublicCard.*;
-import Cards.PublicObject;
 import Cards.SchemeCard.*;
-import Cards.Slot;
 import Dice.Colour;
 import Dice.Die;
 import Dice.Sack;
@@ -16,13 +13,14 @@ import Game.Round;
 import Game.Stock;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppTest{
     @Test
     void sacksize(){
         Sack s=new Sack();
-        s.createdice();
         System.out.println(s.getsize());
         assertEquals(90,s.getsize());
     }
@@ -31,8 +29,7 @@ class AppTest{
     void sackremove(){
         Sack s = new Sack();
         Sack t = new Sack();
-        Die d;
-        s.createdice();
+        Die d= new Die();
         for (int i=0;i<90;i++){
             d=s.extractdie();
             t.adddie(d);
@@ -471,12 +468,9 @@ class AppTest{
         b.setWindow(windowB);
         Match game = new Match(a,b);
         Round round =new Round(game);
-        Stock stock = new Stock(game.getnumberPlayers());
+        Stock stock = new Stock();
         Sack sack = new Sack();
-        sack.createdice();
-        for(int j=0; j<=2*game.getnumberPlayers(); j++) {
-            stock.addDie(sack.extractdie());
-        }
+        stock.setDicestock(sack.extractfromSack(game));
         stock.show_riserva();
         int z=0;
         for(int i=0;i<2*game.getnumberPlayers();i++){
@@ -484,6 +478,27 @@ class AppTest{
         }
         System.out.println(a.getWindow().getSlot(2,3).getDice());
         System.out.println(b.getWindow().getSlot(2,3).getDice());
+    }
+
+    @Test
+    void print(){
+        Player c = new Player("Daniele");
+        Player d = new Player("Mario");
+        Match game = new Match(c,d);
+        Round round = new Round(game);
+        Sack sack= new Sack();
+        Stock stock = new Stock();
+        ArrayList<GlassWindow> b;
+        Scheme a= new Scheme();
+        b=a.extractGlass();
+        System.out.println(b);
+        c.setWindow(b.get(3));
+        b=a.extractGlass();
+        System.out.println(b);
+        d.setWindow(b.get(2));
+        System.out.println(c.getWindow());
+        System.out.println(d.getWindow());
+        
     }
 
 }

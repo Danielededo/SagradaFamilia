@@ -76,4 +76,16 @@ public class Slot {
 
     public void removeDie(){ this.setOccupate(false); }
 
+    @Override
+    public String toString() {
+        return "Slot{" +
+                "line=" + line +
+                ", column=" + column +
+                ", value=" + value +
+                ", slotcolour=" + slotcolour +
+                ", dice=" + dice +
+                ", occupate=" + occupate +
+                '}';
+
+    }
 }

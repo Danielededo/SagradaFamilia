@@ -9,8 +9,8 @@ import static java.lang.System.out;
 public class Stock {
     private ArrayList<Die> dicestock;
 
-    public Stock(int n) {
-        dicestock=new ArrayList<Die>(2*n+1);
+    public Stock() {
+        dicestock=new ArrayList<Die>();
     }
 
     public void reset_stock(){
@@ -25,8 +25,8 @@ public class Stock {
         }
     }
 
-    public void addDie(Die d){
-        dicestock.add(d);
+    public void setDicestock(ArrayList<Die> arrayList){
+        this.dicestock= arrayList;
     }
 
     public Die extract_die(int index){
@@ -37,4 +37,5 @@ public class Stock {
         show_riserva();
         return temp;
     }
+
 }

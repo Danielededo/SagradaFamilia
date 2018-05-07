@@ -1,5 +1,7 @@
 package Dice;
 
+import Game.Match;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,7 +16,7 @@ public class Sack{
         dice.add(d);
     }
 
-    public void createdice(){
+    public Sack(){
         createreddice();
         createbluedice();
         creategreendice();
@@ -70,5 +72,13 @@ public class Sack{
         dado.randomdado();
         dice.remove(k);
         return dado;
+    }
+
+    public ArrayList<Die> extractfromSack(Match match){
+        ArrayList<Die> arrayList = new ArrayList<Die>();
+        for(int i=0; i<2*match.getnumberPlayers()+1; i++){
+            arrayList.add(extractdie());
+        }
+        return arrayList;
     }
 }
