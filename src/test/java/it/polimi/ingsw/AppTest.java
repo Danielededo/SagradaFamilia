@@ -501,5 +501,15 @@ class AppTest{
         
     }
 
+    @Test
+    void testaRulesCentrali(){
+        Rules r = new Rules();
+        GlassWindow windowA = new FractalDrops();
+        Die dado = new Die(5, Colour.BLUE);
+        Slot choice = windowA.getSlot(1,1);
+        windowA = r.diePlacing(windowA,choice, dado);
+        System.out.println(windowA.getSlot(1,1).getDice().toString());
+    }
+
 }
 
