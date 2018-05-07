@@ -29,10 +29,9 @@ class AppTest {
         Die d = new Die();
         for (int i = 0; i < 90; i++) {
             d = s.extractdie();
-            t.adddie(d);
+
         }
         assertEquals(0, s.getsize());
-        assertEquals(90, t.getsize());
     }
 
     @Test
