@@ -25,11 +25,9 @@ class AppTest {
     @Test
     void sackremove() {
         Sack s = new Sack();
-        Sack t = new Sack();
         Die d = new Die();
         for (int i = 0; i < 90; i++) {
             d = s.extractdie();
-
         }
         assertEquals(0, s.getsize());
     }
@@ -53,6 +51,7 @@ class AppTest {
         GlassWindow c = new SunCatcher();
         assertEquals(3, c.getSlot(3, 1).getValue());
         assertEquals(Colour.WHITE, c.getSlot(3, 1).getSlotcolour());
+        System.out.println(c.toString());
     }
 
     @Test
