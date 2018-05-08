@@ -1,0 +1,14 @@
+CLASSETEST passed:
+-Sack riempimento √
+-Sack rimozione dadi √
+-PrivateObject creazione √
+-PrivateObject calcolo punteggio √
+-Glasswindow creazione √
+-Glasswindow set dadi √
+-Glasswindow riempimento √
+-PublicObject metodi calcolo punteggio √
+-Die aggiunta dado √
+-Die rimozione dado √
+-Round rotazione turni √
+-Stock aggiunta dadi √
+-Stock estrazione dadi √
