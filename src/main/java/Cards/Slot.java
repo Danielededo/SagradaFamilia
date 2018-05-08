@@ -86,14 +86,52 @@ public class Slot {
 
     @Override
     public String toString() {
-        return "Slot{" +
-                "line=" + line +
-                ", column=" + column +
-                ", value=" + value +
-                ", slotcolour=" + slotcolour +
-                ", dice=" + dice +
-                ", occupate=" + occupate +
-                '}';
+        if (slotcolour==Colour.RED) {
+            return "Slot{" +
+                    "line=" + line +
+                    ", column=" + column +
+                    ", value=" + value +
+                    ", slotcolour=" + slotcolour +"   "+
+                    ", dice=" + dice +
+                    ", occupate=" + occupate +
+                    '}';
+        }else if (slotcolour == Colour.BLUE){
+            return "Slot{" +
+                    "line=" + line +
+                    ", column=" + column +
+                    ", value=" + value +
+                    ", slotcolour=" + slotcolour +"  "+
+                    ", dice=" + dice +
+                    ", occupate=" + occupate +
+                    '}';
+        }else if (slotcolour == Colour.GREEN){
+            return "Slot{" +
+                    "line=" + line +
+                    ", column=" + column +
+                    ", value=" + value +
+                    ", slotcolour=" + slotcolour +" "+
+                    ", dice=" + dice +
+                    ", occupate=" + occupate +
+                    '}';
+        }else if (slotcolour == Colour.WHITE){
+            return "Slot{" +
+                    "line=" + line +
+                    ", column=" + column +
+                    ", value=" + value +
+                    ", slotcolour=" + slotcolour +" "+
+                    ", dice=" + dice +
+                    ", occupate=" + occupate +
+                    '}';
+        }else{
+            return "Slot{" +
+                    "line=" + line +
+                    ", column=" + column +
+                    ", value=" + value +
+                    ", slotcolour=" + slotcolour +
+                    ", dice=" + dice +
+                    ", occupate=" + occupate +
+                    '}';
+        }
 
     }
 }

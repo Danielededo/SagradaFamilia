@@ -28,10 +28,27 @@ public class Die {
 
     @Override
     public String toString() {
-        return "Die{" +
-                "face=" + face +
-                ", dicecolor=" + dicecolor+
-                '}';
+        if (dicecolor==Colour.RED) {
+            return "Die{" +
+                    "face=" + face +
+                    ", dicecolor=" + dicecolor+"   "+
+                    '}';
+        }else if (dicecolor==Colour.BLUE) {
+            return "Die{" +
+                    "face=" + face +
+                    ", dicecolor=" + dicecolor+"  "+
+                    '}';
+        }else if (dicecolor==Colour.GREEN) {
+            return "Die{" +
+                    "face=" + face +
+                    ", dicecolor=" + dicecolor+" "+
+                    '}';
+        }else  {
+            return "Die{" +
+                    "face=" + face +
+                    ", dicecolor=" + dicecolor+
+                    '}';
+        }
     }
 
     public int getFace() {
