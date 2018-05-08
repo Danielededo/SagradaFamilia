@@ -19,6 +19,9 @@ public class Round {
             this.turns.add(turn);
             i--;
         }
+        a.setRound(a.getRound()+1);
+        if(a.getRound()!=10)
+            a.changePlayer();
     }
 
     public ArrayList<Turn> getTurns() {

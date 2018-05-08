@@ -144,7 +144,7 @@ public class Rules {
     }
 
     public boolean numberCheck(int slot, int die) {
-        if (slot == '0' || slot == die)
+        if (slot == 0 || slot == die)
             return true;
         else return false;
     }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Match {
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<PublicObject> publictarget=new ArrayList<PublicObject>();
+    private int round=0;
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -36,5 +37,18 @@ public class Match {
         addPlayer(b);
         addPlayer(c);
         addPlayer(d);
+    }
+
+    public void changePlayer(){
+        players.add(players.get(0));
+        players.remove(0);
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public int getRound() {
+        return round;
     }
 }
