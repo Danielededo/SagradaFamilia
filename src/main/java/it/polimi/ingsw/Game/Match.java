@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Game;
 
+import it.polimi.ingsw.Cards.PrivObj;
+import it.polimi.ingsw.Cards.PubObj;
 import it.polimi.ingsw.Cards.PublicObject;
 
 import java.util.ArrayList;
@@ -19,6 +21,16 @@ public class Match {
 
     private void addPlayer(Player player){
         this.players.add(player);
+    }
+
+    public void setPublictarget(PubObj pubObj) {
+        this.publictarget = pubObj.extractPubObj();
+    }
+
+    public void setPrivateObject(PrivObj privObj){
+        for(int i=0;i<getnumberPlayers();i++){
+            players.get(i).setPrivatetarget(privObj.extractPrivObj());
+        }
     }
 
     public Match(Player a, Player b) {
@@ -52,10 +64,24 @@ public class Match {
         return round;
     }
 
+    public ArrayList<PublicObject> getPublictarget() {
+        return publictarget;
+    }
+
     public void calculatescore(){
         for(int i=0; i<getnumberPlayers(); i++){
            players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
-           players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
+           players.get(i).setScore(publictarget.get(0).calcola_punteggio(players.get(i)));
+           players.get(i).setScore(publictarget.get(1).calcola_punteggio(players.get(i)));
+           players.get(i).setScore(publictarget.get(2).calcola_punteggio(players.get(i)));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "players=" + players +
+                ", publictarget=" + publictarget +
+                '}';
     }
 }

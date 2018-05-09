@@ -44,4 +44,5 @@ public class PrivateObject extends Card{
         }
         return sum;
     }
+
 }

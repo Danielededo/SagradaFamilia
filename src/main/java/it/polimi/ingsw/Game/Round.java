@@ -7,9 +7,6 @@ public class Round {
 
     public Round(Match a) {
         int i = 0;
-        if(a.getRound()==0){
-            
-        }
         this.turns =new ArrayList<Turn>(2*a.getnumberPlayers());
         while(i<a.getnumberPlayers()){
             Turn turn = new Turn(a.getPlayers().get(i));

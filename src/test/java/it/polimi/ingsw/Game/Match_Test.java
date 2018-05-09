@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Game;
 
 import it.polimi.ingsw.Cards.GlassWindow;
+import it.polimi.ingsw.Cards.PrivObj;
+import it.polimi.ingsw.Cards.PubObj;
 import it.polimi.ingsw.Cards.Scheme;
-import it.polimi.ingsw.Dice.Sack;
 import it.polimi.ingsw.Cards.SchemeCard.Battlo;
 import it.polimi.ingsw.Cards.SchemeCard.Virtus;
+import it.polimi.ingsw.Dice.Sack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -50,5 +52,17 @@ public class Match_Test {
         d.setWindow(b.get(2));
         System.out.println(c.getWindow());
         System.out.println(d.getWindow());
+    }
+
+    @Test
+    void assegnamentoObiettivoPubPriv(){
+        Player a= new Player("mario");
+        Player b= new Player("sara");
+        Match game = new Match(a,b);
+        PubObj pubObj = new PubObj();
+        PrivObj privObj = new PrivObj();
+        game.setPublictarget(pubObj);
+        game.setPrivateObject(privObj);
+        System.out.println(game.toString());
     }
 }
