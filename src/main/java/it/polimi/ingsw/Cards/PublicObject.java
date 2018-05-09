@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.Game.Player;
+
 public abstract class PublicObject extends Card{
     private String effect;
     private int punteggio;
@@ -26,5 +28,5 @@ public abstract class PublicObject extends Card{
                 ", effect='" + effect + '\'' +
                 '}';
     }
-    public abstract int calcola_punteggio(GlassWindow scheme);
+    public abstract int calcola_punteggio(Player player);
 }

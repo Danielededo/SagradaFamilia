@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Cards.PublicCard;
 
-import it.polimi.ingsw.Cards.GlassWindow;
 import it.polimi.ingsw.Cards.PublicObject;
 import it.polimi.ingsw.Dice.Colour;
+import it.polimi.ingsw.Game.Player;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class DifferentColumnsColors extends PublicObject {
         setEffect("Columns without repeated colors");
     }
 
-    private int numerocolonne(GlassWindow scheme){
+    private int numerocolonne(Player player){
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
         for (int i=0;i<5;i++){
@@ -24,9 +24,9 @@ public class DifferentColumnsColors extends PublicObject {
             colori.add(Colour.GREEN);
             colori.add(Colour.PURPLE);
             for (int j=0;j<4;j++){
-                if (scheme.getSlot(j,i).isOccupate() &&
-                        colori.contains(scheme.getSlot(j,i).getDice().getDicecolor())){
-                    colori.remove(scheme.getSlot(j,i).getDice().getDicecolor());
+                if (player.getWindow().getSlot(j,i).isOccupate() &&
+                        colori.contains(player.getWindow().getSlot(j,i).getDice().getDicecolor())){
+                    colori.remove(player.getWindow().getSlot(j,i).getDice().getDicecolor());
                 }
             }
             if (colori.size()==1) {
@@ -37,7 +37,7 @@ public class DifferentColumnsColors extends PublicObject {
         return cont;
     }
 
-    public int calcola_punteggio(GlassWindow scheme) {
-        return numerocolonne(scheme)*getPunteggio();
+    public int calcola_punteggio(Player player) {
+        return numerocolonne(player)*getPunteggio();
     }
 }

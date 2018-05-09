@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.Dice.Colour;
+import it.polimi.ingsw.Game.Player;
 
 public class PrivateObject extends Card{
     private Colour color;
@@ -31,13 +32,13 @@ public class PrivateObject extends Card{
                 '}';
     }
 
-    public int calculate_score(GlassWindow scheme){
+    public int calculate_score(Player player){
         int sum=0;
         for (int i=0;i<4;i++){
             for (int j=0;j<5;j++){
-                if (scheme.getSlot(i,j).isOccupate()==true &&
-                        scheme.getSlot(i,j).getDice().getDicecolor()==this.color) {
-                    sum += scheme.getSlot(i, j).getDice().getFace();
+                if (player.getWindow().getSlot(i,j).isOccupate()==true &&
+                        player.getWindow().getSlot(i,j).getDice().getDicecolor()==this.color) {
+                    sum += player.getWindow().getSlot(i, j).getDice().getFace();
                 }
             }
         }

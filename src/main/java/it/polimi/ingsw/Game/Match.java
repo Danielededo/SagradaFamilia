@@ -51,4 +51,11 @@ public class Match {
     public int getRound() {
         return round;
     }
+
+    public void calculatescore(){
+        for(int i=0; i<getnumberPlayers(); i++){
+           players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
+           players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
+        }
+    }
 }

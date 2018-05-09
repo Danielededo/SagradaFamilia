@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Cards.PublicCard;
 
-import it.polimi.ingsw.Cards.GlassWindow;
 import it.polimi.ingsw.Cards.PublicObject;
+import it.polimi.ingsw.Game.Player;
 
 public class DifferentColumnShades extends PublicObject {
     public DifferentColumnShades() {
@@ -12,14 +12,14 @@ public class DifferentColumnShades extends PublicObject {
     }
 
 
-    private int numbercolumn(GlassWindow scheme){
+    private int numbercolumn(Player player){
         int cont=0;
         int cont1=0;
         for (int i=0;i<5;i++){
             int[] array={1,2,3,4,5,6};
             for (int j=0;j<4;j++){
-                if (scheme.getSlot(j,i).isOccupate()){
-                    array[scheme.getSlot(j,i).getDice().getFace()-1]=0;
+                if (player.getWindow().getSlot(j,i).isOccupate()){
+                    array[player.getWindow().getSlot(j,i).getDice().getFace()-1]=0;
                 }
             }
             for (int z=0;z<6;z++) {
@@ -35,7 +35,7 @@ public class DifferentColumnShades extends PublicObject {
         return cont;
     }
 
-    public int calcola_punteggio(GlassWindow scheme) {
-        return numbercolumn(scheme)*getPunteggio();
+    public int calcola_punteggio(Player player) {
+        return numbercolumn(player)*getPunteggio();
     }
 }

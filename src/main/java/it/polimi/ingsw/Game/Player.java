@@ -7,6 +7,7 @@ public class Player {
     private String nickname;
     private PrivateObject privatetarget;
     private GlassWindow window;
+    private int score;
     private int marker;
 
 
@@ -17,14 +18,22 @@ public class Player {
     public void setWindow(GlassWindow window) {
         this.window = window;
         this.marker=window.getDifficulty();
+        this.marker=window.getDifficulty();
     }
 
     public Player(String nickname) {
         this.nickname = nickname;
     }
 
+    public PrivateObject getPrivatetarget() {
+        return privatetarget;
+    }
 
     public GlassWindow getWindow() {
         return window;
+    }
+
+    public void setScore(int score) {
+        this.score += score;
     }
 }
