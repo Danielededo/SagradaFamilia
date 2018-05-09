@@ -11,6 +11,5 @@ ID: LM15
 
 a.a.2017/2018 Prova Finale Ingegneria del Software - Sagrada
 
-<p align="left">
-  <img src="https://github.com/Danielededo/SagradaFamilia/blob/master/sagrada_example.jpg" width="400"/>
-</p>
+
+![Immagine](https://wolfsgamingblog.files.wordpress.com/2017/06/dsc_1315.jpg?w=1300)
