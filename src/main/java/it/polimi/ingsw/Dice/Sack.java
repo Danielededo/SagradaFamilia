@@ -81,4 +81,11 @@ public class Sack{
         }
         return arrayList;
     }
+
+    @Override
+    public String toString() {
+        return "Sack{" +
+                "dice=" + dice +
+                '}';
+    }
 }

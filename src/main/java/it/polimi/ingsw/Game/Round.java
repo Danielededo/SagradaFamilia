@@ -7,6 +7,7 @@ public class Round {
 
     public Round(Match a) {
         int i = 0;
+        a.getStock().setDicestock(a.getSack().extractfromSack(a));
         this.turns =new ArrayList<Turn>(2*a.getnumberPlayers());
         while(i<a.getnumberPlayers()){
             Turn turn = new Turn(a.getPlayers().get(i));
@@ -19,9 +20,6 @@ public class Round {
             this.turns.add(turn);
             i--;
         }
-        a.setRound(a.getRound()+1);
-        if(a.getRound()!=10)
-            a.changePlayer();
     }
 
     public ArrayList<Turn> getTurns() {
@@ -30,5 +28,12 @@ public class Round {
 
     public void clearRound(){
         this.turns.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Round{" +
+                "turns=" + turns +
+                '}';
     }
 }

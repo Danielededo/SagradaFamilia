@@ -10,14 +10,12 @@ public class Player {
     private int score;
     private int marker;
 
-
     public void setPrivatetarget(PrivateObject privatetarget) {
         this.privatetarget = privatetarget;
     }
 
     public void setWindow(GlassWindow window) {
         this.window = window;
-        this.marker=window.getDifficulty();
         this.marker=window.getDifficulty();
     }
 

@@ -3,16 +3,39 @@ package it.polimi.ingsw.Game;
 import it.polimi.ingsw.Cards.PrivObj;
 import it.polimi.ingsw.Cards.PubObj;
 import it.polimi.ingsw.Cards.PublicObject;
+import it.polimi.ingsw.Dice.Sack;
 
 import java.util.ArrayList;
 
 public class Match {
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<PublicObject> publictarget=new ArrayList<PublicObject>();
+    private Stock stock= new Stock();
+    private Sack sack= new Sack();
     private int round=0;
+
+    public void fineRound(){
+        setRound(this.round +1);
+        if(this.round!=10)
+            changePlayer();
+        else
+            fineMatch();
+    }
+
+    public void fineMatch(){
+        calculatescore();
+    }
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public Sack getSack() {
+        return sack;
+    }
+
+    public Stock getStock() {
+        return stock;
     }
 
     public int getnumberPlayers() {
@@ -81,7 +104,10 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "players=" + players +
-                ", publictarget=" + publictarget +
+                ",\n publictarget=" + publictarget +
+                ",\n stock=" + stock +
+                ",\n sack=" + sack +
+                ",\n round=" + round +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Game;
 
+import java.util.Scanner;
+
 public class Turn {
     private Player oneplayer;
 
@@ -20,5 +22,25 @@ public class Turn {
         return "Turn{" +
                 "oneplayer=" + oneplayer +
                 '}';
+    }
+
+    public void Hand(){
+        int j=2;
+        while(j!=0){
+            System.out.println("1. if you want to set a Die from the stock to your glasswindow ");
+            System.out.println("2. if you want to use a tool card ");
+            Scanner in = new Scanner(System.in);
+            int i = in.nextInt();
+            switch (i) {
+                case 1: {
+
+                    break;
+                }
+                case 2: {
+
+                    break;
+                }
+            }
+        }
     }
 }

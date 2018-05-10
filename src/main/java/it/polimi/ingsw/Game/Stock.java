@@ -38,4 +38,10 @@ public class Stock {
         return temp;
     }
 
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "dicestock=" + dicestock +
+                '}';
+    }
 }

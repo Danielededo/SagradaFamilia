@@ -65,4 +65,12 @@ public class Match_Test {
         game.setPrivateObject(privObj);
         System.out.println(game.toString());
     }
+
+    @Test
+    void partitaprova(){
+        Player a = new Player("Daniele");
+        Player b = new Player("Sara");
+        Match match = new Match(a,b);
+        Round round = new Round(match);
+    }
 }
