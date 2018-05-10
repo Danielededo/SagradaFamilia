@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.Dice.Colour;
+
 public class GlassWindow  {
     private String name;
     private  static final int width = 4;
@@ -7,6 +9,8 @@ public class GlassWindow  {
     private int difficulty;
     private int link;
     private Slot[][] scheme = new Slot[width][height];
+
+
 
     public void setLink(int link) {
         this.link = link;
@@ -23,6 +27,8 @@ public class GlassWindow  {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+
+
 
     public void setSlot(Slot scheme, int i, int j) {
         this.scheme[i][j] = scheme;
@@ -54,8 +60,15 @@ public class GlassWindow  {
         return difficulty;
     }
 
-    public Slot getSlot(int i, int j) {
-        return scheme[i][j];
-    }
-
+    public Slot getSlot(int i, int j){
+        Slot provv = new Slot();
+        if(i == -1 || i == 4 || j == -1 || j == 5)
+            {provv.setExists(false);
+             provv.setOccupate(false);
+             provv.setSlotcolour(Colour.WHITE);
+             provv.setValue(0);
+             return provv;}
+        else
+             return scheme[i][j];
+        }
 }

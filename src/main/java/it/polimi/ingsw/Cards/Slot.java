@@ -10,6 +10,7 @@ public class Slot {
     private Colour slotcolour;
     private Die dice;
     private boolean occupate = false;
+    private boolean esiste;
 
     public Slot() {
     }
@@ -22,7 +23,6 @@ public class Slot {
     public void setLine(int line) {
         this.line = line;
     }
-
     public int getLine() {
         return line;
     }
@@ -30,15 +30,15 @@ public class Slot {
     public int getColumn() {
         return column;
     }
-
     public void setColumn(int column) {
         this.column = column;
     }
 
+
+
     public int getValue() {
         return value;
     }
-
     public Colour getSlotcolour() {
         return slotcolour;
     }
@@ -46,36 +46,27 @@ public class Slot {
     public void setValue(int value) {
         this.value = value;
     }
-
     public void setSlotcolour(Colour slotcolour) {
         this.slotcolour = slotcolour;
     }
 
+
+
     public void setOccupate(boolean occupate) {
         this.occupate = occupate;
     }
-
     public boolean isOccupate() {
         return occupate;
     }
 
+    public boolean exists(){ return exists(); }
+    public void setExists(boolean exists) { this.esiste = exists; }
+
+
     public void setDie(Die dice) {
         if(!isOccupate()){
-            if(this.getSlotcolour()==Colour.WHITE && getValue()==0) {
-                this.setOccupate(true);
-                this.dice = dice;
-            }
-            else {
-                if (this.getSlotcolour() == dice.getDicecolor()&& getSlotcolour()!=Colour.WHITE ){
-                    this.setOccupate(true);
-                    this.dice = dice;
-                }
-                if (this.getValue() != 0 && this.getValue()==dice.getFace()){
-                    this.setOccupate(true);
-                    this.dice = dice;
-                }
-            }
-        }
+            this.dice = dice;
+            this.setOccupate(true);}
     }
 
     public Die getDice() {
@@ -136,4 +127,5 @@ public class Slot {
         }
 
     }
+
 }
