@@ -3,16 +3,7 @@ package it.polimi.ingsw.Dice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class Sack_Test {
-    @Test
-    void sacksize() {
-        Sack s = new Sack();
-        System.out.println(s.getsize());
-        Assertions.assertEquals(90, s.getsize());
-    }
-
+public class testSackRemove {
     @Test
     void sackremove() {
         Sack s = new Sack();

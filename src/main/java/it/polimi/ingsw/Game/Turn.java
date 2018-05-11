@@ -36,7 +36,7 @@ public class Turn {
                 case 1: {
                     Die a ;
                     a= match.getStock().extract_die(0);
-                    oneplayer.setWindow(match.getRules().diePlacing(match,oneplayer.getWindow(),oneplayer.getWindow().getSlot(2,4),a));
+                    oneplayer.setWindow(match.getRules().diePlacing(match,oneplayer,oneplayer.getWindow().getSlot(2,4),a));
                     break;
                 }
                 case 2: {

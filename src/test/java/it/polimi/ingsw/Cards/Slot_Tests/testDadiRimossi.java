@@ -1,11 +1,12 @@
-package it.polimi.ingsw.Cards;
+package it.polimi.ingsw.Cards.Slot_Tests;
 
+import it.polimi.ingsw.Cards.GlassWindow;
 import it.polimi.ingsw.Cards.SchemeCard.Battlo;
 import it.polimi.ingsw.Dice.Colour;
 import it.polimi.ingsw.Dice.Die;
 import org.junit.jupiter.api.Test;
 
-public class Slot_test {
+public class testDadiRimossi {
     @Test
     void testdiceremove() {
         GlassWindow window = new Battlo();

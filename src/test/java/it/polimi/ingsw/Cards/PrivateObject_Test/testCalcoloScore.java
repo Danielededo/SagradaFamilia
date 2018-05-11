@@ -1,27 +1,14 @@
-package it.polimi.ingsw.Cards;
+package it.polimi.ingsw.Cards.PrivateObject_Test;
 
-import it.polimi.ingsw.Cards.PrivateCard.*;
+import it.polimi.ingsw.Cards.GlassWindow;
+import it.polimi.ingsw.Cards.PrivateCard.BlueShades;
 import it.polimi.ingsw.Cards.SchemeCard.ViaLux;
 import it.polimi.ingsw.Dice.Colour;
 import it.polimi.ingsw.Dice.Die;
 import it.polimi.ingsw.Game.Player;
 import org.junit.jupiter.api.Test;
 
-public class PrivateObject_Test {
-    @Test
-    void testaobiettivi() {
-        Card carta1 = new RedShades();
-        Card carta2 = new YellowShades();
-        Card carta3 = new GreenShades();
-        Card carta4 = new BlueShades();
-        Card carta5 = new PurpleShades();
-        System.out.println(carta1.toString());
-        System.out.println(carta2.toString());
-        System.out.println(carta3.toString());
-        System.out.println(carta4.toString());
-        System.out.println(carta5.toString());
-    }
-
+public class testCalcoloScore {
     @Test
     void testacalculate_score() {
         GlassWindow luce = new ViaLux();
