@@ -55,6 +55,9 @@ public class Die {
         return face;
     }
 
+    public void setFace(int face) {
+        this.face = face;
+    }
 
     public Colour getDicecolor() {
         return dicecolor;

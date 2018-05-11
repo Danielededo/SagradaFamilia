@@ -136,10 +136,11 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "players=" + players +
-                ",\n publictarget=" + publictarget +
-                ",\n stock=" + stock +
-                ",\n sack=" + sack +
-                ",\n round=" + round +
+                ", publictarget=" + publictarget +
+                ", stock=" + stock +
+                ", sack=" + sack +
+                ", roundTrack=" + roundTrack +
+                ", round=" + round +
                 '}';
     }
 }
