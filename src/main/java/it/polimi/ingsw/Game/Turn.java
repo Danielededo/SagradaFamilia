@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Game;
 
-import java.util.Scanner;
+import it.polimi.ingsw.Dice.Die;
 
 public class Turn {
     private Player oneplayer;
@@ -24,19 +24,26 @@ public class Turn {
                 '}';
     }
 
-    public void Hand(){
-        int j=2;
+    public void Hand(Match match){
+        int j=1;
+        int i=4;
         while(j!=0){
-            System.out.println("1. if you want to set a Die from the stock to your glasswindow ");
-            System.out.println("2. if you want to use a tool card ");
-            Scanner in = new Scanner(System.in);
-            int i = in.nextInt();
+            System.out.println("this is your glass "+ oneplayer.getWindow());
+            System.out.println("press 1 if you want to select a Die and place it in your glass");
+            System.out.println("press 2 if you want to select a ToolCard from the table");
+            System.out.println("press 3 if you want to end turn");
             switch (i) {
                 case 1: {
-
+                    Die a ;
+                    a= match.getStock().extract_die(0);
+                    oneplayer.setWindow(match.getRules().diePlacing(match,oneplayer.getWindow(),oneplayer.getWindow().getSlot(2,4),a));
                     break;
                 }
                 case 2: {
+
+                    break;
+                }
+                case 3:{
 
                     break;
                 }

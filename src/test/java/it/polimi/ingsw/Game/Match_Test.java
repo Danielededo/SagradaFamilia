@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Game;
 
 import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.PrivObj;
-import it.polimi.ingsw.Cards.PubObj;
 import it.polimi.ingsw.Cards.Scheme;
 import it.polimi.ingsw.Cards.SchemeCard.Battlo;
 import it.polimi.ingsw.Cards.SchemeCard.Virtus;
@@ -59,10 +57,8 @@ public class Match_Test {
         Player a= new Player("mario");
         Player b= new Player("sara");
         Match game = new Match(a,b);
-        PubObj pubObj = new PubObj();
-        PrivObj privObj = new PrivObj();
-        game.setPublictarget(pubObj);
-        game.setPrivateObject(privObj);
+        game.setPublictarget();
+        game.setPrivateObject();
         System.out.println(game.toString());
     }
 
@@ -72,5 +68,7 @@ public class Match_Test {
         Player b = new Player("Sara");
         Match match = new Match(a,b);
         Round round = new Round(match);
+        match.getPlayers().get(0).setWindow(match.getScheme().extractGlass());
+        match.getPlayers().get(1).setWindow(match.getScheme().extractGlass());
     }
 }

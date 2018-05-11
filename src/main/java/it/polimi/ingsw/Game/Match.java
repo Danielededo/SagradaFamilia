@@ -3,6 +3,8 @@ package it.polimi.ingsw.Game;
 import it.polimi.ingsw.Cards.PrivObj;
 import it.polimi.ingsw.Cards.PubObj;
 import it.polimi.ingsw.Cards.PublicObject;
+import it.polimi.ingsw.Cards.Scheme;
+import it.polimi.ingsw.Dice.Die;
 import it.polimi.ingsw.Dice.Sack;
 
 import java.util.ArrayList;
@@ -12,14 +14,44 @@ public class Match {
     private ArrayList<PublicObject> publictarget=new ArrayList<PublicObject>();
     private Stock stock= new Stock();
     private Sack sack= new Sack();
-    private int round=0;
+    private Scheme scheme = new Scheme();
+    private PubObj pubObj = new PubObj();
+    private PrivObj privObj= new PrivObj();
+    private Rules rules = new Rules();
+    private ArrayList<Die> roundTrack= new ArrayList<Die>();
+    private int round=1;
+
+    public void partita(Match match){
+        while(round!=11){
+            Round round= new Round(match);
+            for(int i=0; i<2*getnumberPlayers();i++){
+                round.getTurns().get(i).Hand(match);
+            }
+            fineRound();
+        }
+        fineMatch();
+    }
+
+    public Rules getRules() {
+        return rules;
+    }
+
 
     public void fineRound(){
+        this.roundTrack.set(this.round-1,getStock().extract_die(0));
         setRound(this.round +1);
-        if(this.round!=10)
+        getStock().reset_stock();
+        if(this.round!=11)
             changePlayer();
-        else
-            fineMatch();
+    }
+
+    public void setPlayerswindow(){
+        for(int i=0; i<getnumberPlayers();i++){
+            this.players.get(i).setWindow(this.scheme.extractGlass());
+        }
+    }
+    public Scheme getScheme() {
+        return scheme;
     }
 
     public void fineMatch(){
@@ -46,13 +78,13 @@ public class Match {
         this.players.add(player);
     }
 
-    public void setPublictarget(PubObj pubObj) {
-        this.publictarget = pubObj.extractPubObj();
+    public void setPublictarget() {
+        this.publictarget = this.pubObj.extractPubObj();
     }
 
-    public void setPrivateObject(PrivObj privObj){
+    public void setPrivateObject(){
         for(int i=0;i<getnumberPlayers();i++){
-            players.get(i).setPrivatetarget(privObj.extractPrivObj());
+            this.players.get(i).setPrivatetarget(this.privObj.extractPrivObj());
         }
     }
 

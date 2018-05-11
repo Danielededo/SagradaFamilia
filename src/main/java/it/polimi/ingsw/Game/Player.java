@@ -3,6 +3,9 @@ package it.polimi.ingsw.Game;
 import it.polimi.ingsw.Cards.GlassWindow;
 import it.polimi.ingsw.Cards.PrivateObject;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Player {
     private String nickname;
     private PrivateObject privatetarget;
@@ -14,9 +17,16 @@ public class Player {
         this.privatetarget = privatetarget;
     }
 
-    public void setWindow(GlassWindow window) {
-        this.window = window;
+    public void setWindow(GlassWindow window){
+        this.window=window;
         this.marker=window.getDifficulty();
+    }
+
+    public void setWindow(ArrayList<GlassWindow> window) {
+        Random random = new Random();
+        int i=random.nextInt(window.size());
+        this.window = window.get(i);
+        this.marker=window.get(i).getDifficulty();
     }
 
     public Player(String nickname) {

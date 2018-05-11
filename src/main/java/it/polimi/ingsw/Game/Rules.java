@@ -8,7 +8,6 @@ import it.polimi.ingsw.Dice.Die;
 
 
 
-
 public class Rules {
     public GlassWindow diePlacing(Match partita, GlassWindow current, Slot choice, Die selected){
         boolean mayI = rules(partita, current, choice, selected);
