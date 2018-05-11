@@ -11,12 +11,14 @@ public class Round {
         this.turns =new ArrayList<Turn>(2*a.getnumberPlayers());
         while(i<a.getnumberPlayers()){
             Turn turn = new Turn(a.getPlayers().get(i));
+            turn.getOneplayer().setContTurn(1);
             this.turns.add(turn);
             i++;
         }
         i--;
         while(i>=0){
             Turn turn = new Turn(a.getPlayers().get(i));
+            turn.getOneplayer().setContTurn(2);
             this.turns.add(turn);
             i--;
         }

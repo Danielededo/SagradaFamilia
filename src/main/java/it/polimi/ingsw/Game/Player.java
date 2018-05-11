@@ -12,6 +12,15 @@ public class Player {
     private GlassWindow window;
     private int score;
     private int marker;
+    private int contTurn;
+
+    public int getContTurn() {
+        return contTurn;
+    }
+
+    public void setContTurn(int contTurn) {
+        this.contTurn = contTurn;
+    }
 
     public void setPrivatetarget(PrivateObject privatetarget) {
         this.privatetarget = privatetarget;

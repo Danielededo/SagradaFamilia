@@ -9,21 +9,21 @@ import it.polimi.ingsw.Dice.Die;
 
 
 public class Rules {
-    public GlassWindow diePlacing(Match partita, GlassWindow current, Slot choice, Die selected){
+    public GlassWindow diePlacing(Match partita, Player current, Slot choice, Die selected){
         boolean mayI = rules(partita, current, choice, selected);
 
         if(!mayI){
             System.out.print("Chose another slot.\n");
-            return current;
+            return current.getWindow();
         }
 
-        current.getSlot(choice.getLine(),choice.getColumn()).setDie(selected);
+        current.getWindow().getSlot(choice.getLine(),choice.getColumn()).setDie(selected);
 
-        return current;
+        return current.getWindow();
     }
 
 
-    public boolean rules(Match partita, GlassWindow current, Slot choice, Die selected){
+    public boolean rules(Match partita, Player current, Slot choice, Die selected){
         boolean tracker;
         boolean primoRound;
         Colour cSlot = choice.getSlotcolour();
@@ -35,7 +35,7 @@ public class Rules {
         boolean assenzaVicini = false;
 
 
-        if (partita.getRound() == 1) {
+        if (partita.getRound() == 1 && current.getContTurn()==1) {
             primoRound = firstRound(riga, colonna);
             if (!primoRound) {
                 System.out.println("This slot is not on the border of your Scheme Card.\n");
@@ -64,8 +64,8 @@ public class Rules {
             return false;
         }
 
-        if(partita.getRound() != 1) {
-            tracker = neighboursCheck(current, colonna, riga, cDie, face, assenzaVicini);
+        if(partita.getRound() > 1 || current.getContTurn()==2) {
+            tracker = neighboursCheck(current.getWindow(), colonna, riga, cDie, face, assenzaVicini);
             if (!tracker) {
                 if(assenzaVicini){
                 System.out.print("There aren't any dice next to this slot.\n");
