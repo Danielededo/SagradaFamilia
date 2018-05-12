@@ -32,7 +32,7 @@ public class Rules {
         int face = selected.getFace();
         int riga = choice.getLine();
         int colonna = choice.getColumn();
-        boolean assenzaVicini = false;
+        boolean assenzaVicini;
 
 
         if (partita.getRound() == 1 && current.getContTurn()==1) {
@@ -65,11 +65,8 @@ public class Rules {
         }
 
         if(partita.getRound() > 1 || current.getContTurn()==2) {
-            tracker = neighboursCheck(current.getWindow(), colonna, riga, cDie, face, assenzaVicini);
+            tracker = neighboursCheck(current.getWindow(), colonna, riga, cDie, face);
             if (!tracker) {
-                if(assenzaVicini){
-                System.out.print("There aren't any dice next to this slot.\n");
-                return false;}
                 return false;}
         }
         return true;
@@ -88,7 +85,7 @@ public class Rules {
 
 
 
-    public boolean neighboursCheck (GlassWindow current, int colonna, int riga, Colour die, int face, boolean assenzaVicini) {
+    public boolean neighboursCheck (GlassWindow current, int colonna, int riga, Colour die, int face) {
         boolean diagOccupate = true;
         boolean ortOccupate = false;
 
@@ -153,9 +150,9 @@ public class Rules {
 
         if(diagOccupate == true || ortOccupate == true)
             return true;
-        else
-        {assenzaVicini = true;
-         return false;}
+        else{
+            System.out.println("Non ci sono dadi vicino a questa casella.");
+            return false;}
     }
 
 
