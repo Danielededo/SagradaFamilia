@@ -132,6 +132,10 @@ public class Match {
         }
     }
 
+    public ArrayList<Die> getRoundTrack() {
+        return roundTrack;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
