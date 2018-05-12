@@ -2,5 +2,5 @@ package it.polimi.ingsw.Cards.ToolCard;
 
 import it.polimi.ingsw.Cards.Tool;
 
-public class TenagliaRotelle extends Tool {
+public class ToolCard11 extends Tool {
 }

@@ -34,7 +34,7 @@ public class Turn {
             System.out.println("press 3 if you want to end turn");
             switch (i) {
                 case 1: {
-                    Die a ;
+                    Die a;
                     a= match.getStock().extract_die(0);
                     oneplayer.setWindow(match.getRules().diePlacing(match,oneplayer,oneplayer.getWindow().getSlot(2,4),a));
                     break;

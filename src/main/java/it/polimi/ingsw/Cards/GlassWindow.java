@@ -71,4 +71,8 @@ public class GlassWindow  {
         else
              return scheme[i][j];
         }
+
+    public Slot getSlot(Slot slot){
+        return slot;
+    }
 }

@@ -3,8 +3,8 @@ package it.polimi.ingsw.Cards.ToolCard;
 import it.polimi.ingsw.Cards.Tool;
 import it.polimi.ingsw.Dice.Die;
 
-public class PinzaSgrossatrice extends Tool{
-    public PinzaSgrossatrice() {
+public class ToolCard1 extends Tool{
+    public ToolCard1() {
         super.setEffect("Dopo aver scelto un dado," +
                 "aumenta o dominuisci il valore" +
                 "del dado scelto di 1\n" +

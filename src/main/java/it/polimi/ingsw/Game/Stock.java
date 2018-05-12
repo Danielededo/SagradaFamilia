@@ -30,7 +30,7 @@ public class Stock {
     }
 
     public Die extract_die(int index){
-        Die temp=new Die();
+        Die temp;
         temp = dicestock.get(index);
         dicestock.remove(index);
         out.println("new Stock:");
