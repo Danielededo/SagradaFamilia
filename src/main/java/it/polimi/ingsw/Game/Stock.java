@@ -25,6 +25,10 @@ public class Stock {
         }
     }
 
+    public ArrayList<Die> getDicestock() {
+        return dicestock;
+    }
+
     public void setDicestock(ArrayList<Die> arrayList){
         this.dicestock= arrayList;
     }

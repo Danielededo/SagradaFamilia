@@ -20,8 +20,11 @@ public class Tool {
         return player;
     }
 
-    public void setName(String name) {
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -36,4 +39,5 @@ public class Tool {
     public String getEffect() {
         return effect;
     }
+
 }
