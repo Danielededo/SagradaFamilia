@@ -25,22 +25,28 @@ public class Rules {
 
     public boolean rules(Match partita, Player current, Slot choice, Die selected){
         boolean tracker;
-        boolean primoRound;
+        boolean vuota = false;
         Colour cSlot = choice.getSlotcolour();
         Colour cDie = selected.getDicecolor();
         int value = choice.getValue();
         int face = selected.getFace();
         int riga = choice.getLine();
         int colonna = choice.getColumn();
+        int i,j;
 
-
-        if (partita.getRound() == 1 && current.getContTurn()==1) {
-            primoRound = firstRound(riga, colonna);
-            if (!primoRound) {
-                System.out.println("This slot is not on the border of your Scheme Card.\n");
-                return false;
+        for(i=0; i < 4; i++){
+            for(j=0; j < 5; j++) {
+                if(current.getWindow().getSlot(i,j).getDice() != null)
+                    {vuota = true;}
             }
         }
+
+        if(!vuota) {
+            tracker = firstDado(choice.getLine(),choice.getColumn());
+            if(!tracker) {
+                System.out.println("This slot is not on the border of your Scheme Card.\n");
+                return false;}
+            }
 
         tracker = occupiedSlot(choice);
 
@@ -171,7 +177,7 @@ public class Rules {
     }
 
 
-    public boolean firstRound(int riga, int colonna){
+    public boolean firstDado(int riga, int colonna){
         if((riga == 1 && (colonna == 1 || colonna == 2 || colonna == 3)) || (riga == 2 && (colonna == 1 || colonna == 2 || colonna == 3)) )
             return false;
         else
