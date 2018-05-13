@@ -21,8 +21,8 @@ public class testToolCard2 {
         Die c= new Die(/*4*/5, Colour.RED);  //with 5 is ok, with 4 there is a die with the same value near it
         Die d= new Die(4,Colour.YELLOW);
         Rules rules= new Rules();
-        rules.diePlacing(match,match.getPlayers().get(0),match.getPlayers().get(0).getWindow().getSlot(0,0),d);
-        rules.diePlacing(match,match.getPlayers().get(0),match.getPlayers().get(0).getWindow().getSlot(2,2),c);
+        rules.diePlacing(match.getPlayers().get(0),match.getPlayers().get(0).getWindow().getSlot(0,0),d);
+        rules.diePlacing(match.getPlayers().get(0),match.getPlayers().get(0).getWindow().getSlot(2,2),c);
         System.out.println(match.getPlayers().get(0).getWindow().toString());
         ToolCard2 tool= new ToolCard2();
         tool.setPlayer(match.getPlayers().get(0));

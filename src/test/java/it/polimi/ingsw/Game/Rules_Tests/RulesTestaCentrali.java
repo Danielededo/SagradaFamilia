@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Game.Rules_Tests;
 
-import it.polimi.ingsw.Cards.GlassWindow;
 import it.polimi.ingsw.Cards.SchemeCard.AuroraeMagnificus;
 import it.polimi.ingsw.Cards.SchemeCard.Battlo;
 import it.polimi.ingsw.Cards.SchemeCard.FractalDrops;
@@ -37,7 +36,7 @@ public class RulesTestaCentrali {
         Slot choice = a.getWindow().getSlot(1, 1);
         System.out.println(a.getWindow().getSlot(1,1));
 
-        a.setWindow(r.diePlacing(partita, a, choice, dado));
+        a.setWindow(r.diePlacing( a, choice, dado));
 
         System.out.println(a.getWindow().toString());
         System.out.println(a.getWindow().getSlot(1,1));
@@ -54,7 +53,7 @@ public class RulesTestaCentrali {
         Slot choice2 = b.getWindow().getSlot(2, 2);
         System.out.println(b.getWindow().getSlot(2, 2));
 
-        b.setWindow(r.diePlacing(partita, b, choice2, dado2));
+        b.setWindow(r.diePlacing( b, choice2, dado2));
         System.out.println(choice2);
 
 
@@ -68,7 +67,7 @@ public class RulesTestaCentrali {
         Slot choice3 = c.getWindow().getSlot(2, 3);
         System.out.println(c.getWindow().getSlot(2,3));
 
-        c.setWindow(r.diePlacing(partita, c, choice3, dado3));
+        c.setWindow(r.diePlacing( c, choice3, dado3));
         System.out.println(c.getWindow().toString());
         System.out.println(choice3);
     }

@@ -9,8 +9,8 @@ import it.polimi.ingsw.Dice.Die;
 
 
 public class Rules {
-    public GlassWindow diePlacing(Match partita, Player current, Slot choice, Die selected){
-        boolean mayI = rules(partita, current, choice, selected);
+    public GlassWindow diePlacing(Player current, Slot choice, Die selected){
+        boolean mayI = rules(current, choice, selected);
 
         if(!mayI){
             System.out.print("Chose another slot.\n");
@@ -23,7 +23,7 @@ public class Rules {
     }
 
 
-    public boolean rules(Match partita, Player current, Slot choice, Die selected){
+    public boolean rules(Player current, Slot choice, Die selected){
         boolean tracker;
         boolean vuota = false;
         Colour cSlot = choice.getSlotcolour();
@@ -69,7 +69,7 @@ public class Rules {
             return false;
         }
 
-        if(partita.getRound() > 1 || current.getContTurn()==2) {
+        if(vuota) {
             tracker = neighboursCheck(current.getWindow(), colonna, riga, cDie, face);
             if (!tracker) {
                 return false;}

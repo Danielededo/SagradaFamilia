@@ -29,10 +29,10 @@ public class testToolCard9 {
         a.getWindow().getSlot(0,0).setDie(prova1);
 
         Die prova2 = new Die(2,Colour.PURPLE);
-        a.setWindow(r.diePlacing(partita, a, a.getWindow().getSlot(1,0), prova2));
+        a.setWindow(r.diePlacing(a, a.getWindow().getSlot(1,0), prova2));
 
         Die prova3 = new Die(3,Colour.BLUE);
-        a.setWindow(r.diePlacing(partita, a, a.getWindow().getSlot(2,1), prova3));
+        a.setWindow(r.diePlacing(a, a.getWindow().getSlot(2,1), prova3));
 
         ToolCard9 tool9 = new ToolCard9();
         tool9.setPlayer(a);
