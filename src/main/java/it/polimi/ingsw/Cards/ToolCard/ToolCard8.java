@@ -9,4 +9,6 @@ public class ToolCard8 extends Tool {
                 "Salta il tuo secondo turno in questo round");
         super.setName("Tenaglia a Rotelle");
     }
+
+
 }

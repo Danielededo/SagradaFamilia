@@ -15,10 +15,19 @@ public class ToolRunner {
         testToolCard3 toolCard3 = new testToolCard3();
         toolCard3.effectToolCard3();
 
-        testToolCard10 toolCard10 = new testToolCard10();
-        toolCard10.testingTool10();
+        testToolCard4 toolCard4=new testToolCard4();
+        toolCard4.effectToolCard4();
+
+        testToolCard5 toolCard5 = new testToolCard5();
+        toolCard5.effectToolCard5();
+
+        testToolCard7 toolCard7 = new testToolCard7();
+        toolCard7.effectToolCard7();
 
         testToolCard9 toolCard9 = new testToolCard9();
         toolCard9.testingTool9();
+
+        testToolCard10 toolCard10 = new testToolCard10();
+        toolCard10.testingTool10();
     }
 }

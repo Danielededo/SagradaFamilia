@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Cards.ToolCard;
 
 import it.polimi.ingsw.Cards.Tool;
+import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.Game.Match;
+import it.polimi.ingsw.Game.Stock;
 
 public class ToolCard7 extends Tool {
     public ToolCard7() {
@@ -9,5 +12,30 @@ public class ToolCard7 extends Tool {
                 "il tuo secondo turno, prima di scegliere un dado");
         super.setName("Martelletto");
     }
-
+    public void effect(Stock stock){
+        if(!isUsed()) {
+            if (!this.isAccessed()) {
+                if (getPlayer().getMarker() > 0) {
+                    getPlayer().setMarker(getPlayer().getMarker() - 1);
+                    setUsed(true);
+                } else {
+                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    return;
+                }
+            } else {
+                if (getPlayer().getMarker() > 1) {
+                    getPlayer().setMarker(getPlayer().getMarker() - 2);
+                    setUsed(true);
+                } else {
+                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    return;
+                }
+            }
+        }
+        if (getPlayer().getContTurn()==2){
+            for (Die die:stock.getDicestock()){
+                die.randomdado();
+            }
+        }else System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
+    }
 }
