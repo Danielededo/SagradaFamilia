@@ -66,7 +66,9 @@ public class Slot {
     public void setDie(Die dice) {
         if(!isOccupate()){
             this.dice = dice;
-            this.setOccupate(true);}
+            if(dice!=null)
+                this.setOccupate(true);
+        }
     }
 
     public Die getDice() {

@@ -14,6 +14,15 @@ public class Player {
     private int marker;
     private int contTurn;
 
+    public void setMarker(int marker) {
+        this.marker = marker;
+    }
+
+    public int getMarker() {
+
+        return marker;
+    }
+
     public int getContTurn() {
         return contTurn;
     }

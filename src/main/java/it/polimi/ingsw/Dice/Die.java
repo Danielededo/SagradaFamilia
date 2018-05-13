@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class Die {
     private int face;
-    private int[] number = {1, 2, 3, 4, 5, 6};
     private Colour dicecolor;
 
     public Die() {
@@ -18,7 +17,7 @@ public class Die {
         Random random = new Random();
         int k;
         k = random.nextInt(6)+1;
-        face=number[k-1];
+        face=k;
         return face;
     }
 

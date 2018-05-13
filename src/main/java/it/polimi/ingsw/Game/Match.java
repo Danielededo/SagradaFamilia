@@ -37,7 +37,7 @@ public class Match {
     }
 
 
-    public void fineRound(){
+    private void fineRound(){
         this.roundTrack.set(this.round-1,getStock().extract_die(0));
         setRound(this.round +1);
         getStock().reset_stock();
@@ -54,7 +54,7 @@ public class Match {
         return scheme;
     }
 
-    public void fineMatch(){
+    private void fineMatch(){
         calculatescore();
     }
 
@@ -91,12 +91,14 @@ public class Match {
     public Match(Player a, Player b) {
         addPlayer(a);
         addPlayer(b);
+        cardAssignment();
     }
 
     public Match(Player a, Player b, Player c) {
         addPlayer(a);
         addPlayer(b);
         addPlayer(c);
+        cardAssignment();
     }
 
     public Match(Player a, Player b,Player c,Player d) {
@@ -104,9 +106,10 @@ public class Match {
         addPlayer(b);
         addPlayer(c);
         addPlayer(d);
+        cardAssignment();
     }
 
-    public void changePlayer(){
+    private void changePlayer(){
         players.add(players.get(0));
         players.remove(0);
     }
@@ -123,7 +126,7 @@ public class Match {
         return publictarget;
     }
 
-    public void calculatescore(){
+    private void calculatescore(){
         for(int i=0; i<getnumberPlayers(); i++){
            players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
            players.get(i).setScore(publictarget.get(0).calcola_punteggio(players.get(i)));
@@ -134,6 +137,12 @@ public class Match {
 
     public ArrayList<Die> getRoundTrack() {
         return roundTrack;
+    }
+
+    private void cardAssignment(){
+        setPlayerswindow();
+        setPrivateObject();
+        setPublictarget();
     }
 
     @Override

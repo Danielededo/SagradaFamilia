@@ -4,6 +4,7 @@ import it.polimi.ingsw.Game.Player;
 
 public class Tool {
     private boolean accessed=false;
+    private boolean used=false;  //for the payment of the favor token, if use==true the payment has already happened
     private String name;
     private String effect;
     private Player player;
@@ -40,4 +41,12 @@ public class Tool {
         return effect;
     }
 
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isUsed() {
+
+        return used;
+    }
 }
