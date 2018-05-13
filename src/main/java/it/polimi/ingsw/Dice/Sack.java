@@ -25,41 +25,41 @@ public class Sack{
     }
 
     private void createpurple() {
-        Die dadop=new Die();
-        dadop.setDicecolor(Colour.PURPLE);
         for (int i=0;i<18;i++){
+            Die dadop=new Die();
+            dadop.setDicecolor(Colour.PURPLE);
             dice.add(dadop);
         }
     }
 
     private void createyellowdice() {
-        Die dadoy=new Die();
-        dadoy.setDicecolor(Colour.YELLOW);
         for (int i=0;i<18;i++){
+            Die dadoy=new Die();
+            dadoy.setDicecolor(Colour.YELLOW);
             dice.add(dadoy);
         }
     }
 
     private void creategreendice() {
-        Die dadog=new Die();
-        dadog.setDicecolor(Colour.GREEN);
         for (int i=0;i<18;i++){
+            Die dadog=new Die();
+            dadog.setDicecolor(Colour.GREEN);
             dice.add(dadog);
         }
     }
 
     private void createbluedice() {
-        Die dadob=new Die();
-        dadob.setDicecolor(Colour.BLUE);
         for (int i=0;i<18;i++){
+            Die dadob=new Die();
+            dadob.setDicecolor(Colour.BLUE);
             dice.add(dadob);
         }
     }
 
     private void createreddice() {
-        Die dador=new Die();
-        dador.setDicecolor(Colour.RED);
         for (int i=0;i<18;i++){
+            Die dador=new Die();
+            dador.setDicecolor(Colour.RED);
             dice.add(dador);
         }
     }

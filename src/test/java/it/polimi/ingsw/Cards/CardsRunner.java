@@ -4,6 +4,7 @@ import it.polimi.ingsw.Cards.Glasswindow_Tests.GlassWindowRunner;
 import it.polimi.ingsw.Cards.PrivateObject_Test.PrivateObjectRunner;
 import it.polimi.ingsw.Cards.PublicObject_Tests.PublicObjectRunner;
 import it.polimi.ingsw.Cards.Slot_Tests.SlotRunner;
+import it.polimi.ingsw.Cards.Tool_Tests.ToolRunner;
 import org.junit.jupiter.api.Test;
 
 public class CardsRunner {
@@ -21,6 +22,9 @@ public class CardsRunner {
 
         GlassWindowRunner vetrate = new GlassWindowRunner();
         vetrate.runGlassWindow();
+
+        ToolRunner tool= new ToolRunner();
+        tool.runThatTool();
 
     }
 }
