@@ -32,7 +32,6 @@ public class Rules {
         int face = selected.getFace();
         int riga = choice.getLine();
         int colonna = choice.getColumn();
-        boolean assenzaVicini;
 
 
         if (partita.getRound() == 1 && current.getContTurn()==1) {
@@ -76,8 +75,8 @@ public class Rules {
 
 
     public boolean occupiedSlot(Slot choice) {
-        boolean i;
-        if ((i = choice.isOccupate()) == false)
+        boolean i = choice.isOccupate();
+        if (!i)
             return true;
         else
             return false;
@@ -101,57 +100,57 @@ public class Rules {
             if (current.getSlot(riga, colonna - 1).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
                 return false;
-            };
+            }
             if (current.getSlot(riga, colonna - 1).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
                 return false;
-            };
+            }
             ortOccupate = true;
-        };
+        }
 
 
         if(current.getSlot(riga - 1, colonna).isOccupate()) {
             if (current.getSlot(riga - 1, colonna).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
                 return false;
-            };
+            }
             if (current.getSlot(riga - 1, colonna).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
                 return false;
-            };
+            }
             ortOccupate = true;
-        };
+        }
 
 
         if(current.getSlot(riga + 1, colonna).isOccupate()) {
             if (current.getSlot(riga + 1, colonna).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
                 return false;
-            };
+            }
             if (current.getSlot(riga + 1, colonna).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
                 return false;
-            };
+            }
             ortOccupate = true;
-        };
+        }
 
 
         if(current.getSlot(riga, colonna + 1).isOccupate()) {
             if (current.getSlot(riga, colonna + 1).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
                 return false;
-            };
+            }
             if (current.getSlot(riga, colonna + 1).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
                 return false;
-            };
+            }
             ortOccupate = true;
-        };
+        }
 
         if(diagOccupate == true || ortOccupate == true)
             return true;
         else{
-            System.out.println("Non ci sono dadi vicino a questa casella.");
+            System.out.println("There are no dice next to this slot.");
             return false;}
     }
 
@@ -160,13 +159,15 @@ public class Rules {
     public boolean colourCheck(Colour slot, Colour die) {
         if (slot == Colour.WHITE || slot == die)
             return true;
-        else return false;
+        else
+            return false;
     }
 
     public boolean numberCheck(int slot, int die) {
         if (slot == 0 || slot == die)
             return true;
-        else return false;
+        else
+            return false;
     }
 
 
