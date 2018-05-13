@@ -41,7 +41,7 @@ public class Player {
     }
 
     public void setWindow(ArrayList<GlassWindow> window) {
-        Random random = new Random();
+        Random random=new Random();
         int i=random.nextInt(window.size());
         this.window = window.get(i);
         this.marker=window.get(i).getDifficulty();

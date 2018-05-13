@@ -22,8 +22,8 @@ public class PrivObj {
 
     public PrivateObject extractPrivObj(){
         PrivateObject privateObjects= new PrivateObject();
-        Random random = new Random();
-        int k = random.nextInt(privateObject.length);
+        Random random=new Random();
+        int k= random.nextInt(privateObject.length);
         int i=0;
         while(i==0){
         if(privateObject[k]!=null){
