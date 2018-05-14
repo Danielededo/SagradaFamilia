@@ -13,7 +13,7 @@ public class ToolCard1 extends Tool{
         super.setName("Pinza Sgrossatrice");
     }
 
-    public Die effect(Die die, boolean piumeno) {
+    public boolean effect(Die die, boolean piumeno) {
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -21,7 +21,7 @@ public class ToolCard1 extends Tool{
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return die;
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -29,24 +29,24 @@ public class ToolCard1 extends Tool{
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return die;
+                    return false;
                 }
             }
         }
         if((die.getFace()==1 && !piumeno)|| (die.getFace()==6 && piumeno)) {
             System.out.println("Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado");
-            return die;
+            return false;
         }
         else
         if(piumeno){
             setUsed(false);
             die.setFace(die.getFace()+1);
-            return die;
+            return true;
         }
         else{
             setUsed(false);
             die.setFace(die.getFace()-1);
-            return die;
+            return true;
         }
 
     }

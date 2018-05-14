@@ -12,7 +12,7 @@ public class ToolCard7 extends Tool {
                 "il tuo secondo turno, prima di scegliere un dado");
         super.setName("Martelletto");
     }
-    public void effect(Stock stock){
+    public boolean effect(Stock stock){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -20,7 +20,7 @@ public class ToolCard7 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return;
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -28,7 +28,7 @@ public class ToolCard7 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return;
+                    return false;
                 }
             }
         }
@@ -36,6 +36,8 @@ public class ToolCard7 extends Tool {
             for (Die die:stock.getDicestock()){
                 die.randomdado();
             }
+            return true;
         }else System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
+            return false;
     }
 }

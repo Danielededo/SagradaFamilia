@@ -11,7 +11,7 @@ public class ToolCard6 extends Tool {
         super.setName("Pennello per Pasta Salda");
     }
 
-    public Die effect(Die die){
+    public boolean effect(Die die){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -19,7 +19,7 @@ public class ToolCard6 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return die;
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -27,11 +27,11 @@ public class ToolCard6 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return die;
+                    return false;
                 }
             }
         }
         die.randomdado();
-        return die;
+        return true;
     }
 }

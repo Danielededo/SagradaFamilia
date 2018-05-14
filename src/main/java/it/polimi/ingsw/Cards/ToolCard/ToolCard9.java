@@ -17,7 +17,7 @@ public class ToolCard9 extends Tool {
         super.setName("Riga in Sughero");
     }
 
-    public GlassWindow effetto9(Player giocatore, Die dado, Slot choice){
+    public boolean effetto9(Player giocatore, Die dado, Slot choice){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -25,7 +25,7 @@ public class ToolCard9 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return giocatore.getWindow();
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -33,22 +33,22 @@ public class ToolCard9 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return giocatore.getWindow();
+                    return false;
                 }
             }
         }
         Rules r = new Rules();
         if(!r.occupiedSlot(choice)){
             System.out.println("Questo slot è occupato, scegli un altro slot.");
-            return giocatore.getWindow();
+            return false;
         }
         if(!r.colourCheck(choice.getSlotcolour(), dado.getDicecolor())){
             System.out.println("Non puoi mettere un dado di questo colore in questo slot, scegli un altro slot.");
-            return giocatore.getWindow();
+            return false;
         }
         if(!r.numberCheck(choice.getValue(), dado.getFace())){
             System.out.println("Non puoi mettere un dado con questa faccia in questo slot, scegli un altro slot.");
-            return giocatore.getWindow();
+            return false;
         }
 
         if(!giocatore.getWindow().getSlot(choice.getLine() - 1, choice.getColumn()).isOccupate()) {
@@ -56,13 +56,13 @@ public class ToolCard9 extends Tool {
                 if (!giocatore.getWindow().getSlot(choice.getLine() + 1, choice.getColumn()).isOccupate()) {
                     if (!giocatore.getWindow().getSlot(choice.getLine(), choice.getColumn() - 1).isOccupate()) {
                         giocatore.getWindow().getSlot(choice.getLine(), choice.getColumn()).setDie(dado);
-                        return giocatore.getWindow();
+                        return true;
                     }
                 }
             }
         }
         System.out.println("C'è un dado in uno slot adiacente a quello scelto, scegli un altro slot.");
-        return giocatore.getWindow();
+        return false;
     }
 
 

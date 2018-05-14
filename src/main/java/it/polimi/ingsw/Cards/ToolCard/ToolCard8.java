@@ -14,7 +14,7 @@ public class ToolCard8 extends Tool {
         super.setName("Tenaglia a Rotelle");
     }
 
-    public GlassWindow effect(Die die, Slot slot){
+    public boolean effect(Die die, Slot slot){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -22,7 +22,7 @@ public class ToolCard8 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -30,7 +30,7 @@ public class ToolCard8 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             }
         }
@@ -39,14 +39,14 @@ public class ToolCard8 extends Tool {
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot,die));
             if (slot.isOccupate()){
                 getPlayer().setMissednext_turn(true);
-                return getPlayer().getWindow();
+                return true;
             }else {
                 System.out.println("Non è stato possibile piazzare il dado in questa casella");
-                return getPlayer().getWindow();
+                return false;
             }
         }else {
             System.out.println("Non puoi utilizzare questa carta nel tuo secondo turno");
-            return getPlayer().getWindow();
+            return false;
         }
     }
 }

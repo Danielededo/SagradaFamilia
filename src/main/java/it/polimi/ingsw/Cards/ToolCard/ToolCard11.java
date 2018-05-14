@@ -1,6 +1,11 @@
 package it.polimi.ingsw.Cards.ToolCard;
 
+import it.polimi.ingsw.Cards.GlassWindow;
+import it.polimi.ingsw.Cards.Slot;
 import it.polimi.ingsw.Cards.Tool;
+import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.Game.Match;
+import it.polimi.ingsw.Game.Rules;
 
 public class ToolCard11 extends Tool {
     public ToolCard11() {
@@ -12,5 +17,40 @@ public class ToolCard11 extends Tool {
         super.setName("Diluente per Pasta Salda");
     }
 
-
+    public boolean effect(Die die, Match match, Slot slot,int value) {
+        if ((value <= 6 && value > 0)&& !slot.isOccupate()) {
+            if (!isUsed()) {
+                if (!this.isAccessed()) {
+                    if (getPlayer().getMarker() > 0) {
+                        getPlayer().setMarker(getPlayer().getMarker() - 1);
+                        setUsed(true);
+                    } else {
+                        System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                        return false;
+                    }
+                } else {
+                    if (getPlayer().getMarker() > 1) {
+                        getPlayer().setMarker(getPlayer().getMarker() - 2);
+                        setUsed(true);
+                    } else {
+                        System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                        return false;
+                    }
+                }
+            }
+            match.getSack().adddie(die);
+            Die d = match.getSack().extractdie();
+            d.setFace(value);
+            Rules rules = new Rules();
+            rules.diePlacing(getPlayer(), slot, d);
+            if (slot.isOccupate()) {
+                System.out.println("Operazione conclusa con successo");
+                return true;
+            } else {
+                System.out.println("Piazzamento non andata a buon fine");
+                return false;
+            }
+        }else System.out.println("Intero errato o slot già occupato");
+        return false;
+    }
 }

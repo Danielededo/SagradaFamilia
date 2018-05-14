@@ -14,7 +14,7 @@ public class ToolCard4 extends Tool {
         super.setName("Lathekin");
     }
 
-    public GlassWindow effect(Slot slot1, Slot slot2, Slot slot3, Slot slot4) {
+    public boolean effect(Slot slot1, Slot slot2, Slot slot3, Slot slot4) {
         boolean e = false, f = false;
         if (!isUsed()) {
             if (!this.isAccessed()) {
@@ -23,7 +23,7 @@ public class ToolCard4 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -31,7 +31,7 @@ public class ToolCard4 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             }
         }
@@ -43,11 +43,11 @@ public class ToolCard4 extends Tool {
             if (i == 0) {
                 if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
                     System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
-                    return getPlayer().getWindow();
+                    return false;
                 }
                 if (!getPlayer().getWindow().getSlot(slot1).isOccupate()) {
                     System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
-                    return getPlayer().getWindow();
+                    return false;
                 }
                 a = getPlayer().getWindow().getSlot(slot1).getDice();
                 getPlayer().setWindow(rules.diePlacing(getPlayer(), slot2, a));
@@ -58,7 +58,7 @@ public class ToolCard4 extends Tool {
                     i++;
                 } else {
                     System.out.println("Il dado selezionato non può essere spostato in questa casella");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             } else {
                 if (getPlayer().getWindow().getSlot(slot4).isOccupate()) {
@@ -83,12 +83,12 @@ public class ToolCard4 extends Tool {
             }
         }
         if (e && f)
-            return getPlayer().getWindow();
+            return true;
         else{
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,a));
             getPlayer().getWindow().getSlot(slot2).setOccupate(false);
             getPlayer().getWindow().getSlot(slot2).setDie(null);
-            return getPlayer().getWindow();
+            return false;
         }
     }
 }

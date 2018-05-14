@@ -16,7 +16,7 @@ public class ToolCard3 extends Tool {
                 " restrizioni di piazzamento");
         super.setName("Alesatore per lamina di rame");
     }
-    public GlassWindow effect(Slot slot1, Slot slot2) {
+    public boolean effect(Slot slot1, Slot slot2) {
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -24,7 +24,7 @@ public class ToolCard3 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -32,18 +32,18 @@ public class ToolCard3 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             }
         }
         Die a= new Die();
         if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
             System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
-            return getPlayer().getWindow();
+            return false;
         }
         if (!getPlayer().getWindow().getSlot(slot1).isOccupate()) {
             System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
-            return getPlayer().getWindow();
+            return false;
         }
         a.setFace(getPlayer().getWindow().getSlot(slot1).getDice().getFace());
         a.setDicecolor(getPlayer().getWindow().getSlot(slot1).getDice().getDicecolor());
@@ -54,23 +54,23 @@ public class ToolCard3 extends Tool {
                 slot1.setOccupate(false);
                 slot1.setDie(null);
                 setUsed(false);
-                return getPlayer().getWindow();
+                return true;
             } else {
                 if (slot2.getSlotcolour() == a.getDicecolor()) {
                     getPlayer().getWindow().getSlot(slot2).setDie(a);
                     slot1.setOccupate(false);
                     slot1.setDie(null);
                     setUsed(false);
-                    return getPlayer().getWindow();
+                    return true;
                 } else {
                     System.out.println("Non puoi posizionare il dado in questa casella");
-                    return getPlayer().getWindow();
+                    return false;
                 }
             }
         }
         else{
             System.out.println("Il dado non può essere posizionato in questo slot perchè non soddisfa le regole di posizionamento");
-            return getPlayer().getWindow();
+            return false;
         }
     }
 }

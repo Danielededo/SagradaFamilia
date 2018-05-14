@@ -12,7 +12,7 @@ public class ToolCard10 extends Tool {
         super.setName("Tampone Diamantato");
     }
 
-    public Die effetto(Die dado){
+    public boolean effetto(Die dado){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -20,7 +20,7 @@ public class ToolCard10 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return dado;
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -28,7 +28,7 @@ public class ToolCard10 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return dado;
+                    return false;
                 }
             }
         }
@@ -47,7 +47,7 @@ public class ToolCard10 extends Tool {
             case 6: {dado.setFace(1);
                      break;}
         }
-        return dado;
+        return true;
     }
 
 }

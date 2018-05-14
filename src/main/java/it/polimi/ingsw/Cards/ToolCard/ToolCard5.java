@@ -11,7 +11,7 @@ public class ToolCard5 extends Tool {
                 "sul Tracciato dei Round");
         super.setName("Taglierina circolare");
     }
-    public Die effect(Die fromStock, Die fromRoundTrack,Match match){
+    public boolean effect(Die fromStock, Die fromRoundTrack,Match match){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -19,7 +19,7 @@ public class ToolCard5 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return fromStock;
+                    return false;
                 }
             } else {
                 if (getPlayer().getMarker() > 1) {
@@ -27,7 +27,7 @@ public class ToolCard5 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    return fromStock;
+                    return false;
                 }
             }
         }
@@ -37,6 +37,6 @@ public class ToolCard5 extends Tool {
         match.getRoundTrack().set(i,fromStock);
         match.getStock().getDicestock().remove(fromStock);
         match.getStock().getDicestock().add(d);
-        return d;
+        return true;
     }
 }

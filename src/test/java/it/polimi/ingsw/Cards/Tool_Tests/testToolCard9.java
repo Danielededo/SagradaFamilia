@@ -37,10 +37,12 @@ public class testToolCard9 {
         ToolCard9 tool9 = new ToolCard9();
         tool9.setPlayer(a);
 
-        a.setWindow(tool9.effetto9(a, dado, a.getWindow().getSlot(2,2)));
+        if (tool9.effetto9(a, dado, a.getWindow().getSlot(2,2)))System.out.println("operazione riuscita");
+        else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());
 
-        a.setWindow(tool9.effetto9(a, dado, a.getWindow().getSlot(3,4)));
+        if (tool9.effetto9(a, dado, a.getWindow().getSlot(3,4)))System.out.println("operazione riuscita");
+        else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());
 
 
