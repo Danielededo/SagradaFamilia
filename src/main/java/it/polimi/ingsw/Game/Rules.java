@@ -13,7 +13,7 @@ public class Rules {
         boolean mayI = rules(current, choice, selected);
 
         if(!mayI){
-            System.out.print("Chose another slot.\n");
+            System.out.print("Choose another slot.\n");
             return current.getWindow();
         }
 

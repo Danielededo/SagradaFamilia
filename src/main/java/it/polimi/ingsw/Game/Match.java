@@ -155,6 +155,10 @@ public class Match {
         return roundTrack;
     }
 
+    public void setRoundTrack(ArrayList<Die> roundTrack) {
+        this.roundTrack = roundTrack;
+    }
+
     private void cardAssignment(){
         setPlayerswindow();
         setPrivateObject();
