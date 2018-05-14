@@ -49,4 +49,13 @@ public class Tool {
 
         return used;
     }
+
+    @Override
+    public String toString() {
+        return "Tool{" +
+                "name= " + name + '\'' +
+                ", effect= " + effect + '\'' +
+                ", accessed= " + accessed +
+                '}';
+    }
 }

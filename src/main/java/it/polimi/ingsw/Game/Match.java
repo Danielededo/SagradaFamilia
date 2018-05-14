@@ -1,9 +1,6 @@
 package it.polimi.ingsw.Game;
 
-import it.polimi.ingsw.Cards.PrivObj;
-import it.polimi.ingsw.Cards.PubObj;
-import it.polimi.ingsw.Cards.PublicObject;
-import it.polimi.ingsw.Cards.Scheme;
+import it.polimi.ingsw.Cards.*;
 import it.polimi.ingsw.Dice.Die;
 import it.polimi.ingsw.Dice.Sack;
 
@@ -12,16 +9,31 @@ import java.util.ArrayList;
 public class Match {
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<PublicObject> publictarget=new ArrayList<PublicObject>();
+    private ArrayList<Tool> toolcards=new ArrayList<Tool>();
     private Stock stock= new Stock();
     private Sack sack= new Sack();
     private Scheme scheme = new Scheme();
     private PubObj pubObj = new PubObj();
     private PrivObj privObj= new PrivObj();
+    private ToolCards tool= new ToolCards();
     private Rules rules = new Rules();
     private ArrayList<Die> roundTrack= new ArrayList<Die>();
     private int round=1;
 
+    @Override
+    public String toString() {
+        return "Match{" +
+                "players= " + players +
+                ", publictarget= " + publictarget +
+                ", toolcards= " + toolcards +
+                ", stock= " + stock +
+                ", roundTrack= " + roundTrack +
+                ", round= "+ round+
+                '}';
+    }
+
     public void partita(Match match){
+        System.out.println(match.toString());
         while(round!=11){
             Round round= new Round(match);
             for(int i=0; i<2*getnumberPlayers();i++){
@@ -82,6 +94,8 @@ public class Match {
         this.publictarget = this.pubObj.extractPubObj();
     }
 
+    public void setTool(){this.toolcards=this.tool.extractToolCards();}
+
     public void setPrivateObject(){
         for(int i=0;i<getnumberPlayers();i++){
             this.players.get(i).setPrivatetarget(this.privObj.extractPrivObj());
@@ -126,6 +140,8 @@ public class Match {
         return publictarget;
     }
 
+    public ArrayList<Tool> getTool() { return toolcards; }
+
     private void calculatescore(){
         for(int i=0; i<getnumberPlayers(); i++){
            players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
@@ -143,17 +159,6 @@ public class Match {
         setPlayerswindow();
         setPrivateObject();
         setPublictarget();
-    }
-
-    @Override
-    public String toString() {
-        return "Match{" +
-                "players=" + players +
-                ", publictarget=" + publictarget +
-                ", stock=" + stock +
-                ", sack=" + sack +
-                ", roundTrack=" + roundTrack +
-                ", round=" + round +
-                '}';
+        setTool();
     }
 }

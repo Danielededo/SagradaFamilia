@@ -13,6 +13,15 @@ public class Player {
     private int score;
     private int marker;
     private int contTurn;
+    private boolean missednext_turn=false;
+
+    public boolean isMissednext_turn() {
+        return missednext_turn;
+    }
+
+    public void setMissednext_turn(boolean missednext_turn) {
+        this.missednext_turn = missednext_turn;
+    }
 
     public void setMarker(int marker) {
         this.marker = marker;
@@ -61,6 +70,10 @@ public class Player {
 
     public void setScore(int score) {
         this.score += score;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     @Override

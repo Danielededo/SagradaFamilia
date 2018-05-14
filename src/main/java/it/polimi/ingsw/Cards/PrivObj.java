@@ -21,19 +21,18 @@ public class PrivObj {
     }
 
     public PrivateObject extractPrivObj(){
-        PrivateObject privateObjects= new PrivateObject();
+        PrivateObject privateObjects=null;
         Random random=new Random();
-        int k= random.nextInt(privateObject.length);
         int i=0;
         while(i==0){
-        if(privateObject[k]!=null){
-            privateObjects=privateObject[k];
+            int k= random.nextInt(privateObject.length);
+            if(privateObject[k]!=null){
+                privateObjects=privateObject[k];
+                privateObject[k]=null;
+            } else{
+                i--;
+            }
             i++;
-        }
-        else{
-            i--;
-        }
-        i++;
         }
         return privateObjects;
     }

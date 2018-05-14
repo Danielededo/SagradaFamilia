@@ -39,8 +39,8 @@ public class PubObj {
             int k = random.nextInt(publicObject.length);
             if(publicObject[k]!=null){
                 publicObjects.add(publicObject[k]);
-            }
-            else {
+                publicObject[k]=null;
+            }else {
                 i--;
             }
             i++;
