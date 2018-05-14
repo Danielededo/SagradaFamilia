@@ -6,24 +6,23 @@ import it.polimi.ingsw.Cards.SchemeCard.FractalDrops;
 import it.polimi.ingsw.Cards.Slot;
 import it.polimi.ingsw.Dice.Colour;
 import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Match;
 import it.polimi.ingsw.Game.Player;
 import it.polimi.ingsw.Game.Rules;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 
 public class RulesTestaCentrali {
 
     @Test
     void testaRulesCentrali() {
-        //non è il primo round
+        //non è il primo dado
         Player a = new Player("a");
         a.setWindow(new FractalDrops());
-        a.setContTurn(1);
 
         Player b = new Player("b");
         Player c = new Player("c");
-        Match partita = new Match(a,b);
-        partita.setRound(2);
 
         Rules r = new Rules();
         Die dadoProva = new Die(6, Colour.YELLOW);
@@ -36,10 +35,13 @@ public class RulesTestaCentrali {
         Slot choice = a.getWindow().getSlot(1, 1);
         System.out.println(a.getWindow().getSlot(1,1));
 
-        a.setWindow(r.diePlacing( a, choice, dado));
+        a.setWindow(r.diePlacing(a, choice, dado));
 
         System.out.println(a.getWindow().toString());
         System.out.println(a.getWindow().getSlot(1,1));
+
+        assertEquals(Colour.BLUE,a.getWindow().getSlot(choice).getDice().getDicecolor());
+        assertEquals(5, a.getWindow().getSlot(choice).getDice().getFace());
 
 
         //altri valori, questo non va a buon fine
@@ -49,25 +51,29 @@ public class RulesTestaCentrali {
 
         b.getWindow().getSlot(2, 3).setDie(dadoProva2);
 
-        Die dado2 = new Die(5, Colour.BLUE);
         Slot choice2 = b.getWindow().getSlot(2, 2);
         System.out.println(b.getWindow().getSlot(2, 2));
 
-        b.setWindow(r.diePlacing( b, choice2, dado2));
-        System.out.println(choice2);
+        b.setWindow(r.diePlacing(b, choice2, dado));
+        System.out.println(b.getWindow().getSlot(choice2));
+
+        assertEquals(false, b.getWindow().getSlot(choice2.getLine(), choice2.getColumn()).isOccupate());
 
 
         //altri valori, occupato, fallisce
         Die dadoProva3 = new Die(3, Colour.YELLOW);
         c.setWindow(new Battlo());
         c.getWindow().getSlot(2, 3).setDie(dadoProva3);
-        c.setContTurn(1);
 
         Die dado3 = new Die(4, Colour.PURPLE);
         Slot choice3 = c.getWindow().getSlot(2, 3);
         System.out.println(c.getWindow().getSlot(2,3));
 
-        c.setWindow(r.diePlacing( c, choice3, dado3));
+        c.setWindow(r.diePlacing(c, choice3, dado3));
+
+        assertEquals(false, r.rules(c, choice3, dado3));
+
+
         System.out.println(c.getWindow().toString());
         System.out.println(choice3);
     }
