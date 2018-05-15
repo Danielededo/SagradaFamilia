@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Die_Test {
+public class Die_Tests {
     @Test
     void setDice() {
         Die a = new Die();

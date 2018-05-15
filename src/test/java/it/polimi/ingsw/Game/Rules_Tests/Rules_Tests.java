@@ -4,7 +4,7 @@ package it.polimi.ingsw.Game.Rules_Tests;
 import org.junit.jupiter.api.Test;
 
 
-public class Rules_Test {
+public class Rules_Tests {
 
     @Test
     public void runRules(){
