@@ -29,5 +29,11 @@ public class ToolRunner {
 
         testToolCard10 toolCard10 = new testToolCard10();
         toolCard10.testingTool10();
+
+        testToolCard12 toolCard12 = new testToolCard12();
+        toolCard12.testingTool12();
+
+        testAltraToolCard12 tool12 = new testAltraToolCard12();
+        tool12.testAgain();
     }
 }

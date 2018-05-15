@@ -44,47 +44,46 @@ public class ToolCard12 extends Tool {
         }
 
         Colour scelto;
-        Die dado1 = new Die();
+
 
         //esiste il dado che vuoi prendere
-        if(ToolCard12.super.getPlayer().getWindow().getSlot(prima).getDice() == null){
+        if(prima.getDice() == null){
             System.out.println("This slot is empty.\n");
             return false;
         }
 
-        dado1.setFace(ToolCard12.super.getPlayer().getWindow().getSlot(prima).getDice().getFace());
-        dado1.setDicecolor(ToolCard12.super.getPlayer().getWindow().getSlot(prima).getDice().getDicecolor());
-        scelto = dado1.getDicecolor();
+        scelto = prima.getDice().getDicecolor();
         ArrayList<Die> tracciatoAttuale = partita.getRoundTrack();
 
 
-        //non siamo al primo turno
+        //non siamo al primo round
         if(tracciatoAttuale.size() == 0){
             System.out.println("You can't use this ToolCard now, there are no dice on the RoundTrack.\n");
             return false;
         }
 
         //sul tracciato c'è un dado del colore che cerchi
-        if(!ToolCard12.this.scorroTrack(tracciatoAttuale, scelto)){
+        if(!scorroTrack(tracciatoAttuale, scelto)){
             System.out.println("You can't choose this die.\n");
             return false;
         }
 
         //rispetto le regole di piazzamento
-        if(!partita.getRules().rules(ToolCard12.super.getPlayer(), dopo, dado1)){
+        if(!partita.getRules().rules(this.getPlayer(), dopo, prima.getDice())){
             System.out.println("Choose another slot.\n");
             return false;
         }
 
         //sposto il dado
-        ToolCard12.super.getPlayer().getWindow().getSlot(dopo).setDie(dado1);
-        ToolCard12.super.getPlayer().getWindow().getSlot(prima).setDie(null);
+        this.getPlayer().getWindow().getSlot(dopo.getLine(), dopo.getColumn()).setDie(prima.getDice());
+        this.getPlayer().getWindow().getSlot(prima.getLine(),prima.getColumn()).setOccupate(false);
+        this.getPlayer().getWindow().getSlot(prima.getLine(), prima.getColumn()).setDie(null);
         return true;
     }
 
 
 
-    public boolean effetto12(Match partita, Slot prima1, Slot dopo1, Slot prima2, Slot dopo2){
+    public boolean effetto12(Match partita, Slot prima1,Slot prima2, Slot dopo1, Slot dopo2){
         if (!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -106,17 +105,13 @@ public class ToolCard12 extends Tool {
         }
 
         Colour scelto;
-        Die dado1 = new Die();
-        Die dado2 = new Die();
 
-        if(ToolCard12.super.getPlayer().getWindow().getSlot(prima1).getDice() == null){
+        if(this.getPlayer().getWindow().getSlot(prima1).getDice() == null){
             System.out.println("This slot is empty.\n");
             return false;
         }
 
-        dado1.setFace(ToolCard12.super.getPlayer().getWindow().getSlot(prima1).getDice().getFace());
-        dado1.setDicecolor(ToolCard12.super.getPlayer().getWindow().getSlot(prima1).getDice().getDicecolor());
-        scelto = dado1.getDicecolor();
+        scelto = prima1.getDice().getDicecolor();
         ArrayList<Die> tracciatoAttuale = partita.getRoundTrack();
 
 
@@ -126,55 +121,58 @@ public class ToolCard12 extends Tool {
         }
 
 
-        if(!ToolCard12.this.scorroTrack(tracciatoAttuale, scelto)){
+        if(!this.scorroTrack(tracciatoAttuale, scelto)){
             System.out.println("You can't choose this die.\n");
             return false;
         }
 
 
-        if(!partita.getRules().rules(ToolCard12.super.getPlayer(), dopo1, dado1)){
+        if(!partita.getRules().rules(ToolCard12.super.getPlayer(), dopo1, prima1.getDice())){
             System.out.println("Choose another slot.\n");
             return false;
         }
 
 
-        ToolCard12.super.getPlayer().getWindow().getSlot(dopo1).setDie(dado1);
-        ToolCard12.super.getPlayer().getWindow().getSlot(prima1).setDie(null);
+        this.getPlayer().getWindow().getSlot(dopo1).setDie(prima1.getDice());
+        this.getPlayer().getWindow().getSlot(prima1).setOccupate(false);
+        this.getPlayer().getWindow().getSlot(prima1).setDie(null);
 
 
         //secondo dado
         //esiste
-        if(ToolCard12.super.getPlayer().getWindow().getSlot(prima2).getDice() == null){
+        if(this.getPlayer().getWindow().getSlot(prima2).getDice() == null){
             System.out.println("This slot is empty");
-            ToolCard12.super.getPlayer().getWindow().getSlot(prima1).setDie(dado1);
-            ToolCard12.super.getPlayer().getWindow().getSlot(dopo1).setDie(null);
+            this.getPlayer().getWindow().getSlot(prima1).setDie(dopo1.getDice());
+            this.getPlayer().getWindow().getSlot(dopo1).setOccupate(false);
+            this.getPlayer().getWindow().getSlot(dopo1).setDie(null);
             return false;
         }
 
-        //posso prendere il suo colore
-        dado2.setDicecolor(ToolCard12.super.getPlayer().getWindow().getSlot(prima2).getDice().getDicecolor());
 
         //sono dello stesso colore?
-        if(dado2.getDicecolor() != dado1.getDicecolor()){
+        if(prima2.getDice().getDicecolor() != dopo1.getDice().getDicecolor()){
             System.out.println("You can't choose dice with different colours. Start again.\n");
-            ToolCard12.super.getPlayer().getWindow().getSlot(prima1).setDie(dado1);
-            ToolCard12.super.getPlayer().getWindow().getSlot(dopo1).setDie(null);
+            this.getPlayer().getWindow().getSlot(prima1).setDie(dopo1.getDice());
+            this.getPlayer().getWindow().getSlot(dopo1).setOccupate(false);
+            this.getPlayer().getWindow().getSlot(dopo1).setDie(null);
             return false;
         }
 
 
-        dado2.setFace(ToolCard12.super.getPlayer().getWindow().getSlot(prima2).getDice().getFace());
 
         //regole di piazzamento
-        if(!partita.getRules().rules(ToolCard12.super.getPlayer(),dopo2, dado2)){
+        if(!partita.getRules().rules(this.getPlayer(),dopo2, prima2.getDice())){
             System.out.println("You can't place the selected die on an occupied slot.\n");
-            ToolCard12.super.getPlayer().getWindow().getSlot(prima1).setDie(dado1);
-            ToolCard12.super.getPlayer().getWindow().getSlot(dopo1).setDie(null);
+            this.getPlayer().getWindow().getSlot(prima1).setDie(dopo1.getDice());
+            this.getPlayer().getWindow().getSlot(dopo1).setOccupate(false);
+            this.getPlayer().getWindow().getSlot(dopo1).setDie(null);
             return false;
         }
 
-        ToolCard12.super.getPlayer().getWindow().getSlot(dopo2).setDie(dado2);
-        ToolCard12.super.getPlayer().getWindow().getSlot(prima2).setDie(null);
+
+        this.getPlayer().getWindow().getSlot(dopo2).setDie(prima2.getDice());
+        this.getPlayer().getWindow().getSlot(prima2).setOccupate(false);
+        this.getPlayer().getWindow().getSlot(prima2).setDie(null);
 
         return true;
 
@@ -184,12 +182,11 @@ public class ToolCard12 extends Tool {
 
 
     public boolean scorroTrack(ArrayList<Die> track, Colour colore){
-        int cont = 0;
-        while(track.get(cont) != null){
+        int cont;
+        for(cont = 0; cont < track.size(); cont++){
             if(track.get(cont).getDicecolor() == colore){
                 return true;
             }
-            cont++;
         }
         return false;
     }
