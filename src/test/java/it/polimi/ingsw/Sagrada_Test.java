@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Cards.CardsRunner;
-import it.polimi.ingsw.Dice.DiceRunner;
-import it.polimi.ingsw.Game.GameRunner;
+import it.polimi.ingsw.cards.CardsRunner;
+import it.polimi.ingsw.dice.DiceRunner;
+import it.polimi.ingsw.game.GameRunner;
 import org.junit.jupiter.api.Test;
 
 public class Sagrada_Test {
