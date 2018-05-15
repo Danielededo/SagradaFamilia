@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Game;
 
 import it.polimi.ingsw.Game.Match_Tests.MatchRunner;
-import it.polimi.ingsw.Game.Rules_Tests.Rules_Test;
+import it.polimi.ingsw.Game.Rules_Tests.Rules_Tests;
 import org.junit.jupiter.api.Test;
 
 public class GameRunner {
@@ -10,7 +10,7 @@ public class GameRunner {
         MatchRunner match = new MatchRunner();
         match.runThisMatch();
 
-        Rules_Test regole = new Rules_Test();
+        Rules_Tests regole = new Rules_Tests();
         regole.runRules();
     }
 }

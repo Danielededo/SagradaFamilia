@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 public class DiceRunner {
     @Test
     public void runDice(){
-        Die_Test dado = new Die_Test();
+        Die_Tests dado = new Die_Tests();
         dado.setDice();
 
         testSackRemove rimozione = new testSackRemove();

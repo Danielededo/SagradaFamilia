@@ -2,7 +2,6 @@ package it.polimi.ingsw.Rete;
 
 import it.polimi.ingsw.Game.Player;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -22,7 +21,7 @@ public class Client {
             System.out.println("Input your nickname:");
             nickname=in.nextLine();
             String name="Sagrada server";
-            Registry registry= LocateRegistry.getRegistry("127.0.0.1",PORT);
+            Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
             this.player=new Player(nickname);
             stub.login(player.getNickname());
