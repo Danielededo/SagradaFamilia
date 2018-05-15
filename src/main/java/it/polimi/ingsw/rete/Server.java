@@ -10,8 +10,13 @@ import java.rmi.server.UnicastRemoteObject;
 public class Server implements ServerInt{
     static int PORT=8080;
     protected Match match;
+    private int cont=0;
     private Waiting_Room room=new Waiting_Room(this);
     private Registry registry;
+
+    public int getCont() {
+        return cont;
+    }
 
     public void start_server(){
         try{
@@ -39,6 +44,7 @@ public class Server implements ServerInt{
         try {
             System.out.println(player + " connected");
             room.addPlayer(player);
+            cont++;
             return true;
         }catch (Exception e){
             return false;
@@ -54,6 +60,7 @@ public class Server implements ServerInt{
 
     public void logout(String player) throws RemoteException {
         room.deleteplayer(player);
+        cont--;
         System.err.println(player + " disconnected");
     }
 

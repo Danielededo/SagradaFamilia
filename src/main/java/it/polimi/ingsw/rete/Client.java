@@ -29,7 +29,7 @@ public class Client {
             int i=50;
             while (i!=0){
                 Scanner numero=new Scanner(System.in);
-                System.out.println("Scegli cosa fare: ");
+                System.out.print("Choose among the following : \n'0' for logging out\n");
                 i=numero.nextInt();
                 switch (i){
                     case 1: break;
