@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rete;
 
 import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Player;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,7 +12,8 @@ public class Server implements ServerInt{
     static int PORT=8080;
     protected Match match;
     private int cont=0;
-    private Waiting_Room room=new Waiting_Room(this);
+    private Server obj;
+    private Waiting_Room room=new Waiting_Room(obj);
     private Registry registry;
 
     public int getCont() {
@@ -21,7 +23,7 @@ public class Server implements ServerInt{
     public void start_server(){
         try{
             String server_name="Sagrada server";
-            Server obj =new Server();
+            obj =new Server();
             ServerInt stub = (ServerInt) UnicastRemoteObject.exportObject(obj,0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
@@ -42,6 +44,11 @@ public class Server implements ServerInt{
 
     public boolean login(String player) throws RemoteException {
         try {
+            for (Player p: room.getPlayers()){
+                if (p.getNickname().equals(player)){
+                    return false;
+                }
+            }
             System.out.println(player + " connected");
             room.addPlayer(player);
             cont++;

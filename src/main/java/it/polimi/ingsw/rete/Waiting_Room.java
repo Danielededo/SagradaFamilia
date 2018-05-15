@@ -19,7 +19,7 @@ public class Waiting_Room {
 
     public Waiting_Room(Server server) {
         this.server=server;
-        players=new ArrayList<Player>(0);
+        players=new ArrayList<Player>();
     }
 
     public int numberPlayers() {
@@ -36,7 +36,12 @@ public class Waiting_Room {
     }
 
     public void deleteplayer(String player) {
-        players.remove(player);
+        for (Player p:players){
+            if(p.getNickname().equals(player)){
+                players.remove(p);
+                return;
+            }
+        }
     }
 
 

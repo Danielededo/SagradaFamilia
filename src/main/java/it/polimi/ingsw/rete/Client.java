@@ -1,7 +1,5 @@
 package it.polimi.ingsw.rete;
 
-import it.polimi.ingsw.game.Player;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -9,7 +7,6 @@ import java.util.Scanner;
 public class Client {
     private String nickname;
     private String serverIP;
-    private Player player;
     static int PORT=8080;
 
     public void connect(){
@@ -23,8 +20,11 @@ public class Client {
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
-            this.player=new Player(nickname);
-            stub.login(player.getNickname());
+            boolean connesso=stub.login(nickname);
+            if (!connesso){
+                System.err.println("Nickname already exists... bye");
+                return;
+            }
             System.out.println(stub.show_waitingroom());
             int i=50;
             while (i!=0){
@@ -34,8 +34,8 @@ public class Client {
                 switch (i){
                     case 1: break;
                     case 2: break;
-                    case 0: stub.logout(player.getNickname()); break;
-                }
+                    case 0: stub.logout(nickname); break;
+                    }
             }
         } catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
