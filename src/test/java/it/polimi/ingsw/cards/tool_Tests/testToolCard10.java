@@ -1,8 +1,8 @@
-package it.polimi.ingsw.Cards.Tool_Tests;
+package it.polimi.ingsw.cards.tool_Tests;
 
-import it.polimi.ingsw.Cards.ToolCard.ToolCard10;
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.cards.toolCard.ToolCard10;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.dice.Die;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,11 +1,10 @@
-package it.polimi.ingsw.Cards.ToolCard;
+package it.polimi.ingsw.cards.toolCard;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.Slot;
-import it.polimi.ingsw.Cards.Tool;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Player;
-import it.polimi.ingsw.Game.Rules;
+import it.polimi.ingsw.cards.Slot;
+import it.polimi.ingsw.cards.Tool;
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Player;
+import it.polimi.ingsw.game.Rules;
 
 public class ToolCard9 extends Tool {
     public ToolCard9() {

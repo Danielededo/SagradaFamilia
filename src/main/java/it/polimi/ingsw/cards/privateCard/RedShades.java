@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Cards.PrivateCard;
+package it.polimi.ingsw.cards.privateCard;
 
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Cards.PrivateObject;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.cards.PrivateObject;
 
 public class RedShades extends PrivateObject {
     public RedShades() {

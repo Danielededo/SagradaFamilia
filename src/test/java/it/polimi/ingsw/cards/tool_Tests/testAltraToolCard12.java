@@ -1,11 +1,11 @@
-package it.polimi.ingsw.Cards.Tool_Tests;
+package it.polimi.ingsw.cards.tool_Tests;
 
-import it.polimi.ingsw.Cards.SchemeCard.SunGlory;
-import it.polimi.ingsw.Cards.ToolCard.ToolCard12;
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Match;
-import it.polimi.ingsw.Game.Player;
+import it.polimi.ingsw.cards.schemeCard.SunGlory;
+import it.polimi.ingsw.cards.toolCard.ToolCard12;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

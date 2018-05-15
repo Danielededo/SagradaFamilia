@@ -1,12 +1,12 @@
-package it.polimi.ingsw.Game.Match_Tests;
+package it.polimi.ingsw.game.match_Tests;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.Scheme;
-import it.polimi.ingsw.Dice.Sack;
-import it.polimi.ingsw.Game.Match;
-import it.polimi.ingsw.Game.Player;
-import it.polimi.ingsw.Game.Round;
-import it.polimi.ingsw.Game.Stock;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.Scheme;
+import it.polimi.ingsw.dice.Sack;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Player;
+import it.polimi.ingsw.game.Round;
+import it.polimi.ingsw.game.Stock;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

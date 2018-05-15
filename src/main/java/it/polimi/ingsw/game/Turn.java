@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Game;
+package it.polimi.ingsw.game;
 
-import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.dice.Die;
 
 import java.util.Scanner;
 
@@ -33,7 +33,7 @@ public class Turn {
             while (j != 0) {
                 System.out.println(oneplayer.getNickname() + " this is your glass " + oneplayer.getWindow());
                 System.out.println("digit:  >place a die<        if you want to select a Die and place it in your glass");
-                System.out.println("digit:  >use a toolcard<     if you want to select a ToolCard from the table");
+                System.out.println("digit:  >use a toolcard<     if you want to select a toolCard from the table");
                 System.out.println("digit:  >end<                if you want to end turn");
                 System.out.println("digit without > < character");
                 Scanner in = new Scanner(System.in);

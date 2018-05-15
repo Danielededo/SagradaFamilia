@@ -1,9 +1,9 @@
-package it.polimi.ingsw.Cards.Glasswindow_Tests;
+package it.polimi.ingsw.cards.glasswindow_Tests;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.SchemeCard.Virtus;
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.schemeCard.Virtus;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.dice.Die;
 import org.junit.jupiter.api.Test;
 
 public class testInserimento {

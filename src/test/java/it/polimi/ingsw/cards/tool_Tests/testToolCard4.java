@@ -1,12 +1,12 @@
-package it.polimi.ingsw.Cards.Tool_Tests;
+package it.polimi.ingsw.cards.tool_Tests;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.SchemeCard.KaleidoscopicDream;
-import it.polimi.ingsw.Cards.ToolCard.ToolCard4;
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Match;
-import it.polimi.ingsw.Game.Player;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.schemeCard.KaleidoscopicDream;
+import it.polimi.ingsw.cards.toolCard.ToolCard4;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
 
 public class testToolCard4 {

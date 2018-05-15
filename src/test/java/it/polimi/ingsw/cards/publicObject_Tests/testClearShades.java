@@ -1,12 +1,12 @@
-package it.polimi.ingsw.Cards.PublicObject_Tests;
+package it.polimi.ingsw.cards.publicObject_Tests;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.PublicCard.DifferentShades;
-import it.polimi.ingsw.Cards.PublicObject;
-import it.polimi.ingsw.Cards.SchemeCard.AuroraeMagnificus;
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Player;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.publicCard.DifferentShades;
+import it.polimi.ingsw.cards.PublicObject;
+import it.polimi.ingsw.cards.schemeCard.AuroraeMagnificus;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
 
 public class testClearShades {

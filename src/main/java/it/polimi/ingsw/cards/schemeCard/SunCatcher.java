@@ -1,8 +1,8 @@
-package it.polimi.ingsw.Cards.SchemeCard;
+package it.polimi.ingsw.cards.schemeCard;
 
-import it.polimi.ingsw.Dice.Colour;
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.Slot;
+import it.polimi.ingsw.dice.Colour;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.Slot;
 
 public class SunCatcher extends GlassWindow {
     public SunCatcher(){

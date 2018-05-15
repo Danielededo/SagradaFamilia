@@ -1,9 +1,8 @@
-package it.polimi.ingsw.Cards.Tool_Tests;
+package it.polimi.ingsw.cards.tool_Tests;
 
-import it.polimi.ingsw.Cards.ToolCard.ToolCard1;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Match;
-import it.polimi.ingsw.Game.Player;
+import it.polimi.ingsw.cards.toolCard.ToolCard1;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
 
 public class testToolCard1 {

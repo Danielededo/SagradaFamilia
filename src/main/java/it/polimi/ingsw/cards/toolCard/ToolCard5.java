@@ -1,8 +1,8 @@
-package it.polimi.ingsw.Cards.ToolCard;
+package it.polimi.ingsw.cards.toolCard;
 
-import it.polimi.ingsw.Cards.Tool;
-import it.polimi.ingsw.Dice.Die;
-import it.polimi.ingsw.Game.Match;
+import it.polimi.ingsw.cards.Tool;
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 
 public class ToolCard5 extends Tool {
     public ToolCard5() {

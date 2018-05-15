@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Cards.ToolCard;
+package it.polimi.ingsw.cards.toolCard;
 
-import it.polimi.ingsw.Cards.Tool;
-import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.cards.Tool;
+import it.polimi.ingsw.dice.Die;
 
 public class ToolCard6 extends Tool {
     public ToolCard6() {

@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Cards.PublicCard;
+package it.polimi.ingsw.cards.publicCard;
 
-import it.polimi.ingsw.Cards.PublicObject;
-import it.polimi.ingsw.Game.Player;
+import it.polimi.ingsw.cards.PublicObject;
+import it.polimi.ingsw.game.Player;
 
 public class DifferentColumnShades extends PublicObject {
     public DifferentColumnShades() {

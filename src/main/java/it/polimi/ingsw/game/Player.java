@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Game;
+package it.polimi.ingsw.game;
 
-import it.polimi.ingsw.Cards.GlassWindow;
-import it.polimi.ingsw.Cards.PrivateObject;
+import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.PrivateObject;
 
 import java.util.ArrayList;
 import java.util.Random;

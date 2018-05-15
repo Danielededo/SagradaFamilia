@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Game;
+package it.polimi.ingsw.game;
 
-import it.polimi.ingsw.Dice.Die;
+import it.polimi.ingsw.dice.Die;
 
 import java.util.ArrayList;
 
