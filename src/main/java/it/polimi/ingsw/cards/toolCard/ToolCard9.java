@@ -14,9 +14,10 @@ public class ToolCard9 extends Tool {
                 "Devi rispettare tutte le " +
                 "restrizioni di piazzamento");
         super.setName("Riga in Sughero");
+        super.setValue(9);
     }
 
-    public boolean effetto9(Player giocatore, Die dado, Slot choice){
+    public boolean effect(Player giocatore, Die dado, Slot choice){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -63,9 +64,6 @@ public class ToolCard9 extends Tool {
         System.out.println("C'è un dado in uno slot adiacente a quello scelto, scegli un altro slot.");
         return false;
     }
-
-
-
 
 }
 

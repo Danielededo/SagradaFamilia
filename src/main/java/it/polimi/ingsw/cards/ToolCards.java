@@ -2,55 +2,62 @@ package it.polimi.ingsw.cards;
 
 import it.polimi.ingsw.cards.toolCard.*;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class ToolCards {
-    private final int dimension=12;
-    private Tool[] tools= new Tool[dimension];
 
-    public ToolCards(){
-        Tool a=new ToolCard1();
-        tools[0]=a;
-        Tool b=new ToolCard2();
-        tools[1]=b;
-        Tool c=new ToolCard3();
-        tools[2]=c;
-        Tool d=new ToolCard4();
-        tools[3]=d;
-        Tool e=new ToolCard5();
-        tools[4]=e;
-        Tool g=new ToolCard6();
-        tools[5]=g;
-        Tool h=new ToolCard7();
-        tools[6]=h;
-        Tool i=new ToolCard8();
-        tools[7]=i;
-        Tool j=new ToolCard9();
-        tools[8]=j;
-        Tool k=new ToolCard10();
-        tools[9]=k;
-        Tool l=new ToolCard11();
-        tools[10]=l;
-        Tool m=new ToolCard12();
-        tools[11]=m;
-    }
+    public Tool creatingTool(int value) {
 
-    public ArrayList<Tool> extractToolCards(){
-        ArrayList<Tool> tool=new ArrayList<Tool>();
-        int i=0;
-        while(i<3){
-            Random random = new Random();
-            int k = random.nextInt(tools.length);
-            if(tools[k]!=null){
-                tool.add(tools[k]);
-                tools[k]=null;
+        Tool tool = null;
+        switch (value) {
+            case 1: {
+                tool = new ToolCard1();
+                break;
             }
-            else {
-                i--;
+            case 2: {
+                tool = new ToolCard2();
+                break;
             }
-            i++;
+            case 3: {
+                tool = new ToolCard3();
+                break;
+            }
+            case 4: {
+                tool = new ToolCard4();
+                break;
+            }
+            case 5: {
+                tool = new ToolCard5();
+                break;
+            }
+            case 6: {
+                tool = new ToolCard6();
+                break;
+            }
+            case 7: {
+                tool = new ToolCard7();
+                break;
+            }
+            case 8: {
+                tool = new ToolCard8();
+                break;
+            }
+            case 9: {
+                tool = new ToolCard9();
+                break;
+            }
+            case 10: {
+                tool = new ToolCard10();
+                break;
+            }
+            case 11: {
+                tool = new ToolCard11();
+                break;
+            }
+            case 12: {
+                tool = new ToolCard12();
+                break;
+            }
         }
         return tool;
     }
+
 }

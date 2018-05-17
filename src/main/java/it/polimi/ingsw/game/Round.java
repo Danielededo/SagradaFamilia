@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 public class Round {
     private ArrayList<Turn> turns;
+    private Stock stock= new Stock();
+
+
+    public Stock getStock() {
+        return stock;
+    }
 
     public Round(Match a) {
         int i = 0;

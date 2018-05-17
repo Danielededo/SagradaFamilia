@@ -9,9 +9,10 @@ public class ToolCard10 extends Tool {
                 "giralo sulla faccia opposta\n\n" +
                 "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc.");
         super.setName("Tampone Diamantato");
+        super.setValue(10);
     }
 
-    public boolean effetto(Die dado){
+    public boolean effect(Die dado){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {

@@ -9,6 +9,7 @@ public class ToolCard6 extends Tool {
                 "tira nuovamente quel dado\n\n" +
                 "Se non puoi piazzarlo riponilo nella riserva");
         super.setName("Pennello per Pasta Salda");
+        super.setValue(6);
     }
 
     public boolean effect(Die die){
@@ -34,4 +35,5 @@ public class ToolCard6 extends Tool {
         die.randomdado();
         return true;
     }
+
 }

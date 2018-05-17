@@ -11,6 +11,7 @@ public class ToolCard8 extends Tool {
                 "immediatamente un altro dado\n\n" +
                 "Salta il tuo secondo turno in questo round");
         super.setName("Tenaglia a Rotelle");
+        super.setValue(8);
     }
 
     public boolean effect(Die die, Slot slot){
@@ -48,4 +49,5 @@ public class ToolCard8 extends Tool {
             return false;
         }
     }
+
 }

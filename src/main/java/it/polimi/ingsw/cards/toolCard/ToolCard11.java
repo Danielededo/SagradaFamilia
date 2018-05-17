@@ -14,6 +14,7 @@ public class ToolCard11 extends Tool {
                 "Scegli il valore del nuovo dado e piazzalo," +
                 "rispettando tutte le restrizioni di piazzamento");
         super.setName("Diluente per Pasta Salda");
+        super.setValue(11);
     }
 
     public boolean effect(Die die, Match match, Slot slot,int value) {
@@ -52,4 +53,5 @@ public class ToolCard11 extends Tool {
         }else System.out.println("Intero errato o slot già occupato");
         return false;
     }
+
 }

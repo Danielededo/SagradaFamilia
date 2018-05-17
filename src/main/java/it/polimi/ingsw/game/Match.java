@@ -5,6 +5,8 @@ import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.dice.Sack;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 
 public class Match {
     private ArrayList<Player> players = new ArrayList<Player>();
@@ -37,7 +39,7 @@ public class Match {
         while(round!=11){
             Round round= new Round(match);
             for(int i=0; i<2*getnumberPlayers();i++){
-                round.getTurns().get(i).Hand(match);
+
             }
             fineRound();
         }
@@ -94,7 +96,23 @@ public class Match {
         this.publictarget = this.pubObj.extractPubObj();
     }
 
-    public void setTool(){this.toolcards=this.tool.extractToolCards();}
+
+    public void setTool() {
+        ArrayList<Tool> tool = new ArrayList<Tool>();
+        int i = 0;
+        ToolCards t = new ToolCards();
+        do {
+            Random numero = new Random();
+            Tool inserire = t.creatingTool((numero.nextInt(12) + 1));
+            if (!tool.contains(inserire)) {
+                tool.add(inserire);
+            } else {
+                i--;
+            }
+            i++;
+        } while (i < 3);
+    }
+
 
     public void setPrivateObject(){
         for(int i=0;i<getnumberPlayers();i++){

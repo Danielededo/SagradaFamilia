@@ -11,6 +11,7 @@ public class ToolCard4 extends Tool {
                 " rispettando tutte le restrizioni di" +
                 " piazzamento");
         super.setName("Lathekin");
+        super.setValue(4);
     }
 
     public boolean effect(Slot slot1, Slot slot2, Slot slot3, Slot slot4) {
@@ -90,4 +91,5 @@ public class ToolCard4 extends Tool {
             return false;
         }
     }
+
 }

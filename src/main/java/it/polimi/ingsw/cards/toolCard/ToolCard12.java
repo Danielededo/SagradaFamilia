@@ -16,10 +16,11 @@ public class ToolCard12 extends Tool {
                 "sul Tracciato del Round \n\n" +
                 "Devi rispettare tutte le restrizioni di piazzamento ");
         super.setName("Taglierina Manuale");
+        super.setValue(12);
     }
 
 
-    public boolean effetto12(Match partita, Slot prima, Slot dopo) {
+    public boolean effect(Match partita, Slot prima, Slot dopo) {
         if (!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {

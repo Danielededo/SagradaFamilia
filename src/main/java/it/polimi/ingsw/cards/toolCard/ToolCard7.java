@@ -10,6 +10,7 @@ public class ToolCard7 extends Tool {
                 "Questa carta può essere usata solo durante " +
                 "il tuo secondo turno, prima di scegliere un dado");
         super.setName("Martelletto");
+        super.setValue(7);
     }
     public boolean effect(Stock stock){
         if(!isUsed()) {
@@ -39,4 +40,5 @@ public class ToolCard7 extends Tool {
         }else System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
             return false;
     }
+
 }

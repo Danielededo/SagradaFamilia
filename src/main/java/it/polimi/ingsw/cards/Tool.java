@@ -2,7 +2,7 @@ package it.polimi.ingsw.cards;
 
 import it.polimi.ingsw.game.Player;
 
-public class Tool {
+public class Tool extends Card{
     private boolean accessed=false;
     private boolean used=false;  //for the payment of the favor token, if use==true the payment has already happened
     private String name;
@@ -49,6 +49,12 @@ public class Tool {
 
         return used;
     }
+
+    public boolean effect(){
+        return false;
+    }
+
+
 
     @Override
     public String toString() {

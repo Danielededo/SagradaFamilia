@@ -11,7 +11,10 @@ public class ToolCard1 extends Tool{
                 "Non puoi cambiare" +
                 "un 6 in 1 o un 1 in 6");
         super.setName("Pinza Sgrossatrice");
+        super.setValue(1);
     }
+
+
 
     public boolean effect(Die die, boolean piumeno) {
         if(!isUsed()) {
@@ -48,6 +51,6 @@ public class ToolCard1 extends Tool{
             die.setFace(die.getFace()-1);
             return true;
         }
-
     }
+
 }

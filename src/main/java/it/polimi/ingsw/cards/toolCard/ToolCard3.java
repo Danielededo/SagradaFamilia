@@ -14,6 +14,7 @@ public class ToolCard3 extends Tool {
                 "Devi rispettare tutte le altre" +
                 " restrizioni di piazzamento");
         super.setName("Alesatore per lamina di rame");
+        super.setValue(3);
     }
     public boolean effect(Slot slot1, Slot slot2) {
         if(!isUsed()) {
@@ -72,4 +73,5 @@ public class ToolCard3 extends Tool {
             return false;
         }
     }
+
 }

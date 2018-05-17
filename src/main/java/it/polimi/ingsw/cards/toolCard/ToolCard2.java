@@ -12,6 +12,7 @@ public class ToolCard2 extends Tool {
                 "Devi rispettare tutte le altre" +
                 " restrizioni di piazzamento");
         super.setName("Pennello per Eglomise");
+        super.setValue(2);
     }
 
     public boolean effect(Slot slot1, Slot slot2) {

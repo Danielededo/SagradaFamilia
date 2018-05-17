@@ -10,6 +10,7 @@ public class ToolCard5 extends Tool {
                 "scambia quel dado con un dado" +
                 "sul Tracciato dei Round");
         super.setName("Taglierina circolare");
+        super.setValue(5);
     }
     public boolean effect(Die fromStock, Die fromRoundTrack,Match match){
         if(!isUsed()) {
@@ -39,4 +40,5 @@ public class ToolCard5 extends Tool {
         match.getStock().getDicestock().add(d);
         return true;
     }
+
 }
