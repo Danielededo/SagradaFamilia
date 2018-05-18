@@ -4,6 +4,7 @@ public abstract class Card {
     private int value;
     private String name;
 
+
     @Override
     public abstract String toString();
     public int getValue() {

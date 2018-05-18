@@ -24,7 +24,7 @@ public class testToolCard4 {
         a.getWindow().getSlot(1,2).setDie(c);
         a.getWindow().getSlot(0,3).setDie(d);
         System.out.println(match.getPlayers().get(0).getWindow().toString());
-        if (toolCard4.effect(a.getWindow().getSlot(1,2),a.getWindow().getSlot(1,0),a.getWindow().getSlot(0,3),a.getWindow().getSlot(2,0))){
+        if (toolCard4.effect(null,null,false,null,null,a.getWindow().getSlot(1,2),a.getWindow().getSlot(1,0),a.getWindow().getSlot(0,3),a.getWindow().getSlot(2,0),0)){
             System.out.println("operazione riuscita");
         }else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());

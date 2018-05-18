@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cards.toolCard;
 
+import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard1 extends Tool{
     public ToolCard1() {
@@ -15,8 +18,8 @@ public class ToolCard1 extends Tool{
     }
 
 
-
-    public boolean effect(Die die, boolean piumeno) {
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -36,21 +39,20 @@ public class ToolCard1 extends Tool{
                 }
             }
         }
-        if((die.getFace()==1 && !piumeno)|| (die.getFace()==6 && piumeno)) {
+        if((dado1.getFace()==1 && !piumeno)|| (dado1.getFace()==6 && piumeno)) {
             System.out.println("Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado");
             return false;
         }
         else
         if(piumeno){
             setUsed(false);
-            die.setFace(die.getFace()+1);
+            dado1.setFace(dado1.getFace()+1);
             return true;
         }
         else{
             setUsed(false);
-            die.setFace(die.getFace()-1);
+            dado1.setFace(dado1.getFace()-1);
             return true;
         }
     }
-
 }

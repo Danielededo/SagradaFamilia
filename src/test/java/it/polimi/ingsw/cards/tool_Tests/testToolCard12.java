@@ -56,7 +56,7 @@ public class testToolCard12 {
 
 
         //ayo let's go
-        carta.effect(partita, carta.getPlayer().getWindow().getSlot(1,2), carta.getPlayer().getWindow().getSlot(2,1));
+        carta.effect(null,null,false,partita,null, carta.getPlayer().getWindow().getSlot(1,2), null, carta.getPlayer().getWindow().getSlot(2,1), null,0);
 
         assertEquals(Colour.GREEN, carta.getPlayer().getWindow().getSlot(2,1).getDice().getDicecolor());
         assertEquals(false, carta.getPlayer().getWindow().getSlot(1,2).isOccupate());

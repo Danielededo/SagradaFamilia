@@ -3,7 +3,9 @@ package it.polimi.ingsw.cards.toolCard;
 import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Rules;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard4 extends Tool {
     public ToolCard4() {
@@ -14,7 +16,8 @@ public class ToolCard4 extends Tool {
         super.setValue(4);
     }
 
-    public boolean effect(Slot slot1, Slot slot2, Slot slot3, Slot slot4) {
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         boolean e = false, f = false;
         if (!isUsed()) {
             if (!this.isAccessed()) {

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.cards.toolCard;
 
+import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Stock;
 
 public class ToolCard7 extends Tool {
@@ -12,7 +14,9 @@ public class ToolCard7 extends Tool {
         super.setName("Martelletto");
         super.setValue(7);
     }
-    public boolean effect(Stock stock){
+
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {

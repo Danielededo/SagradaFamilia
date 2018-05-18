@@ -1,8 +1,10 @@
 package it.polimi.ingsw.cards.toolCard;
 
+import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard5 extends Tool {
     public ToolCard5() {
@@ -12,7 +14,9 @@ public class ToolCard5 extends Tool {
         super.setName("Taglierina circolare");
         super.setValue(5);
     }
-    public boolean effect(Die fromStock, Die fromRoundTrack,Match match){
+
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -32,12 +36,12 @@ public class ToolCard5 extends Tool {
                 }
             }
         }
-        int i=match.getRoundTrack().indexOf(fromRoundTrack);
+        int i=partita.getRoundTrack().indexOf(dado2);
         Die d;
-        d = match.getRoundTrack().get(i);
-        match.getRoundTrack().set(i,fromStock);
-        match.getStock().getDicestock().remove(fromStock);
-        match.getStock().getDicestock().add(d);
+        d = partita.getRoundTrack().get(i);
+        partita.getRoundTrack().set(i,dado1);
+        partita.getStock().getDicestock().remove(dado1);
+        partita.getStock().getDicestock().add(d);
         return true;
     }
 

@@ -20,7 +20,7 @@ public class testToolCard5 {
         match.getRoundTrack().add(c);
         match.getStock().setDicestock(match.getSack().extractfromSack(match));
         System.out.println(match.getStock().toString());
-        if (tool.effect(match.getStock().getDicestock().get(0),c,match)){
+        if (tool.effect(match.getStock().getDicestock().get(0),c,false,match, null,null,null,null,null,0)){
             System.out.println("operzione riuscita");
         }else System.out.println("operazione fallita");
         match.getStock().show_riserva();

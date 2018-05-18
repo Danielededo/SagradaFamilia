@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cards.toolCard;
 
+import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard6 extends Tool {
     public ToolCard6() {
@@ -12,7 +15,8 @@ public class ToolCard6 extends Tool {
         super.setValue(6);
     }
 
-    public boolean effect(Die die){
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -32,7 +36,7 @@ public class ToolCard6 extends Tool {
                 }
             }
         }
-        die.randomdado();
+        dado1.randomdado();
         return true;
     }
 

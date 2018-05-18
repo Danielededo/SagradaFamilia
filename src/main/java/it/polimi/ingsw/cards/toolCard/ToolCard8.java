@@ -3,7 +3,9 @@ package it.polimi.ingsw.cards.toolCard;
 import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Rules;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard8 extends Tool {
     public ToolCard8() {
@@ -14,7 +16,8 @@ public class ToolCard8 extends Tool {
         super.setValue(8);
     }
 
-    public boolean effect(Die die, Slot slot){
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -35,9 +38,9 @@ public class ToolCard8 extends Tool {
             }
         }
         Rules rules=new Rules();
-        if (getPlayer().getContTurn()==1 && !slot.isOccupate()){
-            getPlayer().setWindow(rules.diePlacing(getPlayer(),slot,die));
-            if (slot.isOccupate()){
+        if (getPlayer().getContTurn()==1 && !slot1.isOccupate()){
+            getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,dado1));
+            if (slot1.isOccupate()){
                 getPlayer().setMissednext_turn(true);
                 return true;
             }else {

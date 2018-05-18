@@ -3,8 +3,9 @@ package it.polimi.ingsw.cards.toolCard;
 import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
-import it.polimi.ingsw.game.Player;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Rules;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard9 extends Tool {
     public ToolCard9() {
@@ -17,7 +18,8 @@ public class ToolCard9 extends Tool {
         super.setValue(9);
     }
 
-    public boolean effect(Player giocatore, Die dado, Slot choice){
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -38,24 +40,24 @@ public class ToolCard9 extends Tool {
             }
         }
         Rules r = new Rules();
-        if(!r.occupiedSlot(choice)){
+        if(!r.occupiedSlot(slot1)){
             System.out.println("Questo slot è occupato, scegli un altro slot.");
             return false;
         }
-        if(!r.colourCheck(choice.getSlotcolour(), dado.getDicecolor())){
+        if(!r.colourCheck(slot1.getSlotcolour(), dado1.getDicecolor())){
             System.out.println("Non puoi mettere un dado di questo colore in questo slot, scegli un altro slot.");
             return false;
         }
-        if(!r.numberCheck(choice.getValue(), dado.getFace())){
+        if(!r.numberCheck(slot1.getValue(), dado1.getFace())){
             System.out.println("Non puoi mettere un dado con questa faccia in questo slot, scegli un altro slot.");
             return false;
         }
 
-        if(!giocatore.getWindow().getSlot(choice.getLine() - 1, choice.getColumn()).isOccupate()) {
-            if (!giocatore.getWindow().getSlot(choice.getLine(), choice.getColumn() + 1).isOccupate()) {
-                if (!giocatore.getWindow().getSlot(choice.getLine() + 1, choice.getColumn()).isOccupate()) {
-                    if (!giocatore.getWindow().getSlot(choice.getLine(), choice.getColumn() - 1).isOccupate()) {
-                        giocatore.getWindow().getSlot(choice.getLine(), choice.getColumn()).setDie(dado);
+        if(!super.getPlayer().getWindow().getSlot(slot1.getLine() - 1, slot1.getColumn()).isOccupate()) {
+            if (!super.getPlayer().getWindow().getSlot(slot1.getLine(), slot1.getColumn() + 1).isOccupate()) {
+                if (!super.getPlayer().getWindow().getSlot(slot1.getLine() + 1, slot1.getColumn()).isOccupate()) {
+                    if (!super.getPlayer().getWindow().getSlot(slot1.getLine(), slot1.getColumn() - 1).isOccupate()) {
+                        super.getPlayer().getWindow().getSlot(slot1.getLine(), slot1.getColumn()).setDie(dado1);
                         return true;
                     }
                 }

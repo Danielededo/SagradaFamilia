@@ -4,7 +4,9 @@ import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Rules;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard3 extends Tool {
     public ToolCard3() {
@@ -16,7 +18,9 @@ public class ToolCard3 extends Tool {
         super.setName("Alesatore per lamina di rame");
         super.setValue(3);
     }
-    public boolean effect(Slot slot1, Slot slot2) {
+
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {

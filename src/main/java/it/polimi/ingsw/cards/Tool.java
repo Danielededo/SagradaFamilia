@@ -1,13 +1,19 @@
 package it.polimi.ingsw.cards;
 
+import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
+import it.polimi.ingsw.game.Stock;
 
-public class Tool extends Card{
+public abstract class Tool extends Card{
     private boolean accessed=false;
     private boolean used=false;  //for the payment of the favor token, if use==true the payment has already happened
     private String name;
     private String effect;
     private Player player;
+
+
+
 
     public void setAccessed(boolean accessed) {
         this.accessed = accessed;
@@ -50,9 +56,7 @@ public class Tool extends Card{
         return used;
     }
 
-    public boolean effect(){
-        return false;
-    }
+    public abstract boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value);
 
 
 

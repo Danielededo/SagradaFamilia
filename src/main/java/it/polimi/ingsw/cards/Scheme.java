@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Scheme extends Card {
+public class Scheme {
     private final int dimension = 24;
     private GlassWindow[] glasswindow= new GlassWindow[dimension];
 

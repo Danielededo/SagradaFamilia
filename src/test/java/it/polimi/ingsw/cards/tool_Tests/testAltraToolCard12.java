@@ -7,10 +7,10 @@ import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class testAltraToolCard12 {
 
@@ -55,7 +55,7 @@ public class testAltraToolCard12 {
         partita.getRules().diePlacing(a,a.getWindow().getSlot(0,4),cin);
 
 
-        carta.effetto12(partita,carta.getPlayer().getWindow().getSlot(0,1),carta.getPlayer().getWindow().getSlot(1,0), carta.getPlayer().getWindow().getSlot(1,3), carta.getPlayer().getWindow().getSlot(2,1));
+        carta.effect(null,null,false,partita,null, carta.getPlayer().getWindow().getSlot(0,1),carta.getPlayer().getWindow().getSlot(1,0), carta.getPlayer().getWindow().getSlot(1,3), carta.getPlayer().getWindow().getSlot(2,1),0);
         assertEquals(Colour.PURPLE, carta.getPlayer().getWindow().getSlot(2,1).getDice().getDicecolor());
         assertEquals(null, carta.getPlayer().getWindow().getSlot(1,0).getDice());
 

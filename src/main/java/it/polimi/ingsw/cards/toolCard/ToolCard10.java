@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cards.toolCard;
 
+import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
+import it.polimi.ingsw.game.Match;
+import it.polimi.ingsw.game.Stock;
 
 public class ToolCard10 extends Tool {
     public ToolCard10() {
@@ -12,7 +15,8 @@ public class ToolCard10 extends Tool {
         super.setValue(10);
     }
 
-    public boolean effect(Die dado){
+    @Override
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -32,19 +36,19 @@ public class ToolCard10 extends Tool {
                 }
             }
         }
-        int faccia = dado.getFace();
+        int faccia = dado1.getFace();
         switch (faccia){
-            case 1: {dado.setFace(6);
+            case 1: {dado1.setFace(6);
                      break;}
-            case 2: {dado.setFace(5);
+            case 2: {dado1.setFace(5);
                      break;}
-            case 3: {dado.setFace(4);
+            case 3: {dado1.setFace(4);
                      break;}
-            case 4: {dado.setFace(3);
+            case 4: {dado1.setFace(3);
                      break;}
-            case 5: {dado.setFace(2);
+            case 5: {dado1.setFace(2);
                      break;}
-            case 6: {dado.setFace(1);
+            case 6: {dado1.setFace(1);
                      break;}
         }
         return true;

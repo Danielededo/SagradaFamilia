@@ -39,6 +39,7 @@ public class Match {
         while(round!=11){
             Round round= new Round(match);
             for(int i=0; i<2*getnumberPlayers();i++){
+                round.getTurns().get(i).doTurn(match,round,i);
 
             }
             fineRound();

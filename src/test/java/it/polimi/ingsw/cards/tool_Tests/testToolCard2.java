@@ -26,7 +26,7 @@ public class testToolCard2 {
         System.out.println(match.getPlayers().get(0).getWindow().toString());
         ToolCard2 tool= new ToolCard2();
         tool.setPlayer(match.getPlayers().get(0));
-        if (tool.effect(tool.getPlayer().getWindow().getSlot(2,2),tool.getPlayer().getWindow().getSlot(0,1))){
+        if (tool.effect(null,null,false,null,null,tool.getPlayer().getWindow().getSlot(2,2),tool.getPlayer().getWindow().getSlot(0,1),null,null,0)){
             System.out.println("operazione riuscita");
         }else System.out.println("operazione fallita");
         System.out.println(match.getPlayers().get(0).getWindow().toString());

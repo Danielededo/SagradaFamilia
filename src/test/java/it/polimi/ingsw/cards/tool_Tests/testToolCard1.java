@@ -18,7 +18,7 @@ public class testToolCard1 {
         match.getStock().setDicestock(match.getSack().extractfromSack(match));
         tool.setPlayer(match.getPlayers().get(0));
         System.out.println(match.getStock().toString());
-        if (tool.effect(match.getStock().getDicestock().get(0),false)){
+        if (tool.effect(match.getStock().getDicestock().get(0),null,false,null,null,null,null,null,null,0)){
             System.out.println("operazione eseguita");
         }else System.out.println("operazione fallita");
         System.out.println(match.getStock().toString());
