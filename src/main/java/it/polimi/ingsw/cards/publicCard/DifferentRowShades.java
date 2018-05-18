@@ -14,14 +14,14 @@ public class DifferentRowShades extends PublicObject {
     private int numberrow(Player player) {
         int cont=0;
         int cont1=0;
-        for (int i=0;i<4;i++){
+        for (int i=0;i<width;i++){
             int[] array={1,2,3,4,5,6};
-            for (int j=0;j<5;j++){
+            for (int j=0;j<height;j++){
                 if (player.getWindow().getSlot(i,j).isOccupate()){
                     array[player.getWindow().getSlot(i,j).getDice().getFace()-1]=0;
                 }
             }
-            for (int z=0;z<6;z++) {
+            for (int z=0;z<height+1;z++) {
                 if (array[z]!=0) {
                     cont1++;
                 }

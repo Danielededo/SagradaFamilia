@@ -15,8 +15,8 @@ public class VarietyofColour extends PublicObject {
     private int numberofset(Player player){
         int[] cont={0,0,0,0,0};
         int min=0;
-        for (int i=0;i<4;i++){
-            for (int j=0;j<5;j++){
+        for (int i=0;i<width;i++){
+            for (int j=0;j<height;j++){
                 if (player.getWindow().getSlot(i,j).isOccupate()){
                     if (player.getWindow().getSlot(i,j).getDice().getDicecolor()== Colour.RED) cont[0]++;
                     if (player.getWindow().getSlot(i,j).getDice().getDicecolor()== Colour.PURPLE) cont[1]++;
@@ -27,7 +27,7 @@ public class VarietyofColour extends PublicObject {
             }
         }
         min=cont[0];
-        for (int i=1;i<5;i++){
+        for (int i=1;i<height+1;i++){
             if (cont[i]<min) min=cont[i];
         }
         return min;

@@ -5,6 +5,8 @@ import it.polimi.ingsw.game.Player;
 public abstract class PublicObject extends Card{
     private String effect;
     private int punteggio;
+    protected final int width=4;
+    protected final int height=5;
 
     public int getPunteggio() {
         return punteggio;

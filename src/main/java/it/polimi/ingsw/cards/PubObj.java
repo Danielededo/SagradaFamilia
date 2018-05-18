@@ -34,7 +34,8 @@ public class PubObj {
     public ArrayList<PublicObject> extractPubObj(){
         ArrayList<PublicObject> publicObjects = new ArrayList<PublicObject>();
         int i=0;
-        while(i<3){
+        final int number=3;
+        while(i<number){
             Random random = new Random();
             int k = random.nextInt(publicObject.length);
             if(publicObject[k]!=null){

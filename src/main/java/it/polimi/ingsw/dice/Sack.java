@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Sack{
     private ArrayList<Die> dice=new ArrayList<Die>();
+    private final int numberDice=18;
 
     public int getsize() {
         return dice.size();
@@ -25,7 +26,7 @@ public class Sack{
     }
 
     private void createpurple() {
-        for (int i=0;i<18;i++){
+        for (int i=0;i<numberDice;i++){
             Die dadop=new Die();
             dadop.setDicecolor(Colour.PURPLE);
             dice.add(dadop);
@@ -33,7 +34,7 @@ public class Sack{
     }
 
     private void createyellowdice() {
-        for (int i=0;i<18;i++){
+        for (int i=0;i<numberDice;i++){
             Die dadoy=new Die();
             dadoy.setDicecolor(Colour.YELLOW);
             dice.add(dadoy);
@@ -41,7 +42,7 @@ public class Sack{
     }
 
     private void creategreendice() {
-        for (int i=0;i<18;i++){
+        for (int i=0;i<numberDice;i++){
             Die dadog=new Die();
             dadog.setDicecolor(Colour.GREEN);
             dice.add(dadog);
@@ -49,7 +50,7 @@ public class Sack{
     }
 
     private void createbluedice() {
-        for (int i=0;i<18;i++){
+        for (int i=0;i<numberDice;i++){
             Die dadob=new Die();
             dadob.setDicecolor(Colour.BLUE);
             dice.add(dadob);
@@ -57,7 +58,7 @@ public class Sack{
     }
 
     private void createreddice() {
-        for (int i=0;i<18;i++){
+        for (int i=0;i<numberDice;i++){
             Die dador=new Die();
             dador.setDicecolor(Colour.RED);
             dice.add(dador);

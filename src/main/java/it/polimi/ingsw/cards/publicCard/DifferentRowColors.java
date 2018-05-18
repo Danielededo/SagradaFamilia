@@ -17,13 +17,13 @@ public class DifferentRowColors extends PublicObject {
     private int numerorighe(Player player) {
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
-        for (int i=0;i<4;i++){
+        for (int i=0;i<width;i++){
             colori.add(Colour.RED);
             colori.add(Colour.BLUE);
             colori.add(Colour.YELLOW);
             colori.add(Colour.GREEN);
             colori.add(Colour.PURPLE);
-            for (int j=0;j<5;j++){
+            for (int j=0;j<height;j++){
                 if (player.getWindow().getSlot(i,j).isOccupate() &&
                         colori.contains(player.getWindow().getSlot(i,j).getDice().getDicecolor())){
                     colori.remove(player.getWindow().getSlot(i,j).getDice().getDicecolor());

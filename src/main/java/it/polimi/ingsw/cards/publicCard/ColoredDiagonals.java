@@ -12,8 +12,8 @@ public class ColoredDiagonals extends PublicObject {
 
     public int calcola_punteggio(Player player) {
         int cont=0;
-        for (int i=1;i<3;i++){
-            for (int j=1;j<4;j++){
+        for (int i=1;i<width-1;i++){
+            for (int j=1;j<width;j++){
                 if (player.getWindow().getSlot(i,j).isOccupate()){
                     if (player.getWindow().getSlot(i,j).getDice().getDicecolor()==player.getWindow().getSlot(i-1,j-1).getDice().getDicecolor()) {
                         cont++;
@@ -27,7 +27,7 @@ public class ColoredDiagonals extends PublicObject {
                 }
             }
         }
-        for (int i=1;i<4;i++){
+        for (int i=1;i<width;i++){
             if (player.getWindow().getSlot(0,i).isOccupate()){
                 if (player.getWindow().getSlot(0,i).getDice().getDicecolor()==player.getWindow().getSlot(1,i-1).getDice().getDicecolor()){
                     cont++;
@@ -36,7 +36,7 @@ public class ColoredDiagonals extends PublicObject {
                 }
             }
         }
-        for (int i=1;i<3;i++){
+        for (int i=1;i<width-1;i++){
             if (player.getWindow().getSlot(i,4).isOccupate()){
                 if (player.getWindow().getSlot(i,4).getDice().getDicecolor()==player.getWindow().getSlot(i-1,3).getDice().getDicecolor()){
                     cont++;
@@ -45,7 +45,7 @@ public class ColoredDiagonals extends PublicObject {
                 }
             }
         }
-        for (int i=1;i<4;i++){
+        for (int i=1;i<width;i++){
             if (player.getWindow().getSlot(3,i).isOccupate()){
                 if (player.getWindow().getSlot(3,i).getDice().getDicecolor()==player.getWindow().getSlot(2,i-1).getDice().getDicecolor()){
                     cont++;
@@ -54,7 +54,7 @@ public class ColoredDiagonals extends PublicObject {
                 }
             }
         }
-        for (int i=1;i<3;i++){
+        for (int i=1;i<width-1;i++){
             if (player.getWindow().getSlot(i,0).isOccupate()){
                 if (player.getWindow().getSlot(i,0).getDice().getDicecolor()==player.getWindow().getSlot(i-1,1).getDice().getDicecolor()){
                     cont++;

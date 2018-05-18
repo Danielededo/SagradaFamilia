@@ -13,8 +13,8 @@ public class MediumShades extends PublicObject {
 
     private int numberofset(Player player){
         int cont1=0,cont2=0;
-        for (int i=0;i<4;i++){
-            for (int j=0;j<5;j++){
+        for (int i=0;i<width;i++){
+            for (int j=0;j<height;j++){
                 if (player.getWindow().getSlot(i,j).isOccupate()){
                     if (player.getWindow().getSlot(i,j).getDice().getFace()==3) cont1++;
                     if (player.getWindow().getSlot(i,j).getDice().getFace()==4) cont2++;

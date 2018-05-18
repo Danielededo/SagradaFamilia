@@ -17,13 +17,13 @@ public class DifferentColumnsColors extends PublicObject {
     private int numerocolonne(Player player){
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
-        for (int i=0;i<5;i++){
+        for (int i=0;i<height;i++){
             colori.add(Colour.RED);
             colori.add(Colour.BLUE);
             colori.add(Colour.YELLOW);
             colori.add(Colour.GREEN);
             colori.add(Colour.PURPLE);
-            for (int j=0;j<4;j++){
+            for (int j=0;j<width;j++){
                 if (player.getWindow().getSlot(j,i).isOccupate() &&
                         colori.contains(player.getWindow().getSlot(j,i).getDice().getDicecolor())){
                     colori.remove(player.getWindow().getSlot(j,i).getDice().getDicecolor());

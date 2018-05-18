@@ -15,14 +15,14 @@ public class DifferentColumnShades extends PublicObject {
     private int numbercolumn(Player player){
         int cont=0;
         int cont1=0;
-        for (int i=0;i<5;i++){
+        for (int i=0;i<height;i++){
             int[] array={1,2,3,4,5,6};
-            for (int j=0;j<4;j++){
+            for (int j=0;j<width;j++){
                 if (player.getWindow().getSlot(j,i).isOccupate()){
                     array[player.getWindow().getSlot(j,i).getDice().getFace()-1]=0;
                 }
             }
-            for (int z=0;z<6;z++) {
+            for (int z=0;z<height+1;z++) {
                 if (array[z]!=0) {
                     cont1++;
                 }

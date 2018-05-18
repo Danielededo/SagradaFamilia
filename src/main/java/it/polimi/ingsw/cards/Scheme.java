@@ -66,7 +66,8 @@ public class Scheme extends Card {
         GlassWindow temp1,temp2;
         ArrayList<GlassWindow> glasses = new ArrayList<GlassWindow>();
         int i=0;
-        while(i<2) {
+        final int number=2;
+        while(i<number) {
             Random random = new Random();
             int k = random.nextInt(glasswindow.length);
             if(glasswindow[k]!=null) {
