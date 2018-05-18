@@ -39,8 +39,8 @@ public class GlassWindow  {
     @Override
     public String toString() {
         String string = "\n";
-        for (int i=0;i<4;i++){
-            for (int j=0;j<5;j++){
+        for (int i=0;i<width;i++){
+            for (int j=0;j<height;j++){
                 string += scheme[i][j].toString()+ "\t";
             }
             string+="\n";
