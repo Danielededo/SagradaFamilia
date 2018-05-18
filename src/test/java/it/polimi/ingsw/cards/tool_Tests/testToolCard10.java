@@ -15,7 +15,7 @@ public class testToolCard10 {
         ToolCard10 carta10 = new ToolCard10();
         carta10.setUsed(true);
 
-        carta10.effetto(dado);
+        carta10.effect(dado);
 
         assertEquals(3,dado.getFace());
     }
