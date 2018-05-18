@@ -3,6 +3,7 @@ package it.polimi.ingsw.rete;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,12 +27,12 @@ public class Waiting_Room {
         return players.size();
     }
 
-    public void addPlayer(String player) {
+    public void addPlayer(String player) throws RemoteException {
         if (status_verify()) {
             Player player1=new Player(player);
             players.add(player1);
-            if (this.players.size()>=2)
-                attesa_partita();
+            if (this.players.size()==2)
+            attesa_partita();
         }else System.out.println("Max giocatori");
     }
 
@@ -66,17 +67,17 @@ public class Waiting_Room {
                 System.out.println(n);
                 if (++n == 61) {
                     timer.cancel();
-                    if (server.getCont()<2){
+                    if (players.size()<2){
                         System.out.println("A player has been disconnected wait until another connect himself");
                         attesa_partita();
                     }
-                    if (server.getCont()==2){
+                    if (players.size()==2){
                         match=new Match(players.get(0),players.get(1));
                         server.setMatch(match);
-                    }else if (server.getCont()==3) {
+                    }else if (players.size()==3) {
                         match=new Match(players.get(0),players.get(1),players.get(2));
                         server.setMatch(match);
-                    }else if (server.getCont()==4){
+                    }else if (players.size()==4){
                         match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
                         server.setMatch(match);
                     }

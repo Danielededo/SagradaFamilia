@@ -6,19 +6,18 @@ import it.polimi.ingsw.game.Player;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteServer;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class Server implements ServerInt{
     static int PORT=8080;
     protected Match match;
-    private int cont=0;
     private Server obj;
     private Waiting_Room room=new Waiting_Room(obj);
+    private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     private Registry registry;
 
-    public int getCont() {
-        return cont;
-    }
 
     public void start_server(){
         try{
@@ -41,38 +40,44 @@ public class Server implements ServerInt{
         this.match = match;
     }
 
+    @Override
+    public void removeObserver(ClientInt o) throws RemoteException {
+        listofobserver.remove(o);
+    }
 
-    public boolean login(String player) throws RemoteException {
-        try {
+    @Override
+    public void notifyObserver(String arg) throws RemoteException {
+        for (ClientInt c:listofobserver){
+            c.update(arg);
+        }
+    }
+
+    @Override
+    public void addObserver(ClientInt o) throws RemoteException {
+        listofobserver.add(o);
+        loginconnection(listofobserver.indexOf(o));
+    }
+
+    public void notify(ClientInt o,String arg) throws RemoteException{
+        o.update(arg);
+    }
+
+    public void loginconnection(int index) throws RemoteException {
+        String name=null;
+        int i=0;
+        String nick = null;
+        while (i!=2){
+            nick=listofobserver.get(index).setupconnection();
             for (Player p: room.getPlayers()){
-                if (p.getNickname().equals(player)){
-                    return false;
+                if (p.getNickname().equals(nick)){
+                    notify(listofobserver.get(index),"Nickname già usato da un altro giocatore... try again ->");
+                    i=1;
                 }
             }
-            System.out.println(player + " connected");
-            room.addPlayer(player);
-            cont++;
-            return true;
-        }catch (Exception e){
-            return false;
+            if (i==1) i=0;
+            else if (i==0) i=2;
         }
-    }
-
-    public void show_client_connessi() throws RemoteException {
-        String[] remoteObjects=registry.list();
-        for (int i=0;i<remoteObjects.length;i++){
-            System.out.println(remoteObjects[i]);
-        }
-    }
-
-    public void logout(String player) throws RemoteException {
-        room.deleteplayer(player);
-        cont--;
-        System.err.println(player + " disconnected");
-    }
-
-
-    public String show_waitingroom() throws RemoteException{
-        return room.toString();
+        System.out.println(nick + " connected");
+        room.addPlayer(nick);
     }
 }
