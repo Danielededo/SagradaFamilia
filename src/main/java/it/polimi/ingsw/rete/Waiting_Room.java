@@ -54,7 +54,7 @@ public class Waiting_Room {
     @Override
     public String toString() {
         return "Waiting_Room{" +
-                "players=" + players +
+                "players=" + players+
                 '}';
     }
 
@@ -67,19 +67,27 @@ public class Waiting_Room {
                 System.out.println(n);
                 if (++n == 61) {
                     timer.cancel();
-                    if (players.size()<2){
-                        System.out.println("A player has been disconnected wait until another connect himself");
-                        attesa_partita();
-                    }
                     if (players.size()==2){
                         match=new Match(players.get(0),players.get(1));
-                        server.setMatch(match);
+                        try {
+                            server.setMatch(match);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }else if (players.size()==3) {
                         match=new Match(players.get(0),players.get(1),players.get(2));
-                        server.setMatch(match);
+                        try {
+                            server.setMatch(match);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }else if (players.size()==4){
                         match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
-                        server.setMatch(match);
+                        try {
+                            server.setMatch(match);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

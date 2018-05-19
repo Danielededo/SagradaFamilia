@@ -15,7 +15,6 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         super();
     }
 
-
     public static void main(String[] args) {
         try {
             Client client=new Client();
@@ -25,22 +24,42 @@ public class Client extends UnicastRemoteObject implements ClientInt{
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
-            stub.addObserver(client);
+            if(!stub.addObserver(client)){
+                System.err.println("You have been disconnected");
+                registry=null;
+                stub=null;
+                client=null;
+                System.exit(-1);
+            }
         } catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 
 
-    public void update(String msg) throws RemoteException {
-        System.out.println("Update from server: "+msg);
+    public String getServerIp()throws RemoteException {
+        return serverIP;
     }
 
+    public void update(String msg) throws RemoteException {
+        System.out.println("Server -> "+msg);
+    }
+
+
+    public String setupgame() throws RemoteException{
+        Scanner in=new Scanner(System.in);
+        System.out.println("Press something to start...");
+        String a=in.nextLine();
+        return a;
+    }
     public String setupconnection() throws RemoteException {
         Scanner in=new Scanner(System.in);
         System.out.println("Input your nickname:");
         nickname=in.nextLine();
         return nickname;
     }
+
+
 }
