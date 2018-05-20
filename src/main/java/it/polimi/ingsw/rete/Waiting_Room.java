@@ -60,13 +60,14 @@ public class Waiting_Room {
     }
 
     public void attesa_partita(){
+        final int time=61;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             int n = 1;
             @Override
             public void run() {
                 System.out.println(n);
-                if (++n == 11) {
+                if (++n == time) {
                     timer.cancel();
                     if (players.size()==2){
                         match=new Match(players.get(0),players.get(1));
