@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class ToolCard12 extends Tool {
 
     public ToolCard12() {
-        super.setEffect("Muovi fino a due dadi \n " +
-                "dello stesso colore di un solo dado \n" +
-                "sul Tracciato del Round \n\n" +
-                "Devi rispettare tutte le restrizioni di piazzamento ");
+        super.setEffect("Muovi fino a due dadi " +
+                "dello stesso colore di un solo dado " +
+                "sul Tracciato del Round. " +
+                "Devi rispettare tutte le restrizioni di piazzamento. ");
         super.setName("Taglierina Manuale");
         super.setValue(12);
     }

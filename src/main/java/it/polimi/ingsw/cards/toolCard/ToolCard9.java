@@ -9,11 +9,11 @@ import it.polimi.ingsw.game.Stock;
 
 public class ToolCard9 extends Tool {
     public ToolCard9() {
-        super.setEffect("Dopo aver scelto un dado," +
-                "piazzalo in una casella che" +
-                "non sia adiacente a un altro dado\n\n" +
+        super.setEffect("Dopo aver scelto un dado, " +
+                "piazzalo in una casella che " +
+                "non sia adiacente a un altro dado. " +
                 "Devi rispettare tutte le " +
-                "restrizioni di piazzamento");
+                "restrizioni di piazzamento. ");
         super.setName("Riga in Sughero");
         super.setValue(9);
     }

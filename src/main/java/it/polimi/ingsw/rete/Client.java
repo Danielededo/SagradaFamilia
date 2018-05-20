@@ -38,6 +38,9 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         }
     }
 
+    public String getNickname()throws RemoteException {
+        return nickname;
+    }
 
     public String getServerIp()throws RemoteException {
         return serverIP;
@@ -50,7 +53,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public String setupgame() throws RemoteException{
         Scanner in=new Scanner(System.in);
-        System.out.println("Press something to start...");
+        System.out.println("Choose your schemecard ");
         String a=in.nextLine();
         return a;
     }

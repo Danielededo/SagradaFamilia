@@ -9,11 +9,11 @@ import it.polimi.ingsw.game.Stock;
 
 public class ToolCard11 extends Tool {
     public ToolCard11() {
-        super.setEffect("Dopo aver scelto un dado," +
-                "riponilo nel Sacchetto," +
-                "poi pescane uno dal Sacchetto\n\n" +
-                "Scegli il valore del nuovo dado e piazzalo," +
-                "rispettando tutte le restrizioni di piazzamento");
+        super.setEffect("Dopo aver scelto un dado, " +
+                "riponilo nel Sacchetto, " +
+                "poi pescane uno dal Sacchetto. " +
+                "Scegli il valore del nuovo dado e piazzalo, " +
+                "rispettando tutte le restrizioni di piazzamento. ");
         super.setName("Diluente per Pasta Salda");
         super.setValue(11);
     }

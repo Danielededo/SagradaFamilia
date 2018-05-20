@@ -8,9 +8,9 @@ import it.polimi.ingsw.game.Stock;
 
 public class ToolCard10 extends Tool {
     public ToolCard10() {
-        super.setEffect("Dopo aver scelto un dado," +
-                "giralo sulla faccia opposta\n\n" +
-                "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc.");
+        super.setEffect("Dopo aver scelto un dado, " +
+                "giralo sulla faccia opposta. " +
+                "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc. ");
         super.setName("Tampone Diamantato");
         super.setValue(10);
     }

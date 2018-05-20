@@ -10,9 +10,9 @@ import it.polimi.ingsw.game.Stock;
 public class ToolCard2 extends Tool {
     public ToolCard2() {
         super.setEffect("Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni" +
-                " di colore\n" +
+                " di colore. " +
                 "Devi rispettare tutte le altre" +
-                " restrizioni di piazzamento");
+                " restrizioni di piazzamento. ");
         super.setName("Pennello per Eglomise");
         super.setValue(2);
     }

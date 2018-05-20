@@ -11,7 +11,7 @@ public class ToolCard4 extends Tool {
     public ToolCard4() {
         super.setEffect("Muovi esattamente due dadi," +
                 " rispettando tutte le restrizioni di" +
-                " piazzamento");
+                " piazzamento. ");
         super.setName("Lathekin");
         super.setValue(4);
     }

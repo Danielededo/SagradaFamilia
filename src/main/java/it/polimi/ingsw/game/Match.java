@@ -24,14 +24,14 @@ public class Match {
 
     @Override
     public String toString() {
-        return "Match{" +
+        return "Match{\n" +
                 "players= " + players +
-                ", publictarget= " + publictarget +
-                ", toolcards= " + toolcards +
-                ", stock= " + stock +
+                ",\npublictarget= " + publictarget +
+                ",\ntoolcards= " + toolcards +
+                ",\nstock= " + stock +
                 ", roundTrack= " + roundTrack +
                 ", round= "+ round+
-                '}';
+                '}'+"\n";
     }
 
     public void partita(Match match){
@@ -99,14 +99,13 @@ public class Match {
 
 
     public void setTool() {
-        ArrayList<Tool> tool = new ArrayList<Tool>();
         int i = 0;
         ToolCards t = new ToolCards();
         do {
             Random numero = new Random();
             Tool inserire = t.creatingTool((numero.nextInt(12) + 1));
-            if (!tool.contains(inserire)) {
-                tool.add(inserire);
+            if (!toolcards.contains(inserire)) {
+                toolcards.add(inserire);
             } else {
                 i--;
             }
@@ -179,7 +178,7 @@ public class Match {
     }
 
     private void cardAssignment(){
-        setPlayerswindow();
+        //setPlayerswindow();
         setPrivateObject();
         setPublictarget();
         setTool();

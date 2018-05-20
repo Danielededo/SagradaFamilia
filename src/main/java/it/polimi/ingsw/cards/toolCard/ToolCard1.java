@@ -9,10 +9,10 @@ import it.polimi.ingsw.game.Stock;
 public class ToolCard1 extends Tool{
     public ToolCard1() {
         super.setEffect("Dopo aver scelto un dado," +
-                "aumenta o dominuisci il valore" +
-                "del dado scelto di 1\n" +
-                "Non puoi cambiare" +
-                "un 6 in 1 o un 1 in 6");
+                " aumenta o dominuisci il valore" +
+                " del dado scelto di 1. " +
+                "Non puoi cambiare " +
+                "un 6 in 1 o un 1 in 6. ");
         super.setName("Pinza Sgrossatrice");
         super.setValue(1);
     }

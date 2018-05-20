@@ -12,9 +12,9 @@ public class ToolCard3 extends Tool {
     public ToolCard3() {
         super.setEffect("Muovi un qualsiasi dado nella tua" +
                 " vetrata ignorando le restrizioni" +
-                " di valore\n" +
+                " di valore. " +
                 "Devi rispettare tutte le altre" +
-                " restrizioni di piazzamento");
+                " restrizioni di piazzamento. ");
         super.setName("Alesatore per lamina di rame");
         super.setValue(3);
     }

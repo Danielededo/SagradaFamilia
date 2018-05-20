@@ -20,6 +20,7 @@ public class Waiting_Room {
 
     public Waiting_Room(Server server) {
         this.server=server;
+        this.match=server.match;
         players=new ArrayList<Player>();
     }
 
@@ -65,7 +66,7 @@ public class Waiting_Room {
             @Override
             public void run() {
                 System.out.println(n);
-                if (++n == 61) {
+                if (++n == 11) {
                     timer.cancel();
                     if (players.size()==2){
                         match=new Match(players.get(0),players.get(1));
