@@ -23,6 +23,22 @@ public class Server implements ServerInt{
         this.start = start;
     }
 
+    public void controll() throws RemoteException {
+        String b;
+        for(int i=0;i<listofobserver.size();i++) {
+            b=listofobserver.get(i).getNickname();
+            try {
+                listofobserver.get(i).setupPlayer();
+            } catch (Exception e) {
+                System.out.println(b + " has been disconnected");
+                removeObserver(listofobserver.get(i));
+                room.deleteplayer(b);
+                System.out.println(room.toString());
+                i--;
+            }
+        }
+    }
+
     public void start_server(){
         try{
             String server_name="Sagrada server";
