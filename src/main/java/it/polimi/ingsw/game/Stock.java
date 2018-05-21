@@ -44,8 +44,11 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock{" +
-                "dicestock=" + dicestock +
+        String stringa="";
+        for (Die d:dicestock){
+            stringa+=" ("+dicestock.indexOf(d)+" - "+ d+"),";
+        }
+        return "Stock{" + stringa +
                 '}';
     }
 }

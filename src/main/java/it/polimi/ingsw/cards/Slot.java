@@ -81,52 +81,11 @@ public class Slot {
 
     @Override
     public String toString() {
-        if (slotcolour==Colour.RED) {
-            return "Slot{" +
-                    "line=" + line +
-                    ", column=" + column +
-                    ", value=" + value +
-                    ", slotcolour=" + slotcolour +"   "+
-                    ", dice=" + dice +
-                    ", occupate=" + occupate +
-                    '}';
-        }else if (slotcolour == Colour.BLUE){
-            return "Slot{" +
-                    "line=" + line +
-                    ", column=" + column +
-                    ", value=" + value +
-                    ", slotcolour=" + slotcolour +"  "+
-                    ", dice=" + dice +
-                    ", occupate=" + occupate +
-                    '}';
-        }else if (slotcolour == Colour.GREEN){
-            return "Slot{" +
-                    "line=" + line +
-                    ", column=" + column +
-                    ", value=" + value +
-                    ", slotcolour=" + slotcolour +" "+
-                    ", dice=" + dice +
-                    ", occupate=" + occupate +
-                    '}';
-        }else if (slotcolour == Colour.WHITE){
-            return "Slot{" +
-                    "line=" + line +
-                    ", column=" + column +
-                    ", value=" + value +
-                    ", slotcolour=" + slotcolour +" "+
-                    ", dice=" + dice +
-                    ", occupate=" + occupate +
-                    '}';
-        }else{
-            return "Slot{" +
-                    "line=" + line +
-                    ", column=" + column +
-                    ", value=" + value +
-                    ", slotcolour=" + slotcolour +
-                    ", dice=" + dice +
-                    ", occupate=" + occupate +
-                    '}';
-        }
+        String escape=this.slotcolour.escape();
+        if (!isOccupate()) {
+            if (value != 0) return "("+line+","+column+") "+escape + "[" + value + "]" + Colour.RESET;
+            else return "("+line+","+column+") "+escape + "[ " + "]" + Colour.RESET;
+        }else return "("+line+","+column+") "+escape+dice.toString()+Colour.RESET;
 
     }
 

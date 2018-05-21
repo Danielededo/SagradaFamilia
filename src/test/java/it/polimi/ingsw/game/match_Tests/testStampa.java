@@ -20,8 +20,10 @@ public class testStampa {
         Round round = new Round(game);
         Sack sacktest = new Sack();
         Stock stock = new Stock();
+        stock.setDicestock(sacktest.extractfromSack(game));
         ArrayList<GlassWindow> b;
         Scheme a = new Scheme();
+        System.out.println(stock);
         b = a.extractGlass();
         System.out.println(b);
         c.setWindow(b.get(3));
