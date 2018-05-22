@@ -23,7 +23,7 @@ public class Server implements ServerInt{
         this.start = start;
     }
 
-    public void controll() throws RemoteException {
+    public void control() throws RemoteException {
         String b=null;
         for(int i=0;i<listofobserver.size();i++) {
             try {
@@ -85,7 +85,7 @@ public class Server implements ServerInt{
                     c.update("Your private target is "+match.getPlayers().get(i).getPrivatetarget().toString());
                     j=1;
                 } else
-                    c.update("Please retry");
+                    c.update("Please try again");
             }while (j==0);
             i++;
             j=0;
@@ -136,7 +136,7 @@ public class Server implements ServerInt{
             nick=o.setupconnection();
             for (Player p: room.getPlayers()){
                 if (p.getNickname().equals(nick)){
-                    notify(o,"Nickname già usato da un altro giocatore");
+                    notify(o,"This nickname has already been used");
                     i=1;
                 }
             }
@@ -145,7 +145,7 @@ public class Server implements ServerInt{
         }
         if(start){
             System.out.println(nick+" tried to access");
-            notify(o,"Match already begin");
+            notify(o,"Match already begun");
             return false;
         }
         if(listofobserver.size()<list) {

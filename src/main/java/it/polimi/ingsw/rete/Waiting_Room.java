@@ -70,7 +70,7 @@ public class Waiting_Room {
                 if (++n == time) {
                     timer.cancel();
                     try {
-                        server.controll();
+                        server.control();
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

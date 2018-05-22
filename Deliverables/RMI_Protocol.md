@@ -25,7 +25,7 @@ if there are no problems, the client is added to the players' list,
 which is saved in the "waiting room", an attribute class the server possess, with the method
 
 addPlayer(String player)
-this method starts the main timer when there are two clients successfully connected
+this method starts the main timer when there are at least two clients successfully connected
 
 attesa_partita()
 this method controls at the same time:
