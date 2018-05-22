@@ -1,10 +1,8 @@
 package it.polimi.ingsw.cards.privateObject_Test;
 
-import org.junit.jupiter.api.Test;
-
 public class PrivateObjectRunner {
 
-    @Test
+    /*@Test
     public void runPrivateObj(){
         testCalcoloScore calcolo = new testCalcoloScore();
         calcolo.testacalculate_score();
@@ -12,5 +10,5 @@ public class PrivateObjectRunner {
         testObiettivi fungono = new testObiettivi();
         fungono.testaobiettivi();
 
-    }
+    }*/
 }

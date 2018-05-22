@@ -1,9 +1,7 @@
 package it.polimi.ingsw.game.match_Tests;
 
-import org.junit.jupiter.api.Test;
-
 public class MatchRunner {
-    @Test
+    /*@Test
     public void runThisMatch(){
         RuotaTurni2 ruota = new RuotaTurni2();
         ruota.rotateturn2Players();
@@ -16,5 +14,5 @@ public class MatchRunner {
 
         testStampa stampa = new testStampa();
         stampa.print();
-    }
+    }*/
 }

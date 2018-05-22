@@ -1,10 +1,8 @@
 package it.polimi.ingsw.cards.glasswindow_Tests;
 
-import org.junit.jupiter.api.Test;
-
 public class GlassWindowRunner {
 
-        @Test
+        /*@Test
         public void runGlassWindow(){
             testCreateWindow creazione = new testCreateWindow();
             creazione.testCreateWindow();
@@ -14,5 +12,5 @@ public class GlassWindowRunner {
 
             testRiempimentoWindow riempio = new testRiempimentoWindow();
             riempio.testRiempimento();
-        }
+        }*/
     }

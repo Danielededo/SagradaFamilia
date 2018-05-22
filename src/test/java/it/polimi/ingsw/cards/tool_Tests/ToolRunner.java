@@ -1,10 +1,8 @@
 package it.polimi.ingsw.cards.tool_Tests;
 
-import org.junit.jupiter.api.Test;
-
 public class ToolRunner {
 
-    @Test
+    /*@Test
     public void runThatTool(){
         testToolCard1 toolCard1 = new testToolCard1();
         toolCard1.effectToolCard1();
@@ -35,5 +33,5 @@ public class ToolRunner {
 
         testAltraToolCard12 tool12 = new testAltraToolCard12();
         tool12.testAgain();
-    }
+    }*/
 }

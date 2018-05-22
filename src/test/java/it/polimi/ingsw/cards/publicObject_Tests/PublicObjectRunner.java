@@ -1,9 +1,7 @@
 package it.polimi.ingsw.cards.publicObject_Tests;
 
-import org.junit.jupiter.api.Test;
-
 public class PublicObjectRunner {
-    @Test
+    /*@Test
     public void runPublic(){
         testClearShades clear = new testClearShades();
         clear.test_clear_shades();
@@ -22,5 +20,5 @@ public class PublicObjectRunner {
 
         testDiversiValoriRiga valoriga = new testDiversiValoriRiga();
         valoriga.testadifferent_rowShades();
-    }
+    }*/
 }

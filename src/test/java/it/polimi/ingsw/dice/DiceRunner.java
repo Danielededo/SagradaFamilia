@@ -1,9 +1,7 @@
 package it.polimi.ingsw.dice;
 
-import org.junit.jupiter.api.Test;
-
 public class DiceRunner {
-    @Test
+    /*@Test
     public void runDice(){
         Die_Tests dado = new Die_Tests();
         dado.setDice();
@@ -13,5 +11,5 @@ public class DiceRunner {
 
         testSackSize size = new testSackSize();
         size.sacksize();
-    }
+    }*/
 }
