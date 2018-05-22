@@ -69,7 +69,18 @@ public class Waiting_Room {
                 System.out.println(n);
                 if (++n == time) {
                     timer.cancel();
-                    if (players.size()==2){
+                    try {
+                        server.controll();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    if(players.size()==1){
+                        try {
+                            server.notifyObserver("Wait before a player join");
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }else if (players.size()==2){
                         match=new Match(players.get(0),players.get(1));
                         try {
                             server.setMatch(match);

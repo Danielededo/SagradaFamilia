@@ -23,6 +23,9 @@ public class Sack{
         creategreendice();
         createyellowdice();
         createpurple();
+        for (Die d:dice){
+            d.randomdado();
+        }
     }
 
     private void createpurple() {

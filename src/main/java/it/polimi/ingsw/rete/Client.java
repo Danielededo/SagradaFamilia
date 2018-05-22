@@ -5,6 +5,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client extends UnicastRemoteObject implements ClientInt{
     private String nickname;
@@ -50,6 +52,28 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         System.out.println("Server -> "+msg);
     }
 
+    public String setupPlayer()throws RemoteException{
+        final int tim=11;
+        System.out.println("Press something to confirm your presence ");
+        Scanner in=new Scanner(System.in);
+        String b="";
+        final String finalB = b;
+        TimerTask task = new TimerTask(){
+            public void run()
+            {
+                if( finalB.equals(""))
+                {
+                    System.out.println( "You input nothing. Exit..." );
+                    System.exit(-1);
+                }
+            }
+        };
+        Timer timer= new Timer();
+        timer.schedule(task,tim*1000);
+        b = in.nextLine();
+        timer.cancel();
+        return b;
+    }
 
     public String setupgame() throws RemoteException{
         Scanner in=new Scanner(System.in);
@@ -63,6 +87,5 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         nickname=in.nextLine();
         return nickname;
     }
-
 
 }
