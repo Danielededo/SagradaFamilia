@@ -24,15 +24,15 @@ public class Server implements ServerInt{
     }
 
     public void controll() throws RemoteException {
-        String b;
+        String b=null;
         for(int i=0;i<listofobserver.size();i++) {
-            b=listofobserver.get(i).getNickname();
             try {
                 listofobserver.get(i).setupPlayer();
             } catch (Exception e) {
+                b=room.getPlayers().get(i).getNickname();
                 System.out.println(b + " has been disconnected");
-                removeObserver(listofobserver.get(i));
                 room.deleteplayer(b);
+                removeObserver(listofobserver.get(i));
                 System.out.println(room.toString());
                 i--;
             }
@@ -40,6 +40,7 @@ public class Server implements ServerInt{
     }
 
     public void start_server(){
+        boolean gone=true;
         try{
             String server_name="Sagrada server";
             obj =new Server();
@@ -48,12 +49,13 @@ public class Server implements ServerInt{
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
             System.err.println(server_name + " ready");
-            while (true) {
+            while (gone) {
 
             }
         }catch (Exception e){
             System.err.println("Server exception:   " + e.toString());
             e.printStackTrace();
+            gone=false;
         }
     }
 
