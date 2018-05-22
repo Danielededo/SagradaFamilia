@@ -28,9 +28,14 @@ addPlayer(String player)
 this method starts the main timer when there are at least two clients successfully connected
 
 attesa_partita()
-this method controls at the same time:
-if there are enough clients still connected an, if that's true, it creates the match
+this method calls
 
+control()
+this method see that every client is still connected when it's time to start the match, thanks to
+
+->
+setupPlayer
+a method that askes the client to input a string so to know they are still there
 
 <-
 setupconnection
@@ -59,5 +64,3 @@ thanks to
 ->
 setupgame()
 the client can choose a scheme card
-->setupPlayer
-the client can let the server know they are still connected and ready to play
