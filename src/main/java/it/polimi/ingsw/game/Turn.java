@@ -16,14 +16,14 @@ public class Turn {
 
 
     public void doTurn(Match partita, Round round, int i){
-        System.out.println("Choose what to do during your turn: \n0: saltare il turno; \n1: piazzare un dado della riserva; \n2: usare una carta tool; \n3: piaare un dado e unsare una carta tool;");
         Scanner sc = new Scanner(System.in);
         int scelta = sc.nextInt();
         switch (scelta){
             case 0: {System.out.println("Il giocatore passa il turno.\n"); break;}
-            case 1: {}
-            case 2: {}
-            case 3: {}
+            case 1: {break;}
+            case 2: {break;}
+            case 3: {break;}
+
         }
     }
 

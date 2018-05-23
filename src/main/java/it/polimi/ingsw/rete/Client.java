@@ -59,19 +59,21 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         String b="";
         final String finalB = b;
         TimerTask task = new TimerTask(){
+            @Override
             public void run()
             {
                 if( finalB.equals(""))
                 {
                     System.out.println( "You input nothing. Exit..." );
                     System.exit(-1);
+                    this.cancel();
                 }
             }
         };
         Timer timer= new Timer();
         timer.schedule(task,tim*1000);
         b = in.nextLine();
-        timer.cancel();
+        task.cancel();
         return b;
     }
 

@@ -66,6 +66,6 @@ public abstract class Tool extends Card{
                 "name= " + name + '\'' +
                 ", effect= " + effect + '\'' +
                 ", accessed= " + accessed +
-                '}';
+                '}'+'\n';
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.rete;
 import it.polimi.ingsw.cards.GlassWindow;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
+import it.polimi.ingsw.game.Round;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -24,7 +25,7 @@ public class Server implements ServerInt{
     }
 
     public void control() throws RemoteException {
-        String b=null;
+        String b;
         for(int i=0;i<listofobserver.size();i++) {
             try {
                 listofobserver.get(i).setupPlayer();
@@ -71,18 +72,25 @@ public class Server implements ServerInt{
 
     public void setMatch(Match match) throws RemoteException {
         setStart(true);
+        final int time=15;
         this.match = match;
+        notifyObserver("Tool cards are: \n"+match.getTool().toString()+
+                "\nServer -> Public targets are: \n"+match.getPublictarget());
         notifyObserver("The game is starting... ");
         int i=0,j=0;
+        try {
+            Thread.sleep(1000*time);
+        }
+        catch (Exception e) {}
         for (ClientInt c:listofobserver){
+            c.update("Your private target is "+match.getPlayers().get(i).getPrivatetarget().toString());
             ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
-            notify(c,windows.toString());
+            notify(c,"\n"+ windows.toString());
             do {
                 String a = c.setupgame();
                 if (getNames(windows).contains(a)) {
                     this.match.getPlayers().get(i).setWindow(windows.get(getNames(windows).indexOf(a)));
-                    System.out.println(c.getNickname() + " has choosen " + a);
-                    c.update("Your private target is "+match.getPlayers().get(i).getPrivatetarget().toString());
+                    System.out.println(c.getNickname() + " has chosen " + a);
                     j=1;
                 } else
                     c.update("Please try again");
@@ -90,10 +98,30 @@ public class Server implements ServerInt{
             i++;
             j=0;
         }
-        System.out.println(this.match.toString());
+        notifyObserver(match.getGlassWindowPlayers());
+        while(match.getRound()!=11){
+            Round round= new Round(match);
+            for(int z=0; z<match.getnumberPlayers();z++){
+                notify(listofobserver.get(z),"It's your Turn\nRound: "+match.getRound()+"; Turn 1\n"+
+                "Draft pool: "+match.getStock().getDicestock().toString()+"\n"+menu());
+                round.getTurns().get(i).doTurn(match,round,i);
+
+            }
+            int z;
+            for (z=listofobserver.size()-1;z>=0;z--){
+                notify(listofobserver.get(z),"It's your Turn\nRound: "+match.getRound()+"; Turn 2");
+
+            }
+            match.fineRound();
+        }
+        match.fineMatch();
     }
 
+    public String menu(){
+        return "Choose what to do : \n0: skip turn; \n1: place a die from draft pool;" +
+                "\n2: use a tool card;";
 
+    }
 
 
     public void removeObserver(ClientInt o) throws RemoteException {
@@ -149,24 +177,19 @@ public class Server implements ServerInt{
             return false;
         }
         if(listofobserver.size()<list) {
-            if(o.getServerIp().equals("127.0.0.1")){
+            if(o.getServerIp().equals("127.0.0.1"))
                 System.out.println(nick + " locally connected");
-                notify(o, "Welcome " + nick);
-                String string = "Waiting room: ";
-                for (Player p:room.getPlayers()){
-                    string+=p.getNickname()+" ; ";
-                }
-                notify(o,string);
-                notifyOthers(o, nick+ " connected");
-                room.addPlayer(nick);
-                return true;
-            }
-            else{
+            else
                 System.out.println(nick + " connected remotely");
-                notify(o, "Welcome " + nick);
-                room.addPlayer(nick);
-                return true;
+            notify(o, "Welcome " + nick);
+            String string = "Waiting room: ";
+            for (Player p:room.getPlayers()){
+                string+=p.getNickname()+" ; ";
             }
+            notify(o,string);
+            notifyOthers(o, nick+ " connected");
+            room.addPlayer(nick);
+            return true;
         }
         else{
             System.out.println(nick+ " tried to join unsuccessfully");

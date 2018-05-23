@@ -51,8 +51,15 @@ public class Match {
         return rules;
     }
 
+    public String getGlassWindowPlayers(){
+        String a="\n";
+        for(int i=0; i<getnumberPlayers();i++){
+            a +=getPlayers().get(i).getNickname()+"'s "+getPlayers().get(i).getWindow().toString()+"\n";
+        }
+        return a;
+    }
 
-    private void fineRound(){
+    public void fineRound(){
         this.roundTrack.set(this.round-1,getStock().extract_die(0));
         setRound(this.round +1);
         getStock().reset_stock();
@@ -69,7 +76,7 @@ public class Match {
         return scheme;
     }
 
-    private void fineMatch(){
+    public void fineMatch(){
         calculatescore();
     }
 
@@ -100,11 +107,12 @@ public class Match {
 
     public void setTool() {
         int i = 0;
+        int a=-1;
         ToolCards t = new ToolCards();
         do {
             Random numero = new Random();
             Tool inserire = t.creatingTool((numero.nextInt(12) + 1));
-            if (!toolcards.contains(inserire)) {
+            if (!getNamesTool().contains(inserire.getName())) {
                 toolcards.add(inserire);
             } else {
                 i--;
@@ -113,6 +121,12 @@ public class Match {
         } while (i < 3);
     }
 
+    public ArrayList<String> getNamesTool(){
+        ArrayList<String> names=new ArrayList<String>();
+        for(Tool t:toolcards)
+            names.add(t.getName());
+        return names;
+    }
 
     public void setPrivateObject(){
         for(int i=0;i<getnumberPlayers();i++){
@@ -178,7 +192,6 @@ public class Match {
     }
 
     private void cardAssignment(){
-        //setPlayerswindow();
         setPrivateObject();
         setPublictarget();
         setTool();

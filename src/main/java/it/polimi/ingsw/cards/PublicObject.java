@@ -28,7 +28,7 @@ public abstract class PublicObject extends Card{
         return "PublicObject{" +
                 "name=" + super.getName()+
                 ", effect='" + effect + '\'' +
-                '}';
+                '}'+"\n";
     }
     public abstract int calcola_punteggio(Player player);
 }
