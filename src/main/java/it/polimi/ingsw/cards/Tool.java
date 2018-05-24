@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cards;
 
+import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
@@ -62,10 +63,11 @@ public abstract class Tool extends Card{
 
     @Override
     public String toString() {
-        return "Tool{" +
-                "name= " + name + '\'' +
-                ", effect= " + effect + '\'' +
-                ", accessed= " + accessed +
-                '}'+'\n';
+        String escape = Colour.RED.escape();
+        if (accessed){
+            return  "Name: " +escape+ name + Colour.RESET +
+                    " effect:\n" + effect + "\nTo use this card are required two Favor Token"+'\n';
+        }else return "Name: " +escape+ name + Colour.RESET +
+                " effect:\n" + effect + "\nTo use this card is required one Favor Token"+'\n';
     }
 }

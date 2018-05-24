@@ -38,6 +38,7 @@ public class GlassWindow  {
 
     @Override
     public String toString() {
+        String escape = Colour.RED.escape();
         String string = "\n";
         for (int i=0;i<width;i++){
             for (int j=0;j<height;j++){
@@ -45,11 +46,8 @@ public class GlassWindow  {
             }
             string+="\n";
         }
-        return "GlassWindow{" +
-                "name='" + name + '\'' +
-                ", difficulty=" + difficulty +
-                ", scheme=" + string +
-                '}';
+        return  "Name: '"+escape + name + Colour.RESET+'\'' +
+                ", difficulty=" + difficulty + string;
     }
 
     public String getName() {

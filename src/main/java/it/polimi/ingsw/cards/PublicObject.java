@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cards;
 
+import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.game.Player;
 
 public abstract class PublicObject extends Card{
@@ -25,10 +26,9 @@ public abstract class PublicObject extends Card{
     }
 
     public String toString() {
-        return "PublicObject{" +
-                "name=" + super.getName()+
-                ", effect='" + effect + '\'' +
-                '}'+"\n";
+        String escape = Colour.RED.escape();
+        return  "Name: " + escape+super.getName()+Colour.RESET+
+                " effect: " + effect +"\n";
     }
     public abstract int calcola_punteggio(Player player);
 }

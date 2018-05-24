@@ -103,7 +103,7 @@ public class Server implements ServerInt{
             Round round= new Round(match);
             for(int z=0; z<match.getnumberPlayers();z++){
                 notify(listofobserver.get(z),"It's your Turn\nRound: "+match.getRound()+"; Turn 1\n"+
-                "Draft pool: "+match.getStock().getDicestock().toString()+"\n"+menu());
+                "Draft pool: "+match.getStock().toString()+"\n"+menu());
                 round.getTurns().get(i).doTurn(match,round,i);
 
             }
