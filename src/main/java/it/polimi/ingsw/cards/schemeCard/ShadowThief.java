@@ -62,7 +62,7 @@ public class ShadowThief extends GlassWindow {
     }
     private void createSlot12(){
         Slot c = new Slot();
-        c.setValue(6);
+        c.setValue(0);
         c.setSlotcolour(Colour.PURPLE);
         super.setSlot(c,1,2);
         createSlot13();
