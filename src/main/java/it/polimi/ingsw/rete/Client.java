@@ -83,11 +83,18 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         String a=in.nextLine();
         return a;
     }
+
     public String setupconnection() throws RemoteException {
         Scanner in=new Scanner(System.in);
         System.out.println("Input your nickname:");
         nickname=in.nextLine();
         return nickname;
+    }
+
+    public int selection_int() throws RemoteException {
+        Scanner s=new Scanner(System.in);
+        System.out.print("> ");
+        return s.nextInt();
     }
 
 }

@@ -10,4 +10,5 @@ public interface ClientInt extends Remote {
     public String getNickname() throws RemoteException;
     public String getServerIp() throws RemoteException;
     public String setupgame() throws RemoteException;
+    public int selection_int() throws RemoteException;
 }

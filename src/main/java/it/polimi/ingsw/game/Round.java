@@ -24,7 +24,6 @@ public class Round {
         i--;
         while(i>=0){
             Turn turn = new Turn(a.getPlayers().get(i));
-            turn.getOneplayer().setContTurn(2);
             this.turns.add(turn);
             i--;
         }

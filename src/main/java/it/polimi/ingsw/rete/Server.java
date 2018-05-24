@@ -101,21 +101,99 @@ public class Server implements ServerInt{
         notifyObserver(match.getGlassWindowPlayers());
         while(match.getRound()!=11){
             Round round= new Round(match);
+            notifyObserver(match.getStock().toString());
             for(int z=0; z<match.getnumberPlayers();z++){
-                notify(listofobserver.get(z),"It's your Turn\nRound: "+match.getRound()+"; Turn 1\n"+
-                "Draft pool: "+match.getStock().toString()+"\n"+menu());
-                round.getTurns().get(i).doTurn(match,round,i);
-
+                notifyOthers(listofobserver.get(z),"Wait your turn\nIt's "+listofobserver.get(z).getNickname()+"'s turn");
+                notify(listofobserver.get(z),"It's your turn "+listofobserver.get(z).getNickname()+"\nRound: "+match.getRound()+"; Turn "+round.getTurns().get(z).getOneplayer().getContTurn()+"\n"+
+                    "Draft pool: "+match.getStock().toString()+"\n"+menu());
+                int menu;
+                do {
+                    menu=listofobserver.get(z).selection_int();
+                    if (menu<0||menu>2) notify(listofobserver.get(z),"Try again...");
+                }while (menu>2||menu<0);
+                switch (menu){
+                    case 0:break;
+                    case 1:{
+                        int cont=1;
+                        while(cont!=0) {
+                            int index_draft, row, column;
+                            notify(listofobserver.get(z), "Choose a die through its index");
+                            do {
+                                index_draft = listofobserver.get(z).selection_int();
+                            } while (index_draft >= match.getStock().getDicestock().size() || index_draft < 0);
+                            notify(listofobserver.get(z), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
+                                    "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
+                            do {
+                                row = listofobserver.get(z).selection_int();
+                            } while (row >= 4 || row < 0);
+                            do {
+                                column = listofobserver.get(z).selection_int();
+                            } while (column >= 5 || column < 0);
+                            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
+                            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
+                                notify(listofobserver.get(z), "Die placed correctly");
+                                match.getStock().getDicestock().remove(index_draft);
+                                cont = 0;
+                            } else
+                                notify(listofobserver.get(z), match.getRules().getError());
+                        }
+                        break;
+                    }
+                    case 2:break;
+                }
             }
-            int z;
-            for (z=listofobserver.size()-1;z>=0;z--){
-                notify(listofobserver.get(z),"It's your Turn\nRound: "+match.getRound()+"; Turn 2");
+            int k=listofobserver.size()-1;
+            for(int z=match.getnumberPlayers(); z<2*match.getnumberPlayers();z++){
+                for(Player p: match.getPlayers())
+                    p.setContTurn(2);
+                notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn");
+                notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+round.getTurns().get(z).getOneplayer().getContTurn()+"\n"+
+                        "Draft pool: "+match.getStock().toString()+"\n"+menu());
+                int menu;
+                do {
+                    menu=listofobserver.get(k).selection_int();
+                    if (menu<0||menu>2) notify(listofobserver.get(k),"Try again...");
+                }while (menu>2||menu<0);
+                switch (menu){
+                    case 0:break;
+                    case 1:{
+                        int cont=1;
+                        while(cont!=0) {
+                            int index_draft, row, column;
+                            notify(listofobserver.get(k), "Choose a die through its index");
+                            do {
+                                index_draft = listofobserver.get(k).selection_int();
+                            } while (index_draft >= match.getStock().getDicestock().size() || index_draft < 0);
+                            notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
+                                    "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
+                            do {
+                                row = listofobserver.get(k).selection_int();
+                            } while (row >= 4 || row < 0);
+                            do {
+                                column = listofobserver.get(k).selection_int();
+                            } while (column >= 5 || column < 0);
+                            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
+                            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
+                                notify(listofobserver.get(k), "Die placed correctly");
+                                match.getStock().getDicestock().remove(index_draft);
+                                cont = 0;
+                            } else
+                                notify(listofobserver.get(k), match.getRules().getError());
+                        }
+                        break;
+                    }
+                    case 2:break;
+                }
+                k--;
 
             }
             match.fineRound();
+            listofobserver.add(listofobserver.get(0));
+            listofobserver.remove(0);
         }
         match.fineMatch();
     }
+
 
     public String menu(){
         return "Choose what to do : \n0: skip turn; \n1: place a die from draft pool;" +

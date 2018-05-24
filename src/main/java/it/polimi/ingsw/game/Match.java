@@ -60,7 +60,7 @@ public class Match {
     }
 
     public void fineRound(){
-        this.roundTrack.set(this.round-1,getStock().extract_die(0));
+        //this.roundTrack.set(this.round-1,getStock().extract_die(0));
         setRound(this.round +1);
         getStock().reset_stock();
         if(this.round!=11)
