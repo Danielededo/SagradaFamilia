@@ -56,7 +56,7 @@ public class Comitas extends GlassWindow {
     private void createSlot11(){
         Slot c = new Slot();
         c.setValue(4);
-        c.setSlotcolour(Colour.YELLOW);
+        c.setSlotcolour(Colour.WHITE);
         super.setSlot(c,1,1);
         createSlot12();
     }
