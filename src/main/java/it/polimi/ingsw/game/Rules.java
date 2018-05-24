@@ -7,8 +7,22 @@ import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.dice.Die;
 
 
-
 public class Rules {
+    private String error;
+    private String[] list__of_errors={
+            "This slot is not on the border of your Scheme Card",
+            "Slot occupied",
+            "You can't place a die of this color on this slot",
+            "You can't place a die with this face on this slot",
+            "There's already a die of the same colour next to this one",
+            "There's already a die with the same value next to this one",
+            "There are no dice next to this slot"
+    };
+
+    public String getError() {
+        return error;
+    }
+
     public GlassWindow diePlacing(Player current, Slot choice, Die selected){
         boolean mayI = rules(current, choice, selected);
 
@@ -45,6 +59,7 @@ public class Rules {
             tracker = firstDado(choice.getLine(),choice.getColumn());
             if(!tracker) {
                 System.out.println("This slot is not on the border of your Scheme Card.\n");
+                error=list__of_errors[0];
                 return false;}
             }
 
@@ -52,6 +67,7 @@ public class Rules {
 
         if (!tracker) {
                 System.out.print("Slot occupied.\n");
+                error=list__of_errors[1];
                 return false;
             }
 
@@ -59,6 +75,7 @@ public class Rules {
 
         if (!tracker) {
             System.out.print("You can't place a " + cDie + "die on a " + cSlot + " slot.\n");
+            error=list__of_errors[2];
             return false;
         }
 
@@ -66,6 +83,7 @@ public class Rules {
 
         if (!tracker){
             System.out.print("You can't place this die on a slot with a " + value + " value.\n");
+            error=list__of_errors[3];
             return false;
         }
 
@@ -105,10 +123,12 @@ public class Rules {
         if(current.getSlot(riga, colonna - 1).isOccupate()) {
             if (current.getSlot(riga, colonna - 1).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
+                error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga, colonna - 1).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
+                error=list__of_errors[5];
                 return false;
             }
             ortOccupate = true;
@@ -118,10 +138,12 @@ public class Rules {
         if(current.getSlot(riga - 1, colonna).isOccupate()) {
             if (current.getSlot(riga - 1, colonna).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
+                error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga - 1, colonna).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
+                error=list__of_errors[5];
                 return false;
             }
             ortOccupate = true;
@@ -131,10 +153,12 @@ public class Rules {
         if(current.getSlot(riga + 1, colonna).isOccupate()) {
             if (current.getSlot(riga + 1, colonna).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
+                error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga + 1, colonna).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
+                error=list__of_errors[5];
                 return false;
             }
             ortOccupate = true;
@@ -144,10 +168,12 @@ public class Rules {
         if(current.getSlot(riga, colonna + 1).isOccupate()) {
             if (current.getSlot(riga, colonna + 1).getDice().getDicecolor() == die) {
                 System.out.print("There's already a die of the same colour next to this one.\n");
+                error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga, colonna + 1).getDice().getFace() == face) {
                 System.out.print("There's already a die with the same value next to this one.\n");
+                error=list__of_errors[5];
                 return false;
             }
             ortOccupate = true;
@@ -157,6 +183,7 @@ public class Rules {
             return true;
         else{
             System.out.println("There are no dice next to this slot.");
+            error=list__of_errors[6];
             return false;}
     }
 
