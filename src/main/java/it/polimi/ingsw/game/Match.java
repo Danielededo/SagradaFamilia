@@ -180,6 +180,8 @@ public class Match {
            players.get(i).setScore(publictarget.get(0).calcola_punteggio(players.get(i)));
            players.get(i).setScore(publictarget.get(1).calcola_punteggio(players.get(i)));
            players.get(i).setScore(publictarget.get(2).calcola_punteggio(players.get(i)));
+           players.get(i).setScore(players.get(i).getMarker());
+           players.get(i).setScore(players.get(i).getWindow().calculateEmptySlot());
         }
     }
 

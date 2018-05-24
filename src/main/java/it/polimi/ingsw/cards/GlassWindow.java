@@ -10,7 +10,16 @@ public class GlassWindow  {
     private int link;
     private Slot[][] scheme = new Slot[width][height];
 
-
+    public int calculateEmptySlot(){
+        int a=0;
+        for(int i=0;i<width;i++){
+            for(int j=0;i<height;i++){
+                if(!scheme[i][j].isOccupate())
+                    a--;
+            }
+        }
+        return a;
+    }
 
     public void setLink(int link) {
         this.link = link;

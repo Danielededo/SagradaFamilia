@@ -25,11 +25,9 @@ public class PrivateObject extends Card{
 
     @Override
     public String toString() {
-        return "PrivateObject{" +
-                "name=" + super.getName()+
-                ", color=" + color +
-                ", effect='" + effect + '\'' +
-                '}';
+        String escape = Colour.RED.escape();
+        return escape+super.getName()+ Colour.RESET+
+                ", effect: " + effect;
     }
 
     public int calculate_score(Player player){

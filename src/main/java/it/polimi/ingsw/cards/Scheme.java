@@ -69,7 +69,7 @@ public class Scheme {
         final int number=2;
         while(i<number) {
             Random random = new Random();
-            int k = random.nextInt(glasswindow.length);
+            int k = random.nextInt(dimension);
             if(glasswindow[k]!=null) {
                 temp1 = glasswindow[k];
                 glasswindow[k]=null;
