@@ -5,14 +5,16 @@ import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
 
+import java.io.FileInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Server implements ServerInt{
-    static int PORT=8080;
+    static int PORT;
     protected Match match;
     private Server obj;
     private Waiting_Room room;
@@ -43,6 +45,11 @@ public class Server implements ServerInt{
     public void start_server(){
         boolean gone=true;
         try{
+            Properties defaultProps = new Properties();
+            FileInputStream in = new FileInputStream("C:/Users/MARIO/SagradaFamilia/src/resources/Connection");
+            defaultProps.load(in);
+            PORT= Integer.parseInt(defaultProps.getProperty("Port"));
+            in.close();
             String server_name="Sagrada server";
             obj =new Server();
             obj.room=new Waiting_Room(obj);

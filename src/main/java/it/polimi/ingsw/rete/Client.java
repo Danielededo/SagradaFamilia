@@ -1,9 +1,11 @@
 package it.polimi.ingsw.rete;
 
+import java.io.FileInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,7 +13,7 @@ import java.util.TimerTask;
 public class Client extends UnicastRemoteObject implements ClientInt{
     private String nickname;
     private static String serverIP;
-    static int PORT=8080;
+    static int PORT;
 
     protected Client() throws RemoteException {
         super();
@@ -19,6 +21,11 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public static void main(String[] args) {
         try {
+            Properties defaultProps = new Properties();
+            FileInputStream in = new FileInputStream("C:/Users/MARIO/SagradaFamilia/src/resources/Connection");
+            defaultProps.load(in);
+            PORT= Integer.parseInt(defaultProps.getProperty("Port"));
+            in.close();
             Client client=new Client();
             Scanner IP=new Scanner(System.in);
             System.out.println("Input IP-Address: ");
