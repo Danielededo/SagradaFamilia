@@ -13,7 +13,7 @@ public class GlassWindow  {
     public int calculateEmptySlot(){
         int a=0;
         for(int i=0;i<width;i++){
-            for(int j=0;i<height;i++){
+            for(int j=0;i<height;j++){
                 if(!scheme[i][j].isOccupate())
                     a--;
             }
