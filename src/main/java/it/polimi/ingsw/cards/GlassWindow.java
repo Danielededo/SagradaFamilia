@@ -13,12 +13,12 @@ public class GlassWindow  {
     public int calculateEmptySlot(){
         int a=0;
         for(int i=0;i<width;i++){
-            for(int j=0;i<height;j++){
+            for(int j=0;j<height;j++){
                 if(!scheme[i][j].isOccupate())
-                    a--;
+                    a++;
             }
         }
-        return a;
+        return -a;
     }
 
     public void setLink(int link) {
