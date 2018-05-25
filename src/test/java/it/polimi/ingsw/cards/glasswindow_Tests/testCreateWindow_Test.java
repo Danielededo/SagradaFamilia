@@ -14,7 +14,7 @@ public class testCreateWindow_Test {
         GlassWindow c = new SunCatcher();
         Assertions.assertEquals(3, c.getSlot(3, 1).getValue());
         Assertions.assertEquals(Colour.WHITE, c.getSlot(3, 1).getSlotcolour());
-        Die a=new Die(2,Colour.PURPLE);
+        Die a=new Die(6,Colour.PURPLE);
         c.getSlot(2,4).setDie(a);
         System.out.println(c.toString());
     }

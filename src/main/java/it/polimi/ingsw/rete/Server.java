@@ -225,15 +225,16 @@ public class Server implements ServerInt{
 
 
     public void notifyObserver(String arg) throws RemoteException {
-        for (ClientInt c:listofobserver){
-            c.update(arg);
-        }
+         for (ClientInt c:listofobserver) {
+             c.update(arg);
+         }
     }
 
 
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
             listofobserver.add(o);
+            room.addPlayer(o.getNickname());
             return true;
         } else
             return false;
@@ -283,7 +284,6 @@ public class Server implements ServerInt{
             }
             notify(o,string);
             notifyOthers(o, nick+ " connected");
-            room.addPlayer(nick);
             return true;
         }
         else{

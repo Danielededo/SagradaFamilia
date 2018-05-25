@@ -21,6 +21,7 @@ public class testColoriDiagonali_Test {
         Slot v = new Slot(0, Colour.WHITE);
         Slot z = new Slot(0, Colour.WHITE);
         Slot x = new Slot(0, Colour.WHITE);
+        Slot h = new Slot(0, Colour.WHITE);
         Die a = new Die();
         Die b = new Die();
         Die c = new Die();
@@ -51,15 +52,16 @@ public class testColoriDiagonali_Test {
         }
         p.getWindow().setSlot(s, 3, 0);
         p.getWindow().setSlot(t, 3, 1);
-        p.getWindow().setSlot(x, 3, 2);
+        p.getWindow().setSlot(h, 3, 2);
         p.getWindow().setSlot(v, 3, 3);
         p.getWindow().setSlot(z, 3, 4);
 
-        p.getWindow().setSlot(s, 0, 0);
+        p.getWindow().setSlot(h, 0, 0);
         p.getWindow().setSlot(t, 0, 1);
         p.getWindow().setSlot(s, 0, 2);
         p.getWindow().setSlot(z, 0, 3);
         p.getWindow().setSlot(t, 0, 4);
+        System.out.println(vetrata.toString());
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j <= 4; j++) {
                 if (p.getWindow().getSlot(i, j).isOccupate()) {
