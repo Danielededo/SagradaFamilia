@@ -15,6 +15,10 @@ public class Player {
     private int contTurn;
     private boolean missednext_turn=false;
 
+    public int getScore() {
+        return score;
+    }
+
     public boolean isMissednext_turn() {
         return missednext_turn;
     }

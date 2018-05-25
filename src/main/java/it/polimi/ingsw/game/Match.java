@@ -1,10 +1,13 @@
 package it.polimi.ingsw.game;
 
 import it.polimi.ingsw.cards.*;
+import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.dice.Sack;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 
@@ -78,6 +81,19 @@ public class Match {
 
     public void fineMatch(){
         calculatescore();
+    }
+
+    public String classifica(){
+        String classifica="";
+        String escape= Colour.RED.escape();
+        Collections.sort(players, Comparator.comparingInt(Player::getScore));
+        for(Player p:players){
+            if(players.indexOf(p)==0)
+                classifica+=escape+players.indexOf(p)+1+"° classificato: "+p.getNickname()+Colour.RESET+"\n";
+            else
+                classifica+=players.indexOf(p)+1+"° classificato: "+p.getNickname()+"\n";
+        }
+        return classifica;
     }
 
     public ArrayList<Player> getPlayers() {

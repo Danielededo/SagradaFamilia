@@ -209,6 +209,7 @@ public class Server implements ServerInt{
             listofobserver.remove(0);
         }
         match.fineMatch();
+        notifyObserver(match.classifica());
     }
 
 
