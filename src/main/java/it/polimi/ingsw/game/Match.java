@@ -83,16 +83,16 @@ public class Match {
     }
 
     public String classifica(){
-        String classifica="\nEND MATCH\n";
         String escape= Colour.RED.escape();
         Collections.sort(players,(player1,player2)->{
             if(player1.getScore()>player2.getScore())
                 return -1;
             else return 1;
         });
+        String classifica="\nEND MATCH\n";
         for(Player p:players){
             if(players.indexOf(p)==0)
-                classifica+=escape+players.indexOf(p)+1+"° place: "+p.getNickname()+", score: "+p.getScore()+Colour.RESET+"\n";
+                classifica+=escape+"1° place: "+p.getNickname()+", score: "+p.getScore()+Colour.RESET+"\n";
             else
                 classifica+=players.indexOf(p)+1+"° place: "+p.getNickname()+", score: "+p.getScore()+"\n";
         }
