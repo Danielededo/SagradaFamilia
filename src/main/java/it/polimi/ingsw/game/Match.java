@@ -89,7 +89,7 @@ public class Match {
                 return -1;
             else return 1;
         });
-        String classifica="\nEND MATCH\n";
+        String classifica="\nTHE FINAL RANKING IS:\n";
         for(Player p:players){
             if(players.indexOf(p)==0)
                 classifica+=escape+"1° place: "+p.getNickname()+", score: "+p.getScore()+Colour.RESET+"\n";
