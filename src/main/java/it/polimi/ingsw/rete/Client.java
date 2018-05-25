@@ -22,7 +22,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     public static void main(String[] args) {
         try {
             Properties defaultProps = new Properties();
-            FileInputStream in = new FileInputStream("C:/Users/MARIO/SagradaFamilia/src/resources/Connection");
+            FileInputStream in = new FileInputStream("src/main/resources/Connection");
             defaultProps.load(in);
             PORT= Integer.parseInt(defaultProps.getProperty("Port"));
             in.close();
