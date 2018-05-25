@@ -46,7 +46,7 @@ public class Stock {
     public String toString() {
         String stringa="";
         for (Die d:dicestock){
-            stringa+=" ("+dicestock.indexOf(d)+" - "+ d+"),";
+            stringa+=" ("+dicestock.indexOf(d)+" - "+ d+")";
         }
         return "Stock{" + stringa +
                 '}';
