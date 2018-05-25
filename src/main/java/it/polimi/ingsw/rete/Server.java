@@ -108,9 +108,8 @@ public class Server implements ServerInt{
         notifyObserver(match.getGlassWindowPlayers());
         while(match.getRound()!=11){
             Round round= new Round(match);
-            notifyObserver(match.getStock().toString());
             for(int z=0; z<match.getnumberPlayers();z++){
-                notifyOthers(listofobserver.get(z),"Wait your turn\nIt's "+listofobserver.get(z).getNickname()+"'s turn");
+                notifyOthers(listofobserver.get(z),"Wait your turn\nIt's "+listofobserver.get(z).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
                 notify(listofobserver.get(z),"It's your turn "+listofobserver.get(z).getNickname()+"\nRound: "+match.getRound()+"; Turn "+round.getTurns().get(z).getOneplayer().getContTurn()+"\n"+
                         "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString()+"\n"+menu());
                 int menu;
@@ -152,13 +151,14 @@ public class Server implements ServerInt{
                     }
                     case 2:break;
                 }
-                notifyObserver(listofobserver.get(z).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString());
+                notifyObserver(listofobserver.get(z).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString()+
+                    "\n---------------------------------------------------------------------------------------------");
             }
             int k=listofobserver.size()-1;
             for(int z=match.getnumberPlayers(); z<2*match.getnumberPlayers();z++){
                 for(Player p: match.getPlayers())
                     p.setContTurn(2);
-                notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn");
+                notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
                 notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+round.getTurns().get(z).getOneplayer().getContTurn()+"\n"+
                         "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString()+"\n"+menu());
                 int menu;
@@ -201,7 +201,8 @@ public class Server implements ServerInt{
                     }
                     case 2:break;
                 }
-                notifyObserver(listofobserver.get(k).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString());
+                notifyObserver(listofobserver.get(k).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString()+
+                    "\n---------------------------------------------------------------------------------------------");
                 k--;
             }
             match.fineRound();
