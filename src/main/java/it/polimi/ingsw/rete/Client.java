@@ -5,10 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Client extends UnicastRemoteObject implements ClientInt{
     private String nickname;
@@ -99,9 +96,15 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     }
 
     public int selection_int() throws RemoteException {
+        boolean iscorrect=true;
         Scanner s=new Scanner(System.in);
-        System.out.print("> ");
+        do {
+            try {
+                System.out.print("> ");
+            }catch (InputMismatchException e) {
+                iscorrect=false;
+            }
+        } while (!iscorrect);
         return s.nextInt();
     }
-
 }
