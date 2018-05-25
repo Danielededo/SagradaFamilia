@@ -38,7 +38,7 @@ public class Die {
     @Override
     public String toString() {
         String escape = this.dicecolor.escape();
-        return escape+"["+value+"]" + Colour.RESET;
+        return escape+value + Colour.RESET;
     }
 
     void dump(){

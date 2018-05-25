@@ -85,7 +85,7 @@ public class Slot {
         if (!isOccupate()) {
             if (value != 0) return "("+line+","+column+") "+escape + "[" + value + "]" + Colour.RESET;
             else return "("+line+","+column+") "+escape + "[ " + "]" + Colour.RESET;
-        }else return "("+line+","+column+") "+escape+dice.toString()+Colour.RESET;
+        }else return "("+line+","+column+") "+escape+"["+dice.toString()+escape+"]"+Colour.RESET;
 
     }
 
