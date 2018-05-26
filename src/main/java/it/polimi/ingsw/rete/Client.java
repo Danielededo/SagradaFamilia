@@ -22,11 +22,15 @@ public class Client extends UnicastRemoteObject implements ClientInt{
             FileInputStream in = new FileInputStream("src/main/resources/Connection");
             defaultProps.load(in);
             PORT= Integer.parseInt(defaultProps.getProperty("Port"));
-            in.close();
             Client client=new Client();
             Scanner IP=new Scanner(System.in);
-            System.out.println("Input IP-Address: ");
-            serverIP=IP.nextLine();
+            System.out.println("Connection to: -home -dani  ");
+            String choice=IP.nextLine();
+            switch (choice){
+                case "home":serverIP=defaultProps.getProperty("IPhome");break;
+                case "dani":serverIP=defaultProps.getProperty("IPDaniele");break;
+            }
+            in.close();
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
