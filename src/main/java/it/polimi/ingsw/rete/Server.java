@@ -106,7 +106,7 @@ public class Server implements ServerInt{
             i++;
             j=0;
         }
-        notifyObserver(match.getGlassWindowPlayers());
+        notifyObserver(match.getGlassWindowPlayers()+"---------------------------------------------------------------------------------------------\nTHE GAME BEGIN");
         while(match.getRound()!=11){
             round();
         }
@@ -117,10 +117,10 @@ public class Server implements ServerInt{
 
     public void round()throws RemoteException{
         Round round= new Round(match);
-        int k=0;
+        int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
-            notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+round.getTurns().get(z).getOneplayer().getContTurn()+"\n"+
+            notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+t+"\n"+
                     "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString()+"\n"+menu());
             int menu;
             do {
@@ -148,6 +148,8 @@ public class Server implements ServerInt{
                 k--;
             if(z<match.getnumberPlayers()-1)
                 k++;
+            if (z==match.getnumberPlayers()-1)
+                t=2;
         }
         notifyObserver("THE "+match.getRound()+" ROUND IS OVER");
         match.fineRound();
