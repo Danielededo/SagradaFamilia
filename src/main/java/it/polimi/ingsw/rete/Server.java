@@ -82,8 +82,8 @@ public class Server implements ServerInt{
         setStart(true);
         final int time=15;
         this.match = match;
-        notifyObserver("Tool cards are: \n"+match.getTool().toString()+
-                "\nServer -> Public targets are: \n"+match.getPublictarget());
+        notifyObserver("Tool cards are: \n"+match.toolcardsString()+
+                "\nServer -> Public targets are: \n"+match.publictargetString());
         notifyObserver("The game is starting... ");
         int i=0,j=0;
         try {

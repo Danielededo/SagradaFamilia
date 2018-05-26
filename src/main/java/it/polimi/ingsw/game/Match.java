@@ -24,6 +24,22 @@ public class Match {
     private ArrayList<Die> roundTrack= new ArrayList<Die>();
     private int round=1;
 
+    public String toolcardsString(){
+        String string="\n";
+        for (Tool t:toolcards){
+            string+="- "+t.toString();
+        }
+        return string;
+    }
+
+    public String publictargetString(){
+        String string="\n";
+        for (PublicObject t:publictarget){
+            string+="- "+t.toString();
+        }
+        return string;
+    }
+
     @Override
     public String toString() {
         return "Match{\n" +
@@ -56,7 +72,7 @@ public class Match {
     public String getGlassWindowPlayers(){
         String a="\n";
         for(int i=0; i<getnumberPlayers();i++){
-            a +=getPlayers().get(i).getNickname()+"'s "+getPlayers().get(i).getWindow().toString()+"\n";
+            a +=getPlayers().get(i).getNickname()+"'s scheme card is "+getPlayers().get(i).getWindow().toString()+"\n";
         }
         return a;
     }
