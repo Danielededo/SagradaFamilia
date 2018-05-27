@@ -26,6 +26,7 @@ public class ToolCard4 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -34,6 +35,7 @@ public class ToolCard4 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -46,10 +48,12 @@ public class ToolCard4 extends Tool {
             if (i == 0) {
                 if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
                     System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
+                    error=list__of_errors[2];
                     return false;
                 }
                 if (!getPlayer().getWindow().getSlot(slot1).isOccupate()) {
                     System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
+                    error=list__of_errors[3];
                     return false;
                 }
                 a = getPlayer().getWindow().getSlot(slot1).getDice();
@@ -61,14 +65,17 @@ public class ToolCard4 extends Tool {
                     i++;
                 } else {
                     System.out.println("Il dado selezionato non può essere spostato in questa casella");
+                    error=list__of_errors[6];
                     return false;
                 }
             } else {
                 if (getPlayer().getWindow().getSlot(slot4).isOccupate()) {
                     System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
+                    error=list__of_errors[2];
                     i++;
                 }else if (!getPlayer().getWindow().getSlot(slot3).isOccupate()) {
                     System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
+                    error=list__of_errors[3];
                     i++;
                 }else {
                     b = getPlayer().getWindow().getSlot(slot3).getDice();
@@ -80,6 +87,7 @@ public class ToolCard4 extends Tool {
                         i++;
                     } else {
                         System.out.println("Il dado selezionato non può essere spostato in questa casella");
+                        error=list__of_errors[6];
                         i++;
                     }
                 }

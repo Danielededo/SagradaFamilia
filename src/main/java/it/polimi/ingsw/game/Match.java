@@ -26,16 +26,20 @@ public class Match {
 
     public String toolcardsString(){
         String string="\n";
+        int i=1;
         for (Tool t:toolcards){
-            string+="- "+t.toString();
+            string+=i+"- "+t.toString();
+            i++;
         }
         return string;
     }
 
     public String publictargetString(){
         String string="\n";
+        int i=1;
         for (PublicObject t:publictarget){
-            string+="- "+t.toString();
+            string+=i+"- "+t.toString();
+            i++;
         }
         return string;
     }

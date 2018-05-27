@@ -12,9 +12,28 @@ public abstract class Tool extends Card{
     private String name;
     private String effect;
     private Player player;
+    protected String error;
+    protected String[] list__of_errors={
+            "Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore",
+            "Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado",
+            "Lo slot selezionato per posizionare il dado possiede già un dado",
+            "Lo slot selezionato per prendere il dado non possiede un dado",
+            "Non puoi posizionare il dado in questa casella",
+            "Il dado non può essere posizionato in questo slot perchè non soddisfa le regole di posizionamento",
+            "Il dado selezionato non può essere spostato in questa casella",
+            "Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno",
+            "Non puoi utilizzare questa carta nel tuo secondo turno",
+            "Intero errato o slot già occupato",
+            "You can't use this toolCard now, there are no dice on the RoundTrack",
+            "You can't choose this die",
+            "Choose another slot",
+            "You can't choose dice with different colours. Start again."
+    };
 
 
-
+    public String getError() {
+        return error;
+    }
 
     public void setAccessed(boolean accessed) {
         this.accessed = accessed;

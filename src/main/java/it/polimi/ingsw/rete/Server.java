@@ -1,6 +1,8 @@
 package it.polimi.ingsw.rete;
 
 import it.polimi.ingsw.cards.GlassWindow;
+import it.polimi.ingsw.cards.Tool;
+import it.polimi.ingsw.dice.Colour;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
@@ -13,6 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Properties;
+import java.util.Timer;
 
 public class Server implements ServerInt{
     static int PORT;
@@ -106,7 +109,7 @@ public class Server implements ServerInt{
             i++;
             j=0;
         }
-        notifyObserver(match.getGlassWindowPlayers()+"---------------------------------------------------------------------------------------------\nTHE GAME BEGIN");
+        notifyObserver(match.getGlassWindowPlayers()+ Colour.RED.escape()+"---------------------------------------------------------------------------------------------\nTHE GAME BEGIN"+Colour.RESET);
         while(match.getRound()!=11){
             round();
         }
@@ -116,6 +119,9 @@ public class Server implements ServerInt{
     }
 
     public void round()throws RemoteException{
+        int cont_turn=1;
+        final boolean[] timer_scaduto = {false};
+        Timer timer = new Timer();
         Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
@@ -124,24 +130,31 @@ public class Server implements ServerInt{
                     "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString()+"\n"+menu());
             int menu;
             do {
-                try {
-                    menu=listofobserver.get(k).selection_int();
-                }catch (InputMismatchException e){
-                    menu=3;
+                do {
+                    try {
+                        menu=listofobserver.get(k).selection_int();
+                    }catch (InputMismatchException e){
+                        menu=3;
+                    }
+                    if (menu<0||menu>2) notify(listofobserver.get(k),"Try again...");
+                }while (menu>2||menu<0);
+                switch (menu){
+                    case 0:{
+                        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has skipped his turn");
+                        cont_turn=0;
+                        break;
+                    }
+                    case 1:{
+                        dicehand(k,z,round);
+                        break;
+                    }
+                    case 2:{
+                        tool_hand(k,z,round);
+                        cont_turn=1;
+                        break;
+                    }
                 }
-                if (menu<0||menu>2) notify(listofobserver.get(k),"Try again...");
-            }while (menu>2||menu<0);
-            switch (menu){
-                case 0:{
-                    notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has skipped his turn");
-                    break;
-                }
-                case 1:{
-                    dicehand(k,z,round);
-                    break;
-                }
-                case 2:break;
-            }
+            } while (cont_turn!=0);
             notifyObserver(listofobserver.get(k).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString()+
                     "\n---------------------------------------------------------------------------------------------");
             if(z>match.getnumberPlayers()-1)
@@ -163,15 +176,27 @@ public class Server implements ServerInt{
             int index_draft, row, column;
             notify(listofobserver.get(k), "Choose a die through its index");
             do {
-                index_draft = listofobserver.get(k).selection_int();
+                try {
+                    index_draft = listofobserver.get(k).selection_int();
+                }catch (InputMismatchException e){
+                    index_draft=10;
+                }
             } while (index_draft >= match.getStock().getDicestock().size() || index_draft < 0);
             notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
                     "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
             do {
-                row = listofobserver.get(k).selection_int();
+                try {
+                    row = listofobserver.get(k).selection_int();
+                }catch (InputMismatchException e){
+                    row=10;
+                }
             } while (row >= 4 || row < 0);
             do {
-                column = listofobserver.get(z).selection_int();
+                try {
+                    column = listofobserver.get(k).selection_int();
+                }catch (InputMismatchException e){
+                    column=10;
+                }
             } while (column >= 5 || column < 0);
             match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
             if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
@@ -182,6 +207,71 @@ public class Server implements ServerInt{
             } else
                 notify(listofobserver.get(k), match.getRules().getError());
         }
+    }
+
+    public void tool_hand(int k,int z,Round round)throws RemoteException{
+        int cont=1;
+        int index;
+        notify(listofobserver.get(k),"Choose a tool card from list by its value: \n"+match.toolcardsString());
+        do {
+            try {
+                index = listofobserver.get(k).selection_int();
+            }catch (InputMismatchException e){
+                index=10;
+            }
+        } while (index >= 4 || index < 1);
+        notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
+        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha usato la carta tool "+match.getTool().get(index-1).getName());
+        while (cont!=0){
+            match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
+            if (!tool_selection(k,match.getTool().get(index-1))){
+                notify(listofobserver.get(k),match.getTool().get(index-1).getError());
+            }else {
+                notify(listofobserver.get(k),"Operation completed");
+                cont=0;
+            }
+        }
+    }
+
+    public boolean tool_selection(int k, Tool tool) throws RemoteException {
+        switch (tool.getName()){
+            case "Pinza Sgrossatrice":{
+                int index_draft,piumeno=-1;
+                boolean b;
+                notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
+                do {
+                    try {
+                        index_draft = listofobserver.get(k).selection_int();
+                    }catch (InputMismatchException e){
+                        index_draft=10;
+                    }
+                } while (index_draft >= match.getStock().getDicestock().size() || index_draft < 0);
+                notify(listofobserver.get(k),"your choice is "+match.getStock().getDicestock().get(index_draft));
+                notify(listofobserver.get(k),"Now select 0 if you want to increase the value or 1 if you want to decrease the value");
+                do {
+                    try {
+                        piumeno = listofobserver.get(k).selection_int();
+                    }catch (InputMismatchException e){
+                        piumeno=10;
+                    }
+                } while (piumeno!=0&&piumeno!=1);
+                if (piumeno==1)b=false;
+                else b=true;
+                return tool.effect(match.getStock().getDicestock().get(index_draft),null,b,match,match.getStock(),null,null,null,null,0);
+            }
+            case "Pennello per Eglomise": break;
+            case "Alesatore per lamina di rame": break;
+            case "Lathekin": break;
+            case "Taglierina circolare": break;
+            case "Pennello per Pasta Salda": break;
+            case "Martelletto": break;
+            case "Tenaglia a Rotelle": break;
+            case "Riga in Sughero": break;
+            case "Tampone Diamantato": break;
+            case "Diluente per Pasta Salda": break;
+            case "Taglierina Manuale": break;
+        }
+        return false;
     }
 
     public String menu(){

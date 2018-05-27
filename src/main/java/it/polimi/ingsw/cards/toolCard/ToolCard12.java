@@ -29,6 +29,7 @@ public class ToolCard12 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("You can't use this toolCard, you don't have enough Favor Tokens.\n");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -37,6 +38,7 @@ public class ToolCard12 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("You can't use this toolCard, you don't have enough Favor Tokens.\n");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -46,6 +48,7 @@ public class ToolCard12 extends Tool {
 
         if(this.getPlayer().getWindow().getSlot(slot1).getDice() == null){
             System.out.println("This slot is empty.\n");
+            error=list__of_errors[3];
             return false;
         }
 
@@ -55,18 +58,21 @@ public class ToolCard12 extends Tool {
 
         if(tracciatoAttuale.size() == 0){
             System.out.println("You can't use this toolCard now, there are no dice on the RoundTrack.\n");
+            error=list__of_errors[10];
             return false;
         }
 
 
         if(!this.scorroTrack(tracciatoAttuale, scelto)){
             System.out.println("You can't choose this die.\n");
+            error=list__of_errors[11];
             return false;
         }
 
 
         if(!partita.getRules().rules(ToolCard12.super.getPlayer(), slot3, slot1.getDice())){
             System.out.println("Choose another slot.\n");
+            error=list__of_errors[12];
             return false;
         }
 
@@ -87,6 +93,7 @@ public class ToolCard12 extends Tool {
             this.getPlayer().getWindow().getSlot(slot1).setDie(slot3.getDice());
             this.getPlayer().getWindow().getSlot(slot3).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slot3).setDie(null);
+            error=list__of_errors[3];
             return false;
         }
 
@@ -97,6 +104,7 @@ public class ToolCard12 extends Tool {
             this.getPlayer().getWindow().getSlot(slot1).setDie(slot3.getDice());
             this.getPlayer().getWindow().getSlot(slot3).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slot3).setDie(null);
+            error=list__of_errors[13];
             return false;
         }
 
@@ -108,6 +116,7 @@ public class ToolCard12 extends Tool {
             this.getPlayer().getWindow().getSlot(slot1).setDie(slot3.getDice());
             this.getPlayer().getWindow().getSlot(slot3).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slot3).setDie(null);
+            error=list__of_errors[2];
             return false;
         }
 

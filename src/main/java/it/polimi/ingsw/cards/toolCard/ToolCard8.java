@@ -25,6 +25,7 @@ public class ToolCard8 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -33,6 +34,7 @@ public class ToolCard8 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -45,10 +47,12 @@ public class ToolCard8 extends Tool {
                 return true;
             }else {
                 System.out.println("Non è stato possibile piazzare il dado in questa casella");
+                error=list__of_errors[4];
                 return false;
             }
         }else {
             System.out.println("Non puoi utilizzare questa carta nel tuo secondo turno");
+            error=list__of_errors[8];
             return false;
         }
     }

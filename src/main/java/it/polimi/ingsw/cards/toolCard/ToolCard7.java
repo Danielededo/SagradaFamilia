@@ -24,6 +24,7 @@ public class ToolCard7 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -32,6 +33,7 @@ public class ToolCard7 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -41,8 +43,10 @@ public class ToolCard7 extends Tool {
                 die.randomdado();
             }
             return true;
-        }else System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
+        }else {System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
+            error=list__of_errors[7];
             return false;
+        }
     }
 
 }

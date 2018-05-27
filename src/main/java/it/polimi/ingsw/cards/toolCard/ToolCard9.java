@@ -27,6 +27,7 @@ public class ToolCard9 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -35,6 +36,7 @@ public class ToolCard9 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -42,14 +44,17 @@ public class ToolCard9 extends Tool {
         Rules r = new Rules();
         if(!r.occupiedSlot(slot1)){
             System.out.println("Questo slot è occupato, scegli un altro slot.");
+            error=list__of_errors[2];
             return false;
         }
         if(!r.colourCheck(slot1.getSlotcolour(), dado1.getDicecolor())){
             System.out.println("Non puoi mettere un dado di questo colore in questo slot, scegli un altro slot.");
+            error=list__of_errors[4];
             return false;
         }
         if(!r.numberCheck(slot1.getValue(), dado1.getFace())){
             System.out.println("Non puoi mettere un dado con questa faccia in questo slot, scegli un altro slot.");
+            error=list__of_errors[4];
             return false;
         }
 
@@ -64,6 +69,7 @@ public class ToolCard9 extends Tool {
             }
         }
         System.out.println("C'è un dado in uno slot adiacente a quello scelto, scegli un altro slot.");
+        error=list__of_errors[4];
         return false;
     }
 

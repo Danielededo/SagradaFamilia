@@ -24,6 +24,7 @@ public class ToolCard5 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -32,6 +33,7 @@ public class ToolCard5 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }

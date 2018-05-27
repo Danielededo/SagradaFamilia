@@ -26,6 +26,7 @@ public class ToolCard2 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -34,6 +35,7 @@ public class ToolCard2 extends Tool {
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
@@ -41,10 +43,12 @@ public class ToolCard2 extends Tool {
         Die a;
         if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
             System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
+            error=list__of_errors[2];
             return false;
         }
         if (!getPlayer().getWindow().getSlot(slot1).isOccupate()) {
             System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
+            error=list__of_errors[3];
             return false;
         }
         a = getPlayer().getWindow().getSlot(slot1).getDice();
@@ -65,12 +69,14 @@ public class ToolCard2 extends Tool {
                     return true;
                 } else {
                     System.out.println("Non puoi posizionare il dado in questa casella");
+                    error=list__of_errors[4];
                     return false;
                 }
             }
         }
         else{
             System.out.println("Il dado non può essere posizionato in questo slot perchè non soddisfa le regole di posizionamento");
+            error=list__of_errors[5];
             return false;
         }
     }

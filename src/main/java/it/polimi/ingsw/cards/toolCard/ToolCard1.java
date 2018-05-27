@@ -27,6 +27,7 @@ public class ToolCard1 extends Tool{
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             } else {
@@ -35,12 +36,14 @@ public class ToolCard1 extends Tool{
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                    error=list__of_errors[0];
                     return false;
                 }
             }
         }
         if((dado1.getFace()==1 && !piumeno)|| (dado1.getFace()==6 && piumeno)) {
             System.out.println("Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado");
+            error=list__of_errors[1];
             return false;
         }
         else
