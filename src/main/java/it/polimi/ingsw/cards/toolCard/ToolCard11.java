@@ -4,7 +4,6 @@ import it.polimi.ingsw.cards.Slot;
 import it.polimi.ingsw.cards.Tool;
 import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
-import it.polimi.ingsw.game.Rules;
 import it.polimi.ingsw.game.Stock;
 
 public class ToolCard11 extends Tool {
@@ -28,7 +27,7 @@ public class ToolCard11 extends Tool {
                         setUsed(true);
                     } else {
                         System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                        error=list__of_errors[0];
+                        error = list__of_errors[0];
                         return false;
                     }
                 } else {
@@ -37,27 +36,14 @@ public class ToolCard11 extends Tool {
                         setUsed(true);
                     } else {
                         System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                        error=list__of_errors[0];
+                        error = list__of_errors[0];
                         return false;
                     }
                 }
             }
-            partita.getSack().adddie(dado1);
-            Die d = partita.getSack().extractdie();
-            d.setFace(value);
-            Rules rules = new Rules();
-            rules.diePlacing(getPlayer(), slot1, d);
-            if (slot1.isOccupate()) {
-                System.out.println("Operazione conclusa con successo");
-                return true;
-            } else {
-                System.out.println("Piazzamento non andata a buon fine");
-                error=list__of_errors[4];
-                return false;
-            }
-        }else System.out.println("Intero errato o slot già occupato");
-        error=list__of_errors[9];
-        return false;
+        }
+        partita.getSack().adddie(dado1);
+        return true;
     }
 
 }
