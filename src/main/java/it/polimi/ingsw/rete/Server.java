@@ -115,7 +115,7 @@ public class Server implements ServerInt{
         }
         notifyObserver("THE MATCH IS OVER");
         match.fineMatch();
-        notifyObserver(match.classifica());
+        notifyObserver(match.ranking());
     }
 
     public void round()throws RemoteException{

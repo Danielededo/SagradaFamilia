@@ -102,21 +102,187 @@ public class Match {
         calculatescore();
     }
 
-    public String classifica(){
+    public String ranking(){
         String escape= Colour.RED.escape();
+        ArrayList<Player> playerArrayList=new ArrayList<Player>();
+        for(Player p:players)
+            playerArrayList.add(p);
         Collections.sort(players,(player1,player2)->{
             if(player1.getScore()>player2.getScore())
                 return -1;
             else return 1;
         });
-        String classifica="\nTHE FINAL RANKING IS:\n";
+        if(players.get(0).getScore()==players.get(1).getScore()){
+            if(getnumberPlayers()>=3 && players.get(1).getScore()==players.get(2).getScore()){
+                if(getnumberPlayers()==4 && players.get(2).getScore()==players.get(3).getScore()){
+                    sortPrivateScore(4,playerArrayList);
+                }else
+                    sortPrivateScore(3,playerArrayList);
+            }else
+                sortPrivateScore(2,playerArrayList);
+        }
+        String ranking="\nTHE FINAL RANKING IS:\n";
         for(Player p:players){
             if(players.indexOf(p)==0)
-                classifica+=escape+"1° place: "+p.getNickname()+", score: "+p.getScore()+Colour.RESET+"\n";
+                ranking+=escape+"1° place: "+p.getNickname()+", score: "+p.getScore()+Colour.RESET+"\n";
             else
-                classifica+=players.indexOf(p)+1+"° place: "+p.getNickname()+", score: "+p.getScore()+"\n";
+                ranking+=players.indexOf(p)+1+"° place: "+p.getNickname()+", score: "+p.getScore()+"\n";
         }
-        return classifica;
+        return ranking;
+    }
+
+    public void sortPrivateScore(int num,ArrayList<Player> p){
+        if(num==2){
+            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1)))
+                sortMarkerScore(2,p);
+            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))<players.get(1).getPrivatetarget().calculate_score(players.get(1)))
+                Collections.swap(players,0,1);
+        }
+        if(num==4){
+            Collections.sort(players,(player1,player2)->{
+                if(player1.getPrivatetarget().calculate_score(player1)>player2.getPrivatetarget().calculate_score(player2))
+                    return -1;
+                else
+                    return 1;
+            });
+            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))){
+                if(players.get(1).getPrivatetarget().calculate_score(players.get(1))==players.get(2).getPrivatetarget().calculate_score(players.get(2))){
+                    if(players.get(2).getPrivatetarget().calculate_score(players.get(2))==players.get(3).getPrivatetarget().calculate_score(players.get(3))){
+                        sortMarkerScore(4,p);
+                    }else
+                        sortMarkerScore(3,p);
+                }else
+                    sortMarkerScore(2,p);
+            }
+        }
+        if(num==3){
+            if(getnumberPlayers()==3) {
+                Collections.sort(players, (player1, player2) -> {
+                    if (player1.getPrivatetarget().calculate_score(player1) > player2.getPrivatetarget().calculate_score(player2))
+                        return -1;
+                    else
+                        return 1;
+                });
+                if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))){
+                    if(players.get(1).getPrivatetarget().calculate_score(players.get(1))==players.get(2).getPrivatetarget().calculate_score(players.get(2))) {
+                        sortMarkerScore(3,p);
+                    }
+                    else{
+                        sortMarkerScore(2,p);
+                    }
+                }
+            }else{
+                ArrayList<Player> arrayList=new ArrayList<Player>();
+                arrayList.add(players.get(3));
+                players.remove(3);
+                Collections.sort(players, (player1, player2) -> {
+                    if (player1.getPrivatetarget().calculate_score(player1) > player2.getPrivatetarget().calculate_score(player2))
+                        return -1;
+                    else
+                        return 1;
+                });
+                players.add(arrayList.get(0));
+                if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))) {
+                    if (players.get(1).getPrivatetarget().calculate_score(players.get(1)) == players.get(2).getPrivatetarget().calculate_score(players.get(2))) {
+                        sortMarkerScore(3,p);
+                    } else {
+                        sortMarkerScore(2,p);
+                    }
+                }
+            }
+        }
+    }
+
+    public void sortMarkerScore(int i,ArrayList<Player> p){
+        if(i==2){
+            if(players.get(0).getMarker()<players.get(1).getMarker())
+                Collections.swap(players,0,1);
+            if(players.get(0).getMarker()==players.get(1).getMarker())
+                sortOrderRound(2,p);
+        }
+        if(i==4){
+            Collections.sort(players,(player1,player2)->{
+                if(player1.getMarker()>player2.getMarker())
+                    return -1;
+                else
+                    return 1;
+            });
+            if(players.get(0).getMarker()==players.get(1).getMarker()){
+                if(players.get(1).getMarker()==players.get(2).getMarker()){
+                    if(players.get(2).getMarker()==players.get(3).getMarker()){
+                        sortOrderRound(4,p);
+                    }else
+                        sortOrderRound(3,p);
+                }else
+                    sortOrderRound(2,p);
+            }
+        }
+        if(i==3){
+            if(getnumberPlayers()==3) {
+                Collections.sort(players, (player1, player2) -> {
+                    if (player1.getMarker() > player2.getMarker())
+                        return -1;
+                    else
+                        return 1;
+                });
+                if(players.get(0).getMarker()==players.get(1).getMarker()){
+                    if(players.get(1).getMarker()==players.get(2).getMarker()) {
+                        sortOrderRound(3,p);
+                    }
+                    else{
+                        sortOrderRound(2,p);
+                    }
+                }
+            }else{
+                ArrayList<Player> arrayList=new ArrayList<Player>();
+                arrayList.add(players.get(3));
+                players.remove(3);
+                Collections.sort(players, (player1, player2) -> {
+                    if (player1.getMarker() > player2.getMarker())
+                        return -1;
+                    else
+                        return 1;
+                });
+                players.add(arrayList.get(0));
+                arrayList.clear();
+                if(players.get(0).getMarker()==players.get(1).getMarker()){
+                    if (players.get(1).getMarker() == players.get(2).getMarker()) {
+                        sortOrderRound(3,p);
+                    } else {
+                        sortOrderRound(2,p);
+                    }
+                }
+            }
+        }
+    }
+
+    public void sortOrderRound(int j,ArrayList<Player> p){
+        if(j==2){
+                players.clear();
+                players.addAll(p);
+                Collections.swap(players,0,1);
+        }
+        if (j==3){
+            if(getnumberPlayers()==3){
+                players.clear();
+                players.addAll(p);
+                Collections.swap(players,0,2);
+            }else{
+                ArrayList<Player> players1=new ArrayList<Player>();
+                players1.add(p.get(p.indexOf(players.get(3))));
+                p.remove(players1.get(0));
+                players.clear();
+                players.addAll(p);
+                Collections.swap(players,0,2);
+                players.add(players1.get(0));
+            }
+        }
+        if(j==4){
+            players.clear();
+            players.addAll(p);
+            Collections.swap(players,0,3);
+            Collections.swap(players,1,2);
+        }
     }
 
     public ArrayList<Player> getPlayers() {
