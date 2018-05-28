@@ -211,7 +211,7 @@ public class Server implements ServerInt{
         index=selection(4,1,k);
         notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
         notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
-        while (cont!=0||placed!=0){
+        while (cont!=0&&placed!=0){
             match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
             if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
                 notify(listofobserver.get(k),match.getTool().get(index-1).getError());
@@ -426,7 +426,7 @@ public class Server implements ServerInt{
 
     public String menu(){
         return "Choose what to do : \n0: end turn; \n1: place a die from draft pool;" +
-                "\n2: use a tool card;\n"+match.toolcardsString();
+                "\n2: use a tool card:\n"+match.toolcardsString();
 
     }
 
