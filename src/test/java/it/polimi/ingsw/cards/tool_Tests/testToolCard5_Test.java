@@ -7,6 +7,8 @@ import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class testToolCard5_Test {
     @Test
     public void effectToolCard5(){
@@ -17,7 +19,10 @@ public class testToolCard5_Test {
         tool.setPlayer(a);
         Die c= new Die(2, Colour.RED/*Colour.YELLOW */);  //
         Die d= new Die(1,Colour.YELLOW);
-        match.getRoundTrack().add(c);
+        ArrayList<Die> dice=new ArrayList<Die>();
+        dice.add(c);
+        dice.add(d);
+        match.setRoundTrack(dice,0);
         match.getStock().setDicestock(match.getSack().extractfromSack(match));
         System.out.println(match.getStock().toString());
         if (tool.effect(match.getStock().getDicestock().get(0),c,false,match, null,null,null,null,null,0)){

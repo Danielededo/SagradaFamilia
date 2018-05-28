@@ -7,8 +7,6 @@ import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Stock;
 
-import java.util.ArrayList;
-
 public class ToolCard12 extends Tool {
 
     public ToolCard12() {
@@ -53,17 +51,16 @@ public class ToolCard12 extends Tool {
         }
 
         scelto = slot1.getDice().getDicecolor();
-        ArrayList<Die> tracciatoAttuale = partita.getRoundTrack();
 
 
-        if(tracciatoAttuale.size() == 0){
+        if(partita.getRound() == 1){
             System.out.println("You can't use this toolCard now, there are no dice on the RoundTrack.\n");
             error=list__of_errors[10];
             return false;
         }
 
 
-        if(!this.scorroTrack(tracciatoAttuale, scelto)){
+        if(!this.scorroTrack(partita, scelto)){
             System.out.println("You can't choose this die.\n");
             error=list__of_errors[11];
             return false;
@@ -132,11 +129,12 @@ public class ToolCard12 extends Tool {
 
 
 
-    public boolean scorroTrack(ArrayList<Die> track, Colour colore){
-        int cont;
-        for(cont = 0; cont < track.size(); cont++){
-            if(track.get(cont).getDicecolor() == colore){
-                return true;
+    public boolean scorroTrack(Match partita,Colour colore){
+        for(int i = 0; i <partita.getRound()-1; i++) {
+            for (int j=0;j<partita.getRoundTrackList(i).size();j++){
+                if(partita.getRoundTrackList(i).get(j).getDicecolor()== colore){
+                    return true;
+                }
             }
         }
         return false;

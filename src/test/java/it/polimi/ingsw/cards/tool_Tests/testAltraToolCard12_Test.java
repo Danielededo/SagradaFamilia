@@ -30,7 +30,8 @@ public class testAltraToolCard12_Test {
         Die tre = new Die(2, Colour.PURPLE);
         Die sei = new Die(1, Colour.BLUE);
         track.add(uno); track.add(due); track.add(tre); track.add(sei);
-        partita.setRoundTrack(track);
+        partita.setRound(2);
+        partita.setRoundTrack(track,0);
         System.out.println(partita.getRoundTrack());
 
 

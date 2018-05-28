@@ -21,7 +21,7 @@ public class Match {
     private PrivObj privObj= new PrivObj();
     private ToolCards tool= new ToolCards();
     private Rules rules = new Rules();
-    private ArrayList<Die> roundTrack= new ArrayList<Die>();
+    private ArrayList<Die>[] roundTrack=new ArrayList[10];
     private int round=1;
 
     public String toolcardsString(){
@@ -82,7 +82,9 @@ public class Match {
     }
 
     public void fineRound(){
-        //this.roundTrack.set(this.round-1,getStock().extract_die(0));
+        ArrayList<Die> die=new ArrayList<Die>();
+        die.addAll(getStock().getDicestock());
+        setRoundTrack(die,round-1);
         setRound(this.round +1);
         getStock().reset_stock();
         if(this.round!=11)
@@ -390,12 +392,28 @@ public class Match {
         }
     }
 
-    public ArrayList<Die> getRoundTrack() {
+    public ArrayList<Die>[] getRoundTrack() {
         return roundTrack;
     }
 
-    public void setRoundTrack(ArrayList<Die> roundTrack) {
-        this.roundTrack = roundTrack;
+    public ArrayList<Die> getRoundTrackList(int list){
+        return roundTrack[list];
+    }
+
+    public void setRoundTrack(ArrayList<Die> roundTrack, int round) {
+        this.roundTrack[round] = roundTrack;
+    }
+
+    public String toStringRoundTrack() {
+        String string = "";
+        for (int i = 0; i <getRound()-1; i++) {
+            string += (i+1)+ ". ";
+            for (int j=0;j<getRoundTrackList(i).size();j++) {
+                string += "("+j+" - "+getRoundTrackList(i).get(j).toString() + ") ";
+            }
+            string += "\n";
+        }
+        return string;
     }
 
     private void cardAssignment(){

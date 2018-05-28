@@ -23,16 +23,23 @@ public class testToolCard12_Test {
         carta.setPlayer(a);
         carta.setUsed(true);
         Match partita = new Match(a,b);
-        ArrayList<Die> track = new ArrayList<Die>();
+        ArrayList<Die> dice1=new ArrayList<Die>();
+        ArrayList<Die> dice2=new ArrayList<Die>();
         //daditrack
         Die uno = new Die(3, Colour.GREEN);
         Die due = new Die(6, Colour.RED);
         Die tre = new Die(2, Colour.PURPLE);
         Die sei = new Die(1, Colour.BLUE);
-        track.add(uno); track.add(due); track.add(tre); track.add(sei);
-        partita.setRoundTrack(track);
-        System.out.println(partita.getRoundTrack());
-
+        dice1.add(uno);
+        dice1.add(due);
+        dice2.add(tre);
+        dice2.add(sei);
+        partita.setRound(3);
+        partita.setRoundTrack(dice1,0);
+        partita.setRoundTrack(dice2,1);
+       // System.out.println(partita.getRoundTrackList(0).toString());
+        //System.out.println(partita.getRoundTrackList(1).toString());
+        System.out.println(partita.toStringRoundTrack());
 
         carta.setPlayer(a);
 
@@ -54,6 +61,7 @@ public class testToolCard12_Test {
         partita.getRules().diePlacing(a,a.getWindow().getSlot(0,3),fin);
         partita.getRules().diePlacing(a,a.getWindow().getSlot(0,4),cin);
 
+        System.out.println(a.getWindow().toString());
 
         //ayo let's go
         carta.effect(null,null,false,partita,null, carta.getPlayer().getWindow().getSlot(1,2), null, carta.getPlayer().getWindow().getSlot(2,1), null,0);

@@ -38,10 +38,10 @@ public class ToolCard5 extends Tool {
                 }
             }
         }
-        int i=partita.getRoundTrack().indexOf(dado2);
+        int i=partita.getRoundTrackList(value).indexOf(dado2);
         Die d;
-        d = partita.getRoundTrack().get(i);
-        partita.getRoundTrack().set(i,dado1);
+        d = partita.getRoundTrackList(value).get(i);
+        partita.getRoundTrackList(value).set(i,dado1);
         partita.getStock().getDicestock().remove(dado1);
         partita.getStock().getDicestock().add(d);
         return true;
