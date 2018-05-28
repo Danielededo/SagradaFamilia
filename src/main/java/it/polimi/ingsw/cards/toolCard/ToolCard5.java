@@ -21,6 +21,7 @@ public class ToolCard5 extends Tool {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
                     getPlayer().setMarker(getPlayer().getMarker() - 1);
+                    setAccessed(true);
                     setUsed(true);
                 } else {
                     System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
