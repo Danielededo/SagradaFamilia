@@ -134,7 +134,7 @@ public class Server implements ServerInt{
                     "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString());
             int menu;
             do {
-                if (!match.getPlayers().get(z).isMissednext_turn()) {
+                if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     if (dicehand_done){
                         notify(listofobserver.get(k),"you can only end your turn or use a tool card");
                     }
@@ -159,7 +159,7 @@ public class Server implements ServerInt{
                 }else {
                     notify(listofobserver.get(k),"You have used tool card Tenaglia a Rotelle in your first turn so skip this turn");
                     notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" skip his turn due to use of tool card Tenaglia a Rotelle");
-                    match.getPlayers().get(z).setMissednext_turn(false);
+                    round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
                     cont_turn=0;
                 }
             } while (cont_turn!=0);
@@ -194,7 +194,7 @@ public class Server implements ServerInt{
             column=selection(5,0,k);
             match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
             if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
-                notify(listofobserver.get(k), "Die placed correctly\n"+match.getPlayers().get(z).getWindow());
+                notify(listofobserver.get(k), "Die placed correctly\n"+round.getTurns().get(z).getOneplayer().getWindow());
                 notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has placed the die "+match.getStock().getDicestock().get(index_draft)+" in his slot ("+row+","+column+")");
                 match.getStock().getDicestock().remove(index_draft);
                 cont = 0;
