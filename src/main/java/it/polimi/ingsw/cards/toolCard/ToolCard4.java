@@ -93,8 +93,10 @@ public class ToolCard4 extends Tool {
                 }
             }
         }
-        if (e && f)
+        if (e && f){
+            this.setUsed(false);
             return true;
+        }
         else{
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,a));
             getPlayer().getWindow().getSlot(slot2).setOccupate(false);

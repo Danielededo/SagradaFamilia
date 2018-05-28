@@ -53,6 +53,7 @@ public class ToolCard10 extends Tool {
             case 6: {dado1.setFace(1);
                      break;}
         }
+        this.setUsed(false);
         return true;
     }
 

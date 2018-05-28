@@ -44,6 +44,7 @@ public class ToolCard8 extends Tool {
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,dado1));
             if (slot1.isOccupate()){
                 getPlayer().setMissednext_turn(true);
+                this.setUsed(false);
                 return true;
             }else {
                 System.out.println("Non è stato possibile piazzare il dado in questa casella");

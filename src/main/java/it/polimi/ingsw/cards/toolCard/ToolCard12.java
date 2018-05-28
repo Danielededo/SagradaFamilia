@@ -80,6 +80,7 @@ public class ToolCard12 extends Tool {
 
 
         if(slot2 == null){
+            this.setUsed(false);
             return true;
         }
 
@@ -121,7 +122,7 @@ public class ToolCard12 extends Tool {
         this.getPlayer().getWindow().getSlot(slot4).setDie(slot2.getDice());
         this.getPlayer().getWindow().getSlot(slot2).setOccupate(false);
         this.getPlayer().getWindow().getSlot(slot2).setDie(null);
-
+        this.setUsed(false);
         return true;
 
     }

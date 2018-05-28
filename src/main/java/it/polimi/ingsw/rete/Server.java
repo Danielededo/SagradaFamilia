@@ -148,7 +148,7 @@ public class Server implements ServerInt{
                         }
                         case 1:{
                             if (!dicehand_done) dicehand(k,z,round);
-                            else notify(listofobserver.get(k),"Hai già piazzato un dado in questo turno");
+                            else notify(listofobserver.get(k),"You have already placed a die in this turn");
                             break;
                         }
                         case 2:{
@@ -215,7 +215,7 @@ public class Server implements ServerInt{
             match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
             if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
                 notify(listofobserver.get(k),match.getTool().get(index-1).getError());
-                if (match.getTool().get(index-1).getError().equals("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore")) placed=0;
+                if (!match.getTool().get(index-1).isUsed()) placed=0;
             }else {
                 notify(listofobserver.get(k),"Operation completed");
                 cont=0;

@@ -63,6 +63,7 @@ public class ToolCard9 extends Tool {
                 if (!super.getPlayer().getWindow().getSlot(slot1.getLine() + 1, slot1.getColumn()).isOccupate()) {
                     if (!super.getPlayer().getWindow().getSlot(slot1.getLine(), slot1.getColumn() - 1).isOccupate()) {
                         super.getPlayer().getWindow().getSlot(slot1.getLine(), slot1.getColumn()).setDie(dado1);
+                        this.setUsed(false);
                         return true;
                     }
                 }

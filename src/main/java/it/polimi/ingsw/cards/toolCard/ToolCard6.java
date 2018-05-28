@@ -39,6 +39,7 @@ public class ToolCard6 extends Tool {
             }
         }
         dado1.randomdado();
+        this.setUsed(false);
         return true;
     }
 

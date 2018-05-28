@@ -44,6 +44,7 @@ public class ToolCard5 extends Tool {
         partita.getRoundTrackList(value).set(i,dado1);
         partita.getStock().getDicestock().remove(dado1);
         partita.getStock().getDicestock().add(d);
+        this.setUsed(false);
         return true;
     }
 

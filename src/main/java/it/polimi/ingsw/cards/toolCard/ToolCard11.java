@@ -43,6 +43,7 @@ public class ToolCard11 extends Tool {
             }
         }
         partita.getSack().adddie(dado1);
+        this.setUsed(false);
         return true;
     }
 
