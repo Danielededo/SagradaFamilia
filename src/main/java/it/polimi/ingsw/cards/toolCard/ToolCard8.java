@@ -9,7 +9,7 @@ import it.polimi.ingsw.game.Stock;
 
 public class ToolCard8 extends Tool {
     public ToolCard8() {
-        super.setEffect("Dopo il tuo primo turno scegli" +
+        super.setEffect("Dopo il tuo primo turno scegli " +
                 "immediatamente un altro dado. " +
                 "Salta il tuo secondo turno in questo round. ");
         super.setName("Tenaglia a Rotelle");
@@ -44,6 +44,7 @@ public class ToolCard8 extends Tool {
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,dado1));
             if (slot1.isOccupate()){
                 getPlayer().setMissednext_turn(true);
+                stock.getDicestock().remove(dado1);
                 this.setUsed(false);
                 return true;
             }else {

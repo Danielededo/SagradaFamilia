@@ -207,7 +207,7 @@ public class Server implements ServerInt{
     public void tool_hand(int k,int z,Round round,int cont_turn)throws RemoteException{
         int cont=1,placed=1;
         int index;
-        notify(listofobserver.get(k),"Choose a tool card from list by its value: \n"+match.toolcardsString());
+        notify(listofobserver.get(k),"Choose a tool card from list by its value:");
         index=selection(4,1,k);
         notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
         notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
@@ -320,7 +320,7 @@ public class Server implements ServerInt{
                     placed=0;
                     return false;
                 }
-                notify(listofobserver.get(k),"You can select another die from draft pool: "+match.getStock().toString());
+                notify(listofobserver.get(k),tool.getPlayer().getWindow()+"\nYou can select another die from draft pool: "+match.getStock().toString());
                 index_draft=selection(match.getStock().getDicestock().size(),0,k);
                 notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
                         "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
