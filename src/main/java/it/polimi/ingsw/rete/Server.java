@@ -122,35 +122,45 @@ public class Server implements ServerInt{
     }
 
     public void round()throws RemoteException{
-        int cont_turn=1;
         final boolean[] timer_scaduto = {false};
         Timer timer = new Timer();
         Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             dicehand_done=false;
+            int cont_turn=1;
             notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
             notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+t+"\n"+
                     "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString());
             int menu;
             do {
-                notify(listofobserver.get(k),menu());
-                menu=selection(3,0,k);
-                switch (menu){
-                    case 0:{
-                        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has skipped his turn");
-                        cont_turn=0;
-                        break;
+                if (!match.getPlayers().get(z).isMissednext_turn()) {
+                    if (dicehand_done){
+                        notify(listofobserver.get(k),"you can only end your turn or use a tool card\n"+menu());
                     }
-                    case 1:{
-                        if (!dicehand_done) dicehand(k,z,round);
-                        else notify(listofobserver.get(k),"Hai già piazzato un dado in questo turno");
-                        break;
+                    notify(listofobserver.get(k),menu());
+                    menu=selection(3,0,k);
+                    switch (menu){
+                        case 0:{
+                            notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has ended his turn");
+                            cont_turn=0;
+                            break;
+                        }
+                        case 1:{
+                            if (!dicehand_done) dicehand(k,z,round);
+                            else notify(listofobserver.get(k),"Hai già piazzato un dado in questo turno");
+                            break;
+                        }
+                        case 2:{
+                            tool_hand(k,z,round,cont_turn);
+                            break;
+                        }
                     }
-                    case 2:{
-                        tool_hand(k,z,round,cont_turn);
-                        break;
-                    }
+                }else {
+                    notify(listofobserver.get(k),"You have used tool card Tenaglia a Rotelle in your first turn so skip this turn");
+                    notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" skip his turn due to use of tool card Tenaglia a Rotelle");
+                    match.getPlayers().get(z).setMissednext_turn(false);
+                    cont_turn=0;
                 }
             } while (cont_turn!=0);
             notifyObserver(listofobserver.get(k).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString()+
@@ -184,7 +194,7 @@ public class Server implements ServerInt{
             column=selection(5,0,k);
             match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
             if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
-                notify(listofobserver.get(k), "Die placed correctly");
+                notify(listofobserver.get(k), "Die placed correctly\n"+match.getPlayers().get(z).getWindow());
                 notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has placed the die "+match.getStock().getDicestock().get(index_draft)+" in his slot ("+row+","+column+")");
                 match.getStock().getDicestock().remove(index_draft);
                 cont = 0;
@@ -195,16 +205,17 @@ public class Server implements ServerInt{
     }
 
     public void tool_hand(int k,int z,Round round,int cont_turn)throws RemoteException{
-        int cont=1;
+        int cont=1,placed=1;
         int index;
         notify(listofobserver.get(k),"Choose a tool card from list by its value: \n"+match.toolcardsString());
         index=selection(4,1,k);
         notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
-        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha usato la carta tool "+match.getTool().get(index-1).getName());
-        while (cont!=0){
+        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
+        while (cont!=0||placed!=0){
             match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
-            if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn)){
+            if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
                 notify(listofobserver.get(k),match.getTool().get(index-1).getError());
+                if (match.getTool().get(index-1).getError().equals("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore")) placed=0;
             }else {
                 notify(listofobserver.get(k),"Operation completed");
                 cont=0;
@@ -212,7 +223,7 @@ public class Server implements ServerInt{
         }
     }
 
-    public boolean tool_selection(int k, int z, Round round, Tool tool,int cont_turn) throws RemoteException {
+    public boolean tool_selection(int k, int z, Round round, Tool tool,int cont_turn,int placed) throws RemoteException {
         switch (tool.getName()){
             case "Pinza Sgrossatrice":{
                 int index_draft,piumeno=-1;
@@ -293,12 +304,21 @@ public class Server implements ServerInt{
                 index_draft=selection(match.getStock().getDicestock().size(),0,k);
                 return tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0);
             }
-            case "Martelletto": return tool.effect(null,null,false,match,match.getStock(),null,null,null,null,0);
+            case "Martelletto": {
+                if (!dicehand_done)
+                    return tool.effect(null,null,false,match,match.getStock(),null,null,null,null,0);
+                else {
+                    notify(listofobserver.get(k),"You've already placede a die so you can't use this card");
+                    placed=0;
+                    return false;
+                }
+            }
             case "Tenaglia a Rotelle": {
                 int index_draft,row,column;
                 while (!dicehand_done){
                     notify(listofobserver.get(k),"To use this card you must place a die before");
-                    dicehand(k,z,round);
+                    placed=0;
+                    return false;
                 }
                 notify(listofobserver.get(k),"You can select another die from draft pool: "+match.getStock().toString());
                 index_draft=selection(match.getStock().getDicestock().size(),0,k);
@@ -328,7 +348,7 @@ public class Server implements ServerInt{
                         notify(listofobserver.get(k),"Die placed correctly");
                         return true;
                     }else return false;
-                }else notify(listofobserver.get(k),"You have already placed a die");
+                }else {notify(listofobserver.get(k),"You have already placed a die");placed=0;}
                 return false;
             }
             case "Tampone Diamantato": {
@@ -405,7 +425,7 @@ public class Server implements ServerInt{
     }
 
     public String menu(){
-        return "Choose what to do : \n0: skip turn; \n1: place a die from draft pool;" +
+        return "Choose what to do : \n0: end turn; \n1: place a die from draft pool;" +
                 "\n2: use a tool card;";
 
     }

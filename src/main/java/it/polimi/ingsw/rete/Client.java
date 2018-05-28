@@ -1,7 +1,6 @@
 package it.polimi.ingsw.rete;
 
 import java.io.FileInputStream;
-import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -30,7 +29,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
             switch (choice){
                 case "home":serverIP=defaultProps.getProperty("IPhome");break;
                 case "dani":serverIP=defaultProps.getProperty("IPDaniele");break;
-                default: throw new ConnectException("0.0.0.0");
+                default: serverIP=choice; break;
             }
             in.close();
             String name="Sagrada server";
