@@ -24,6 +24,7 @@ public class ToolCard12 extends Tool {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
                     getPlayer().setMarker(getPlayer().getMarker() - 1);
+                    setAccessed(true);
                     setUsed(true);
                 } else {
                     System.out.println("You can't use this toolCard, you don't have enough Favor Tokens.\n");
