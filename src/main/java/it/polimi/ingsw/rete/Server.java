@@ -136,7 +136,7 @@ public class Server implements ServerInt{
             do {
                 if (!match.getPlayers().get(z).isMissednext_turn()) {
                     if (dicehand_done){
-                        notify(listofobserver.get(k),"you can only end your turn or use a tool card\n"+menu());
+                        notify(listofobserver.get(k),"you can only end your turn or use a tool card");
                     }
                     notify(listofobserver.get(k),menu());
                     menu=selection(3,0,k);
@@ -426,7 +426,7 @@ public class Server implements ServerInt{
 
     public String menu(){
         return "Choose what to do : \n0: end turn; \n1: place a die from draft pool;" +
-                "\n2: use a tool card;";
+                "\n2: use a tool card;\n"+match.toolcardsString();
 
     }
 
