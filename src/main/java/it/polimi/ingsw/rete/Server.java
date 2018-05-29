@@ -27,7 +27,7 @@ public class Server implements ServerInt{
     private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     private Registry registry;
     private boolean start=false;
-    private boolean dicehand_done=false;
+    private boolean dicehand_done=false,toolhand_done=false;
 
     public void setStart(boolean start) {
         this.start = start;
@@ -128,16 +128,22 @@ public class Server implements ServerInt{
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             dicehand_done=false;
+            toolhand_done=false;
             int cont_turn=1;
             notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
             notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+t+"\n"+
-                    "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString());
+                    "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString());
             int menu;
             if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                 do {
-                    if (dicehand_done){
-                        notify(listofobserver.get(k),"you can only end your turn or use a tool card");
+                    if (dicehand_done && toolhand_done){
+                        notify(listofobserver.get(k),"You can only end your turn ");
                     }
+                    else
+                        if(!dicehand_done && toolhand_done)
+                            notify(listofobserver.get(k),"You can only place a die or end turn");
+                        else
+                            notify(listofobserver.get(k),"You can only use a tool card or end turn");
                     notify(listofobserver.get(k),menu());
                     menu=selection(3,0,k);
                     switch (menu){
@@ -152,7 +158,10 @@ public class Server implements ServerInt{
                             break;
                         }
                         case 2:{
-                            tool_hand(k,z,round,cont_turn);
+                            if(!toolhand_done)
+                                tool_hand(k,z,round,cont_turn);
+                            else
+                                notify(listofobserver.get(k),"You have already used a tool card in this turn");
                             break;
                         }
                     }
@@ -217,6 +226,7 @@ public class Server implements ServerInt{
                 if (!match.getTool().get(index-1).isUsed()) placed=0;
             }else {
                 notify(listofobserver.get(k),"Operation completed");
+                toolhand_done=true;
                 cont=0;
             }
         }
@@ -304,17 +314,21 @@ public class Server implements ServerInt{
                 return tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0);
             }
             case "Martelletto": {
-                if (!dicehand_done)
-                    return tool.effect(null,null,false,match,match.getStock(),null,null,null,null,0);
-                else {
-                    notify(listofobserver.get(k),"You've already placede a die so you can't use this card");
-                    placed=0;
-                    return false;
+                if (round.getTurns().get(z).getOneplayer().getContTurn()==2){
+                    if (!dicehand_done)
+                        return tool.effect(null,null,false,match,match.getStock(),null,null,null,null,0);
+                    else {
+                        notify(listofobserver.get(k),"You've already placed a die so you can't use this card");
+                        placed=0;
+                        return false;
+                    }
                 }
+                notify(listofobserver.get(k),"It's not your second turn");
+                return false;
             }
             case "Tenaglia a Rotelle": {
                 int index_draft,row,column;
-                while (!dicehand_done){
+                if (!dicehand_done){
                     notify(listofobserver.get(k),"To use this card you must place a die before");
                     placed=0;
                     return false;
@@ -424,7 +438,7 @@ public class Server implements ServerInt{
     }
 
     public String menu(){
-        return "Choose what to do : \n0: end turn; \n1: place a die from draft pool;" +
+        return "Draft pool: "+match.getStock().toString()+"\nChoose what to do : \n0: end turn; \n1: place a die from draft pool;" +
                 "\n2: use a tool card:\n"+match.toolcardsString();
 
     }

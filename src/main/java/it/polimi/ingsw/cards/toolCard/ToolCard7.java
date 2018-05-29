@@ -39,16 +39,12 @@ public class ToolCard7 extends Tool {
                 }
             }
         }
-        if (getPlayer().getContTurn()==2){
-            for (Die die:stock.getDicestock()){
-                die.randomdado();
-            }
-            this.setUsed(true);
-            return true;
-        }else {System.out.println("Non puoi utilizzare l'effetto della carta perchè non è il tuo secondo turno");
-            error=list__of_errors[7];
-            return false;
+        for (Die die:stock.getDicestock()){
+            die.randomdado();
         }
+        this.setUsed(true);
+        return true;
+
     }
 
 }

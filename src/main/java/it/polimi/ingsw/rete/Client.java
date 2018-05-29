@@ -1,11 +1,13 @@
 package it.polimi.ingsw.rete;
 
-import java.io.FileInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client extends UnicastRemoteObject implements ClientInt{
     private String nickname;
@@ -18,20 +20,9 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public static void main(String[] args) {
         try {
-            Properties defaultProps = new Properties();
-            FileInputStream in = new FileInputStream("src/main/resources/Connection");
-            defaultProps.load(in);
-            PORT= Integer.parseInt(defaultProps.getProperty("Port"));
+            PORT= Integer.parseInt(args[0]);
+            serverIP=args[1];
             Client client=new Client();
-            Scanner IP=new Scanner(System.in);
-            System.out.println("Connection to: -home -dani  ");
-            String choice=IP.nextLine();
-            switch (choice){
-                case "home":serverIP=defaultProps.getProperty("IPhome");break;
-                case "dani":serverIP=defaultProps.getProperty("IPDaniele");break;
-                default: serverIP=choice; break;
-            }
-            in.close();
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
