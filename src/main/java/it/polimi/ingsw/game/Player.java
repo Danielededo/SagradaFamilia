@@ -82,12 +82,16 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "nickname='" + nickname + '\'' +
-                ", privatetarget=" + privatetarget +
-                ", window=" + window +
-                ", score=" + score +
-                ", marker=" + marker +
-                '}';
+        return  nickname +"\n privatetarget:" + privatetarget +
+                "\nfavor token:" + marker+
+                "\n" + window;
+
+    }
+
+    public String toStringpublic() {
+        return  nickname +
+                "\nfavor token:" + marker+
+                window;
+
     }
 }

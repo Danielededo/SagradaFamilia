@@ -133,8 +133,8 @@ public class Server implements ServerInt{
             notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+t+"\n"+
                     "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString()+"\nDraft pool: "+match.getStock().toString());
             int menu;
-            do {
-                if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
+            if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
+                do {
                     if (dicehand_done){
                         notify(listofobserver.get(k),"you can only end your turn or use a tool card");
                     }
@@ -156,14 +156,13 @@ public class Server implements ServerInt{
                             break;
                         }
                     }
-                }else {
-                    notify(listofobserver.get(k),"You have used tool card Tenaglia a Rotelle in your first turn so skip this turn");
-                    notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" skip his turn due to use of tool card Tenaglia a Rotelle");
-                    round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
-                    cont_turn=0;
-                }
-            } while (cont_turn!=0);
-            notifyObserver(listofobserver.get(k).getNickname()+"'s scheme card, after this turn "+round.getTurns().get(z).getOneplayer().getWindow().toString()+
+                } while (cont_turn!=0);
+            }else {
+                notify(listofobserver.get(k),"You have used tool card Tenaglia a Rotelle in your first turn so skip this turn");
+                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" skip his turn due to use of tool card Tenaglia a Rotelle");
+                round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
+            }
+            notifyObserver("After this turn, "+round.getTurns().get(z).getOneplayer().toStringpublic()+
                     "\n---------------------------------------------------------------------------------------------");
             if(z>match.getnumberPlayers()-1)
                 k--;
