@@ -27,7 +27,8 @@ public abstract class Tool extends Card{
             "You can't use this toolCard now, there are no dice on the RoundTrack",
             "You can't choose this die",
             "Choose another slot",
-            "You can't choose dice with different colours. Start again."
+            "You can't choose dice with different colours. Start again.",
+            "There are not enough dice to use this tool card"
     };
 
 

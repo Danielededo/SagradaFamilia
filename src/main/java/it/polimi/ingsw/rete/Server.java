@@ -131,19 +131,19 @@ public class Server implements ServerInt{
             toolhand_done=false;
             int cont_turn=1;
             notifyOthers(listofobserver.get(k),"Wait your turn\nIt's "+listofobserver.get(k).getNickname()+"'s turn\nDraft pool: "+match.getStock().toString());
-            notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+"\nRound: "+match.getRound()+"; Turn "+t+"\n"+
-                    "Your scheme card: "+round.getTurns().get(z).getOneplayer().getWindow().toString());
+            notify(listofobserver.get(k),"It's your turn "+listofobserver.get(k).getNickname()+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turn "+t+Colour.RESET);
             int menu;
             if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                 do {
+                    notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().toString());
                     if (dicehand_done && toolhand_done){
                         notify(listofobserver.get(k),"You can only end your turn ");
                     }
                     else
                         if(!dicehand_done && toolhand_done)
                             notify(listofobserver.get(k),"You can only place a die or end turn");
-                        else
-                            notify(listofobserver.get(k),"You can only use a tool card or end turn");
+                        else if(dicehand_done && !toolhand_done)
+                                notify(listofobserver.get(k),"You can only use a tool card or end turn");
                     notify(listofobserver.get(k),menu());
                     menu=selection(3,0,k);
                     switch (menu){
@@ -195,20 +195,22 @@ public class Server implements ServerInt{
         while(cont!=0) {
             int index_draft, row, column;
             notify(listofobserver.get(k), "Choose a die through its index");
-            index_draft=selection(match.getStock().getDicestock().size(),0,k);
-            notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
-                    "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
-            row=selection(4,0,k);
-            column=selection(5,0,k);
-            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
-            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
-                notify(listofobserver.get(k), "Die placed correctly\n"+round.getTurns().get(z).getOneplayer().getWindow());
-                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has placed the die "+match.getStock().getDicestock().get(index_draft)+" in his slot ("+row+","+column+")");
-                match.getStock().getDicestock().remove(index_draft);
-                cont = 0;
-                dicehand_done=true;
-            } else
-                notify(listofobserver.get(k), match.getRules().getError());
+            index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
+            if (index_draft!=match.getStock().getDicestock().size()) {
+                notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
+                        "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
+                row=selection(4,0,k);
+                column=selection(5,0,k);
+                match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
+                if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
+                    notify(listofobserver.get(k), "Die placed correctly");
+                    notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has placed the die "+match.getStock().getDicestock().get(index_draft)+" in his slot ("+row+","+column+")");
+                    match.getStock().getDicestock().remove(index_draft);
+                    cont = 0;
+                    dicehand_done=true;
+                } else
+                    notify(listofobserver.get(k), match.getRules().getError());
+            }else cont=0;
         }
     }
 
@@ -218,7 +220,6 @@ public class Server implements ServerInt{
         notify(listofobserver.get(k),"Choose a tool card from list by its value:");
         index=selection(4,1,k);
         notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
-        notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
         while (cont!=0&&placed!=0){
             match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
             if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
@@ -227,6 +228,7 @@ public class Server implements ServerInt{
             }else {
                 notify(listofobserver.get(k),"Operation completed");
                 toolhand_done=true;
+                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
                 cont=0;
             }
         }
@@ -240,7 +242,7 @@ public class Server implements ServerInt{
                 notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
                 index_draft=selection(match.getStock().getDicestock().size(),0,k);
                 notify(listofobserver.get(k),"your choice is "+match.getStock().getDicestock().get(index_draft));
-                notify(listofobserver.get(k),"Now select 0 if you want to increase the value or 1 if you want to decrease the value");
+                notify(listofobserver.get(k),"Now select 0 if you want to decrease the value or 1 if you want to increase the value");
                 do {
                     try {
                         piumeno = listofobserver.get(k).selection_int();
@@ -248,7 +250,7 @@ public class Server implements ServerInt{
                         piumeno=10;
                     }
                 } while (piumeno!=0&&piumeno!=1);
-                if (piumeno==1)b=false;
+                if (piumeno==0)b=false;
                 else b=true;
                 return tool.effect(match.getStock().getDicestock().get(index_draft),null,b,match,match.getStock(),null,null,null,null,0);
             }
@@ -298,14 +300,18 @@ public class Server implements ServerInt{
             }
             case "Taglierina circolare": {
                 int index_draft,index_roundtrackList,index_roundtrackDie;
-                notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
-                index_draft=selection(match.getStock().getDicestock().size(),0,k);
-                notify(listofobserver.get(k),"your choice is "+match.getStock().getDicestock().get(index_draft));
-                notify(listofobserver.get(k),match.toStringRoundTrack()+"\nNow insert round number and then the index of the chosen die");
-                index_roundtrackList=selection(match.getRound(),1,k)-1;
-                index_roundtrackDie=selection(match.getRoundTrackList(index_roundtrackList).size()-1,0,k);
-                Die d=match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie);
-                return tool.effect(match.getStock().getDicestock().get(index_draft),d,false,match,match.getStock(),null,null,null,null,index_roundtrackList);
+                if (match.getRound()>1) {
+                    notify(listofobserver.get(k),match.toStringRoundTrack());
+                    notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
+                    index_draft=selection(match.getStock().getDicestock().size(),0,k);
+                    notify(listofobserver.get(k),"your choice is "+match.getStock().getDicestock().get(index_draft));
+                    notify(listofobserver.get(k),"Now insert round number and then the index of the chosen die");
+                    index_roundtrackList=selection(match.getRound(),1,k)-1;
+                    index_roundtrackDie=selection(match.getRoundTrackList(index_roundtrackList).size(),0,k);
+                    Die d=match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie);
+                    return tool.effect(match.getStock().getDicestock().get(index_draft),d,false,match,match.getStock(),null,null,null,null,index_roundtrackList);
+                }else notify(listofobserver.get(k),"There are no dice on round track");
+                return false;
             }
             case "Pennello per Pasta Salda": {
                 int index_draft;
@@ -334,7 +340,8 @@ public class Server implements ServerInt{
                     return false;
                 }
                 notify(listofobserver.get(k),tool.getPlayer().getWindow()+"\nYou can select another die from draft pool: "+match.getStock().toString());
-                index_draft=selection(match.getStock().getDicestock().size(),0,k);
+                index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
+                if (index_draft==match.getStock().getDicestock().size()){placed=0;return false;}
                 notify(listofobserver.get(k), "\nYour choice is: " + match.getStock().getDicestock().get(index_draft).toString() +
                         "\nChoose the slot of your scheme card where you want to place the die, respectively row and column: ");
                 row=selection(4,0,k);
@@ -349,7 +356,8 @@ public class Server implements ServerInt{
                 int index_draft,row,column;
                 if (!dicehand_done) {
                     notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
-                    index_draft=selection(match.getStock().getDicestock().size(),0,k);
+                    index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
+                    if(index_draft==match.getStock().getDicestock().size()){placed=0;return false;}
                     notify(listofobserver.get(k),"Insert row and column respectively of the slot where you want to put the die");
                     row=selection(4,0,k);
                     column=selection(5,0,k);

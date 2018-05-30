@@ -20,6 +20,8 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public static void main(String[] args) {
         try {
+            args[0]=args[0].replaceAll("-","");
+            args[1]=args[1].replaceAll("-","");
             PORT= Integer.parseInt(args[0]);
             serverIP=args[1];
             Client client=new Client();

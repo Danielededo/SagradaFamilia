@@ -21,6 +21,8 @@ public class ToolCard3 extends Tool {
 
     @Override
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
+        Rules rules = new Rules();
+        if (rules.getCont(getPlayer())==1){ error=list__of_errors[14];return false;}
         if(!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {
@@ -56,7 +58,6 @@ public class ToolCard3 extends Tool {
         }
         a.setFace(getPlayer().getWindow().getSlot(slot1).getDice().getFace());
         a.setDicecolor(getPlayer().getWindow().getSlot(slot1).getDice().getDicecolor());
-        Rules rules = new Rules();
         if (rules.neighboursCheck(getPlayer().getWindow(), slot2.getColumn(), slot2.getLine(), a.getDicecolor(), a.getFace())) {
             if (slot2.getSlotcolour() == Colour.WHITE) {
                 getPlayer().getWindow().getSlot(slot2).setDie(a);

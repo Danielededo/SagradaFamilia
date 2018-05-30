@@ -9,6 +9,7 @@ import it.polimi.ingsw.dice.Die;
 
 public class Rules {
     private String error;
+    private int cont;
     private String[] list__of_errors={
             "This slot is not on the border of your Scheme Card",
             "Slot occupied",
@@ -18,6 +19,18 @@ public class Rules {
             "There's already a die with the same value next to this one",
             "There are no dice next to this slot"
     };
+
+    public int getCont(Player current) {
+        cont=0;
+        for(int i=0; i < 4; i++){
+            for(int j=0; j < 5; j++) {
+                if(current.getWindow().getSlot(i,j).getDice() != null) {
+                    cont++;
+                }
+            }
+        }
+        return cont;
+    }
 
     public String getError() {
         return error;

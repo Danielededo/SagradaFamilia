@@ -82,7 +82,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return  nickname +"\n privatetarget: " + privatetarget +
+        return  "privatetarget: " + privatetarget +
                 "\nfavor token: " + marker+
                 "\n" + window;
 

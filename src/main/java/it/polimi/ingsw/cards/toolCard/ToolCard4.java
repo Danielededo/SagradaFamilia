@@ -18,6 +18,9 @@ public class ToolCard4 extends Tool {
 
     @Override
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
+        Rules rules = new Rules();
+        if (rules.getCont(getPlayer())<2){ error=list__of_errors[14];return false;}
+        int marker=getPlayer().getMarker();
         boolean e = false, f = false;
         if (!isUsed()) {
             if (!this.isAccessed()) {
@@ -43,31 +46,37 @@ public class ToolCard4 extends Tool {
         }
         Die a= new Die();
         Die b= new Die();
-        Rules rules = new Rules();
         int i = 0;
         while (i != 2) {
             if (i == 0) {
                 if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
                     System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
                     error=list__of_errors[2];
+                    setUsed(false);
+                    getPlayer().setMarker(marker);
                     return false;
                 }
                 if (!getPlayer().getWindow().getSlot(slot1).isOccupate()) {
                     System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
                     error=list__of_errors[3];
+                    setUsed(false);
+                    getPlayer().setMarker(marker);
                     return false;
                 }
                 a = getPlayer().getWindow().getSlot(slot1).getDice();
-                getPlayer().setWindow(rules.diePlacing(getPlayer(), slot2, a));
-                if (getPlayer().getWindow().getSlot(slot2).isOccupate()) {
-                    getPlayer().getWindow().getSlot(slot1).setOccupate(false);
-                    getPlayer().getWindow().getSlot(slot1).setDie(null);
-                    e = true;
-                    i++;
-                } else {
+                getPlayer().getWindow().getSlot(slot1).setOccupate(false);
+                getPlayer().getWindow().getSlot(slot1).setDie(null);
+                rules.diePlacing(getPlayer(), slot2, a);
+                if (!getPlayer().getWindow().getSlot(slot2).isOccupate()) {
+                    getPlayer().getWindow().getSlot(slot1).setDie(a);
                     System.out.println("Il dado selezionato non può essere spostato in questa casella");
                     error=list__of_errors[6];
+                    setUsed(false);
+                    getPlayer().setMarker(marker);
                     return false;
+                } else {
+                    e = true;
+                    i++;
                 }
             } else {
                 if (getPlayer().getWindow().getSlot(slot4).isOccupate()) {
@@ -80,15 +89,16 @@ public class ToolCard4 extends Tool {
                     i++;
                 }else {
                     b = getPlayer().getWindow().getSlot(slot3).getDice();
-                    getPlayer().setWindow(rules.diePlacing(getPlayer(), slot4, b));
-                    if (getPlayer().getWindow().getSlot(slot4).isOccupate()) {
-                        getPlayer().getWindow().getSlot(slot3).setOccupate(false);
-                        getPlayer().getWindow().getSlot(slot3).setDie(null);
-                        f = true;
-                        i++;
-                    } else {
+                    getPlayer().getWindow().getSlot(slot3).setOccupate(false);
+                    getPlayer().getWindow().getSlot(slot3).setDie(null);
+                    rules.diePlacing(getPlayer(), slot4, b);
+                    if (!getPlayer().getWindow().getSlot(slot4).isOccupate()) {
+                        getPlayer().getWindow().getSlot(slot3).setDie(b);
                         System.out.println("Il dado selezionato non può essere spostato in questa casella");
                         error=list__of_errors[6];
+                        i++;
+                    } else {
+                        f = true;
                         i++;
                     }
                 }
@@ -102,6 +112,8 @@ public class ToolCard4 extends Tool {
             getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,a));
             getPlayer().getWindow().getSlot(slot2).setOccupate(false);
             getPlayer().getWindow().getSlot(slot2).setDie(null);
+            setUsed(false);
+            getPlayer().setMarker(marker);
             return false;
         }
     }
