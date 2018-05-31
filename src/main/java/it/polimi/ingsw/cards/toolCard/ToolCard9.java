@@ -13,7 +13,7 @@ public class ToolCard9 extends Tool {
                 "piazzalo in una casella che " +
                 "non sia adiacente a un altro dado. " +
                 "Devi rispettare tutte le " +
-                "restrizioni di piazzamento. ");
+                "restrizioni di piazzamento ");
         super.setName("Riga in Sughero");
         super.setValue(9);
     }

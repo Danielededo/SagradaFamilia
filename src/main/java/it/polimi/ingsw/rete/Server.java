@@ -9,14 +9,12 @@ import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
 
-import java.io.FileInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Properties;
 import java.util.Timer;
 
 public class Server implements ServerInt{
@@ -49,14 +47,10 @@ public class Server implements ServerInt{
         }
     }
 
-    public void start_server(){
+    public void start_server(String arg){
         boolean gone=true;
         try{
-            Properties defaultProps = new Properties();
-            FileInputStream in = new FileInputStream("src/main/resources/Connection");
-            defaultProps.load(in);
-            PORT= Integer.parseInt(defaultProps.getProperty("Port"));
-            in.close();
+            PORT= Integer.parseInt(arg);
             String server_name="Sagrada server";
             obj =new Server();
             obj.room=new Waiting_Room(obj);

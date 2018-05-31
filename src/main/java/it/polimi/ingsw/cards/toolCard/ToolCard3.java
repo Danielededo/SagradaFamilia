@@ -14,7 +14,7 @@ public class ToolCard3 extends Tool {
                 " vetrata ignorando le restrizioni" +
                 " di valore. " +
                 "Devi rispettare tutte le altre" +
-                " restrizioni di piazzamento. ");
+                " restrizioni di piazzamento ");
         super.setName("Alesatore per lamina di rame");
         super.setValue(3);
     }

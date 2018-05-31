@@ -86,8 +86,8 @@ public abstract class Tool extends Card{
         String escape = Colour.RED.escape();
         if (accessed){
             return  "Name: " +escape+ name + Colour.RESET +
-                    " effect:\n" + effect + "\nTo use this card are required two Favor Token"+'\n';
+                    " effect:\n" + effect + "\nTo use this card are required"+Colour.PURPLE.escape() +" two Favor Token"+Colour.RESET+'\n';
         }else return "Name: " +escape+ name + Colour.RESET +
-                " effect:\n" + effect + "\nTo use this card is required one Favor Token"+'\n';
+                " effect:\n" + effect + "\nTo use this card is required"+Colour.PURPLE.escape() +" one Favor Token"+Colour.RESET+'\n';
     }
 }

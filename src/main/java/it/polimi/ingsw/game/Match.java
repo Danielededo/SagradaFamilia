@@ -405,7 +405,7 @@ public class Match {
     }
 
     public String toStringRoundTrack() {
-        String string = "";
+        String string = "Tracciato dei round:\n";
         for (int i = 0; i <getRound()-1; i++) {
             string += (i+1)+ ". ";
             for (int j=0;j<getRoundTrackList(i).size();j++) {

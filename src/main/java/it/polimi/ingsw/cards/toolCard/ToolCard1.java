@@ -12,7 +12,7 @@ public class ToolCard1 extends Tool{
                 " aumenta o dominuisci il valore" +
                 " del dado scelto di 1. " +
                 "Non puoi cambiare " +
-                "un 6 in 1 o un 1 in 6. ");
+                "un 6 in 1 o un 1 in 6 ");
         super.setName("Pinza Sgrossatrice");
         super.setValue(1);
     }

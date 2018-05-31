@@ -12,7 +12,7 @@ public class ToolCard11 extends Tool {
                 "riponilo nel Sacchetto, " +
                 "poi pescane uno dal Sacchetto. " +
                 "Scegli il valore del nuovo dado e piazzalo, " +
-                "rispettando tutte le restrizioni di piazzamento. ");
+                "rispettando tutte le restrizioni di piazzamento ");
         super.setName("Diluente per Pasta Salda");
         super.setValue(11);
     }

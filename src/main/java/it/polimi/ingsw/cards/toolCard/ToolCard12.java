@@ -13,7 +13,7 @@ public class ToolCard12 extends Tool {
         super.setEffect("Muovi fino a due dadi " +
                 "dello stesso colore di un solo dado " +
                 "sul Tracciato del Round. " +
-                "Devi rispettare tutte le restrizioni di piazzamento. ");
+                "Devi rispettare tutte le restrizioni di piazzamento ");
         super.setName("Taglierina Manuale");
         super.setValue(12);
     }

@@ -10,7 +10,7 @@ public class ToolCard6 extends Tool {
     public ToolCard6() {
         super.setEffect("Dopo aver scelto un dado, " +
                 "tira nuovamente quel dado. " +
-                "Se non puoi piazzarlo riponilo nella riserva. ");
+                "Se non puoi piazzarlo riponilo nella riserva ");
         super.setName("Pennello per Pasta Salda");
         super.setValue(6);
     }
