@@ -55,23 +55,22 @@ public class ToolCard2 extends Tool {
             return false;
         }
         a = getPlayer().getWindow().getSlot(slot1).getDice();
+        getPlayer().getWindow().getSlot(slot1).setOccupate(false);
+        getPlayer().getWindow().getSlot(slot1).setDie(null);
         if (rules.neighboursCheck(getPlayer().getWindow(), slot2.getColumn(), slot2.getLine(), a.getDicecolor(), a.getFace())) {
             if (slot2.getValue() == 0) {
                 getPlayer().getWindow().getSlot(slot2).setDie(a);
-                slot1.setOccupate(false);
-                slot1.setDie(null);
                 setUsed(false);
                 return true;
             } else {
                 if (slot2.getValue() == a.getFace()) {
                     getPlayer().getWindow().getSlot(slot2).setDie(a);
-                    slot1.setOccupate(false);
-                    slot1.setDie(null);
                     setUsed(false);
                     return true;
                 } else {
                     System.out.println("Non puoi posizionare il dado in questa casella");
                     error=list__of_errors[4];
+                    getPlayer().getWindow().getSlot(slot1).setDie(a);
                     return false;
                 }
             }
@@ -79,6 +78,7 @@ public class ToolCard2 extends Tool {
         else{
             System.out.println("Il dado non può essere posizionato in questo slot perchè non soddisfa le regole di posizionamento");
             error=list__of_errors[5];
+            getPlayer().getWindow().getSlot(slot1).setDie(a);
             return false;
         }
     }
