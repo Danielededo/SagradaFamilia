@@ -301,7 +301,6 @@ public class Server implements ServerInt{
             case "Taglierina circolare": {
                 int index_draft,index_roundtrackList,index_roundtrackDie;
                 if (match.getRound()>1) {
-                    notify(listofobserver.get(k),match.toStringRoundTrack());
                     notify(listofobserver.get(k),"Choose a die from draft pool: "+match.getStock().toString());
                     index_draft=selection(match.getStock().getDicestock().size(),0,k);
                     notify(listofobserver.get(k),"your choice is "+match.getStock().getDicestock().get(index_draft));
@@ -386,10 +385,10 @@ public class Server implements ServerInt{
                     index_draft=selection(match.getStock().getDicestock().size(),0,k);
                     if (tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0)){
                         Die d = match.getSack().extractdie();
+                        notify(listofobserver.get(k),d+" now select the face you want to put in this die");
+                        value=selection(7,0,k);
+                        d.setFace(value);
                         do {
-                            notify(listofobserver.get(k),d+" now select the face you want to put in this die");
-                            value=selection(7,0,k);
-                            d.setFace(value);
                             notify(listofobserver.get(k),d+"\nNow insert row and column respectively of the slot where you want to put the die");
                             row=selection(4,0,k);
                             column=selection(5,0,k);
@@ -405,28 +404,33 @@ public class Server implements ServerInt{
                 return false;
             }
             case "Taglierina Manuale": {
-                int row1,column1,row2,column2,row3,column3,row4,column4;
-                notify(listofobserver.get(k),"Do you want to move 1 or 2 dice?");
-                int move=selection(3,1,k);
-                notify(listofobserver.get(k),"Insert row and column respectively of the slot from which you want to move the first die");
-                row1=selection(4,0,k);
-                column1=selection(5,0,k);
-                notify(listofobserver.get(k),"Now insert row and column respectively of the slot where you want to put the first die");
-                row2=selection(4,0,k);
-                column2=selection(5,0,k);
-                Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
-                Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                if(move==2){
-                    notify(listofobserver.get(k),"Insert row and column respectively of the slot from which you want to move the second die");
-                    row3=selection(4,0,k);
-                    column3=selection(5,0,k);
-                    notify(listofobserver.get(k),"Now insert row and column respectively of the slot where you want to put the second die");
-                    row4=selection(4,0,k);
-                    column4=selection(5,0,k);
-                    Slot slot3=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3);
-                    Slot slot4=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4);
-                    return tool.effect(null,null,false,match,match.getStock(),slot1,slot3,slot2,slot4,0);
-                }else return tool.effect(null,null,false,match,match.getStock(),slot1,null,slot2,null,0);
+                if (match.getRound()!=1) {
+                    int row1,column1,row2,column2,row3,column3,row4,column4;
+                    notify(listofobserver.get(k),"Do you want to move 1 or 2 dice?");
+                    int move=selection(4,1,k);
+                    notify(listofobserver.get(k),"Insert row and column respectively of the slot from which you want to move the first die");
+                    row1=selection(4,0,k);
+                    column1=selection(5,0,k);
+                    notify(listofobserver.get(k),"Now insert row and column respectively of the slot where you want to put the first die");
+                    row2=selection(4,0,k);
+                    column2=selection(5,0,k);
+                    Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
+                    Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
+                    if(move==2){
+                        notify(listofobserver.get(k),"Insert row and column respectively of the slot from which you want to move the second die");
+                        row3=selection(4,0,k);
+                        column3=selection(5,0,k);
+                        notify(listofobserver.get(k),"Now insert row and column respectively of the slot where you want to put the second die");
+                        row4=selection(4,0,k);
+                        column4=selection(5,0,k);
+                        Slot slot3=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3);
+                        Slot slot4=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4);
+                        return tool.effect(null,null,false,match,match.getStock(),slot1,slot3,slot2,slot4,0);
+                    }else return tool.effect(null,null,false,match,match.getStock(),slot1,null,slot2,null,0);
+                }else {
+                    notify(listofobserver.get(k),"Non puoi usare questa carta nel 1° round perchè non ci sono dadi sul tracciato dei round");
+                    return false;
+                }
             }
         }
         return false;
@@ -446,7 +450,7 @@ public class Server implements ServerInt{
     }
 
     public String menu(){
-        return "Draft pool: "+match.getStock().toString()+"\nChoose what to do : \n0: end turn; \n1: place a die from draft pool;" +
+        return match.toStringRoundTrack()+"Draft pool: "+match.getStock().toString()+"\nChoose what to do : \n0: end turn; \n1: place a die from draft pool;" +
                 "\n2: use a tool card:\n"+match.toolcardsString();
 
     }

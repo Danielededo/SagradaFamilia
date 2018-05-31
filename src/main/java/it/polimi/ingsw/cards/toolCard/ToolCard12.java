@@ -43,23 +43,13 @@ public class ToolCard12 extends Tool {
             }
         }
 
-        Colour scelto;
+        Colour scelto = slot1.getDice().getDicecolor();
 
         if(this.getPlayer().getWindow().getSlot(slot1).getDice() == null){
             System.out.println("This slot is empty.\n");
             error=list__of_errors[3];
             return false;
         }
-
-        scelto = slot1.getDice().getDicecolor();
-
-
-        if(partita.getRound() == 1){
-            System.out.println("You can't use this toolCard now, there are no dice on the RoundTrack.\n");
-            error=list__of_errors[10];
-            return false;
-        }
-
 
         if(!this.scorroTrack(partita, scelto)){
             System.out.println("You can't choose this die.\n");
