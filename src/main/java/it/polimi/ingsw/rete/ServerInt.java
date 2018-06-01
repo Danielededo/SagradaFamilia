@@ -10,7 +10,5 @@ public interface ServerInt extends Remote {
     public void notifyObserver(String arg) throws RemoteException;
     public void notifyOthers(ClientInt c,String arg) throws RemoteException;
     public boolean loginconnection(ClientInt c) throws RemoteException;
-    /*public String sceglidadodariserva();
-    public boolean posizionadado();*/
-
+    public void notify(ClientInt o,String arg) throws RemoteException;
 }

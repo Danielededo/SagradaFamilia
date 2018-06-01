@@ -5,8 +5,6 @@ import it.polimi.ingsw.game.Player;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Waiting_Room {
     private ArrayList<Player> players;
@@ -28,10 +26,20 @@ public class Waiting_Room {
         return players.size();
     }
 
-    public void addPlayer(String player) throws RemoteException {
+    public void addPlayer(String player) throws RemoteException, InterruptedException {
+        int cont;
         if (status_verify()) {
             Player player1=new Player(player);
             players.add(player1);
+            for (int i=0;i<players.size();i++){
+                cont=0;
+                for (String s:server.getName_disconnected()){
+                    if (s.equals(players.get(i).getNickname())){
+                        cont=1;
+                    }
+                }
+                if (cont==0) players.remove(i);
+            }
             if (this.players.size()==2)
             attesa_partita();
         }else System.out.println("Max giocatori");
@@ -58,52 +66,54 @@ public class Waiting_Room {
                 "players=" + players+
                 '}';
     }
+    public void attesa_player(){
+        boolean gone=true;
+        while (gone){
+        }
+    }
 
-    public void attesa_partita(){
-        final int time=0;
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            int n = 10;
-            @Override
-            public void run() {
-                System.out.println(n);
-                if (--n == time) {
-                    timer.cancel();
-                    try {
-                        server.control();
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    if(players.size()==1){
-                        try {
-                            server.notifyObserver("Wait before a player join");
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (players.size()==2){
-                        match=new Match(players.get(0),players.get(1));
-                        try {
-                            server.setMatch(match);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (players.size()==3) {
-                        match=new Match(players.get(0),players.get(1),players.get(2));
-                        try {
-                            server.setMatch(match);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (players.size()==4){
-                        match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
-                        try {
-                            server.setMatch(match);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }
+    public void attesa_partita() throws InterruptedException, RemoteException {
+        do {
+            for (int i=10;i>=0;i--){
+                Thread.sleep(1000);
+                server.notifyObserver(""+i);
+                System.out.println(i);
+            }
+            try {
+                server.control();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            if(players.size()==1){
+                try {
+                    server.notifyObserver("Wait before a player join");
+                    attesa_player();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
             }
-        },1000,1000);
+        } while (players.size()<2);
+        if (players.size()==2){
+            match=new Match(players.get(0),players.get(1));
+            try {
+                server.setMatch(match);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }else if (players.size()==3) {
+            match=new Match(players.get(0),players.get(1),players.get(2));
+            try {
+                server.setMatch(match);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }else if (players.size()==4){
+            match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
+            try {
+                server.setMatch(match);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -9,13 +9,14 @@ import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.InputMismatchException;
-import java.util.Timer;
 
 public class Server implements ServerInt{
     static int PORT;
@@ -26,6 +27,11 @@ public class Server implements ServerInt{
     private Registry registry;
     private boolean start=false;
     private boolean dicehand_done=false,toolhand_done=false;
+    private ArrayList<String> name_disconnected=new ArrayList<String>();
+
+    public ArrayList<ClientInt> getListofobserver() {
+        return listofobserver;
+    }
 
     public void setStart(boolean start) {
         this.start = start;
@@ -91,20 +97,25 @@ public class Server implements ServerInt{
         }
         catch (Exception e) {}
         for (ClientInt c:listofobserver){
-            c.update("Your private target is "+match.getPlayers().get(i).getPrivatetarget().toString());
-            ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
-            notify(c,"\n"+ windows.toString());
-            do {
-                String a = c.setupgame();
-                if (getNames(windows).contains(a)) {
-                    this.match.getPlayers().get(i).setWindow(windows.get(getNames(windows).indexOf(a)));
-                    System.out.println(c.getNickname() + " has chosen " + a);
-                    j=1;
-                } else
-                    c.update("Please try again");
-            }while (j==0);
-            i++;
-            j=0;
+            try {
+                c.update("Your private target is "+match.getPlayers().get(i).getPrivatetarget().toString());
+                ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
+                notify(c,"\n"+ windows.toString());
+                do {
+                    String a = c.setupgame();
+                    if (getNames(windows).contains(a)) {
+                        this.match.getPlayers().get(i).setWindow(windows.get(getNames(windows).indexOf(a)));
+                        System.out.println(c.getNickname() + " has chosen " + a);
+                        j=1;
+                    } else
+                        c.update("Please try again");
+                }while (j==0);
+                i++;
+                j=0;
+            }catch (ConnectException e){
+                removeObserver(c);
+                notifyObserver("disconnesso client");
+            }
         }
         notifyObserver(match.getGlassWindowPlayers()+ Colour.RED.escape()+"---------------------------------------------------------------------------------------------\nTHE MATCH BEGINS"+Colour.RESET);
         while(match.getRound()!=11){
@@ -116,8 +127,6 @@ public class Server implements ServerInt{
     }
 
     public void round()throws RemoteException{
-        final boolean[] timer_scaduto = {false};
-        Timer timer = new Timer();
         Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
@@ -456,29 +465,44 @@ public class Server implements ServerInt{
 
 
     public void notifyObserver(String arg) throws RemoteException {
-         for (ClientInt c:listofobserver) {
-             c.update(arg);
-         }
+        for (int i=0;i<listofobserver.size();i++) {
+            notify(listofobserver.get(i),arg);
+            //name_disconnected=room.getPlayers().get(i).getNickname();
+        }
     }
 
+    public ArrayList<String> getName_disconnected() {
+        return name_disconnected;
+    }
 
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
             listofobserver.add(o);
-            room.addPlayer(o.getNickname());
+            name_disconnected.add(o.getNickname());
+            try {
+                room.addPlayer(o.getNickname());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return true;
         } else
             return false;
         }
 
-    public void notify(ClientInt o,String arg) throws RemoteException{
-        o.update(arg);
+    public void notify(ClientInt o,String arg) throws RemoteException {
+        try {
+            o.update(arg);
+        } catch (RemoteException e) {
+            removeObserver(o);
+        }
     }
 
     public void notifyOthers(ClientInt o,String arg)throws RemoteException{
         for(ClientInt c:listofobserver){
             if(!c.equals(o))
-                c.update(arg);
+                try {
+                notify(c,arg);
+                }catch (ConcurrentModificationException e){}
         }
     }
 
@@ -514,7 +538,9 @@ public class Server implements ServerInt{
                 string+=p.getNickname()+" ; ";
             }
             notify(o,string);
-            notifyOthers(o, nick+ " connected");
+            try{notifyOthers(o, nick+ " connected");}catch (ConcurrentModificationException e){
+                name_disconnected.remove(0);
+            }
             return true;
         }
         else{
