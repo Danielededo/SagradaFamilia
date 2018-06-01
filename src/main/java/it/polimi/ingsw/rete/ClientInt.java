@@ -11,4 +11,6 @@ public interface ClientInt extends Remote {
     public String getServerIp() throws RemoteException;
     public String setupgame() throws RemoteException;
     public int selection_int() throws RemoteException;
+    public void exit() throws RemoteException;
+    public boolean verifyconnection()throws RemoteException;
 }

@@ -17,6 +17,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.InputMismatchException;
+import java.util.Timer;
 
 public class Server implements ServerInt{
     static int PORT;
@@ -27,10 +28,12 @@ public class Server implements ServerInt{
     private Registry registry;
     private boolean start=false;
     private boolean dicehand_done=false,toolhand_done=false;
+    public Timer timer=new Timer();
+    public MyThread thread;
     private ArrayList<String> name_disconnected=new ArrayList<String>();
 
-    public ArrayList<ClientInt> getListofobserver() {
-        return listofobserver;
+    public ArrayList<String> getName_disconnected() {
+        return name_disconnected;
     }
 
     public void setStart(boolean start) {
@@ -53,16 +56,22 @@ public class Server implements ServerInt{
         }
     }
 
+    public ArrayList<ClientInt> getListofobserver() {
+        return listofobserver;
+    }
+
     public void start_server(String arg){
         boolean gone=true;
         try{
             PORT= Integer.parseInt(arg);
             String server_name="Sagrada server";
             obj =new Server();
+            thread=new MyThread(obj);
             obj.room=new Waiting_Room(obj);
             ServerInt stub = (ServerInt) UnicastRemoteObject.exportObject(obj,0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
+            timer.scheduleAtFixedRate(thread,1000,1000);
             System.err.println(server_name + " ready");
             while (gone) {
 
@@ -88,8 +97,8 @@ public class Server implements ServerInt{
         setStart(true);
         final int time=15;
         this.match = match;
-        notifyObserver("Tool cards are: \n"+match.toolcardsString()+
-                "\nServer -> Public targets are: \n"+match.publictargetString());
+        notifyObserver("Tool cards are: "+match.toolcardsString()+
+                "\nServer -> Public targets are: "+match.publictargetString());
         notifyObserver("The game is starting... ");
         int i=0,j=0;
         try {
@@ -112,7 +121,7 @@ public class Server implements ServerInt{
                 }while (j==0);
                 i++;
                 j=0;
-            }catch (ConnectException e){
+            } catch (ConnectException e) {
                 removeObserver(c);
                 notifyObserver("disconnesso client");
             }
@@ -124,12 +133,40 @@ public class Server implements ServerInt{
         notifyObserver("THE MATCH IS OVER");
         match.fineMatch();
         notifyObserver(match.ranking());
+        try {
+            Thread.sleep(1000*20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for(ClientInt c:listofobserver)
+            c.exit();
+        System.exit(0);
     }
 
     public void round()throws RemoteException{
-        Round round= new Round(match);
+       Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
+            handleTurn(round,z,k,t);
+            if(z>match.getnumberPlayers()-1)
+                k--;
+            if(z<match.getnumberPlayers()-1)
+                k++;
+            if(z==match.getnumberPlayers()-1){
+                for(Player p:match.getPlayers()){
+                    p.setContTurn(2);
+                }
+                t=2;
+            }
+        }
+        notifyObserver("THE "+match.getRound()+" ROUND IS OVER");
+        match.fineRound();
+        listofobserver.add(listofobserver.get(0));
+        listofobserver.remove(0);
+    }
+
+    public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
+        if (round.getTurns().get(z).getOneplayer().isConnected()) {
             dicehand_done=false;
             toolhand_done=false;
             int cont_turn=1;
@@ -143,10 +180,10 @@ public class Server implements ServerInt{
                         notify(listofobserver.get(k),"You can only end your turn ");
                     }
                     else
-                        if(!dicehand_done && toolhand_done)
-                            notify(listofobserver.get(k),"You can only place a die or end turn");
-                        else if(dicehand_done && !toolhand_done)
-                                notify(listofobserver.get(k),"You can only use a tool card or end turn");
+                    if(!dicehand_done && toolhand_done)
+                        notify(listofobserver.get(k),"You can only place a die or end turn");
+                    else if(dicehand_done && !toolhand_done)
+                        notify(listofobserver.get(k),"You can only use a tool card or end turn");
                     notify(listofobserver.get(k),menu());
                     menu=selection(3,0,k);
                     switch (menu){
@@ -176,21 +213,10 @@ public class Server implements ServerInt{
             }
             notifyObserver("After this turn, "+round.getTurns().get(z).getOneplayer().toStringpublic()+
                     "\n---------------------------------------------------------------------------------------------");
-            if(z>match.getnumberPlayers()-1)
-                k--;
-            if(z<match.getnumberPlayers()-1)
-                k++;
-            if (z==match.getnumberPlayers()-1){
-                for (Player p:match.getPlayers()){
-                    p.setContTurn(2);
-                }
-                t=2;
-            }
         }
-        notifyObserver("THE "+match.getRound()+" ROUND IS OVER");
-        match.fineRound();
-        listofobserver.add(listofobserver.get(0));
-        listofobserver.remove(0);
+        else{
+            notifyObserver(round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è ancora disconnesso");
+        }
     }
 
     public void dicehand(int k,int z,Round round)throws RemoteException{
@@ -465,15 +491,11 @@ public class Server implements ServerInt{
 
 
     public void notifyObserver(String arg) throws RemoteException {
-        for (int i=0;i<listofobserver.size();i++) {
-            notify(listofobserver.get(i),arg);
-            //name_disconnected=room.getPlayers().get(i).getNickname();
-        }
+         for (int i=0;i<listofobserver.size();i++) {
+             notify(listofobserver.get(i),arg);
+         }
     }
 
-    public ArrayList<String> getName_disconnected() {
-        return name_disconnected;
-    }
 
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
@@ -481,7 +503,7 @@ public class Server implements ServerInt{
             name_disconnected.add(o.getNickname());
             try {
                 room.addPlayer(o.getNickname());
-            } catch (InterruptedException e) {
+            }catch (InterruptedException e){
                 e.printStackTrace();
             }
             return true;
@@ -489,9 +511,10 @@ public class Server implements ServerInt{
             return false;
         }
 
-    public void notify(ClientInt o,String arg) throws RemoteException {
+    public void notify(ClientInt o,String arg) throws RemoteException{
         try {
-            o.update(arg);
+            if(o!=null)
+                o.update(arg);
         } catch (RemoteException e) {
             removeObserver(o);
         }
@@ -499,15 +522,14 @@ public class Server implements ServerInt{
 
     public void notifyOthers(ClientInt o,String arg)throws RemoteException{
         for(ClientInt c:listofobserver){
-            if(!c.equals(o))
+            if(c!=null && !c.equals(o))
                 try {
-                notify(c,arg);
-                }catch (ConcurrentModificationException e){}
+                    notify(c,arg);
+                } catch (ConcurrentModificationException e){}
         }
     }
 
     public boolean loginconnection(ClientInt o) throws RemoteException {
-        String name=null;
         final int list=4;
         int i=0;
         String nick = null;
@@ -538,15 +560,33 @@ public class Server implements ServerInt{
                 string+=p.getNickname()+" ; ";
             }
             notify(o,string);
-            try{notifyOthers(o, nick+ " connected");}catch (ConcurrentModificationException e){
-                name_disconnected.remove(0);
-            }
+            notifyOthers(o, nick+ " connected");
             return true;
         }
         else{
             System.out.println(nick+ " tried to join unsuccessfully");
             notify(o,"Reached the maximum limit of players" );
             return false;
+        }
+    }
+
+    public void vericaconnessione() throws RemoteException {
+        for (ClientInt c:listofobserver){
+            try {
+                c.verifyconnection();
+                //System.out.println(listofobserver);
+            }catch (ConnectException e){
+                if(!start) {
+                    removeObserver(c);
+                    System.out.println(room.getPlayers().get(listofobserver.indexOf(c)).getNickname()+"disconnected");
+                    room.getPlayers().remove(listofobserver.indexOf(c));
+                }
+                else{
+                    System.out.println(room.getPlayers().get(listofobserver.indexOf(c)).getNickname()+"disconnected");
+                    listofobserver.set(listofobserver.indexOf(c),null);
+                    room.getPlayers().get(listofobserver.indexOf(null)).setConnected(false);
+                }
+            }
         }
     }
 }

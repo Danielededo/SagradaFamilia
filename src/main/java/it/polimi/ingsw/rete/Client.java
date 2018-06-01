@@ -105,4 +105,12 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         } while (!iscorrect);
         return s.nextInt();
     }
+
+    public boolean verifyconnection()throws RemoteException{
+        return true;
+    }
+
+    public void exit()throws RemoteException{
+        System.exit(0);
+    }
 }

@@ -14,6 +14,15 @@ public class Player {
     private int marker;
     private int contTurn;
     private boolean missednext_turn=false;
+    private boolean connected=true;
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
 
     public int getScore() {
         return score;
