@@ -13,9 +13,6 @@ public class MyThread extends TimerTask {
 
     @Override
     public void run() {
-        if(server.getListofobserver().size()==0){
-            System.out.println("lista degli osservatori vuota");
-        }
         try {
             server.vericaconnessione();
         } catch (ConcurrentModificationException e) {

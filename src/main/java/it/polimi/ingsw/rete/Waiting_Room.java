@@ -27,22 +27,12 @@ public class Waiting_Room {
     }
 
     public void addPlayer(String player) throws RemoteException, InterruptedException {
-        int cont;
         if (status_verify()) {
             Player player1=new Player(player);
             players.add(player1);
-            for (int i=0;i<players.size();i++){
-                cont=0;
-                for (String s:server.getName_disconnected()){
-                    if (s.equals(players.get(i).getNickname())){
-                        cont=1;
-                    }
-                }
-                if (cont==0) players.remove(i);
-            }
             if (this.players.size()==2)
-            attesa_partita();
-        }else System.out.println("Max giocatori");
+                attesa_partita();
+        }
     }
 
     public void deleteplayer(String player) {
@@ -74,7 +64,7 @@ public class Waiting_Room {
 
     public void attesa_partita() throws InterruptedException, RemoteException {
         do {
-            for (int i=10;i>=0;i--){
+            for (int i=10;i>0;i--){
                 Thread.sleep(1000);
                 server.notifyObserver(""+i);
                 System.out.println(i);

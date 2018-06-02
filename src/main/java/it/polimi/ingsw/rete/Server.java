@@ -215,7 +215,8 @@ public class Server implements ServerInt{
                     "\n---------------------------------------------------------------------------------------------");
         }
         else{
-            notifyObserver(round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è ancora disconnesso");
+            notifyObserver(round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è ancora disconnesso"+
+                    "\n---------------------------------------------------------------------------------------------");
         }
     }
 
@@ -522,10 +523,13 @@ public class Server implements ServerInt{
 
     public void notifyOthers(ClientInt o,String arg)throws RemoteException{
         for(ClientInt c:listofobserver){
-            if(c!=null && !c.equals(o))
-                try {
-                    notify(c,arg);
-                } catch (ConcurrentModificationException e){}
+            if(c!=null){
+                if(!c.equals(o)){
+                    try {
+                        notify(c,arg);
+                    } catch (ConcurrentModificationException e){}
+                }
+            }
         }
     }
 
@@ -571,22 +575,25 @@ public class Server implements ServerInt{
     }
 
     public void vericaconnessione() throws RemoteException {
+        int i=0;
         for (ClientInt c:listofobserver){
             try {
                 c.verifyconnection();
                 //System.out.println(listofobserver);
             }catch (ConnectException e){
                 if(!start) {
+                    System.out.println(room.getPlayers().get(i).getNickname()+" disconnected");
+                    room.getPlayers().remove(i);
+                    name_disconnected.remove(i);
                     removeObserver(c);
-                    System.out.println(room.getPlayers().get(listofobserver.indexOf(c)).getNickname()+"disconnected");
-                    room.getPlayers().remove(listofobserver.indexOf(c));
                 }
                 else{
-                    System.out.println(room.getPlayers().get(listofobserver.indexOf(c)).getNickname()+"disconnected");
-                    listofobserver.set(listofobserver.indexOf(c),null);
-                    room.getPlayers().get(listofobserver.indexOf(null)).setConnected(false);
+                    System.out.println(room.getPlayers().get(i).getNickname()+" disconnected");
+                    listofobserver.set(i,null);
+                    room.getPlayers().get(i).setConnected(false);
                 }
             }
+            i++;
         }
     }
 }
