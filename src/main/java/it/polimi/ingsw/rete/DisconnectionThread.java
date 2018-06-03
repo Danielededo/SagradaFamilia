@@ -4,11 +4,11 @@ import java.rmi.RemoteException;
 import java.util.ConcurrentModificationException;
 import java.util.TimerTask;
 
-public class MyThread extends TimerTask {
+public class DisconnectionThread extends TimerTask {
     private Server server;
     private boolean end=false;
 
-    public MyThread(Server server) {
+    public DisconnectionThread(Server server) {
         this.server = server;
     }
 

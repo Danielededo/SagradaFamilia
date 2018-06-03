@@ -29,7 +29,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             ServerInt stub= (ServerInt) registry.lookup(name);
             if(!stub.addObserver(client)){
-                System.err.println("You have been disconnected");
+                System.err.println("Sei stato disconnesso");
                 registry=null;
                 stub=null;
                 client=null;
@@ -56,7 +56,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public String setupPlayer()throws RemoteException{
         final int tim=11;
-        System.out.println("Press something to confirm your presence ");
+        System.out.println("Digita qualcosa per confermare la tua presenza ");
         Scanner in=new Scanner(System.in);
         String b="";
         final String finalB = b;
@@ -66,7 +66,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
             {
                 if( finalB.equals(""))
                 {
-                    System.out.println( "You input nothing. Exit..." );
+                    System.out.println( "Non hai risposto. Uscita..." );
                     System.exit(-1);
                     this.cancel();
                 }
@@ -81,14 +81,14 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public String setupgame() throws RemoteException{
         Scanner in=new Scanner(System.in);
-        System.out.println("Choose your schemecard ");
+        System.out.println("Scegli la tua carta schema ");
         String a=in.nextLine();
         return a;
     }
 
     public String setupconnection() throws RemoteException {
         Scanner in=new Scanner(System.in);
-        System.out.println("Input your nickname:");
+        System.out.println("Inserisci il tuo nickname:");
         nickname=in.nextLine();
         return nickname;
     }
