@@ -92,7 +92,7 @@ public class Server implements ServerInt{
         return names;
     }
 
-    public void setMatch(Match match) throws RemoteException {
+    public void setMatch(Match match) throws RemoteException, InterruptedException {
         this.match = match;
         start=true;
         final int time=15;
@@ -142,8 +142,8 @@ public class Server implements ServerInt{
         System.exit(0);
     }
 
-    public void round()throws RemoteException{
-       Round round= new Round(match);
+    public void round() throws RemoteException, InterruptedException {
+        Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             handleTurn(round,z,k,t);
@@ -159,16 +159,19 @@ public class Server implements ServerInt{
             }
         }
         notifyObserver("THE "+match.getRound()+" ROUND IS OVER");
-        swapdone=false;
+        thread.setEnd(true);
+        Thread.sleep(2000);
         match.fineRound();
         listofobserver.add(listofobserver.get(0));
         listofobserver.remove(0);
-        swapdone=true;
+        synchronized (thread){
+            thread.setEnd(false);
+            thread.notify();
+        }
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
         if (round.getTurns().get(z).getOneplayer().isConnected()) {
-
             dicehand_done=false;
             toolhand_done=false;
             int cont_turn=1;
@@ -215,7 +218,6 @@ public class Server implements ServerInt{
             }
             notifyObserver("After this turn, "+round.getTurns().get(z).getOneplayer().toStringpublic()+
                     "\n---------------------------------------------------------------------------------------------");
-
         }
         else{
             notifyObserver(round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è ancora disconnesso"+
@@ -574,7 +576,6 @@ public class Server implements ServerInt{
     }
 
     public void vericaconnessione() throws RemoteException {
-        if (swapdone) {
             int i=0;
             for (ClientInt c:listofobserver){
                 try {
@@ -587,14 +588,13 @@ public class Server implements ServerInt{
                         removeObserver(c);
                     }
                     else{
-                        if (match.getPlayers().get(i).isConnected()){
+                        if(match.getPlayers().get(i).isConnected()){
                             match.getPlayers().get(i).setConnected(false);
-                            System.out.println(match.getPlayers().get(i).getNickname()+" disconnected");
+                            System.out.println(match.getPlayers().get(i).getNickname() + " disconnected");
                         }
                     }
                 }
                 i++;
             }
-        }
     }
 }
