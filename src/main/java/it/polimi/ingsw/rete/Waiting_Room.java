@@ -84,6 +84,7 @@ public class Waiting_Room {
             }
         } while (players.size()<2);
         if (players.size()==2){
+            server.setStart(true);
             match=new Match(players.get(0),players.get(1));
             try {
                 server.setMatch(match);
@@ -91,6 +92,7 @@ public class Waiting_Room {
                 e.printStackTrace();
             }
         }else if (players.size()==3) {
+            server.setStart(true);
             match=new Match(players.get(0),players.get(1),players.get(2));
             try {
                 server.setMatch(match);
@@ -98,6 +100,7 @@ public class Waiting_Room {
                 e.printStackTrace();
             }
         }else if (players.size()==4){
+            server.setStart(true);
             match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
             try {
                 server.setMatch(match);

@@ -13,9 +13,15 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     private String nickname;
     private static String serverIP;
     static int PORT;
+    private static String password;
+    private Cryptography tp;
 
     protected Client() throws RemoteException {
         super();
+    }
+
+    public String getPassword() throws RemoteException{
+        return password;
     }
 
     public static void main(String[] args) {
@@ -87,9 +93,17 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     }
 
     public String setupconnection() throws RemoteException {
+        try {
+            tp=new Cryptography();
+        } catch (Exception e) {
+        }
         Scanner in=new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname:");
         nickname=in.nextLine();
+        Scanner in1=new Scanner(System.in);
+        System.out.println("Password:");
+        String pass=in1.nextLine();
+        password=tp.encrypt(pass);
         return nickname;
     }
 

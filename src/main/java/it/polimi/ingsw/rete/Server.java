@@ -8,7 +8,10 @@ import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
+import org.sonarsource.scanner.api.internal.shaded.minimaljson.JsonObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,6 +34,8 @@ public class Server implements ServerInt{
     public DisconnectionThread thread;
     private ArrayList<String> name_disconnected=new ArrayList<String>();
     private boolean swapdone=true;
+    private JsonObject o=new JsonObject();
+    private Cryptography trippleDes;
 
     public ArrayList<String> getName_disconnected() {
         return name_disconnected;
@@ -63,22 +68,23 @@ public class Server implements ServerInt{
     public void start_server(String arg){
         boolean gone=true;
         try{
+            String server_name;
+            ServerInt stub;
             PORT= Integer.parseInt(arg);
-            String server_name="Sagrada server";
+            server_name = "Sagrada server";
             thread=new DisconnectionThread(this);
             this.room=new Waiting_Room(this);
-            ServerInt stub = (ServerInt) UnicastRemoteObject.exportObject(this,0);
+            stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
             timer.scheduleAtFixedRate(thread,0,500);
             System.err.println(server_name + " pronto");
+            trippleDes=new Cryptography();
             while (gone) {
-
             }
         }catch (Exception e){
             System.err.println("Server exception:   " + e.toString());
             e.printStackTrace();
-            gone=false;
         }
     }
 
@@ -94,8 +100,14 @@ public class Server implements ServerInt{
 
     public void setMatch(Match match) throws RemoteException, InterruptedException {
         this.match = match;
-        start=true;
         final int time=15;
+        for (int i=0;i<match.getnumberPlayers();i++) {
+            o.add(match.getPlayers().get(i).getNickname(),trippleDes.decrypt(listofobserver.get(i).getPassword()));
+        }
+        try (FileWriter file = new FileWriter("src/main/Name_Password.json")) {
+            file.write(o.toString());
+            System.out.println("\nJSON Object: " + o);
+        } catch (IOException e) {}
         notifyObserver("Le carte utensili sono: "+match.toolcardsString()+
                 "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
         notifyObserver("La partita sta per iniziare... ");
@@ -507,15 +519,26 @@ public class Server implements ServerInt{
 
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
-            listofobserver.add(o);
-            name_disconnected.add(o.getNickname());
-            try {
-                room.addPlayer(o.getNickname());
-            }catch (InterruptedException e){
-                e.printStackTrace();
+            if(start){
+                int i=0;
+                for(Player p: match.getPlayers()) {
+                    if (p.getNickname().equals(o.getNickname()))
+                        i=match.getPlayers().indexOf(p);
+                }
+                match.getPlayers().get(i).setConnected(true);
+                listofobserver.set(i,o);
+                return true;
+            }else{
+                listofobserver.add(o);
+                name_disconnected.add(o.getNickname());
+                try {
+                    room.addPlayer(o.getNickname());
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                return true;
             }
-            return true;
-        } else
+        }else
             return false;
         }
 
@@ -543,7 +566,11 @@ public class Server implements ServerInt{
         while (i!=2){
             nick=o.setupconnection();
             for (Player p: room.getPlayers()){
-                if (p.getNickname().equals(nick)){
+                if(start && p.getNickname().equals(nick)){
+                    if(trippleDes.decrypt(o.getPassword()).equals(this.o.get(nick).asString())){
+                        return true;
+                    }
+                }else if (p.getNickname().equals(nick)){
                     notify(o,"Questo nickname è già stato usato da un altro giocatore");
                     i=1;
                 }

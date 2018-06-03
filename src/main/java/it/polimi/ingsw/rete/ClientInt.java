@@ -13,4 +13,5 @@ public interface ClientInt extends Remote {
     public int selection_int() throws RemoteException;
     public void exit() throws RemoteException;
     public boolean verifyconnection()throws RemoteException;
+    public String getPassword() throws RemoteException;
 }
