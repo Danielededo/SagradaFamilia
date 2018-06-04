@@ -522,11 +522,16 @@ public class Server implements ServerInt{
             if(start){
                 int i=0;
                 for(Player p: match.getPlayers()) {
-                    if (p.getNickname().equals(o.getNickname()))
+                    if (p.getNickname().equals(o.getNickname())) {
                         i=match.getPlayers().indexOf(p);
+                    }
                 }
-                match.getPlayers().get(i).setConnected(true);
                 listofobserver.set(i,o);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {}
+                match.getPlayers().get(i).setConnected(true);
+                System.out.println(o.getNickname()+" riconnesso");
                 return true;
             }else{
                 listofobserver.add(o);
