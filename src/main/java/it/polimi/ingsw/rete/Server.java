@@ -8,19 +8,13 @@ import it.polimi.ingsw.dice.Die;
 import it.polimi.ingsw.game.Match;
 import it.polimi.ingsw.game.Player;
 import it.polimi.ingsw.game.Round;
-import org.sonarsource.scanner.api.internal.shaded.minimaljson.JsonObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.InputMismatchException;
-import java.util.Timer;
+import java.util.*;
 
 public class Server implements ServerInt{
     static int PORT;
@@ -34,8 +28,7 @@ public class Server implements ServerInt{
     public DisconnectionThread thread;
     private ArrayList<String> name_disconnected=new ArrayList<String>();
     private boolean swapdone=true;
-    private JsonObject o=new JsonObject();
-    private Cryptography trippleDes;
+    private Map<String,String> o=new HashMap<>();
 
     public ArrayList<String> getName_disconnected() {
         return name_disconnected;
@@ -79,7 +72,6 @@ public class Server implements ServerInt{
             registry.rebind(server_name,stub);
             timer.scheduleAtFixedRate(thread,0,500);
             System.err.println(server_name + " pronto");
-            trippleDes=new Cryptography();
             while (gone) {
             }
         }catch (Exception e){
@@ -102,12 +94,9 @@ public class Server implements ServerInt{
         this.match = match;
         final int time=15;
         for (int i=0;i<match.getnumberPlayers();i++) {
-            o.add(match.getPlayers().get(i).getNickname(),trippleDes.decrypt(listofobserver.get(i).getPassword()));
+            o.put(match.getPlayers().get(i).getNickname(),listofobserver.get(i).getPassword());
         }
-        try (FileWriter file = new FileWriter("src/main/Name_Password.json")) {
-            file.write(o.toString());
-            System.out.println("\nJSON Object: " + o);
-        } catch (IOException e) {}
+        System.out.println(this.o);
         notifyObserver("Le carte utensili sono: "+match.toolcardsString()+
                 "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
         notifyObserver("La partita sta per iniziare... ");
@@ -499,7 +488,7 @@ public class Server implements ServerInt{
     }
 
     public String menu(){
-        return match.toStringRoundTrack()+"Riserva: "+match.getStock().toString()+"\nScegli cosa fare : \n0: fine turno; \n1: posiziona un dado dalla riserva;" +
+        return match.toStringRoundTrack()+"\nRiserva: "+match.getStock().toString()+"\nScegli cosa fare : \n0: fine turno; \n1: posiziona un dado dalla riserva;" +
                 "\n2: usa una carta utensile:\n"+match.toolcardsString();
 
     }
@@ -572,7 +561,7 @@ public class Server implements ServerInt{
             nick=o.setupconnection();
             for (Player p: room.getPlayers()){
                 if(start && p.getNickname().equals(nick)){
-                    if(trippleDes.decrypt(o.getPassword()).equals(this.o.get(nick).asString())){
+                    if(o.getPassword().equals(this.o.get(nick))){
                         return true;
                     }
                 }else if (p.getNickname().equals(nick)){

@@ -48,7 +48,6 @@ public class Stock {
         for (Die d:dicestock){
             stringa+=" ("+dicestock.indexOf(d)+" - "+ d+")";
         }
-        return "Stock{" + stringa +
-                '}';
+        return stringa;
     }
 }
