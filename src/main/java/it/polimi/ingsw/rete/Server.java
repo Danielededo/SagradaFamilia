@@ -11,6 +11,7 @@ import it.polimi.ingsw.game.Round;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.rmi.UnmarshalException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -161,7 +162,7 @@ public class Server implements ServerInt{
                 t=2;
             }
         }
-        notifyObserver("IL "+match.getRound()+" IL ROUND è TERMINATO");
+        notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
         thread.setEnd(true);
         Thread.sleep(2000);
         match.fineRound();
@@ -174,57 +175,61 @@ public class Server implements ServerInt{
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
-        if (round.getTurns().get(z).getOneplayer().isConnected()) {
-            dicehand_done=false;
-            toolhand_done=false;
-            int cont_turn=1;
-            notifyOthers(listofobserver.get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
-            notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno "+t+Colour.RESET);
-            int menu;
-            if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
-                do {
-                    notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().toString());
-                    if (dicehand_done && toolhand_done){
-                        notify(listofobserver.get(k),"Puoi solo terminare il tuo turno ");
-                    }
-                    else
-                    if(!dicehand_done && toolhand_done)
-                        notify(listofobserver.get(k),"Puoi solo posizionare un dado o terminare il turno");
-                    else if(dicehand_done && !toolhand_done)
-                        notify(listofobserver.get(k),"Puoi solo usare una carta utensile o terminare il turno");
-                    notify(listofobserver.get(k),menu());
-                    menu=selection(3,0,k);
-                    switch (menu){
-                        case 0:{
-                            notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha terminato il suo turno");
-                            cont_turn=0;
-                            break;
+        try {
+            if (round.getTurns().get(z).getOneplayer().isConnected()) {
+                dicehand_done=false;
+                toolhand_done=false;
+                int cont_turn=1;
+                notifyOthers(listofobserver.get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
+                notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno "+t+Colour.RESET);
+                int menu;
+                if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
+                    do {
+                        notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().toString());
+                        if (dicehand_done && toolhand_done){
+                            notify(listofobserver.get(k),"Puoi solo terminare il tuo turno ");
                         }
-                        case 1:{
-                            if (!dicehand_done) dicehand(k,z,round);
-                            else notify(listofobserver.get(k),"Hai già posizionato un dado in questo turno");
-                            break;
+                        else
+                        if(!dicehand_done && toolhand_done)
+                            notify(listofobserver.get(k),"Puoi solo posizionare un dado o terminare il turno");
+                        else if(dicehand_done && !toolhand_done)
+                            notify(listofobserver.get(k),"Puoi solo usare una carta utensile o terminare il turno");
+                        notify(listofobserver.get(k),menu());
+                        menu=selection(3,0,k);
+                        switch (menu){
+                            case 0:{
+                                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha terminato il suo turno");
+                                cont_turn=0;
+                                break;
+                            }
+                            case 1:{
+                                if (!dicehand_done) dicehand(k,z,round);
+                                else notify(listofobserver.get(k),"Hai già posizionato un dado in questo turno");
+                                break;
+                            }
+                            case 2:{
+                                if(!toolhand_done)
+                                    tool_hand(k,z,round,cont_turn);
+                                else
+                                    notify(listofobserver.get(k),"Hai già usato una carta utensile in questo turno");
+                                break;
+                            }
                         }
-                        case 2:{
-                            if(!toolhand_done)
-                                tool_hand(k,z,round,cont_turn);
-                            else
-                                notify(listofobserver.get(k),"Hai già usato una carta utensile in questo turno");
-                            break;
-                        }
-                    }
-                } while (cont_turn!=0);
-            }else {
-                notify(listofobserver.get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
-                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
-                round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
+                    } while (cont_turn!=0);
+                }else {
+                    notify(listofobserver.get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
+                    notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
+                    round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
+                }
+                notifyObserver("Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+
+                        "\n---------------------------------------------------------------------------------------------");
             }
-            notifyObserver("Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+
-                    "\n---------------------------------------------------------------------------------------------");
-        }
-        else{
-            notifyObserver(round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+
-                    "\n---------------------------------------------------------------------------------------------");
+            else{
+                notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+
+                        "\n---------------------------------------------------------------------------------------------");
+            }
+        } catch (UnmarshalException e) {
+            return;
         }
     }
 
@@ -501,7 +506,9 @@ public class Server implements ServerInt{
 
     public void notifyObserver(String arg) throws RemoteException {
          for (int i=0;i<listofobserver.size();i++) {
-             notify(listofobserver.get(i),arg);
+             try {
+                 listofobserver.get(i).update(arg);
+             } catch (RemoteException e){}
          }
     }
 
@@ -516,11 +523,16 @@ public class Server implements ServerInt{
                     }
                 }
                 listofobserver.set(i,o);
+                thread.setEnd(true);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {}
                 match.getPlayers().get(i).setConnected(true);
                 System.out.println(o.getNickname()+" riconnesso");
+                synchronized (thread){
+                    thread.setEnd(false);
+                    thread.notify();
+                }
                 return true;
             }else{
                 listofobserver.add(o);

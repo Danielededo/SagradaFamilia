@@ -67,7 +67,7 @@ public class Waiting_Room {
             for (int i=10;i>0;i--){
                 Thread.sleep(1000);
                 server.notifyObserver(""+i);
-                System.out.println(i);
+                System.out.print("\r"+i);
             }
             try {
                 server.control();
