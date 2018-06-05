@@ -51,7 +51,7 @@ public class GlassWindow  {
         String string = "\n";
         for (int i=0;i<width;i++){
             for (int j=0;j<height;j++){
-                string += scheme[i][j].toString()+ "\t";
+                string += scheme[i][j].toString()+ "   ";
             }
             string+="\n";
         }
