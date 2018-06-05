@@ -136,13 +136,13 @@ public class Server implements ServerInt{
         notifyObserver("PARTITA TERMINATA");
         match.fineMatch();
         notifyObserver(match.ranking());
+        start=false;
         try {
             Thread.sleep(1000*20);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for(ClientInt c:listofobserver)
-            c.exit();
+        notifyObserver("disconnettiti");
         System.exit(0);
     }
 

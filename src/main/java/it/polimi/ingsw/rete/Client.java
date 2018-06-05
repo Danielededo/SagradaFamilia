@@ -56,7 +56,9 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     }
 
     public void update(String msg) throws RemoteException {
-        System.out.println("Server -> "+msg);
+        if (!msg.equals("disconnettiti"))
+            System.out.println("Server -> "+msg);
+        else exit();
     }
 
     public String setupPlayer()throws RemoteException{

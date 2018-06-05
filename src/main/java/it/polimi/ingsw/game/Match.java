@@ -56,19 +56,6 @@ public class Match {
                 '}'+"\n";
     }
 
-    public void partita(Match match){
-        System.out.println(match.toString());
-        while(round!=11){
-            Round round= new Round(match);
-            for(int i=0; i<2*getnumberPlayers();i++){
-                round.getTurns().get(i).doTurn(match,round,i);
-
-            }
-            fineRound();
-        }
-        fineMatch();
-    }
-
     public Rules getRules() {
         return rules;
     }
