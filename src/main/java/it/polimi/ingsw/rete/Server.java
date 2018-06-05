@@ -94,7 +94,7 @@ public class Server implements ServerInt{
 
     public void setMatch(Match match) throws RemoteException, InterruptedException {
         this.match = match;
-        final int time=15;
+        final int time=10;
         for (int i=0;i<match.getnumberPlayers();i++) {
             o.put(match.getPlayers().get(i).getNickname(),listofobserver.get(i).getPassword());
         }
@@ -176,13 +176,17 @@ public class Server implements ServerInt{
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
+        final int sec=20;
+        Timer time=new Timer();
+        TimerTurn timerTurn=new TimerTurn(listofobserver.get(k),this);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
+                time.schedule(timerTurn,1000*sec);
                 dicehand_done=false;
                 toolhand_done=false;
                 int cont_turn=1;
                 notifyOthers(listofobserver.get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
-                notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno "+t+Colour.RESET);
+                notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
                 int menu;
                 if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     do {
@@ -200,6 +204,8 @@ public class Server implements ServerInt{
                         switch (menu){
                             case 0:{
                                 notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha terminato il suo turno");
+                                timerTurn.cancel();
+                                time.purge();
                                 cont_turn=0;
                                 break;
                             }
@@ -229,9 +235,13 @@ public class Server implements ServerInt{
             }
         } catch (UnmarshalException e) {
             notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+separator);
+            timerTurn.cancel();
+            time.purge();
             return;
         }catch (ConnectException e){
             notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+separator);
+            timerTurn.cancel();
+            time.purge();
             return;
         }
     }
@@ -619,26 +629,42 @@ public class Server implements ServerInt{
     }
 
     public void vericaconnessione() throws RemoteException {
-            int i=0;
-            for (ClientInt c:listofobserver){
-                try {
-                    c.verifyconnection();
-                }catch (ConnectException e){
-                    if(!this.start) {
-                        System.out.println(room.getPlayers().get(i).getNickname()+" disconnesso");
-                        notifyOthers(c,room.getPlayers().get(i).getNickname()+" disconnesso");
-                        room.getPlayers().remove(i);
-                        name_disconnected.remove(i);
-                        removeObserver(c);
+        int i=0,j=0;
+        if(start){
+            for(Player p:match.getPlayers()){
+                if(p.isConnected())
+                    j++;
+            }
+            if(j==1){
+                for(Player p:match.getPlayers())
+                    if(p.isConnected()) {
+                        j = match.getPlayers().indexOf(p);
+                        notify(listofobserver.get(j),Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
+                        System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
+                        notify(listofobserver.get(j),"disconnettiti");
+                        System.exit(0);
                     }
-                    else{
-                        if(match.getPlayers().get(i).isConnected()){
-                            match.getPlayers().get(i).setConnected(false);
-                            System.out.println(match.getPlayers().get(i).getNickname() + " disconnesso");
-                        }
+            }
+        }
+        for (ClientInt c:listofobserver){
+            try {
+                c.verifyconnection();
+            }catch (ConnectException e){
+                if(!this.start) {
+                    System.out.println(room.getPlayers().get(i).getNickname()+" disconnesso");
+                    notifyOthers(c,room.getPlayers().get(i).getNickname()+" disconnesso");
+                    room.getPlayers().remove(i);
+                    name_disconnected.remove(i);
+                    removeObserver(c);
+                }
+                else{
+                    if(match.getPlayers().get(i).isConnected()){
+                        match.getPlayers().get(i).setConnected(false);
+                        System.out.println(match.getPlayers().get(i).getNickname() + " disconnesso");
                     }
                 }
-                i++;
             }
+            i++;
+        }
     }
 }
