@@ -69,6 +69,7 @@ public class Waiting_Room {
                 server.notifyObserver(""+i);
                 System.out.print("\r"+i);
             }
+            System.out.print("\r");
             try {
                 server.control();
             } catch (RemoteException e) {
