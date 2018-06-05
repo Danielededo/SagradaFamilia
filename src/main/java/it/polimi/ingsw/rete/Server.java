@@ -118,7 +118,7 @@ public class Server implements ServerInt{
                         this.match.getPlayers().get(i).setWindow(windows.get(getNames(windows).indexOf(a)));
                         if (listofobserver.indexOf(c)!=listofobserver.size()-1)
                             notify(c,"Attendi che gli altri giocatori selezionino la propria carta schema");
-                        System.out.println(c.getNickname() + " has chosen " + a);
+                        System.out.println(c.getNickname() + " ha scelto " + a);
                         j=1;
                     } else
                         c.update("Riprova");
@@ -263,18 +263,18 @@ public class Server implements ServerInt{
     public void tool_hand(int k,int z,Round round,int cont_turn)throws RemoteException{
         int cont=1,placed=1;
         int index;
-        notify(listofobserver.get(k),"Choose a tool card from list by its value:");
+        notify(listofobserver.get(k),"Scegli una carta utensile dalla lista tramite il suo indice: ");
         index=selection(4,1,k);
-        notify(listofobserver.get(k),"your choiche is "+match.getTool().get(index-1));
+        notify(listofobserver.get(k),"La tua scelta è: "+match.getTool().get(index-1));
         while (cont!=0&&placed!=0){
             match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
             if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
                 notify(listofobserver.get(k),match.getTool().get(index-1).getError());
                 if (!match.getTool().get(index-1).isUsed()) placed=0;
             }else {
-                notify(listofobserver.get(k),"Operation completed");
+                notify(listofobserver.get(k),"Operazione completata");
                 toolhand_done=true;
-                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" has used tool card "+match.getTool().get(index-1).getName());
+                notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
                 cont=0;
             }
         }
@@ -303,7 +303,7 @@ public class Server implements ServerInt{
                 }
                 case "Pennello per Eglomise": {
                     int row1,column1,row2,column2;
-                    notify(listofobserver.get(k),"nserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
+                    notify(listofobserver.get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
                     row1=selection(4,0,k);
                     column1=selection(5,0,k);
                     notify(listofobserver.get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
