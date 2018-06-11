@@ -72,7 +72,7 @@ public class Server implements ServerInt{
             stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
-            timer.scheduleAtFixedRate(thread,0,500);
+            timer.scheduleAtFixedRate(thread,0,1000);
             System.err.println(server_name + " pronto");
             while (gone) {
             }
@@ -109,7 +109,7 @@ public class Server implements ServerInt{
         catch (Exception e) {}
         for (ClientInt c:listofobserver){
             try {
-                c.update("Il tuo obiettivo privato è "+match.getPlayers().get(i).getPrivatetarget().toString());
+                notify(c,"Il tuo obiettivo privato è "+match.getPlayers().get(i).getPrivatetarget().toString());
                 ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
                 notify(c,"\n"+ windows.toString());
                 do {
@@ -121,7 +121,7 @@ public class Server implements ServerInt{
                         System.out.println(c.getNickname() + " ha scelto " + a);
                         j=1;
                     } else
-                        c.update("Riprova");
+                        notify(c,"Riprova");
                 }while (j==0);
                 i++;
                 j=0;
@@ -180,7 +180,7 @@ public class Server implements ServerInt{
         Timer time=new Timer();
         TimerTurn timerTurn=new TimerTurn(listofobserver.get(k),this);
         try {
-            if (round.getTurns().get(z).getOneplayer().isConnected()) {
+            if (round.getTurns().get(z).getOneplayer().isConnected() && start) {
                 time.schedule(timerTurn,1000*sec);
                 dicehand_done=false;
                 toolhand_done=false;
@@ -525,7 +525,8 @@ public class Server implements ServerInt{
     public void notifyObserver(String arg) throws RemoteException {
          for (int i=0;i<listofobserver.size();i++) {
              try {
-                 listofobserver.get(i).update(arg);
+                 if(!start || (start && match.getPlayers().get(i).isConnected()))
+                    listofobserver.get(i).update(arg);
              } catch (RemoteException e){}
          }
     }
@@ -557,9 +558,8 @@ public class Server implements ServerInt{
                 name_disconnected.add(o.getNickname());
                 try {
                     room.addPlayer(o.getNickname());
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
+                }catch (InterruptedException e){}
+                catch (UnmarshalException e){}
                 return true;
             }
         }else
@@ -568,14 +568,15 @@ public class Server implements ServerInt{
 
     public void notify(ClientInt o,String arg) throws RemoteException{
         try {
-            o.update(arg);
+            if(!start || (start && match.getPlayers().get(listofobserver.indexOf(o)).isConnected()))
+                o.update(arg);
         } catch (RemoteException e) {}
     }
 
     public void notifyOthers(ClientInt o,String arg)throws RemoteException{
         for(ClientInt c:listofobserver){
             try{
-                if(!c.equals(o)){
+                if((start && !c.equals(o) && match.getPlayers().get(listofobserver.indexOf(c)).isConnected()) || (!start && !c.equals(o))){
                     notify(c,arg);
                 }
             }catch (ConcurrentModificationException e){}
@@ -638,6 +639,7 @@ public class Server implements ServerInt{
             if(j==1){
                 for(Player p:match.getPlayers())
                     if(p.isConnected()) {
+                        start=false;
                         j = match.getPlayers().indexOf(p);
                         notify(listofobserver.get(j),Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
                         System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
@@ -664,7 +666,9 @@ public class Server implements ServerInt{
                     }
                 }
             }
-            i++;
+            finally{
+                i++;
+            }
         }
     }
 }

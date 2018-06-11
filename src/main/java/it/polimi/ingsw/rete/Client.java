@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rete;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -40,6 +41,9 @@ public class Client extends UnicastRemoteObject implements ClientInt{
                 client=null;
                 System.exit(-1);
             }
+        } catch (ConnectException e){
+            System.err.println("Il server non è connesso");
+            System.exit(-1);
         } catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();

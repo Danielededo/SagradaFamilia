@@ -27,7 +27,7 @@ public class VarietyofColour extends PublicObject {
             }
         }
         min=cont[0];
-        for (int i=1;i<height+1;i++){
+        for (int i=1;i<cont.length;i++){
             if (cont[i]<min) min=cont[i];
         }
         return min;

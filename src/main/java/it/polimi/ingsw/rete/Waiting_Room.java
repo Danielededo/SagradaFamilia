@@ -85,24 +85,24 @@ public class Waiting_Room {
             }
         } while (players.size()<2);
         if (players.size()==2){
-            server.setStart(true);
             match=new Match(players.get(0),players.get(1));
+            server.setStart(true);
             try {
                 server.setMatch(match);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }else if (players.size()==3) {
-            server.setStart(true);
             match=new Match(players.get(0),players.get(1),players.get(2));
+            server.setStart(true);
             try {
                 server.setMatch(match);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }else if (players.size()==4){
-            server.setStart(true);
             match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
+            server.setStart(true);
             try {
                 server.setMatch(match);
             } catch (RemoteException e) {
