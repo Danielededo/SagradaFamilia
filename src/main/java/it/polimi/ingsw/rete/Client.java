@@ -2,6 +2,7 @@ package it.polimi.ingsw.rete;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.rmi.UnmarshalException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -44,7 +45,7 @@ public class Client extends UnicastRemoteObject implements ClientInt{
         } catch (ConnectException e){
             System.err.println("Il server non è connesso");
             System.exit(-1);
-        } catch (Exception e) {
+        } catch (UnmarshalException e){} catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();
             System.exit(-1);
@@ -126,5 +127,12 @@ public class Client extends UnicastRemoteObject implements ClientInt{
 
     public void exit()throws RemoteException{
         System.exit(0);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "nickname='" + nickname + '\'' +
+                '}';
     }
 }

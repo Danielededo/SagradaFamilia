@@ -28,7 +28,7 @@ public class Server implements ServerInt{
     public Timer timer=new Timer();
     public DisconnectionThread thread;
     private ArrayList<String> name_disconnected=new ArrayList<String>();
-    private boolean swapdone=true;
+    private boolean endRound=false;
     private Map<String,String> o=new HashMap<>();
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
@@ -72,7 +72,7 @@ public class Server implements ServerInt{
             stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
-            timer.scheduleAtFixedRate(thread,0,1000);
+            timer.scheduleAtFixedRate(thread,0,500);
             System.err.println(server_name + " pronto");
             while (gone) {
             }
@@ -149,7 +149,7 @@ public class Server implements ServerInt{
 
     public void round() throws RemoteException, InterruptedException {
         Round round= new Round(match);
-        int k=0,t=1;
+        int k=0,t=1,j;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             handleTurn(round,z,k,t);
             if(z>match.getnumberPlayers()-1)
@@ -163,31 +163,30 @@ public class Server implements ServerInt{
                 t=2;
             }
         }
+        endRound=true;
         notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
-        thread.setEnd(true);
+        thread.cancel();
         Thread.sleep(2000);
         match.fineRound();
         listofobserver.add(listofobserver.get(0));
         listofobserver.remove(0);
-        synchronized (thread){
-            thread.setEnd(false);
-            thread.notify();
-        }
+        thread=new DisconnectionThread(this);
+        timer.schedule(thread,0,500);
+        endRound=false;
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
         final int sec=20;
-        Timer time=new Timer();
         TimerTurn timerTurn=new TimerTurn(listofobserver.get(k),this);
         try {
-            if (round.getTurns().get(z).getOneplayer().isConnected() && start) {
-                time.schedule(timerTurn,1000*sec);
+            if (round.getTurns().get(z).getOneplayer().isConnected()) {
                 dicehand_done=false;
                 toolhand_done=false;
                 int cont_turn=1;
                 notifyOthers(listofobserver.get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
                 notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
                 int menu;
+                timer.schedule(timerTurn,1000*sec);
                 if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     do {
                         notify(listofobserver.get(k),round.getTurns().get(z).getOneplayer().toString());
@@ -205,7 +204,6 @@ public class Server implements ServerInt{
                             case 0:{
                                 notifyOthers(listofobserver.get(k),listofobserver.get(k).getNickname()+" ha terminato il suo turno");
                                 timerTurn.cancel();
-                                time.purge();
                                 cont_turn=0;
                                 break;
                             }
@@ -234,14 +232,16 @@ public class Server implements ServerInt{
                 notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+separator);
             }
         } catch (UnmarshalException e) {
+            match.getPlayers().get(z).setConnected(false);
+            System.out.println(match.getPlayers().get(z).getNickname()+" disconnesso");
             notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+separator);
             timerTurn.cancel();
-            time.purge();
             return;
         }catch (ConnectException e){
+            match.getPlayers().get(z).setConnected(false);
+            System.out.println(match.getPlayers().get(z).getNickname()+" disconnesso");
             notifyOthers(listofobserver.get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso"+separator);
             timerTurn.cancel();
-            time.purge();
             return;
         }
     }
@@ -541,16 +541,17 @@ public class Server implements ServerInt{
                         i=match.getPlayers().indexOf(p);
                     }
                 }
-                listofobserver.set(i,o);
-                thread.setEnd(true);
+                if(!endRound)
+                    thread.cancel();
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {}
+                listofobserver.set(i,o);
                 match.getPlayers().get(i).setConnected(true);
                 System.out.println(o.getNickname()+" riconnesso");
-                synchronized (thread){
-                    thread.setEnd(false);
-                    thread.notify();
+                if(!endRound) {
+                    thread = new DisconnectionThread(this);
+                    timer.schedule(thread, 0, 500);
                 }
                 return true;
             }else{
@@ -631,7 +632,7 @@ public class Server implements ServerInt{
 
     public void vericaconnessione() throws RemoteException {
         int i=0,j=0;
-        if(start){
+        if (start) {
             for(Player p:match.getPlayers()){
                 if(p.isConnected())
                     j++;
@@ -650,7 +651,8 @@ public class Server implements ServerInt{
         }
         for (ClientInt c:listofobserver){
             try {
-                c.verifyconnection();
+                if((start && match.getPlayers().get(i).isConnected()) || !start)
+                    c.verifyconnection();
             }catch (ConnectException e){
                 if(!this.start) {
                     System.out.println(room.getPlayers().get(i).getNickname()+" disconnesso");
@@ -660,15 +662,13 @@ public class Server implements ServerInt{
                     removeObserver(c);
                 }
                 else{
-                    if(match.getPlayers().get(i).isConnected()){
+                    if(match.getPlayers().get(i).isConnected()) {
                         match.getPlayers().get(i).setConnected(false);
                         System.out.println(match.getPlayers().get(i).getNickname() + " disconnesso");
                     }
                 }
             }
-            finally{
-                i++;
-            }
+            i++;
         }
     }
 }

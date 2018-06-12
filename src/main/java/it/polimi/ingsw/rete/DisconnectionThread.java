@@ -19,14 +19,9 @@ public class DisconnectionThread extends TimerTask {
     @Override
     public void run() {
         try {
-            if(end)
-                this.wait();
-            else
-                server.vericaconnessione();
+            server.vericaconnessione();
         } catch (ConcurrentModificationException e) {
         } catch (RemoteException e) {
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }catch(IllegalMonitorStateException e){}
+        } catch(IllegalMonitorStateException e){}
     }
 }
