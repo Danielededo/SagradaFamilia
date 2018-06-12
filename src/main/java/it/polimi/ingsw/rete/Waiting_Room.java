@@ -30,8 +30,6 @@ public class Waiting_Room {
         if (status_verify()) {
             Player player1=new Player(player);
             players.add(player1);
-            if (this.players.size()==2)
-                attesa_partita();
         }
     }
 
@@ -56,36 +54,25 @@ public class Waiting_Room {
                 "players=" + players+
                 '}';
     }
-    public void attesa_player(){
-        boolean gone=true;
-        while (gone){
-        }
-    }
 
     public void attesa_partita() throws InterruptedException, RemoteException {
-        do {
-            for (int i=10;i>0;i--){
-                Thread.sleep(1000);
-                server.notifyObserver(""+i);
-                System.out.print("\r"+i);
-            }
-            System.out.print("\r");
+        for (int i=10;i>0;i--){
+            Thread.sleep(1000);
+            if (players.size()>=2){
+            server.notifyObserver(""+i);
+            System.out.print("\r"+i);
+            }else i=0;
+        }
+        System.out.print("\r");
+        if(players.size()==1){
             try {
-                server.control();
+                server.notifyObserver("Wait before a player join");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            if(players.size()==1){
-                try {
-                    server.notifyObserver("Wait before a player join");
-                    attesa_player();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        } while (players.size()<2);
-        if (players.size()==2){
+        }else if(players.size()==2){
             match=new Match(players.get(0),players.get(1));
+            server.getSetupGame().cancel();
             server.setStart(true);
             try {
                 server.setMatch(match);
@@ -94,6 +81,7 @@ public class Waiting_Room {
             }
         }else if (players.size()==3) {
             match=new Match(players.get(0),players.get(1),players.get(2));
+            server.getSetupGame().cancel();
             server.setStart(true);
             try {
                 server.setMatch(match);
@@ -102,6 +90,7 @@ public class Waiting_Room {
             }
         }else if (players.size()==4){
             match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
+            server.getSetupGame().cancel();
             server.setStart(true);
             try {
                 server.setMatch(match);

@@ -26,6 +26,7 @@ public class Server implements ServerInt{
     private boolean start=false;
     private boolean dicehand_done=false,toolhand_done=false;
     public Timer timer=new Timer();
+    public TimerTurn setupGame;
     public DisconnectionThread thread;
     private ArrayList<String> name_disconnected=new ArrayList<String>();
     private boolean endRound=false;
@@ -68,11 +69,14 @@ public class Server implements ServerInt{
             PORT= Integer.parseInt(arg);
             server_name = "Sagrada server";
             thread=new DisconnectionThread(this);
+            setupGame=new TimerTurn(this);
             this.room=new Waiting_Room(this);
             stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
             timer.scheduleAtFixedRate(thread,0,500);
+            Timer t=new Timer();
+            t.scheduleAtFixedRate(setupGame,0,1000);
             System.err.println(server_name + " pronto");
             while (gone) {
             }
@@ -92,6 +96,10 @@ public class Server implements ServerInt{
         return names;
     }
 
+    public TimerTurn getSetupGame() {
+        return setupGame;
+    }
+
     public void setMatch(Match match) throws RemoteException, InterruptedException {
         this.match = match;
         final int time=10;
@@ -99,12 +107,13 @@ public class Server implements ServerInt{
             o.put(match.getPlayers().get(i).getNickname(),listofobserver.get(i).getPassword());
         }
         System.out.println(this.o);
+        Thread.sleep(2000);
         notifyObserver("Le carte utensili sono: "+match.toolcardsString()+
                 "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
         notifyObserver("La partita sta per iniziare... ");
         int i=0,j=0;
         try {
-            Thread.sleep(1000*time);
+            Thread.sleep(2000*time);
         }
         catch (Exception e) {}
         for (ClientInt c:listofobserver){
@@ -630,6 +639,15 @@ public class Server implements ServerInt{
         }
     }
 
+    public Waiting_Room getRoom() {
+        return room;
+    }
+
+    public boolean isStart() {
+
+        return start;
+    }
+
     public void vericaconnessione() throws RemoteException {
         int i=0,j=0;
         if (start) {
@@ -661,6 +679,7 @@ public class Server implements ServerInt{
                     name_disconnected.remove(i);
                     removeObserver(c);
                 }
+
                 else{
                     if(match.getPlayers().get(i).isConnected()) {
                         match.getPlayers().get(i).setConnected(false);

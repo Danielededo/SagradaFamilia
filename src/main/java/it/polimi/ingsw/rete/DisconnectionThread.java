@@ -6,14 +6,9 @@ import java.util.TimerTask;
 
 public class DisconnectionThread extends TimerTask {
     private Server server;
-    private boolean end=false;
 
     public DisconnectionThread(Server server) {
         this.server = server;
-    }
-
-    public void setEnd(boolean end) {
-        this.end = end;
     }
 
     @Override

@@ -7,6 +7,10 @@ public class TimerTurn extends TimerTask {
     ClientInt c;
     Server s;
 
+    public TimerTurn(Server s) {
+        this.s = s;
+    }
+
     public TimerTurn(ClientInt c, Server s) {
         this.c = c;
         this.s = s;
@@ -15,7 +19,11 @@ public class TimerTurn extends TimerTask {
     @Override
     public void run() {
         try {
-            s.notify(c,"disconnettiti");
-        } catch (RemoteException e) {}
+            if(!s.isStart() && s.getRoom().getPlayers().size()>=2)
+                s.getRoom().attesa_partita();
+            if(s.isStart())
+                s.notify(c,"disconnettiti");
+        } catch (RemoteException e) {
+        } catch (InterruptedException e) {}
     }
 }
