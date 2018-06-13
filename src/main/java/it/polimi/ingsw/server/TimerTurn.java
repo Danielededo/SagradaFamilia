@@ -1,7 +1,6 @@
-package it.polimi.ingsw.server.utils;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
-import it.polimi.ingsw.server.Server;
 
 import java.rmi.RemoteException;
 import java.util.TimerTask;
@@ -24,9 +23,10 @@ public class TimerTurn extends TimerTask {
         try {
             if(!s.isStart() && s.getRoom().getPlayers().size()>=2)
                 s.getRoom().attesa_partita();
-            if(s.isStart())
+            if(s.isStart()){
                 s.notify(c,"Sei stato disconnesso dato che è scaduto il tempo\nPotrai riconnetterti usando le tue credenziali");
                 s.notify(c,"disconnettiti");
+            }
         } catch (RemoteException e) {
         } catch (InterruptedException e) {}
     }

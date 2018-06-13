@@ -10,15 +10,16 @@ public class Waiting_Room {
     private ArrayList<Player> players;
     private Server server;
     private Match match;
+    private Controller c;
 
 
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public Waiting_Room(Server server) {
+    public Waiting_Room(Server server,Controller controller) {
         this.server=server;
-        this.match=server.match;
+        this.c=controller;
         players=new ArrayList<Player>();
     }
 
@@ -59,7 +60,7 @@ public class Waiting_Room {
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                server.setMatch(match);
+                c.setMatch(match);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -68,7 +69,7 @@ public class Waiting_Room {
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                server.setMatch(match);
+                c.setMatch(match);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -77,7 +78,7 @@ public class Waiting_Room {
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                server.setMatch(match);
+                c.setMatch(match);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
