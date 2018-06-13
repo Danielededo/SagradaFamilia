@@ -99,12 +99,25 @@ public class Client extends UnicastRemoteObject implements ClientInt{
     }
 
     public String setupconnection() throws RemoteException {
-        Scanner in=new Scanner(System.in);
-        System.out.println("Inserisci il tuo nickname:");
-        nickname=in.nextLine();
+        boolean a=true;
+        Scanner in = new Scanner(System.in);
+        do {
+            if(a)
+                System.out.println("Inserisci il tuo nickname:");
+            else
+                System.out.println("Nickname non valido\nReinserisci il tuo nickname:");
+            nickname = in.nextLine();
+            a=false;
+        }while(nickname.equals("") || nickname.contains(" "));
         Scanner in1=new Scanner(System.in);
-        System.out.println("Password:");
-        password=in1.nextLine();
+        do {
+            if(!a)
+                System.out.println("Inserisci la tua password:");
+            else
+                System.out.println("Password non valida\nReinserisci la tua password:");
+            password=in1.nextLine();
+            a=true;
+        } while (password.equals("") || password.contains(" "));
         return nickname;
     }
 
