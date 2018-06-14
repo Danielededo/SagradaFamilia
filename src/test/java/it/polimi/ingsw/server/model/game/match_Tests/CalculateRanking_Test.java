@@ -40,12 +40,12 @@ public class CalculateRanking_Test {
         Player c=new Player("sara");
         Player d=new Player("antonio");
         Match match=new Match(a,b,c,d);
-        a.setWindow(new AuroraSagradis());
-        b.setWindow(new AuroraeMagnificus());
+        a.setWindow(new ViaLux());
+        b.setWindow(new AuroraSagradis());
         c.setWindow(new KaleidoscopicDream());
         d.setWindow(new ChromaticSplendor());
         a.setScore(20);
-        b.setScore(19);
+        b.setScore(20);
         c.setScore(20);
         d.setScore(20);
         System.out.println(match.ranking());
