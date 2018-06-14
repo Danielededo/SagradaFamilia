@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class DarkShades extends PublicObject {
     public DarkShades() {
-        setName("Dark Shades");
+        setName("Sfumature Scure");
         setValue(7);
         setPunteggio(2);
-        setEffect("Set of 5 & 6 everywhere");
+        setEffect("Set di 5 & 6 ovunque");
     }
 
     private int numberofset(Player player){

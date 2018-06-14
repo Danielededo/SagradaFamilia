@@ -6,8 +6,8 @@ import it.polimi.ingsw.server.model.cards.PrivateObject;
 public class PurpleShades extends PrivateObject{
     public PurpleShades() {
         super.setValue(5);
-        super.setName("Purple Shades");
+        super.setName("Sfumature Viola");
         super.setColor(Colour.PURPLE);
-        super.setEffect("Sum of values on all purple dice");
+        super.setEffect("Somma dei valori su tutti i dadi viola");
     }
 }

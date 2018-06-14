@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class DifferentShades extends PublicObject {
     public DifferentShades() {
-        setName("Different Shades");
+        setName("Sfumature Diverse");
         setValue(8);
         setPunteggio(5);
-        setEffect("Set of dice of any value anywhere");
+        setEffect("Set di dadi di ogni  valore ovunque");
     }
 
     private int numberofset(Player player){

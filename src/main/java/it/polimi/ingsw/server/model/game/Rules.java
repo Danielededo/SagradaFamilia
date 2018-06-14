@@ -10,14 +10,14 @@ import it.polimi.ingsw.server.model.dice.Die;
 public class Rules {
     private String error;
     private int cont;
-    private String[] list__of_errors={
-            "This slot is not on the border of your Scheme Card",
-            "Slot occupied",
-            "You can't place a die of this color on this slot",
-            "You can't place a die with this face on this slot",
-            "There's already a die of the same colour next to this one",
-            "There's already a die with the same value next to this one",
-            "There are no dice next to this slot"
+    private static final String[] list__of_errors={
+            "Questa casella non è sul bordo dello schema",
+            "Casella occupata",
+            "Non puoi posizionare un dado di questo colore su questa casella",
+            "Non puoi posizionare un dado con questo valore su questa casella",
+            "C'è già un dado dello stesso colore vicino a questa casella",
+            "C'è già un dado dello stesso valore vicino a questa casella",
+            "Non ci sono dadi vicino questa casella"
     };
 
     public int getCont(Player current) {
@@ -40,7 +40,7 @@ public class Rules {
         boolean mayI = rules(current, choice, selected);
 
         if(!mayI){
-            System.out.print("Choose another slot.\n");
+            System.out.print("Scegli un altra casella.\n");
             return current.getWindow();
         }
 
@@ -71,7 +71,7 @@ public class Rules {
         if(!vuota) {
             tracker = firstDado(choice.getLine(),choice.getColumn());
             if(!tracker) {
-                System.out.println("This slot is not on the border of your Scheme Card.\n");
+                System.out.println("Questa casella non è sul bordo dello schema.\n");
                 error=list__of_errors[0];
                 return false;}
             }
@@ -79,7 +79,7 @@ public class Rules {
         tracker = occupiedSlot(choice);
 
         if (!tracker) {
-                System.out.print("Slot occupied.\n");
+                System.out.print("Casella occupata.\n");
                 error=list__of_errors[1];
                 return false;
             }
@@ -87,7 +87,7 @@ public class Rules {
         tracker = colourCheck(cSlot, cDie);
 
         if (!tracker) {
-            System.out.print("You can't place a " + cDie + "die on a " + cSlot + " slot.\n");
+            System.out.print("Non puoi posizionare questo " + cDie + "dado su questa " + cSlot + " casella.\n");
             error=list__of_errors[2];
             return false;
         }
@@ -95,7 +95,7 @@ public class Rules {
         tracker = numberCheck(value, face);
 
         if (!tracker){
-            System.out.print("You can't place this die on a slot with a " + value + " value.\n");
+            System.out.print("Non puoi posizionare questo dado su una casella con questo " + value + " valore.\n");
             error=list__of_errors[3];
             return false;
         }
@@ -135,12 +135,12 @@ public class Rules {
 
         if(current.getSlot(riga, colonna - 1).isOccupate()) {
             if (current.getSlot(riga, colonna - 1).getDice().getDicecolor() == die) {
-                System.out.print("There's already a die of the same colour next to this one.\n");
+                System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga, colonna - 1).getDice().getFace() == face) {
-                System.out.print("There's already a die with the same value next to this one.\n");
+                System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
             }
@@ -150,12 +150,12 @@ public class Rules {
 
         if(current.getSlot(riga - 1, colonna).isOccupate()) {
             if (current.getSlot(riga - 1, colonna).getDice().getDicecolor() == die) {
-                System.out.print("There's already a die of the same colour next to this one.\n");
+                System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga - 1, colonna).getDice().getFace() == face) {
-                System.out.print("There's already a die with the same value next to this one.\n");
+                System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
             }
@@ -165,12 +165,12 @@ public class Rules {
 
         if(current.getSlot(riga + 1, colonna).isOccupate()) {
             if (current.getSlot(riga + 1, colonna).getDice().getDicecolor() == die) {
-                System.out.print("There's already a die of the same colour next to this one.\n");
+                System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga + 1, colonna).getDice().getFace() == face) {
-                System.out.print("There's already a die with the same value next to this one.\n");
+                System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
             }
@@ -180,12 +180,12 @@ public class Rules {
 
         if(current.getSlot(riga, colonna + 1).isOccupate()) {
             if (current.getSlot(riga, colonna + 1).getDice().getDicecolor() == die) {
-                System.out.print("There's already a die of the same colour next to this one.\n");
+                System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
             if (current.getSlot(riga, colonna + 1).getDice().getFace() == face) {
-                System.out.print("There's already a die with the same value next to this one.\n");
+                System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
             }
@@ -195,7 +195,7 @@ public class Rules {
         if(diagOccupate == true || ortOccupate == true)
             return true;
         else{
-            System.out.println("There are no dice next to this slot.");
+            System.out.println("Non ci sono dadi vicino questa casella.");
             error=list__of_errors[6];
             return false;}
     }

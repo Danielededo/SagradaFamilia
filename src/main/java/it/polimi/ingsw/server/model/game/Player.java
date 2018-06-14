@@ -91,15 +91,15 @@ public class Player {
 
     @Override
     public String toString() {
-        return  "privatetarget: " + privatetarget +
-                "\nfavor token: " + marker+
+        return  "obiettivo privato: " + privatetarget +
+                "\nsegnalini favore: " + marker+
                 "\n" + window;
 
     }
 
     public String toStringpublic() {
         return  nickname +
-                "\nfavor token: " + marker+" "+
+                "\nsegnalini favore: " + marker+" "+
                 window;
 
     }

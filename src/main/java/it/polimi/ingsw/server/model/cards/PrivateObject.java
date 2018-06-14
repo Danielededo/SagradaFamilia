@@ -27,7 +27,7 @@ public class PrivateObject extends Card{
     public String toString() {
         String escape = Colour.RED.escape();
         return escape+super.getName()+ Colour.RESET+
-                ", effect: " + effect;
+                ", effetto: " + effect;
     }
 
     public int calculate_score(Player player){

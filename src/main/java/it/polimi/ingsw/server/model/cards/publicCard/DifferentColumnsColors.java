@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class DifferentColumnsColors extends PublicObject {
     public DifferentColumnsColors() {
-        setName("Different Colors - Column");
+        setName("Colori diversi - Colonna");
         setValue(2);
         setPunteggio(5);
-        setEffect("Columns without repeated colors");
+        setEffect("Colonne senza colori ripetuti");
     }
 
     private int numerocolonne(Player player){

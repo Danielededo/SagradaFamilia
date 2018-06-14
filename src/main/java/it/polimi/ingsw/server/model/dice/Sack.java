@@ -89,8 +89,8 @@ public class Sack{
 
     @Override
     public String toString() {
-        return "Sack{" +
-                "dice=" + dice +
+        return "Sacchetto{" +
+                "dado=" + dice +
                 '}';
     }
 }

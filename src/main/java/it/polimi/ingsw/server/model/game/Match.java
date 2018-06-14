@@ -46,12 +46,12 @@ public class Match {
 
     @Override
     public String toString() {
-        return "Match{\n" +
-                "players= " + players +
-                ",\npublictarget= " + publictarget +
-                ",\ntoolcards= " + toolcards +
-                ",\nstock= " + stock +
-                ", roundTrack= " + roundTrack +
+        return "Partita{\n" +
+                "giocatori= " + players +
+                ",\nObiettivo pubblico= " + publictarget +
+                ",\nCarte Utensile= " + toolcards +
+                ",\nRiserva= " + stock +
+                ", Tracciato dei round= " + roundTrack +
                 ", round= "+ round+
                 '}'+"\n";
     }

@@ -102,9 +102,9 @@ public class Scheme {
 
     @Override
     public String toString() {
-        return "Scheme{" +
-                "dimension=" + dimension +
-                ", glasswindow=" + Arrays.toString(glasswindow) +
+        return "Schema{" +
+                "dimensione=" + dimension +
+                ", carta schema=" + Arrays.toString(glasswindow) +
                 '}';
     }
 }

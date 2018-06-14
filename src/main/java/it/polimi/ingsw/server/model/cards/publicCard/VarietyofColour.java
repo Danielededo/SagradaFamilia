@@ -6,10 +6,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class VarietyofColour extends PublicObject {
     public VarietyofColour() {
-        setName("Variety of Color");
+        setName("Varietà di Colore");
         setValue(10);
         setPunteggio(4);
-        setEffect("Set of dice of every color everywhere");
+        setEffect("Set di dadi di ogni colore ovunque");
     }
 
     private int numberofset(Player player){
