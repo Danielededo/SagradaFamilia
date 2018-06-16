@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class MediumShades extends PublicObject {
     public MediumShades() {
-        setName("Medium Shades");
+        setName("Sfumature Medie");
         setValue(6);
         setPunteggio(2);
-        setEffect("Set of 3 & 4 everywhere");
+        setEffect("Set di 3 & 4 ovunque");
     }
 
     private int numberofset(Player player){

@@ -5,9 +5,9 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class ColoredDiagonals extends PublicObject {
     public ColoredDiagonals() {
-        setName("Colored Diagonals");
+        setName("Diagonali Colorate");
         setValue(9);
-        setEffect("Number of same-colored dice diagonally adjacent");
+        setEffect("Numero di dadi dello stesso colore diagonalmente adiacenti");
     }
 
     public int calcola_punteggio(Player player) {

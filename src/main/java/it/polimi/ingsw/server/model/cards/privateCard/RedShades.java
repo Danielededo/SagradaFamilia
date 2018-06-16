@@ -6,8 +6,8 @@ import it.polimi.ingsw.server.model.cards.PrivateObject;
 public class RedShades extends PrivateObject {
     public RedShades() {
         super.setValue(1);
-        super.setName("Red Shades");
+        super.setName("Sfumature Rosse");
         super.setColor(Colour.RED);
-        super.setEffect("Sum of values on all red dice");
+        super.setEffect("Somma dei valori su tutti i dadi rossi");
     }
 }

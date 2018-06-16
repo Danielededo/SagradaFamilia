@@ -46,12 +46,12 @@ public class Match {
 
     @Override
     public String toString() {
-        return "Match{\n" +
-                "players= " + players +
-                ",\npublictarget= " + publictarget +
-                ",\ntoolcards= " + toolcards +
-                ",\nstock= " + stock +
-                ", roundTrack= " + roundTrack +
+        return "Partita{\n" +
+                "giocatori= " + players +
+                ",\nObiettivo pubblico= " + publictarget +
+                ",\nCarte Utensile= " + toolcards +
+                ",\nRiserva= " + stock +
+                ", Tracciato dei round= " + roundTrack +
                 ", round= "+ round+
                 '}'+"\n";
     }
@@ -68,13 +68,13 @@ public class Match {
         return a;
     }
 
-    public void fineRound(){
+    public void endRound(){
         ArrayList<Die> die=new ArrayList<Die>();
         die.addAll(getStock().getDicestock());
         setRoundTrack(die,round-1);
         setRound(this.round +1);
         getStock().reset_stock();
-        if(this.round!=11)
+        if(getRound()!=11)
             changePlayer();
     }
 
@@ -87,23 +87,22 @@ public class Match {
         return scheme;
     }
 
-    public void fineMatch(){
+    public void endMatch(){
         calculatescore();
     }
 
     public String ranking(){
         String escape= Colour.RED.escape();
         ArrayList<Player> playerArrayList=new ArrayList<Player>();
-        for(Player p:players)
-            playerArrayList.add(p);
-        Collections.sort(players,(player1,player2)->{
+        playerArrayList.addAll(players);
+        Collections.sort(playerArrayList,(player1,player2)->{
             if(player1.getScore()>player2.getScore())
                 return -1;
             else return 1;
         });
-        if(players.get(0).getScore()==players.get(1).getScore()){
-            if(getnumberPlayers()>=3 && players.get(1).getScore()==players.get(2).getScore()){
-                if(getnumberPlayers()==4 && players.get(2).getScore()==players.get(3).getScore()){
+        if(playerArrayList.get(0).getScore()==playerArrayList.get(1).getScore()){
+            if(getnumberPlayers()>=3 && playerArrayList.get(1).getScore()==playerArrayList.get(2).getScore()){
+                if(getnumberPlayers()==4 && playerArrayList.get(2).getScore()==playerArrayList.get(3).getScore()){
                     sortPrivateScore(4,playerArrayList);
                 }else
                     sortPrivateScore(3,playerArrayList);
@@ -111,32 +110,32 @@ public class Match {
                 sortPrivateScore(2,playerArrayList);
         }
         String ranking="\nLA CLASSIFICA FINALE è:\n";
-        for(Player p:players){
-            if(players.indexOf(p)==0)
+        for(Player p:playerArrayList){
+            if(playerArrayList.indexOf(p)==0)
                 ranking+=escape+"1° posto: "+p.getNickname()+", punteggio: "+p.getScore()+Colour.RESET+"\n";
             else
-                ranking+=players.indexOf(p)+1+"° posto: "+p.getNickname()+", punteggio: "+p.getScore()+"\n";
+                ranking+=playerArrayList.indexOf(p)+1+"° posto: "+p.getNickname()+", punteggio: "+p.getScore()+"\n";
         }
         return ranking;
     }
 
     public void sortPrivateScore(int num,ArrayList<Player> p){
         if(num==2){
-            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1)))
+            if(p.get(0).getPrivatetarget().calculate_score(p.get(0))==p.get(1).getPrivatetarget().calculate_score(p.get(1)))
                 sortMarkerScore(2,p);
-            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))<players.get(1).getPrivatetarget().calculate_score(players.get(1)))
-                Collections.swap(players,0,1);
+            if(p.get(0).getPrivatetarget().calculate_score(p.get(0))<p.get(1).getPrivatetarget().calculate_score(p.get(1)))
+                Collections.swap(p,0,1);
         }
         if(num==4){
-            Collections.sort(players,(player1,player2)->{
+            Collections.sort(p,(player1,player2)->{
                 if(player1.getPrivatetarget().calculate_score(player1)>player2.getPrivatetarget().calculate_score(player2))
                     return -1;
                 else
                     return 1;
             });
-            if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))){
-                if(players.get(1).getPrivatetarget().calculate_score(players.get(1))==players.get(2).getPrivatetarget().calculate_score(players.get(2))){
-                    if(players.get(2).getPrivatetarget().calculate_score(players.get(2))==players.get(3).getPrivatetarget().calculate_score(players.get(3))){
+            if(p.get(0).getPrivatetarget().calculate_score(p.get(0))==p.get(1).getPrivatetarget().calculate_score(p.get(1))){
+                if(p.get(1).getPrivatetarget().calculate_score(p.get(1))==p.get(2).getPrivatetarget().calculate_score(p.get(2))){
+                    if(p.get(2).getPrivatetarget().calculate_score(p.get(2))==p.get(3).getPrivatetarget().calculate_score(p.get(3))){
                         sortMarkerScore(4,p);
                     }else
                         sortMarkerScore(3,p);
@@ -146,14 +145,14 @@ public class Match {
         }
         if(num==3){
             if(getnumberPlayers()==3) {
-                Collections.sort(players, (player1, player2) -> {
+                Collections.sort(p, (player1, player2) -> {
                     if (player1.getPrivatetarget().calculate_score(player1) > player2.getPrivatetarget().calculate_score(player2))
                         return -1;
                     else
                         return 1;
                 });
-                if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))){
-                    if(players.get(1).getPrivatetarget().calculate_score(players.get(1))==players.get(2).getPrivatetarget().calculate_score(players.get(2))) {
+                if(p.get(0).getPrivatetarget().calculate_score(p.get(0))==p.get(1).getPrivatetarget().calculate_score(p.get(1))){
+                    if(p.get(1).getPrivatetarget().calculate_score(p.get(1))==p.get(2).getPrivatetarget().calculate_score(p.get(2))) {
                         sortMarkerScore(3,p);
                     }
                     else{
@@ -162,17 +161,17 @@ public class Match {
                 }
             }else{
                 ArrayList<Player> arrayList=new ArrayList<Player>();
-                arrayList.add(players.get(3));
-                players.remove(3);
-                Collections.sort(players, (player1, player2) -> {
+                arrayList.add(p.get(3));
+                p.remove(3);
+                Collections.sort(p, (player1, player2) -> {
                     if (player1.getPrivatetarget().calculate_score(player1) > player2.getPrivatetarget().calculate_score(player2))
                         return -1;
                     else
                         return 1;
                 });
-                players.add(arrayList.get(0));
-                if(players.get(0).getPrivatetarget().calculate_score(players.get(0))==players.get(1).getPrivatetarget().calculate_score(players.get(1))) {
-                    if (players.get(1).getPrivatetarget().calculate_score(players.get(1)) == players.get(2).getPrivatetarget().calculate_score(players.get(2))) {
+                p.add(arrayList.get(0));
+                if(p.get(0).getPrivatetarget().calculate_score(p.get(0))==p.get(1).getPrivatetarget().calculate_score(p.get(1))) {
+                    if (p.get(1).getPrivatetarget().calculate_score(p.get(1)) == p.get(2).getPrivatetarget().calculate_score(p.get(2))) {
                         sortMarkerScore(3,p);
                     } else {
                         sortMarkerScore(2,p);
@@ -184,21 +183,21 @@ public class Match {
 
     public void sortMarkerScore(int i,ArrayList<Player> p){
         if(i==2){
-            if(players.get(0).getMarker()<players.get(1).getMarker())
-                Collections.swap(players,0,1);
-            if(players.get(0).getMarker()==players.get(1).getMarker())
+            if(p.get(0).getMarker()<p.get(1).getMarker())
+                Collections.swap(p,0,1);
+            if(p.get(0).getMarker()==p.get(1).getMarker())
                 sortOrderRound(2,p);
         }
         if(i==4){
-            Collections.sort(players,(player1,player2)->{
+            Collections.sort(p,(player1,player2)->{
                 if(player1.getMarker()>player2.getMarker())
                     return -1;
                 else
                     return 1;
             });
-            if(players.get(0).getMarker()==players.get(1).getMarker()){
-                if(players.get(1).getMarker()==players.get(2).getMarker()){
-                    if(players.get(2).getMarker()==players.get(3).getMarker()){
+            if(p.get(0).getMarker()==p.get(1).getMarker()){
+                if(p.get(1).getMarker()==p.get(2).getMarker()){
+                    if(p.get(2).getMarker()==p.get(3).getMarker()){
                         sortOrderRound(4,p);
                     }else
                         sortOrderRound(3,p);
@@ -208,14 +207,14 @@ public class Match {
         }
         if(i==3){
             if(getnumberPlayers()==3) {
-                Collections.sort(players, (player1, player2) -> {
+                Collections.sort(p, (player1, player2) -> {
                     if (player1.getMarker() > player2.getMarker())
                         return -1;
                     else
                         return 1;
                 });
-                if(players.get(0).getMarker()==players.get(1).getMarker()){
-                    if(players.get(1).getMarker()==players.get(2).getMarker()) {
+                if(p.get(0).getMarker()==p.get(1).getMarker()){
+                    if(p.get(1).getMarker()==p.get(2).getMarker()) {
                         sortOrderRound(3,p);
                     }
                     else{
@@ -224,18 +223,18 @@ public class Match {
                 }
             }else{
                 ArrayList<Player> arrayList=new ArrayList<Player>();
-                arrayList.add(players.get(3));
-                players.remove(3);
-                Collections.sort(players, (player1, player2) -> {
+                arrayList.add(p.get(3));
+                p.remove(3);
+                Collections.sort(p, (player1, player2) -> {
                     if (player1.getMarker() > player2.getMarker())
                         return -1;
                     else
                         return 1;
                 });
-                players.add(arrayList.get(0));
+                p.add(arrayList.get(0));
                 arrayList.clear();
-                if(players.get(0).getMarker()==players.get(1).getMarker()){
-                    if (players.get(1).getMarker() == players.get(2).getMarker()) {
+                if(p.get(0).getMarker()==p.get(1).getMarker()){
+                    if (p.get(1).getMarker() == p.get(2).getMarker()) {
                         sortOrderRound(3,p);
                     } else {
                         sortOrderRound(2,p);
@@ -247,30 +246,22 @@ public class Match {
 
     public void sortOrderRound(int j,ArrayList<Player> p){
         if(j==2){
-                players.clear();
-                players.addAll(p);
-                Collections.swap(players,0,1);
+                Collections.swap(p,0,1);
         }
         if (j==3){
             if(getnumberPlayers()==3){
-                players.clear();
-                players.addAll(p);
-                Collections.swap(players,0,2);
+                Collections.swap(p,0,2);
             }else{
                 ArrayList<Player> players1=new ArrayList<Player>();
-                players1.add(p.get(p.indexOf(players.get(3))));
+                players1.add(players.get(players.indexOf(p.get(3))));
                 p.remove(players1.get(0));
-                players.clear();
-                players.addAll(p);
-                Collections.swap(players,0,2);
-                players.add(players1.get(0));
+                Collections.swap(p,0,2);
+                p.add(players1.get(0));
             }
         }
         if(j==4){
-            players.clear();
-            players.addAll(p);
-            Collections.swap(players,0,3);
-            Collections.swap(players,1,2);
+            Collections.swap(p,0,3);
+            Collections.swap(p,1,2);
         }
     }
 

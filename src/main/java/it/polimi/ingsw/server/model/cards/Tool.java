@@ -13,7 +13,7 @@ public abstract class Tool extends Card{
     private String effect;
     private Player player;
     protected String error="";
-    protected String[] list__of_errors={
+    protected static final String[] list__of_errors={
             "Non puoi utilizzare questa carta tool perchè non possiedi abbastanza segnalini favore",
             "Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado",
             "Lo slot selezionato per posizionare il dado possiede già un dado",

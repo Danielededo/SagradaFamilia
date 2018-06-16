@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class ClearShades extends PublicObject {
     public ClearShades() {
-        setName("Clear Shades");
+        setName("Sfumature Chiare");
         setValue(5);
         setPunteggio(2);
-        setEffect("Set of 1 & 2 everywhere");
+        setEffect("Set di 1 & 2 ovunque");
     }
 
     private int numberofset(Player player){

@@ -40,7 +40,7 @@ public class Round {
     @Override
     public String toString() {
         return "Round{" +
-                "turns=" + turns +
+                "turni=" + turns +
                 '}';
     }
 }

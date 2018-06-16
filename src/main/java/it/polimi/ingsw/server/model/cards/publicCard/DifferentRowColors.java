@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class DifferentRowColors extends PublicObject {
     public DifferentRowColors() {
-        setName("Different Colors - Row");
+        setName("Colori diversi - Riga");
         setValue(1);
         setPunteggio(6);
-        setEffect("Rows without repeated colors");
+        setEffect("Righe senza colori ripetuti");
     }
 
     private int numerorighe(Player player) {

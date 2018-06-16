@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class DifferentRowShades extends PublicObject {
     public DifferentRowShades() {
-        setName("Different Shades - Row");
+        setName("Sfumature diverse - Riga");
         setValue(3);
         setPunteggio(5);
-        setEffect("Rows without repeated shades");
+        setEffect("Righe senza sfumature ripetute");
     }
 
     private int numberrow(Player player) {

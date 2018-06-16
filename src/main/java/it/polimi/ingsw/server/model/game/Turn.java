@@ -14,8 +14,8 @@ public class Turn {
     @Override
     public String toString() {
 
-        return "Turn{" +
-                "oneplayer=" + oneplayer +
+        return "Turno{" +
+                "giocatore=" + oneplayer +
                 '}';
     }
 

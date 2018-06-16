@@ -192,7 +192,7 @@ public class Server implements ServerInt {
                 if(p.isConnected())
                     j++;
             }
-            if(j==1){
+            if(j==1 && !controller.isRank()){
                 for(Player p:controller.match.getPlayers())
                     if(p.isConnected()) {
                         start=false;

@@ -27,8 +27,8 @@ public abstract class PublicObject extends Card{
 
     public String toString() {
         String escape = Colour.RED.escape();
-        return  "Name: " + escape+super.getName()+Colour.RESET+
-                " effect: " + effect +"\n";
+        return  "Nome: " + escape+super.getName()+Colour.RESET+
+                " effetto: " + effect +"\n";
     }
     public abstract int calcola_punteggio(Player player);
 }

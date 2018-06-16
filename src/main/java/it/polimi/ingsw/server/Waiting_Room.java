@@ -45,7 +45,7 @@ public class Waiting_Room {
     public void attesa_partita() throws InterruptedException, RemoteException {
         for (int i=10;i>0;i--){
             Thread.sleep(1000);
-            if (players.size()>=2){
+            if (players.size()>1&&players.size()<4){
             server.notifyObserver(""+i);
             System.out.print("\r"+i);
             }else i=0;

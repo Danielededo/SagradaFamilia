@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.game.Player;
 
 public class DifferentColumnShades extends PublicObject {
     public DifferentColumnShades() {
-        setName("Different Shades - Column");
+        setName("Sfumature diverse - Colonna");
         setValue(4);
         setPunteggio(4);
-        setEffect("Columns without repeated shades");
+        setEffect("Colonne senza sfumature ripetute");
     }
 
 

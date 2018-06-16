@@ -22,11 +22,16 @@ public class Controller {
     private boolean start=false;
     private boolean dicehand_done=false,toolhand_done=false;
     private boolean endRound=false;
+    private boolean rank=false;
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
     public Controller(Server server, Boolean start) {
         this.server = server;
         this.start =start;
+    }
+
+    public boolean isRank() {
+        return rank;
     }
 
     public void setMatch(Match match) throws RemoteException, InterruptedException {
@@ -84,13 +89,13 @@ public class Controller {
             }
         }
         server.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+Colour.RED.escape()+"LA PARTITA HA INIZIO"+Colour.RESET);
-        while(match.getRound()!=11){
+        while(this.match.getRound()!=11){
             round();
         }
+        rank=true;
         server.notifyObserver("PARTITA TERMINATA");
-        match.fineMatch();
-        server.notifyObserver(match.ranking());
-        start=false;
+        this.match.endMatch();
+        server.notifyObserver(this.match.ranking());
         try {
             Thread.sleep(1000*20);
         } catch (InterruptedException e) {
@@ -120,9 +125,11 @@ public class Controller {
         server.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
         server.thread.cancel();
         Thread.sleep(2000);
-        match.fineRound();
-        server.getListofobserver().add(server.getListofobserver().get(0));
-        server.getListofobserver().remove(0);
+        match.endRound();
+        if(match.getRound()!=11) {
+            server.getListofobserver().add(server.getListofobserver().get(0));
+            server.getListofobserver().remove(0);
+        }
         server.thread=new DisconnectionThread(server);
         server.timer.schedule(server.thread,0,500);
         endRound=false;

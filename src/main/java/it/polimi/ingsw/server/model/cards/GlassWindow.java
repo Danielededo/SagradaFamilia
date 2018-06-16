@@ -55,8 +55,8 @@ public class GlassWindow  {
             }
             string+="\n";
         }
-        return  "Name: '"+escape + name + Colour.RESET+'\'' +
-                ", difficulty=" + difficulty + string;
+        return  "Nome: '"+escape + name + Colour.RESET+'\'' +
+                ", difficoltà=" + difficulty + string;
     }
 
     public String getName() {

@@ -8,7 +8,7 @@ public class AuroraeMagnificus extends GlassWindow {
     public AuroraeMagnificus(){
         super.setName("Aurorae Magnificus");
         super.setLink(6);
-        super.setDifficulty(4);
+        super.setDifficulty(5);
         createSlot00();
     }
     private void createSlot00(){

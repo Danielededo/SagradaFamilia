@@ -6,8 +6,8 @@ import it.polimi.ingsw.server.model.cards.PrivateObject;
 public class BlueShades extends PrivateObject{
     public BlueShades() {
         super.setValue(4);
-        super.setName("Blue Shades");
+        super.setName("Sfumature Blu");
         super.setColor(Colour.BLUE);
-        super.setEffect("Sum of values on all blue dice");
+        super.setEffect("Somma dei valori su tutti i dadi blu");
     }
 }
