@@ -1,59 +1,58 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
-import it.polimi.ingsw.rmi.ServerInt;
+import it.polimi.ingsw.server.model.game.Player;
+import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.server.utils.DisconnectionThread;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
+import java.rmi.UnmarshalException;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.*;
 
-public class Server implements ServerInt {
-    static int PORT;
-    private ArrayList<Hub> hubs=new ArrayList<Hub>();
-    //private Controller controller;
-    //private Waiting_Room room;
-    //private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
+public class Hub {
+    private int numberofMatch;
+    private Server server;
+    private Controller controller;
+    private Waiting_Room room;
+    private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     private Registry registry;
-    private ArrayList<Boolean> start=new ArrayList<Boolean>();
-    //public Timer timer=new Timer();
-    //public TimerTurn setupGame;
-    //public DisconnectionThread thread;
+    Boolean start;
+    public Timer timer=new Timer();
+    public TimerTurn setupGame;
+    public DisconnectionThread thread;
     private boolean endRound=false;
-    //Map<String,String> o=new HashMap<>();
+    Map<String,String> o=new HashMap<>();
 
-    /*public ArrayList<ClientInt> getListofobserver() {
-        return listofobserver;
-    }*/
-
-    public void start_server(String arg){
-        boolean gone=true;
-        try{
-            String server_name;
-            ServerInt stub;
-            PORT= Integer.parseInt(arg);
-            server_name = "Sagrada server";
-            //thread=new DisconnectionThread(this);
-            //setupGame=new TimerTurn(this);
-            //controller=new Controller(this,start);
-            //this.room=new Waiting_Room(this,controller);
-            stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
-            registry= LocateRegistry.createRegistry(PORT);
-            registry.rebind(server_name,stub);
-            //timer.scheduleAtFixedRate(thread,0,500);
-            //Timer t=new Timer();
-            //t.scheduleAtFixedRate(setupGame,0,1000);
-            System.err.println(server_name + " pronto");
-            while (gone) {
-            }
-        }catch (Exception e){
-            System.err.println("Server exception:   " + e.toString());
-            e.printStackTrace();
-        }
+    public Hub(boolean start,int numberofMatch,Server server) {
+        this.start = start;
+        this.numberofMatch=numberofMatch;
+        this.server=server;
+        thread=new DisconnectionThread(this);
+        setupGame=new TimerTurn(this);
+        controller=new Controller(this);
+        this.room=new Waiting_Room(this,controller);
+        timer.scheduleAtFixedRate(thread,0,500);
+        Timer t=new Timer();
+        t.scheduleAtFixedRate(setupGame,0,1000);
     }
 
-    /*public TimerTurn getSetupGame() {
+    public Hub(boolean start) {
+        this.start=start;
+    }
+
+
+    public ArrayList<ClientInt> getListofobserver() {
+        return listofobserver;
+    }
+
+    public void setStart(Boolean start) {
+        this.start=start;
+        server.setStart(start,numberofMatch);
+    }
+
+    public TimerTurn getSetupGame() {
         return setupGame;
     }
 
@@ -61,46 +60,49 @@ public class Server implements ServerInt {
         listofobserver.remove(o);
     }
 
+    public boolean addObserver(ClientInt o) throws RemoteException {
+        if (loginconnection(o)) {
+            if(start){
+                int i=0;
+                for(Player p: controller.match.getPlayers()) {
+                    if (p.getNickname().equals(o.getNickname())) {
+                        i=controller.match.getPlayers().indexOf(p);
+                    }
+                }
+                if(!endRound)
+                    thread.cancel();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {}
+                listofobserver.set(i,o);
+                controller.match.getPlayers().get(i).setConnected(true);
+                System.out.println(o.getNickname()+" riconnesso");
+                if(!endRound) {
+                    thread = new DisconnectionThread(this);
+                    timer.schedule(thread, 0, 500);
+                }
+                return true;
+            }else{
+                listofobserver.add(o);
+                try {
+                    room.addPlayer(o.getNickname());
+                }catch (InterruptedException e){}
+                catch (UnmarshalException e){}
+                return true;
+            }
+        }else
+            return false;
+    }
 
     void notifyObserver(String arg) throws RemoteException {
-         for (int i=0;i<listofobserver.size();i++) {
-             try {
-                 if(!start || (start && controller.match.getPlayers().get(i).isConnected()))
+        for (int i=0;i<listofobserver.size();i++) {
+            try {
+                if(!start || (start && controller.match.getPlayers().get(i).isConnected()))
                     listofobserver.get(i).update(arg);
-             } catch (RemoteException e){}
-         }
-    }
-
-*/
-
-    public void setStart(Boolean start,int index) {
-        this.start.set(index,start);
-    }
-
-    public void terminatehub(int index_hub,Boolean start){
-        Hub hub1=new Hub(start);
-        hubs.set(index_hub,hub1);
-    }
-
-    public boolean addObserver(ClientInt o) throws RemoteException {
-        int cont = 0;
-        for (int i=0;i<start.size();i++){
-            if (start.get(i)) cont++;
-            else i=start.size();
+            } catch (RemoteException e){}
         }
-        if (hubs.size()==0||cont==start.size()){
-            start.add(false);
-            Hub hub=new Hub(start.get(start.size()-1),hubs.size(),this);
-            hubs.add(hub);
-            if (hub.addObserver(o))return true;
-        }else if (cont<start.size()-1){
-            Hub hub=new Hub(start.get(cont),hubs.size(),this);
-            hubs.add(hub);
-            if (hub.addObserver(o))return true;
-        } else if (hubs.get(cont).addObserver(o)) return true;
-        return false;
     }
-/*
+
     void notify(ClientInt o,String arg) throws RemoteException{
         try {
             if(!start || (start && controller.match.getPlayers().get(listofobserver.indexOf(o)).isConnected()))
@@ -172,6 +174,10 @@ public class Server implements ServerInt {
         return start;
     }
 
+    public void terminateHub(){
+        server.terminatehub(numberofMatch,start);
+    }
+
     public void vericaconnessione() throws RemoteException {
         int i=0,j=0;
         if (start) {
@@ -183,11 +189,14 @@ public class Server implements ServerInt {
                 for(Player p:controller.match.getPlayers())
                     if(p.isConnected()) {
                         start=false;
+                        thread.cancel();
+                        controller.getTimerTurn().cancel();
                         j = controller.match.getPlayers().indexOf(p);
-                        notify(listofobserver.get(j),Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
+                        notify(listofobserver.get(j), Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
                         System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
                         notify(listofobserver.get(j),"disconnettiti");
-                        System.exit(0);
+                        controller.match.setRound(11);
+                        server.terminatehub(numberofMatch,start);
                     }
             }
         }
@@ -212,5 +221,5 @@ public class Server implements ServerInt {
             }
             i++;
         }
-    }*/
+    }
 }

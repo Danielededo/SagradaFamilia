@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Waiting_Room {
     private ArrayList<Player> players;
-    private Server server;
+    private Hub server;
     private Match match;
     private Controller c;
 
@@ -17,7 +17,7 @@ public class Waiting_Room {
         return players;
     }
 
-    public Waiting_Room(Server server,Controller controller) {
+    public Waiting_Room(Hub server,Controller controller) {
         this.server=server;
         this.c=controller;
         players=new ArrayList<Player>();
@@ -56,29 +56,29 @@ public class Waiting_Room {
                 server.notifyObserver("Attendi che uno o più giocatori partecipino alla partita");
             } catch (RemoteException e) {}
         }else if(players.size()==2){
-            match=new Match(players.get(0),players.get(1));
+            c.match=new Match(players.get(0),players.get(1));
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                c.setMatch(match);
+                c.setMatch();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }else if (players.size()==3) {
-            match=new Match(players.get(0),players.get(1),players.get(2));
+            c.match=new Match(players.get(0),players.get(1),players.get(2));
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                c.setMatch(match);
+                c.setMatch();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }else if (players.size()==4){
-            match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
+            c.match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
             server.getSetupGame().cancel();
             server.setStart(true);
             try {
-                c.setMatch(match);
+                c.setMatch();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

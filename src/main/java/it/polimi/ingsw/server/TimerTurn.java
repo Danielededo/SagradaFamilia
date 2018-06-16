@@ -7,13 +7,13 @@ import java.util.TimerTask;
 
 public class TimerTurn extends TimerTask {
     ClientInt c;
-    Server s;
+    Hub s;
 
-    public TimerTurn(Server s) {
+    public TimerTurn(Hub s) {
         this.s = s;
     }
 
-    public TimerTurn(ClientInt c, Server s) {
+    public TimerTurn(ClientInt c, Hub s) {
         this.c = c;
         this.s = s;
     }

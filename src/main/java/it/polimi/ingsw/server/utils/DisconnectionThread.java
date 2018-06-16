@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.utils;
 
-import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.Hub;
 
 import java.rmi.RemoteException;
 import java.util.ConcurrentModificationException;
 import java.util.TimerTask;
 
 public class DisconnectionThread extends TimerTask {
-    private Server server;
+    private Hub server;
 
-    public DisconnectionThread(Server server) {
+    public DisconnectionThread(Hub server) {
         this.server = server;
     }
 

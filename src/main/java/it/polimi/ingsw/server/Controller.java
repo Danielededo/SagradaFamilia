@@ -18,25 +18,27 @@ import java.util.*;
 
 public class Controller {
     protected Match match;
-    private Server server;
-    private boolean start=false;
+    private Hub server;
+    private TimerTurn timerTurn;
     private boolean dicehand_done=false,toolhand_done=false;
     private boolean endRound=false;
     private boolean rank=false;
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
-    public Controller(Server server, Boolean start) {
+    public Controller(Hub server) {
         this.server = server;
-        this.start =start;
+    }
+
+    public TimerTurn getTimerTurn() {
+        return timerTurn;
     }
 
     public boolean isRank() {
         return rank;
     }
 
-    public void setMatch(Match match) throws RemoteException, InterruptedException {
+    public void setMatch() throws RemoteException, InterruptedException {
         final int sec=20;
-        this.match = match;
         final int time=10;
         for (int i=0;i<match.getnumberPlayers();i++) {
             server.o.put(match.getPlayers().get(i).getNickname(),server.getListofobserver().get(i).getPassword());
@@ -102,24 +104,36 @@ public class Controller {
             e.printStackTrace();
         }
         server.notifyObserver("disconnettiti");
-        System.exit(0);
+        server.start=false;
+        server.thread.cancel();
+        timerTurn.cancel();
+        server.terminateHub();
+    }
+
+    public void attend(){
+        boolean c=true;
+        while (c){
+
+        }
     }
 
     public void round() throws RemoteException, InterruptedException {
         Round round= new Round(match);
         int k=0,t=1,j;
         for(int z=0; z<2*match.getnumberPlayers();z++){
-            handleTurn(round,z,k,t);
-            if(z>match.getnumberPlayers()-1)
-                k--;
-            if(z<match.getnumberPlayers()-1)
-                k++;
-            if(z==match.getnumberPlayers()-1){
-                for(Player p:match.getPlayers()){
-                    p.setContTurn(2);
+            if (server.start){
+                handleTurn(round,z,k,t);
+                if(z>match.getnumberPlayers()-1)
+                    k--;
+                if(z<match.getnumberPlayers()-1)
+                    k++;
+                if(z==match.getnumberPlayers()-1){
+                    for(Player p:match.getPlayers()){
+                        p.setContTurn(2);
+                    }
+                    t=2;
                 }
-                t=2;
-            }
+            }else attend();
         }
         endRound=true;
         server.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
@@ -137,7 +151,7 @@ public class Controller {
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
         final int sec=20;
-        TimerTurn timerTurn=new TimerTurn(server.getListofobserver().get(k),server);
+        timerTurn=new TimerTurn(server.getListofobserver().get(k),server);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
                 dicehand_done=false;
@@ -481,8 +495,7 @@ public class Controller {
     }
 
     public boolean isStart() {
-        return start;
+        return server.start;
     }
-
 }
 
