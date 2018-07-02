@@ -18,6 +18,14 @@ public class ToolCard9 extends Tool {
         super.setValue(9);
     }
 
+    /**
+     * This method is the effect of the 9th tool card. When used this card lets you place a die on your scheme card so
+     * that it is not adjacent to any of the dice already placed. You'll have to respect all the other placement rules.
+     * @param dado1 the die you want to place on your scheme card
+     * @param slot1 the slot you want to move it into
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {

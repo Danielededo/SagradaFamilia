@@ -17,8 +17,15 @@ public class ToolCard11 extends Tool {
         super.setValue(11);
     }
 
-    
-    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
+
+    /**
+     * This method represents the effect of the 11th tool card. It removes a die from the stock and puts it back in the bag.
+     * @param dado1 die from the stock
+     * @param partita current match
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card.
+     */
+    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         if (!isUsed()) {
             if (!this.isAccessed()) {
                 if (getPlayer().getMarker() > 0) {

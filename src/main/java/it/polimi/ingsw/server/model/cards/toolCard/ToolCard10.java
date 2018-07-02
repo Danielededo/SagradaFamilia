@@ -15,6 +15,13 @@ public class ToolCard10 extends Tool {
         super.setValue(10);
     }
 
+    /**
+     * This method represents the effect of the 10th tool card. Once the player has chosen a die from the stock, he can
+     * change the value with the one on the opposite face.
+     * @param dado1 the die you want to change
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card.
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {

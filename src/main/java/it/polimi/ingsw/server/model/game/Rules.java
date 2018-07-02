@@ -36,6 +36,14 @@ public class Rules {
         return error;
     }
 
+
+    /**This method calls the method "rules" in order to check that everything is obeyed, and if so it modifies the
+     * player scheme card.
+     * @param current the current player
+     * @param choice the chosen slot
+     * @param selected the chosen die
+     * @return GlassWindow, the scheme card will be modified only if every placemente rule is obeyed
+     */
     public GlassWindow diePlacing(Player current, Slot choice, Die selected){
         boolean mayI = rules(current, choice, selected);
 
@@ -50,6 +58,14 @@ public class Rules {
     }
 
 
+    /**
+     * This mehod calls all the other ones below to make sure that every placement rule is obeyed.
+     * It will set a specific error message, depending on which rule was violated.
+     * @param current the current player
+     * @param choice the chosen slot
+     * @param selected the chosen die
+     * @return boolean, true if every rule is obeyed, false otherwise
+     */
     public boolean rules(Player current, Slot choice, Die selected){
         boolean tracker;
         boolean vuota = false;
@@ -110,7 +126,11 @@ public class Rules {
     }
 
 
-
+    /**
+     * This method checks if the chosen slot already has a die in it.
+     * @param choice the chosen slot
+     * @return boolean, true if the slot is empty.
+     */
     public boolean occupiedSlot(Slot choice) {
         boolean i = choice.isOccupate();
         if (!i)
@@ -120,7 +140,17 @@ public class Rules {
     }
 
 
-
+    /**
+     * This method checks the eight slots around the chosen one. For the adjacent ones there can't be dice already placed
+     * with the same value or colour as the chosen one. The diagonally adjacent ones are checked to see if at least one is
+     * occupied. In fact we can't place a die if all the eight slots around the chosen one are empty.
+     * @param current the scheme card of the current player
+     * @param colonna the column of the chosen slot
+     * @param riga the row of the chosen slot
+     * @param die the colour of the chosen die
+     * @param face the value of the chosen die
+     * @return boolean, true if the rule is obeyed.
+     */
     public boolean neighboursCheck (GlassWindow current, int colonna, int riga, Colour die, int face) {
         boolean diagOccupate = true;
         boolean ortOccupate = false;
@@ -201,7 +231,12 @@ public class Rules {
     }
 
 
-
+    /**
+     * The method checks if there are colour restrictions on the chosen slot, and if they are obeyed.
+     * @param slot default slot colour
+     * @param die colour of the chosen die
+     * @return boolean, true if the rule is obeyed
+     */
     public boolean colourCheck(Colour slot, Colour die) {
         if (slot == Colour.WHITE || slot == die)
             return true;
@@ -209,6 +244,11 @@ public class Rules {
             return false;
     }
 
+    /**The method checks if there are number restrictions on the chosen slot, and if they are obeyed.
+     * @param slot default slot face
+     * @param die value of the die face
+     * @return boolean, true if the rule is obeyed
+     */
     public boolean numberCheck(int slot, int die) {
         if (slot == 0 || slot == die)
             return true;
@@ -217,6 +257,11 @@ public class Rules {
     }
 
 
+    /**This method checks if you are placing your first die on the border of your scheme card
+     * @param riga row of the slot
+     * @param colonna coloumn of the slot
+     * @return boolean, true if the slot is on the border
+     */
     public boolean firstDado(int riga, int colonna){
         if((riga == 1 && (colonna == 1 || colonna == 2 || colonna == 3)) || (riga == 2 && (colonna == 1 || colonna == 2 || colonna == 3)) )
             return false;
