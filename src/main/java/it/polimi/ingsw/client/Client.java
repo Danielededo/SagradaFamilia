@@ -75,9 +75,11 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     }
 
     public void update(String msg) throws RemoteException {
-        if (!msg.equals("disconnettiti"))
-            System.out.println("Server -> "+msg);
-        else exit();
+        if (!msg.equals("")){
+            if (!msg.equals("disconnettiti"))
+                System.out.println("Server -> "+msg);
+            else exit();
+        }
     }
 
     public String setupconnection() throws RemoteException {

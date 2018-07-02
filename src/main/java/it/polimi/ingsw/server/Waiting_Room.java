@@ -10,7 +10,7 @@ public class Waiting_Room {
     private ArrayList<Player> players;
     private Hub server;
     private Match match;
-    private ControllerG c;
+    private Controller c;
     private static int timer_waiting;
 
 
@@ -18,7 +18,7 @@ public class Waiting_Room {
         return players;
     }
 
-    public Waiting_Room(Hub server, ControllerG controller,int timer_waiting) {
+    public Waiting_Room(Hub server, Controller controller,int timer_waiting) {
         this.server=server;
         this.c = controller;
         this.timer_waiting=timer_waiting;

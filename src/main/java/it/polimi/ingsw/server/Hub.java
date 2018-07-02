@@ -16,7 +16,7 @@ import java.util.*;
 public class Hub {
     private int numberofMatch;
     private Server server;
-    private ControllerG controller;
+    private Controller controller;
     private Waiting_Room room;
     private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     private Registry registry;
@@ -43,7 +43,7 @@ public class Hub {
         this.server=server;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new ControllerG(this,timer_window,timer_t);
+        controller=new Controller(this,timer_window,timer_t);
         this.room=new Waiting_Room(this, controller,timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
         Timer t=new Timer();
@@ -221,8 +221,8 @@ public class Hub {
         for (ClientInt c:listofobserver){
             try {
                 if((start && controller.match.getPlayers().get(i).isConnected()) || !start)
-                    c.verifyconnection();
-            }catch (ConnectException e){
+                    c.update("");
+            }catch (RemoteException e){
                 if(!this.start) {
                     System.out.println(room.getPlayers().get(i).getNickname()+" disconnesso");
                     notifyOthers(c,room.getPlayers().get(i).getNickname()+" disconnesso");
