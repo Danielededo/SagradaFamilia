@@ -19,6 +19,18 @@ public class ToolCard12 extends Tool {
     }
 
 
+    /**
+     * This method represents the effect of the 12th tool card. By using this card you can choose to move up to two dice
+     * already placed on your scheme card. They'll need to have the same colour of the same die on the roundtrack and
+     * you'll have to obey all the placement rules.
+     * @param partita the current match
+     * @param slot1 the slot from which you want to move the first die
+     * @param slot2 the slot from which you want to move the second die
+     * @param slot3 the slot in which you want to place the first die
+     * @param slot4 the slot in which you want to place the second die
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card
+     */
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if (!isUsed()) {
             if (!this.isAccessed()) {
