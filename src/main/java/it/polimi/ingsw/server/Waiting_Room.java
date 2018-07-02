@@ -10,16 +10,16 @@ public class Waiting_Room {
     private ArrayList<Player> players;
     private Hub server;
     private Match match;
-    private Controller c;
+    private ControllerG c;
 
 
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public Waiting_Room(Hub server,Controller controller) {
+    public Waiting_Room(Hub server, ControllerG controller) {
         this.server=server;
-        this.c=controller;
+        this.c = controller;
         players=new ArrayList<Player>();
     }
 
@@ -43,17 +43,23 @@ public class Waiting_Room {
     }
 
     public void attesa_partita() throws InterruptedException, RemoteException {
-        for (int i=10;i>0;i--){
-            Thread.sleep(1000);
+        for (int i=20;i>0;i--){
+            Thread.sleep(500);
+            server.notifyObserver("Timer");
+            Thread.sleep(500);
             if (players.size()>1&&players.size()<4){
             server.notifyObserver(""+i);
             System.out.print("\r"+i);
-            }else i=0;
+            }else {
+                i=0;
+            }
         }
+        server.notifyObserver("Timer stop");
         System.out.print("\r");
         if(players.size()==1){
             try {
-                server.notifyObserver("Attendi che uno o più giocatori partecipino alla partita");
+                server.notifyObserver("Solo");
+                //server.notifyObserver("Attendi che uno o più giocatori partecipino alla partita");
             } catch (RemoteException e) {}
         }else if(players.size()==2){
             c.match=new Match(players.get(0),players.get(1));

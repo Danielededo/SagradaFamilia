@@ -14,7 +14,7 @@ import java.util.*;
 public class Hub {
     private int numberofMatch;
     private Server server;
-    private Controller controller;
+    private ControllerG controller;
     private Waiting_Room room;
     private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     private Registry registry;
@@ -25,14 +25,14 @@ public class Hub {
     private boolean endRound=false;
     Map<String,String> o=new HashMap<>();
 
-    public Hub(boolean start,int numberofMatch,Server server) {
+    public Hub(boolean start,int numberofMatch, Server server) {
         this.start = start;
         this.numberofMatch=numberofMatch;
         this.server=server;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new Controller(this);
-        this.room=new Waiting_Room(this,controller);
+        controller=new ControllerG(this);
+        this.room=new Waiting_Room(this, controller);
         timer.scheduleAtFixedRate(thread,0,500);
         Timer t=new Timer();
         t.scheduleAtFixedRate(setupGame,0,1000);
@@ -91,6 +91,7 @@ public class Hub {
                 return true;
             }
         }else
+            o.setNickerr(true);
             return false;
     }
 
@@ -134,7 +135,8 @@ public class Hub {
                     }
                 }else if (p.getNickname().equals(nick)){
                     notify(o,"Questo nickname è già stato usato da un altro giocatore");
-                    i=1;
+                    return false;
+                    //i=1;
                 }
             }
             if (i==1) i=0;
@@ -150,13 +152,17 @@ public class Hub {
                 System.out.println(nick + " connesso localmente");
             else
                 System.out.println(nick + " connesso da remoto");
+            notify(o, "welcome");
             notify(o, "Benvenuto " + nick);
-            String string = "Lista d'attesa: ";
+
             for (Player p:room.getPlayers()){
-                string+=p.getNickname()+" ; ";
+                notify(o, "connesso");
+                notify(o, p.getNickname() + " è pronto per giocare.");
             }
-            notify(o,string);
-            notifyOthers(o, nick+ " connesso");
+
+            notifyOthers(o, "connesso");
+            notifyOthers(o, nick + " è pronto per giocare.");
+
             return true;
         }
         else{

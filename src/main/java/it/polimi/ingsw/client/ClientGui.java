@@ -2,16 +2,15 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.rmi.ServerInt;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ClientGui extends UnicastRemoteObject implements ClientInt {
     private String nickname;
@@ -19,11 +18,21 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
     static int PORT;
     private ServerInt stub;
     private String password;
-    private SimpleStringProperty fromServer = new SimpleStringProperty("");
+    private boolean nickerr = false;
+
+
+    private StringProperty fromServer = new SimpleStringProperty("");
+    private IntegerProperty toServer = new SimpleIntegerProperty();
+
+
+
+
+
 
 
     public ClientGui(String[] args) throws RemoteException {
         super();
+
         try {
             args[0]=args[0].replaceAll("-","");
             args[1]=args[1].replaceAll("-","");
@@ -49,7 +58,7 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
         return stub;
     }
 
-    public String getNickname()throws RemoteException {
+    public String getNickname(){
         return nickname;
     }
 
@@ -58,64 +67,32 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
     }
 
     public void update(String msg) throws RemoteException {
-        if (msg != "disconnettiti"){
-            setFromServer(msg);
-        }
-        else exit();
-
-
+        if(!msg.equals("disconnettiti"))
+            fromServer.setValue(msg);
+        else
+            exit();
     }
 
-    public String setupPlayer()throws RemoteException{
-        final int tim=11;
-        System.out.println("Press something to confirm your presence ");
-        Scanner in=new Scanner(System.in);
-        String b="";
-        final String finalB = b;
-        TimerTask task = new TimerTask(){
-            @Override
-            public void run()
-            {
-                if( finalB.equals(""))
-                {
-                    System.out.println( "You input nothing. Exit..." );
-                    System.exit(-1);
-                    this.cancel();
-                }
-            }
-        };
-        Timer timer= new Timer();
-        timer.schedule(task,tim*1000);
-        b = in.nextLine();
-        task.cancel();
-        return b;
-    }
-
-    public String setupgame() throws RemoteException{
-        Scanner in=new Scanner(System.in);
-        System.out.println("Choose your schemecard ");
-        String a=in.nextLine();
-        return a;
-    }
 
     public String setupconnection() throws RemoteException {
-        /*Scanner in=new Scanner(System.in);
-        System.out.println("Input your nickname:");
-        nickname=in.nextLine();*/
+
         return nickname;
     }
 
+
+
     public int selection_int() throws RemoteException {
-        boolean iscorrect=true;
-        Scanner s=new Scanner(System.in);
-        do {
-            try {
-                System.out.print("> ");
-            }catch (InputMismatchException e) {
-                iscorrect=false;
-            }
-        } while (!iscorrect);
-        return s.nextInt();
+        return toServer.getValue();
+    }
+
+
+
+    public boolean isNickerr() throws RemoteException{
+        return nickerr;
+    }
+
+    public void setNickerr(boolean nickerr) throws RemoteException{
+        this.nickerr = nickerr;
     }
 
     public boolean verifyconnection()throws RemoteException{
@@ -142,11 +119,23 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
     }
 
 
+    public int getToServer() {
+        return toServer.get();
+    }
+
+    public IntegerProperty toServerProperty() {
+        return toServer;
+    }
+
+    public void setToServer(int toServer) {
+        this.toServer.set(toServer);
+    }
+
     public String getFromServer() {
         return fromServer.get();
     }
 
-    public SimpleStringProperty fromServerProperty() {
+    public StringProperty fromServerProperty() {
         return fromServer;
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.components;
 
 
-public class Plancia extends Component {
+public class Plancia extends ComponentG {
 
     public Plancia(String nome, String perc){
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.components;
 
-public class Tools extends Component {
+public class Tools extends ComponentG {
 
     private int value;
 

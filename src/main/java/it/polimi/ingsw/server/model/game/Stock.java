@@ -3,14 +3,18 @@ package it.polimi.ingsw.server.model.game;
 import it.polimi.ingsw.server.model.dice.Die;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.System.out;
 
 public class Stock {
     private ArrayList<Die> dicestock;
+    private Map<Integer,Die> dieMap;
 
     public Stock() {
         dicestock=new ArrayList<Die>();
+        dieMap=new HashMap<>();
     }
 
     public void reset_stock(){
@@ -31,6 +35,11 @@ public class Stock {
 
     public void setDicestock(ArrayList<Die> arrayList){
         this.dicestock= arrayList;
+        int i=1;
+        for (Die die:arrayList){
+            dieMap.put(i,die);
+            i++;
+        }
     }
 
     public Die extract_die(int index){
@@ -40,6 +49,11 @@ public class Stock {
         out.println("new Stock:");
         show_riserva();
         return temp;
+    }
+
+
+    public Map<Integer, Die> getDieMap() {
+        return dieMap;
     }
 
     @Override

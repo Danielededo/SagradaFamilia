@@ -17,6 +17,8 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     private static String serverIP;
     static int PORT;
     private static String password;
+    private boolean nickerr = false;
+
 
     protected Client() throws RemoteException {
         super();
@@ -116,5 +118,14 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return "Client{" +
                 "nickname='" + nickname + '\'' +
                 '}';
+    }
+
+    public boolean isNickerr() throws RemoteException{
+        return nickerr;
+    }
+
+    @Override
+    public void setNickerr(boolean nickerr) throws RemoteException{
+        this.nickerr = nickerr;
     }
 }

@@ -9,6 +9,7 @@ public class LuzCelestialG extends Windows{
 
         super();
         this.setName("Luz Celestial");
+        this.setDifficulty(3);
 
         this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -32,25 +33,25 @@ public class LuzCelestialG extends Windows{
         this.getCasella34().setStyle("-fx-background-color: " + Constants.WHITE);
 
 
-        this.getCasella00().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella01().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella02().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella03().getChildren().addAll(new Faccia5(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella04().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella10().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella11().getChildren().addAll(new Faccia4(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella12().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella13().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella14().getChildren().addAll(new Faccia3(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella20().getChildren().addAll(new Faccia6(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella21().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella22().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella23().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella24().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella30().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella32().getChildren().addAll(new Faccia2(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella33().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
-        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.W_SLOT,Constants.H_SLOT));
+        this.getCasella00().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella01().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella02().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella03().getChildren().addAll(new Faccia5(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella04().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella10().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella11().getChildren().addAll(new Faccia4(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella12().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella13().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella14().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella20().getChildren().addAll(new Faccia6(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella21().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella22().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella23().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella24().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella30().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella32().getChildren().addAll(new Faccia2(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella33().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
     }
 }

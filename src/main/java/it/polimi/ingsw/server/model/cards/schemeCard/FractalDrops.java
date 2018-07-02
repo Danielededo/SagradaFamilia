@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.cards.Slot;
 
 public class FractalDrops extends GlassWindow {
     public FractalDrops(){
-        super.setName("FractalDrops");
+        super.setName("Fractal Drops");
         super.setLink(12);
         super.setDifficulty(3);
         createSlot00();

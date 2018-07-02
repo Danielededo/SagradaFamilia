@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.cards.Slot;
 
 public class ChromaticSplendor extends GlassWindow {
     public ChromaticSplendor(){
-        super.setName("ChromaticSplendor");
+        super.setName("Chromatic Splendor");
         super.setLink(11);
         super.setDifficulty(4);
         createSlot00();

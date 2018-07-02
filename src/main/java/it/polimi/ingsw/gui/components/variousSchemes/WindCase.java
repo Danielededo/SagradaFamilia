@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 public class WindCase extends Canvas {
 
     private Windows scelta;
-
+    private StackPane lay = new StackPane();
 
     public WindCase(double w, double h){
 
@@ -22,14 +22,13 @@ public class WindCase extends Canvas {
         getGraphicsContext2D().strokeLine(w - Constants.PADD_CASE, Constants.PADD_CASE, Constants.PADD_CASE, Constants.PADD_CASE);
         getGraphicsContext2D().strokeLine(w - Constants.PADD_CASE, Constants.PADD_CASE + 50, Constants.PADD_CASE, Constants.PADD_CASE + 50);
 
-
     }
 
     public StackPane addChosen(Windows choice){
         this.scelta = choice;
         Label nameCase = new Label(choice.getName());
         nameCase.setStyle("-fx-font-family: Times New Roman");
-        nameCase.setStyle("-fx-font-size: 34");
+        nameCase.setStyle("-fx-font-size: 28");
         StackPane layout = new StackPane();
 
         layout.getChildren().add(this);
@@ -39,5 +38,9 @@ public class WindCase extends Canvas {
         layout.setMargin(nameCase, Constants.INS_LAB);
 
         return layout;
+    }
+
+    public Windows getScelta() {
+        return scelta;
     }
 }

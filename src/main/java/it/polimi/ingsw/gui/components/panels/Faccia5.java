@@ -6,14 +6,19 @@ import javafx.scene.paint.Paint;
 
 public class Faccia5 extends Canvas{
 
+    private int num = 5;
+
     public Faccia5(double w, double h){
         super(w,h);
         this.getGraphicsContext2D().setFill(Paint.valueOf(Constants.BLACK));
-        this.getGraphicsContext2D().fillOval(11,11,Constants.R_DOT,Constants.R_DOT);
-        this.getGraphicsContext2D().fillOval(65,11,Constants.R_DOT,Constants.R_DOT);
-        this.getGraphicsContext2D().fillOval(39,39,Constants.R_DOT,Constants.R_DOT);
-        this.getGraphicsContext2D().fillOval(11,66,Constants.R_DOT,Constants.R_DOT);
-        this.getGraphicsContext2D().fillOval(66,66,Constants.R_DOT,Constants.R_DOT);
+        this.getGraphicsContext2D().fillOval(Constants.NE3_BOX_X,Constants.NE3_BOX_Y,Constants.R_DOT,Constants.R_DOT);
+        this.getGraphicsContext2D().fillOval(Constants.NO5_BOX_X,Constants.NO5_BOX_Y,Constants.R_DOT,Constants.R_DOT);
+        this.getGraphicsContext2D().fillOval(Constants.C_BOX_X,Constants.C_BOX_Y,Constants.R_DOT,Constants.R_DOT);
+        this.getGraphicsContext2D().fillOval(Constants.SE5_BOX_X,Constants.SE5_BOX_Y,Constants.R_DOT,Constants.R_DOT);
+        this.getGraphicsContext2D().fillOval(Constants.SO3_BOX_X,Constants.SO3_BOX_Y,Constants.R_DOT,Constants.R_DOT);
     }
 
+    public int getNum() {
+        return num;
+    }
 }
