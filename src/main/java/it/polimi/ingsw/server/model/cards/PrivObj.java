@@ -20,6 +20,10 @@ public class PrivObj {
         privateObject[4]=e;
     }
 
+    /**
+     * This method allows to extract 1 private card casually
+     * @return private card to set for one player
+     */
     public PrivateObject extractPrivObj(){
         PrivateObject privateObjects=null;
         Random random=new Random();

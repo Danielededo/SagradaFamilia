@@ -10,6 +10,10 @@ public class GlassWindow  {
     private int link;
     private Slot[][] scheme = new Slot[width][height];
 
+    /**
+     * This method return number of empty slot in this window
+     * @return int number of empty slot
+     */
     public int calculateEmptySlot(){
         int a=0;
         for(int i=0;i<width;i++){

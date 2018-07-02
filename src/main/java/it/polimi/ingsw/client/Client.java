@@ -11,6 +11,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client extends UnicastRemoteObject implements ClientInt {
     private String nickname;
@@ -18,6 +20,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     static int PORT;
     private static String password;
     private boolean nickerr = false;
+    private ServerInt stub;
 
 
     protected Client() throws RemoteException {
@@ -28,7 +31,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return password;
     }
 
-    public static void main(String[] args) {
+    public void startclient(String[] args) {
         try {
             args[0]=args[0].replaceAll("-","");
             args[1]=args[1].replaceAll("-","");
@@ -37,7 +40,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             Client client=new Client();
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
-            ServerInt stub= (ServerInt) registry.lookup(name);
+            stub= (ServerInt) registry.lookup(name);
             if(!stub.addObserver(client)){
                 System.err.println("Sei stato disconnesso");
                 registry=null;
@@ -45,6 +48,14 @@ public class Client extends UnicastRemoteObject implements ClientInt {
                 client=null;
                 System.exit(-1);
             }
+            Timer timer=new Timer();
+            TimerTask task=new TimerTask() {
+                @Override
+                public void run() {
+                    verifyconnection();
+                }
+            };
+            timer.scheduleAtFixedRate(task,0,1000);
         } catch (ConnectException e){
             System.err.println("Il server non è connesso");
             System.exit(-1);
@@ -105,8 +116,13 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return s.nextInt();
     }
 
-    public boolean verifyconnection()throws RemoteException{
-        return true;
+    public void verifyconnection(){
+        try {
+            stub.ping();
+        } catch (RemoteException e) {
+            System.err.println("Server offline");
+            System.exit(-1);
+        }
     }
 
     public void exit()throws RemoteException{

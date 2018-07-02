@@ -29,6 +29,10 @@ public class Sack{
         }
     }
 
+    /**
+     * createpurple create and add
+     * 18 purple dice in sack
+     */
     private void createpurple() {
         for (int i=0;i<numberDice;i++){
             Die dadop=new Die();
@@ -37,6 +41,10 @@ public class Sack{
         }
     }
 
+    /**
+     * createyellowdice create and add
+     * 18 yellow dice in sack
+     */
     private void createyellowdice() {
         for (int i=0;i<numberDice;i++){
             Die dadoy=new Die();
@@ -45,6 +53,10 @@ public class Sack{
         }
     }
 
+    /**
+     * creategreendice create and add
+     * 18 green dice in sack
+     */
     private void creategreendice() {
         for (int i=0;i<numberDice;i++){
             Die dadog=new Die();
@@ -53,6 +65,10 @@ public class Sack{
         }
     }
 
+    /**
+     * createbluedice create and add
+     * 18 blue dice in sack
+     */
     private void createbluedice() {
         for (int i=0;i<numberDice;i++){
             Die dadob=new Die();
@@ -61,6 +77,10 @@ public class Sack{
         }
     }
 
+    /**
+     * createreddice create and add
+     * 18 red dice in sack
+     */
     private void createreddice() {
         for (int i=0;i<numberDice;i++){
             Die dador=new Die();
@@ -69,6 +89,9 @@ public class Sack{
         }
     }
 
+    /**
+     * @return die from sack that has been extract casually
+     */
     public Die extractdie(){
         Die dado;
         Random random = new Random();
@@ -79,6 +102,12 @@ public class Sack{
         return dado;
     }
 
+    /**
+     * @param match is the current match that require
+     *             a set of dice to put in its stock
+     * @return an Arraylist of die extract from sack
+     * with casually color and casually value
+     */
     public ArrayList<Die> extractfromSack(Match match){
         ArrayList<Die> arrayList = new ArrayList<Die>();
         for(int i=0; i<2*match.getnumberPlayers()+1; i++){

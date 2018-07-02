@@ -15,6 +15,11 @@ public class ToolCard7 extends Tool {
         super.setValue(7);
     }
 
+    /**
+     * This method is the effect of this card called by match
+     * @param stock all die in this object need to change face value
+     * @return true if effect is done false in other case
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {

@@ -11,6 +11,11 @@ public class DifferentRowShades extends PublicObject {
         setEffect("Righe senza sfumature ripetute");
     }
 
+    /**
+     * Calculates the number of row without repeated shades
+     * @param player need its scheme card
+     * @return int cont number of row
+     */
     private int numberrow(Player player) {
         int cont=0;
         int cont1=0;
@@ -34,6 +39,10 @@ public class DifferentRowShades extends PublicObject {
         return cont;
     }
 
+    /**
+     * @param player that need to calculate score
+     * @return number of row returned by numberrow method multiplied by score of this scheme card
+     */
     public int calcola_punteggio(Player player) {
         return numberrow(player)*getPunteggio();
     }

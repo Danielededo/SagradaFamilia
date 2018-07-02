@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.rmi.ServerInt;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -38,6 +39,9 @@ public class Server implements ServerInt {
             //setupGame=new TimerTurn(this);
             //controller=new Controller(this,start);
             //this.room=new Waiting_Room(this,controller);
+            InetAddress address=InetAddress.getLocalHost();
+            String IP=address.getHostAddress();
+            System.setProperty("java.rmi.game.hostname",IP);
             stub = (ServerInt) UnicastRemoteObject.exportObject(this, 0);
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
@@ -99,6 +103,11 @@ public class Server implements ServerInt {
             if (hub.addObserver(o))return true;
         } else if (hubs.get(cont).addObserver(o)) return true;
         return false;
+    }
+
+    @Override
+    public void ping() throws RemoteException {
+        return;
     }
 /*
     void notify(ClientInt o,String arg) throws RemoteException{

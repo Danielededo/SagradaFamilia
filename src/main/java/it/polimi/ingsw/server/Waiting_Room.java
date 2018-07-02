@@ -11,15 +11,17 @@ public class Waiting_Room {
     private Hub server;
     private Match match;
     private ControllerG c;
+    private static int timer_waiting;
 
 
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public Waiting_Room(Hub server, ControllerG controller) {
+    public Waiting_Room(Hub server, ControllerG controller,int timer_waiting) {
         this.server=server;
         this.c = controller;
+        this.timer_waiting=timer_waiting;
         players=new ArrayList<Player>();
     }
 
@@ -43,7 +45,7 @@ public class Waiting_Room {
     }
 
     public void attesa_partita() throws InterruptedException, RemoteException {
-        for (int i=20;i>0;i--){
+        for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);
             server.notifyObserver("Timer");
             Thread.sleep(500);

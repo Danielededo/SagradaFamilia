@@ -10,7 +10,7 @@ public interface ClientInt extends Remote {
     public String getServerIp() throws RemoteException;
     public int selection_int() throws RemoteException;
     public void exit() throws RemoteException;
-    public boolean verifyconnection()throws RemoteException;
+    public void verifyconnection()throws RemoteException;
     public String getPassword() throws RemoteException;
     public boolean isNickerr() throws RemoteException;
     public void setNickerr(boolean nickerr) throws RemoteException;

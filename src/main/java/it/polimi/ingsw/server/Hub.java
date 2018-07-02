@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.utils.Colour;
 import it.polimi.ingsw.server.utils.DisconnectionThread;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
@@ -24,15 +26,25 @@ public class Hub {
     public DisconnectionThread thread;
     private boolean endRound=false;
     Map<String,String> o=new HashMap<>();
+    private int timer_window,timer_t,timer_waiting;
+
 
     public Hub(boolean start,int numberofMatch, Server server) {
+        Properties properties=new Properties();
+        String path="src/main/resources/timer.properties";
+        try {
+            properties.load(new FileReader(path));
+            timer_window= Integer.parseInt(properties.getProperty("Timer_window"));
+            timer_t= Integer.parseInt(properties.getProperty("Timer_turn"));
+            timer_waiting= Integer.parseInt(properties.getProperty("Timer_waiting"));
+        } catch (IOException e) {}
         this.start = start;
         this.numberofMatch=numberofMatch;
         this.server=server;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new ControllerG(this);
-        this.room=new Waiting_Room(this, controller);
+        controller=new ControllerG(this,timer_window,timer_t);
+        this.room=new Waiting_Room(this, controller,timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
         Timer t=new Timer();
         t.scheduleAtFixedRate(setupGame,0,1000);

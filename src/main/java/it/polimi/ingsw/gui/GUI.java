@@ -190,8 +190,8 @@ public class GUI extends Application implements ClientInt {
     }
 
     @Override
-    public boolean verifyconnection() throws RemoteException {
-        return false;
+    public void verifyconnection() throws RemoteException {
+
     }
 
     @Override

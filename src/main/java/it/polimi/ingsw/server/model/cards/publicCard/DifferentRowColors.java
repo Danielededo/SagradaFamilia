@@ -14,6 +14,11 @@ public class DifferentRowColors extends PublicObject {
         setEffect("Righe senza colori ripetuti");
     }
 
+    /**
+     * Calculates number of row without repeated colour
+     * @param player need its scheme card
+     * @return int cont number of row
+     */
     private int numerorighe(Player player) {
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
@@ -37,6 +42,10 @@ public class DifferentRowColors extends PublicObject {
         return cont;
     }
 
+    /**
+     * @param player that need to calculate score
+     * @return number of row returned by numerorighe method multiplied by score of this scheme card
+     */
     public int calcola_punteggio(Player player) {
         return numerorighe(player)*getPunteggio();
     }

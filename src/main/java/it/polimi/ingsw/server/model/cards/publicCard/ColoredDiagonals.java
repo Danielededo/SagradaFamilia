@@ -10,6 +10,12 @@ public class ColoredDiagonals extends PublicObject {
         setEffect("Numero di dadi dello stesso colore diagonalmente adiacenti");
     }
 
+    /**
+     * Calculate number of dice of same color that is diagonally adjacent
+     * @param player that need to calculate score
+     * @return int number of cont that has increased every
+     * time that there is a die of same colour diagonally adjacent of slot in analysis
+     */
     public int calcola_punteggio(Player player) {
         int cont=0;
         for (int i=1;i<width-1;i++){

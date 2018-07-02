@@ -11,6 +11,11 @@ public class MediumShades extends PublicObject {
         setEffect("Set di 3 & 4 ovunque");
     }
 
+    /**
+     * Calculate set of 3 & 4 dice in player scheme card
+     * @param player that need to calculate score
+     * @return int the lowest number of occurrences between 3 and 4 in scheme card
+     */
     private int numberofset(Player player){
         int cont1=0,cont2=0;
         for (int i=0;i<width;i++){
@@ -25,6 +30,12 @@ public class MediumShades extends PublicObject {
         else return cont2;
     }
 
+    /**
+     * Uses numberofset to calculate the score of player
+     * @param player that need to calculate score
+     * @return int number of set returned from
+     * numberofset method multiplied by score of this public card
+     */
     public int calcola_punteggio(Player player) {
         return numberofset(player)*getPunteggio();
     }

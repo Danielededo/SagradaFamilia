@@ -15,6 +15,12 @@ public class ToolCard5 extends Tool {
         super.setValue(5);
     }
 
+    /**
+     * This method is the effect of this card called by match
+     * @param dado1 die to be put in the round track
+     * @param value index of the position of the die to be taken from the round track
+     * @return true if effect is done false in other case
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {

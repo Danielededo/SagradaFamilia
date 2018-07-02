@@ -11,6 +11,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientGui extends UnicastRemoteObject implements ClientInt {
     private String nickname;
@@ -47,6 +49,14 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
                 stub=null;
                 System.exit(-1);
             }*/
+            Timer timer=new Timer();
+            TimerTask task=new TimerTask() {
+                @Override
+                public void run() {
+                    verifyconnection();
+                }
+            };
+            timer.scheduleAtFixedRate(task,0,1000);
         } catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();
@@ -95,8 +105,13 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
         this.nickerr = nickerr;
     }
 
-    public boolean verifyconnection()throws RemoteException{
-        return true;
+    public void verifyconnection(){
+        try {
+            stub.ping();
+        } catch (RemoteException e) {
+            System.err.println("Server offline");
+            System.exit(-1);
+        }
     }
 
     @Override

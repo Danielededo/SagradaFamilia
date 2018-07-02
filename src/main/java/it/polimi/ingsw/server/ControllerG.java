@@ -21,13 +21,16 @@ public class ControllerG {
     protected Match match;
     private Hub server;
     private TimerTurn timerTurn;
+    private int timer_t,timer_window;
     private boolean dicehand_done=false, toolhand_done=false;
     private boolean endRound=false;
     private boolean rank=false;
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
-    public ControllerG(Hub server) {
+    public ControllerG(Hub server,int timer_window,int timer_t) {
         this.server = server;
+        this.timer_t=timer_t;
+        this.timer_window=timer_window;
     }
 
     public TimerTurn getTimerTurn() {
@@ -39,7 +42,6 @@ public class ControllerG {
     }
 
     public void setMatch() throws RemoteException, InterruptedException {
-        final int sec=60;
         for (int i=0;i<match.getnumberPlayers();i++) {
             server.o.put(match.getPlayers().get(i).getNickname(),server.getListofobserver().get(i).getPassword());
         }
@@ -76,7 +78,7 @@ public class ControllerG {
                     server.notify(c, "Scheme done");
 
                     //server.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
-                    server.timer.schedule(schemetimer,1000*sec);
+                    server.timer.schedule(schemetimer,1000*timer_window);
                     boolean wait = true;
                     int scheme = 6;
                     while(wait) {
@@ -186,7 +188,6 @@ public class ControllerG {
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
-        final int sec=300;
         timerTurn=new TimerTurn(server.getListofobserver().get(k),server);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
@@ -199,7 +200,7 @@ public class ControllerG {
 
 
                 int menu = -1;
-                server.timer.schedule(timerTurn,1000*sec);
+                server.timer.schedule(timerTurn,1000*timer_t);
 
                 if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     do {

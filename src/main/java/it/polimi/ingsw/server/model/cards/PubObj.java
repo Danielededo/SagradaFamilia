@@ -31,6 +31,10 @@ public class PubObj {
         publicObject[9]=j;
     }
 
+    /**
+     * This method allows to extract 3 public card casually
+     * @return Arraylist<PublicObject> of cards to be set in the match
+     */
     public ArrayList<PublicObject> extractPubObj(){
         ArrayList<PublicObject> publicObjects = new ArrayList<PublicObject>();
         int i=0;

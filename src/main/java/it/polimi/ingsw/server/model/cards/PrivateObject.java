@@ -30,6 +30,11 @@ public class PrivateObject extends Card{
                 ", effetto: " + effect;
     }
 
+    /**
+     * This method is used to calculate the score of a player's privateobject card
+     * @param player that need to calculate is score
+     * @return sum of all dice that has a specified color in player scheme card
+     */
     public int calculate_score(Player player){
         int sum=0;
         final int width=4;

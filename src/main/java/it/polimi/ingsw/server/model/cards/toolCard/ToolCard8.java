@@ -16,6 +16,13 @@ public class ToolCard8 extends Tool {
         super.setValue(8);
     }
 
+    /**
+     * This method is the effect of this card called by match
+     * @param dado1 die to be put in slot1
+     * @param stock collection of die in from where remove dado1
+     * @param slot1 slot of window where place the die
+     * @return true if effect is done false in other case
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
         if(!isUsed()) {

@@ -20,13 +20,16 @@ public class Controller {
     protected Match match;
     private Hub server;
     private TimerTurn timerTurn;
+    private int timer_t,timer_window;
     private boolean dicehand_done=false,toolhand_done=false;
     private boolean endRound=false;
     private boolean rank=false;
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
-    public Controller(Hub server) {
+    public Controller(Hub server,int timer_t,int timer_window) {
         this.server = server;
+        this.timer_t=timer_t;
+        this.timer_window=timer_window;
     }
 
     public TimerTurn getTimerTurn() {
@@ -38,7 +41,6 @@ public class Controller {
     }
 
     public void setMatch() throws RemoteException, InterruptedException {
-        final int sec=20;
         final int time=10;
         for (int i=0;i<match.getnumberPlayers();i++) {
             server.o.put(match.getPlayers().get(i).getNickname(),server.getListofobserver().get(i).getPassword());
@@ -60,7 +62,7 @@ public class Controller {
                 try {
                     server.notify(c,"Il tuo obiettivo privato è "+match.getPlayers().get(client_index).getPrivatetarget().toString());
                     server.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
-                    server.timer.schedule(schemetimer,1000*sec);
+                    server.timer.schedule(schemetimer,1000*timer_window);
                     int scheme=selection(5,1,client_index)-1;
                     this.match.getPlayers().get(client_index).setWindow(windows.get(scheme));
                     if (client_index!=server.getListofobserver().size()-1)
@@ -105,7 +107,7 @@ public class Controller {
         }
         server.notifyObserver("disconnettiti");
         server.start=false;
-        server.thread.cancel();
+        //server.thread.cancel();
         timerTurn.cancel();
         server.terminateHub();
     }
@@ -137,7 +139,7 @@ public class Controller {
         }
         endRound=true;
         server.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
-        server.thread.cancel();
+        //server.thread.cancel();
         Thread.sleep(2000);
         match.endRound();
         if(match.getRound()!=11) {
@@ -145,12 +147,11 @@ public class Controller {
             server.getListofobserver().remove(0);
         }
         server.thread=new DisconnectionThread(server);
-        server.timer.schedule(server.thread,0,500);
+        //server.timer.schedule(server.thread,0,500);
         endRound=false;
     }
 
     public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
-        final int sec=20;
         timerTurn=new TimerTurn(server.getListofobserver().get(k),server);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
@@ -160,7 +161,7 @@ public class Controller {
                 server.notifyOthers(server.getListofobserver().get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
                 server.notify(server.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
                 int menu;
-                server.timer.schedule(timerTurn,1000*sec);
+                server.timer.schedule(timerTurn,1000*timer_t);
                 if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     do {
                         server.notify(server.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().toString());

@@ -11,7 +11,11 @@ public class DifferentColumnShades extends PublicObject {
         setEffect("Colonne senza sfumature ripetute");
     }
 
-
+    /**
+     * Calculate number of column with every dice value
+     * @param player from which to take the scheme card
+     * @return int cont number of column
+     */
     private int numbercolumn(Player player){
         int cont=0;
         int cont1=0;
@@ -35,6 +39,11 @@ public class DifferentColumnShades extends PublicObject {
         return cont;
     }
 
+    /**
+     * Calculate score of player scheme card in @param
+     * @param player that need to calculate score
+     * @return int column number multiplied by score of this scheme card
+     */
     public int calcola_punteggio(Player player) {
         return numbercolumn(player)*getPunteggio();
     }

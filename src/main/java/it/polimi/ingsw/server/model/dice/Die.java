@@ -25,6 +25,10 @@ public class Die {
         this.dicecolor = dicecolor;
     }
 
+    /**
+     * This method is used to randomly assign
+     * a value to the die face
+     */
     public void randomdado(){
         int count = faces.length;
         Random rand = new Random();

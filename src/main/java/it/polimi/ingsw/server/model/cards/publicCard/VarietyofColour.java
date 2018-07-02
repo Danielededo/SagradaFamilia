@@ -12,6 +12,11 @@ public class VarietyofColour extends PublicObject {
         setEffect("Set di dadi di ogni colore ovunque");
     }
 
+    /**
+     * Calculate set of every dice colour in player scheme card
+     * @param player that need to calculate score
+     * @return int the number of occurrences of every different dice whit different colour in scheme card
+     */
     private int numberofset(Player player){
         int[] cont={0,0,0,0,0};
         int min=0;
@@ -33,6 +38,12 @@ public class VarietyofColour extends PublicObject {
         return min;
     }
 
+    /**
+     * Uses numberofset to calculate the score of player
+     * @param player that need to calculate score
+     * @return int number of set returned from
+     * numberofset method multiplied by score of this public card
+     */
     public int calcola_punteggio(Player player) {
         return numberofset(player)*getPunteggio();
     }

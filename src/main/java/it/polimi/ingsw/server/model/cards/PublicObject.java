@@ -30,5 +30,11 @@ public abstract class PublicObject extends Card{
         return  "Nome: " + escape+super.getName()+Colour.RESET+
                 " effetto: " + effect +"\n";
     }
+
+    /**
+     * Calculate score of player done for public object card
+     * @param player that need to calculate score
+     * @return the score
+     */
     public abstract int calcola_punteggio(Player player);
 }
