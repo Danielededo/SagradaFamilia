@@ -69,13 +69,14 @@ public class Match {
     }
 
     public void endRound(){
-        ArrayList<Die> die=new ArrayList<Die>();
-        die.addAll(getStock().getDicestock());
-        setRoundTrack(die,round-1);
-        setRound(this.round +1);
-        getStock().reset_stock();
-        if(getRound()!=11)
+        if(getRound()!=11){
+            ArrayList<Die> die=new ArrayList<Die>();
+            die.addAll(getStock().getDicestock());
+            setRoundTrack(die,round-1);
+            setRound(this.round +1);
+            getStock().reset_stock();
             changePlayer();
+        }
     }
 
     public void setPlayerswindow(){

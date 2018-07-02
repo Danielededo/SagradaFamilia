@@ -17,7 +17,7 @@ public class ToolCard4 extends Tool {
     }
 
     @Override
-    public boolean effect(Die dado1, Die dado2, boolean piumeno, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
+    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         Rules rules = new Rules();
         if (rules.getCont(getPlayer())<2){ error=list__of_errors[14];return false;}
         int marker=getPlayer().getMarker();

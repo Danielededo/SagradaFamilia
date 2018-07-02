@@ -10,7 +10,7 @@ public class Slot {
     private Colour slotcolour;
     private Die dice;
     private boolean occupate = false;
-    private boolean esiste;
+    private boolean exist;
 
     public Slot() {
     }
@@ -34,8 +34,6 @@ public class Slot {
         this.column = column;
     }
 
-
-
     public int getValue() {
         return value;
     }
@@ -50,8 +48,6 @@ public class Slot {
         this.slotcolour = slotcolour;
     }
 
-
-
     public void setOccupate(boolean occupate) {
         this.occupate = occupate;
     }
@@ -60,9 +56,13 @@ public class Slot {
     }
 
     public boolean exists(){ return exists(); }
-    public void setExists(boolean exists) { this.esiste = exists; }
+    public void setExists(boolean exists) { this.exist = exists; }
 
-
+    /**
+     * This method sets the Die passed as parameter to die attribute, only if boolean 'occupate'
+     * is false and sets it true if dice passed is not equals to null
+     * @param dice is a Die that will be assign to the slot
+     */
     public void setDie(Die dice) {
         if(!isOccupate()){
             this.dice = dice;
@@ -75,6 +75,9 @@ public class Slot {
         return dice;
     }
 
+    /**
+     * Sets boolean 'occupate' to false in order to allow the placement of a Die
+     */
     public void removeDie(){
         this.setOccupate(false);
     }
@@ -86,7 +89,5 @@ public class Slot {
             if (value != 0) return "("+line+","+column+") "+escape + "[" + value + "]" + Colour.RESET;
             else return "("+line+","+column+") "+escape + "[ " + "]" + Colour.RESET;
         }else return "("+line+","+column+") "+escape+"["+dice.toString()+escape+"]"+Colour.RESET;
-
     }
-
 }

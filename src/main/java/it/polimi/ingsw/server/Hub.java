@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
 import java.rmi.registry.Registry;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Hub {
     private int numberofMatch;
@@ -22,6 +23,7 @@ public class Hub {
     private Registry registry;
     Boolean start;
     public Timer timer=new Timer();
+    Timer t=new Timer();
     public TimerTurn setupGame;
     public DisconnectionThread thread;
     private boolean endRound=false;
@@ -46,7 +48,6 @@ public class Hub {
         controller=new Controller(this,timer_window,timer_t);
         this.room=new Waiting_Room(this, controller,timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
-        Timer t=new Timer();
         t.scheduleAtFixedRate(setupGame,0,1000);
     }
 
@@ -70,6 +71,10 @@ public class Hub {
 
     public void removeObserver(ClientInt o) throws RemoteException {
         listofobserver.remove(o);
+    }
+
+    public Server getServer() {
+        return server;
     }
 
     public boolean addObserver(ClientInt o) throws RemoteException {
@@ -139,16 +144,15 @@ public class Hub {
         int i=0;
         String nick = null;
         while (i!=2){
-            nick=o.setupconnection();
+            nick=o.getNickname();
             for (Player p: room.getPlayers()){
-                if(start && p.getNickname().equals(nick)){
+                if(start && p.getNickname().equals(nick) && !p.isConnected()){
                     if(o.getPassword().equals(this.o.get(nick))){
                         return true;
                     }
                 }else if (p.getNickname().equals(nick)){
-                    notify(o,"Questo nickname è già stato usato da un altro giocatore");
+                    o.update("Questo nickname è già stato usato da un altro giocatore");
                     return false;
-                    //i=1;
                 }
             }
             if (i==1) i=0;
@@ -193,7 +197,14 @@ public class Hub {
     }
 
     public void terminateHub(){
-        server.terminatehub(numberofMatch,start);
+        try {
+            thread.cancel();
+            setupGame.cancel();
+            t.purge();
+            controller.getTimerTurn().cancel();
+        } catch (NullPointerException e) {}finally {
+            server.terminatehub(this);
+        }
     }
 
     public void vericaconnessione() throws RemoteException {
@@ -208,13 +219,19 @@ public class Hub {
                     if(p.isConnected()) {
                         start=false;
                         thread.cancel();
-                        controller.getTimerTurn().cancel();
+                        if (controller.turn) {
+                            controller.getTimerTurn().cancel();
+                        }
                         j = controller.match.getPlayers().indexOf(p);
                         notify(listofobserver.get(j), Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
-                        System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
                         notify(listofobserver.get(j),"disconnettiti");
+                        System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
+                        List<String> list=controller.match.getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());
+                        for (String name: list) {
+                            server.getMatches().remove(name);
+                        }
                         controller.match.setRound(11);
-                        server.terminatehub(numberofMatch,start);
+                        terminateHub();
                     }
             }
         }

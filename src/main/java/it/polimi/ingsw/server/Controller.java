@@ -24,9 +24,10 @@ public class Controller {
     private boolean dicehand_done=false,toolhand_done=false;
     private boolean endRound=false;
     private boolean rank=false;
+    boolean turn=false;
     private static String separator="\n---------------------------------------------------------------------------------------------";
 
-    public Controller(Hub server,int timer_t,int timer_window) {
+    public Controller(Hub server,int timer_window,int timer_t) {
         this.server = server;
         this.timer_t=timer_t;
         this.timer_window=timer_window;
@@ -41,6 +42,8 @@ public class Controller {
     }
 
     public void setMatch() throws RemoteException, InterruptedException {
+        for(Player p: match.getPlayers())
+            server.getServer().getMatches().put(p.getNickname(),server);
         final int time=10;
         for (int i=0;i<match.getnumberPlayers();i++) {
             server.o.put(match.getPlayers().get(i).getNickname(),server.getListofobserver().get(i).getPassword());
@@ -55,71 +58,82 @@ public class Controller {
         }
         catch (Exception e) {}
         for (ClientInt c:server.getListofobserver()){
-            int client_index=server.getListofobserver().indexOf(c);
-            ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
-            if (match.getPlayers().get(client_index).isConnected()){
-                TimerTurn schemetimer=new TimerTurn(c,server);
-                try {
-                    server.notify(c,"Il tuo obiettivo privato è "+match.getPlayers().get(client_index).getPrivatetarget().toString());
-                    server.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
-                    server.timer.schedule(schemetimer,1000*timer_window);
-                    int scheme=selection(5,1,client_index)-1;
-                    this.match.getPlayers().get(client_index).setWindow(windows.get(scheme));
-                    if (client_index!=server.getListofobserver().size()-1)
-                        server.notify(c,"Attendi che gli altri giocatori selezionino la propria carta schema");
-                    System.out.println(c.getNickname() + " ha scelto " + windows.get(scheme).getName());
-                } catch (ConnectException e) {
-                    match.getPlayers().get(client_index).setConnected(false);
-                    System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
+            if (server.start) {
+                int client_index=server.getListofobserver().indexOf(c);
+                ArrayList<GlassWindow> windows=match.getScheme().extractGlass();
+                if (match.getPlayers().get(client_index).isConnected()){
+                    TimerTurn schemetimer=new TimerTurn(c,server);
+                    turn=true;
+                    try {
+                        server.notify(c,"Il tuo obiettivo privato è "+match.getPlayers().get(client_index).getPrivatetarget().toString());
+                        server.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
+                        server.timer.schedule(schemetimer,1000*timer_window);
+                        int scheme=selection(5,1,client_index)-1;
+                        this.match.getPlayers().get(client_index).setWindow(windows.get(scheme));
+                        if (client_index!=server.getListofobserver().size()-1)
+                            server.notify(c,"Attendi che gli altri giocatori selezionino la propria carta schema");
+                        System.out.println(c.getNickname() + " ha scelto " + windows.get(scheme).getName());
+                    } catch (ConnectException e) {
+                        match.getPlayers().get(client_index).setConnected(false);
+                        System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
+                        Random r=new Random();
+                        this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
+                        System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
+                        server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
+                    } catch (UnmarshalException e){
+                        match.getPlayers().get(client_index).setConnected(false);
+                        System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
+                        Random r=new Random();
+                        this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
+                        System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
+                        server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
+                    }finally {
+                        schemetimer.cancel();
+                    }
+                }else {
                     Random r=new Random();
                     this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
                     System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
                     server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
-                } catch (UnmarshalException e){
-                    match.getPlayers().get(client_index).setConnected(false);
-                    System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
-                    Random r=new Random();
-                    this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                    System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
-                    server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
-                }finally {
-                    schemetimer.cancel();
                 }
-            }else {
-                Random r=new Random();
-                this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
-                server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
             }
         }
-        server.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+Colour.RED.escape()+"LA PARTITA HA INIZIO"+Colour.RESET);
         while(this.match.getRound()!=11){
             round();
         }
-        rank=true;
-        server.notifyObserver("PARTITA TERMINATA");
-        this.match.endMatch();
-        server.notifyObserver(this.match.ranking());
-        try {
-            Thread.sleep(1000*20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (server.start) {
+            rank=true;
+            server.notifyObserver("PARTITA TERMINATA");
+            this.match.endMatch();
+            server.notifyObserver(this.match.ranking());
+            try {
+                Thread.sleep(1000*20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(Player p: match.getPlayers())
+                server.getServer().getMatches().remove(p.getNickname());
+            server.notifyObserver("disconnettiti");
+            server.start=false;
+            //server.thread.cancel();
+            try {
+                timerTurn.cancel();
+                server.terminateHub();
+            } catch (NullPointerException e) {
+            }
         }
-        server.notifyObserver("disconnettiti");
-        server.start=false;
-        //server.thread.cancel();
-        timerTurn.cancel();
-        server.terminateHub();
     }
 
     public void attend(){
         boolean c=true;
         while (c){
-
         }
     }
 
     public void round() throws RemoteException, InterruptedException {
+        if(match.getRound()==1)
+            server.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+Colour.RED.escape()
+                    +"LA PARTITA HA INIZIO"+Colour.RESET);
         Round round= new Round(match);
         int k=0,t=1,j;
         for(int z=0; z<2*match.getnumberPlayers();z++){
@@ -135,7 +149,7 @@ public class Controller {
                     }
                     t=2;
                 }
-            }else attend();
+            }else return;
         }
         endRound=true;
         server.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);

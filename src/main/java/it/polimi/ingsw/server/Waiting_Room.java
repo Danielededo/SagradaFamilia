@@ -66,6 +66,7 @@ public class Waiting_Room {
         }else if(players.size()==2){
             c.match=new Match(players.get(0),players.get(1));
             server.getSetupGame().cancel();
+            server.t.cancel();
             server.setStart(true);
             try {
                 c.setMatch();
