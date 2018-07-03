@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Waiting_Room {
     private ArrayList<Player> players;
-    private Hub server;
+    private Hub hub;
     private Match match;
     private Controller c;
     private static int timer_waiting;
@@ -18,8 +18,8 @@ public class Waiting_Room {
         return players;
     }
 
-    public Waiting_Room(Hub server, Controller controller,int timer_waiting) {
-        this.server=server;
+    public Waiting_Room(Hub hub, Controller controller, int timer_waiting) {
+        this.hub = hub;
         this.c = controller;
         this.timer_waiting=timer_waiting;
         players=new ArrayList<Player>();
@@ -47,27 +47,27 @@ public class Waiting_Room {
     public void attesa_partita() throws InterruptedException, RemoteException {
         for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);
-            server.notifyObserver("Timer");
+            hub.notifyObserver("Timer");
             Thread.sleep(500);
             if (players.size()>1&&players.size()<4){
-            server.notifyObserver(""+i);
+            hub.notifyObserver(""+i);
             System.out.print("\r"+i);
             }else {
                 i=0;
             }
         }
-        server.notifyObserver("Timer stop");
+        hub.notifyObserver("Timer stop");
         System.out.print("\r");
         if(players.size()==1){
             try {
-                server.notifyObserver("Solo");
-                //server.notifyObserver("Attendi che uno o più giocatori partecipino alla partita");
+                hub.notifyObserver("Solo");
+                //hub.notifyObserver("Attendi che uno o più giocatori partecipino alla partita");
             } catch (RemoteException e) {}
         }else if(players.size()==2){
             c.match=new Match(players.get(0),players.get(1));
-            server.getSetupGame().cancel();
-            server.t.cancel();
-            server.setStart(true);
+            hub.getSetupGame().cancel();
+            hub.t.cancel();
+            hub.start=true;
             try {
                 c.setMatch();
             } catch (RemoteException e) {
@@ -75,8 +75,8 @@ public class Waiting_Room {
             }
         }else if (players.size()==3) {
             c.match=new Match(players.get(0),players.get(1),players.get(2));
-            server.getSetupGame().cancel();
-            server.setStart(true);
+            hub.getSetupGame().cancel();
+            hub.start=true;
             try {
                 c.setMatch();
             } catch (RemoteException e) {
@@ -84,8 +84,8 @@ public class Waiting_Room {
             }
         }else if (players.size()==4){
             c.match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
-            server.getSetupGame().cancel();
-            server.setStart(true);
+            hub.getSetupGame().cancel();
+            hub.start=true;
             try {
                 c.setMatch();
             } catch (RemoteException e) {

@@ -16,7 +16,6 @@ public class Server implements ServerInt {
     private ArrayList<Hub> hubs=new ArrayList<Hub>();
     private HashMap<String,Hub> matches=new HashMap();
     private Registry registry;
-    private ArrayList<Boolean> start=new ArrayList<Boolean>();
     private boolean endRound=false;
 
     public void start_server(String arg){
@@ -45,15 +44,8 @@ public class Server implements ServerInt {
         return matches;
     }
 
-    public void setStart(Boolean start,int index) {
-        this.start.set(index,start);
-    }
-
     public void terminatehub(Hub hub){
-        int i=hubs.indexOf(hub);
-        start.remove(i);
         hubs.remove(hub);
-        hub=null;
     }
 
     public boolean addObserver(ClientInt o) throws RemoteException {
@@ -62,20 +54,15 @@ public class Server implements ServerInt {
             return matches.get(nick).addObserver(o);
         }else{
             int cont = 0;
-            for (int i=0;i<start.size();i++){
-                if (start.get(i)) cont++;
-                else i=start.size();
+            for (int i=0;i<hubs.size();i++){
+                if (hubs.get(i).isStart()) cont++;
+                else i=hubs.size();
             }
-            if (hubs.size()==0||cont==start.size()){
-                start.add(false);
-                Hub hub=new Hub(start.get(start.size()-1),hubs.size(),this);
+            if (hubs.size()==0||cont==hubs.size()){
+                Hub hub=new Hub(this);
                 hubs.add(hub);
                 if (hub.addObserver(o))return true;
-            }else if (cont<start.size()-1){
-                Hub hub=new Hub(start.get(cont),hubs.size(),this);
-                hubs.add(hub);
-                if (hub.addObserver(o))return true;
-            } else if (hubs.get(cont).addObserver(o)) return true;
+            }else return hubs.get(cont).addObserver(o);
         }
         return false;
     }

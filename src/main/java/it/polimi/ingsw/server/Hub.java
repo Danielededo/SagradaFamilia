@@ -15,7 +15,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Hub {
-    private int numberofMatch;
     private Server server;
     private Controller controller;
     private Waiting_Room room;
@@ -31,7 +30,7 @@ public class Hub {
     private int timer_window,timer_t,timer_waiting;
 
 
-    public Hub(boolean start,int numberofMatch, Server server) {
+    public Hub(Server server) {
         Properties properties=new Properties();
         String path="src/main/resources/timer.properties";
         try {
@@ -40,8 +39,7 @@ public class Hub {
             timer_t= Integer.parseInt(properties.getProperty("Timer_turn"));
             timer_waiting= Integer.parseInt(properties.getProperty("Timer_waiting"));
         } catch (IOException e) {}
-        this.start = start;
-        this.numberofMatch=numberofMatch;
+        this.start = false;
         this.server=server;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
@@ -58,11 +56,6 @@ public class Hub {
 
     public ArrayList<ClientInt> getListofobserver() {
         return listofobserver;
-    }
-
-    public void setStart(Boolean start) {
-        this.start=start;
-        server.setStart(start,numberofMatch);
     }
 
     public TimerTurn getSetupGame() {
@@ -113,12 +106,13 @@ public class Hub {
     }
 
     void notifyObserver(String arg) throws RemoteException {
-        for (int i=0;i<listofobserver.size();i++) {
-            try {
+        try {
+            for (int i=0;i<listofobserver.size();i++) {
                 if(!start || (start && controller.match.getPlayers().get(i).isConnected()))
                     listofobserver.get(i).update(arg);
-            } catch (RemoteException e){}
-        }
+            }
+        }catch (RemoteException e){}
+        catch (ConcurrentModificationException e){}
     }
 
     void notify(ClientInt o,String arg) throws RemoteException{
@@ -129,14 +123,13 @@ public class Hub {
     }
 
     void notifyOthers(ClientInt o,String arg)throws RemoteException{
-        for(ClientInt c:listofobserver){
-            try{
-                if((start && !c.equals(o) && controller.match.getPlayers().get(listofobserver.indexOf(c)).isConnected()) || (!start && !c.equals(o))){
+        try{
+            for(ClientInt c:listofobserver){
+                if((start && !c.equals(o) && controller.match.getPlayers().get(listofobserver.indexOf(c)).isConnected()) || (!start && !c.equals(o)))
                     notify(c,arg);
-                }
-            }catch (ConcurrentModificationException e){}
-            catch (ConnectException e){}
-        }
+            }
+        }catch (ConcurrentModificationException e){}
+        catch (ConnectException e){}
     }
 
     public boolean loginconnection(ClientInt o) throws RemoteException {
@@ -202,8 +195,10 @@ public class Hub {
             setupGame.cancel();
             t.purge();
             controller.getTimerTurn().cancel();
-        } catch (NullPointerException e) {}finally {
+        } catch (NullPointerException e) {}
+        finally {
             server.terminatehub(this);
+            this.controller=new Controller(this,timer_window,timer_t);
         }
     }
 
@@ -219,9 +214,6 @@ public class Hub {
                     if(p.isConnected()) {
                         start=false;
                         thread.cancel();
-                        if (controller.turn) {
-                            controller.getTimerTurn().cancel();
-                        }
                         j = controller.match.getPlayers().indexOf(p);
                         notify(listofobserver.get(j), Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
                         notify(listofobserver.get(j),"disconnettiti");
