@@ -90,8 +90,8 @@ public class ControllerG {
                     int scheme = 6;
                     while(wait) {
                         Thread.sleep(1000);
-                        scheme = selection(5,1,client_index)-1;
-                        if (scheme > 0 && scheme < 5)
+                        scheme = selection(5,1,client_index) - 1;
+                        if (scheme >= 0 && scheme < 4)
                             wait = false;
                     }
                     server.notify(c, "Timer scelta stop");
@@ -300,7 +300,7 @@ public class ControllerG {
             while(wait){
                 Thread.sleep(1000);
                 index_draft = selection(match.getStock().getDicestock().size()+1,0, k);
-                if(index_draft < Constants.F_SLOT && index_draft > Constants.F_DIE){
+                if(index_draft < Constants.F_SLOT && index_draft >= Constants.F_DIE){
                     wait = false;
                 }
             }
