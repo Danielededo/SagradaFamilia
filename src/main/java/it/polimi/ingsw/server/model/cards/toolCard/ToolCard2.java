@@ -18,16 +18,17 @@ public class ToolCard2 extends Tool {
     }
 
     /**
-     * This method is the effect of tool card 2, move reference of die in slot1's attribute to slot2's die attribute;
-     * slot1's die is not null while slot2 hasn't got a die
-     * @param partita
-     * @param stock
-     * @param slot1
-     * @param slot2
-     * @return
+     * This method is the effect of tool card 2, move reference of die in slot1's attribute to slot2's die attribute only if
+     * are respected the rules; slot1's die is not null while slot2 hasn't got a die, if these things are not respected effect cannot be used
+     * and method return false.
+     * @param stock attribute of Match
+     * @param slot1 Slot of player's Glasswindow that contains the die
+     * @param slot2 Slot of player's Glasswindow that will be assigned slot1's die
+     * @return boolean, true if slot1's die has been moved correctly, false if the effect cannot be used either because of not enough favor tokens
+     * or slot1's die is null or slot2's die is not null.
      */
     @Override
-    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
+    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match match, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         Rules rules = new Rules();
         if (rules.getCont(getPlayer())==1){ error=list__of_errors[14];return false;}
         if(!isUsed()) {

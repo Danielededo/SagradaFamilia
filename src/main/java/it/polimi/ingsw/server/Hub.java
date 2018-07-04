@@ -86,6 +86,7 @@ public class Hub {
                 } catch (InterruptedException e) {}
                 listofobserver.set(i,o);
                 controller.match.getPlayers().get(i).setConnected(true);
+                notify(o,"Sei stato riconnesso");
                 System.out.println(o.getNickname()+" riconnesso");
                 if(!endRound) {
                     thread = new DisconnectionThread(this);

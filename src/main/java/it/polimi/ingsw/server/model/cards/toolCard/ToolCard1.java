@@ -24,9 +24,10 @@ public class ToolCard1 extends Tool{
      * false and true else return false because 1 cannot changes in 6 and 6 in 1.
      * @param dado1 Die whose value will be change
      * @param plusminus boolean that involves adding or removing of a unit from dado1's value
-     * @param partita reference of Match
+     * @param partita reference to Match
      * @param stock attribute of Match
-     * @return
+     * @return boolean, true if the die's value is changed, false if the effect cannot be used either because of not enough favor tokens or
+     * boolean 'plusminus' not possible to associated to die's value
      */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {

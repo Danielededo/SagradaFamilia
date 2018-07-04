@@ -11,15 +11,14 @@ import java.util.Random;
 
 
 public class Match {
-    private ArrayList<Player> players = new ArrayList<Player>();
-    private ArrayList<PublicObject> publictarget=new ArrayList<PublicObject>();
-    private ArrayList<Tool> toolcards=new ArrayList<Tool>();
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<PublicObject> publictarget=new ArrayList<>();
+    private ArrayList<Tool> toolcards=new ArrayList<>();
     private Stock stock= new Stock();
     private Sack sack= new Sack();
     private Scheme scheme = new Scheme();
     private PubObj pubObj = new PubObj();
     private PrivObj privObj= new PrivObj();
-    private ToolCards tool= new ToolCards();
     private Rules rules = new Rules();
     private ArrayList<Die>[] roundTrack=new ArrayList[10];
     private int round=1;
@@ -68,6 +67,11 @@ public class Match {
         return a;
     }
 
+    /**
+     * This method is used when int 'round' is different to 11, so when the match is in progress. It adds all remained dice from the stock
+     * to 'rooundtrack' through method setRoundTrack; increases one int 'round' and clears the stock. Moreover calls method changePlayer
+     * that moves player of first position in the arraylist 'players' of the Match to the last position.
+     */
     public void endRound(){
         if(getRound()!=11){
             ArrayList<Die> die=new ArrayList<Die>();
@@ -291,7 +295,10 @@ public class Match {
     }
 
 
-    public void setTool() {
+    /**
+     * This method extracts 3 tool cards and assign them to Match
+     */
+    private void setTool() {
         int i = 0;
         int a=-1;
         ToolCards t = new ToolCards();
@@ -307,13 +314,16 @@ public class Match {
         } while (i < 3);
     }
 
-    public ArrayList<String> getNamesTool(){
+    private ArrayList<String> getNamesTool(){
         ArrayList<String> names=new ArrayList<String>();
         for(Tool t:toolcards)
             names.add(t.getName());
         return names;
     }
 
+    /**
+     * This method assign casually a private card to each player in arraylist 'players'
+     */
     public void setPrivateObject(){
         for(int i=0;i<getnumberPlayers();i++){
             this.players.get(i).setPrivatetarget(this.privObj.extractPrivObj());
@@ -341,9 +351,13 @@ public class Match {
         cardAssignment();
     }
 
+    /**
+     * Moves the player in first position of arraylist 'players' to last position
+     */
     private void changePlayer(){
-        players.add(players.get(0));
-        players.remove(0);
+        //players.add(players.get(0));
+        //players.remove(0);
+        Collections.rotate(players,-1);
     }
 
     public void setRound(int round) {
@@ -360,6 +374,10 @@ public class Match {
 
     public ArrayList<Tool> getTool() { return toolcards; }
 
+    /**
+     * This method sets for each player in arraylist 'players' the score reached up during the match, calculate through sum of
+     * scores of private card, public cards, favor tokens and empty slot.
+     */
     private void calculatescore(){
         for(int i=0; i<getnumberPlayers(); i++){
            players.get(i).setScore(players.get(i).getPrivatetarget().calculate_score(players.get(i)));
@@ -395,6 +413,9 @@ public class Match {
         return string;
     }
 
+    /**
+     * This method calls the methods that setup match's cards
+     */
     private void cardAssignment(){
         setPrivateObject();
         setPublictarget();

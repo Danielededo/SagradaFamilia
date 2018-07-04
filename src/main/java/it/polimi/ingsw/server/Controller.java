@@ -42,12 +42,13 @@ public class Controller {
     }
 
     public void setMatch() throws RemoteException, InterruptedException {
-        for(Player p: match.getPlayers())
+        int i=0;
+        for(Player p: match.getPlayers()){
             hub.getServer().getMatches().put(p.getNickname(), hub);
-        final int time=10;
-        for (int i=0;i<match.getnumberPlayers();i++) {
-            hub.o.put(match.getPlayers().get(i).getNickname(), hub.getListofobserver().get(i).getPassword());
+            hub.o.put(p.getNickname(), hub.getListofobserver().get(i).getPassword());
+            i++;
         }
+        final int time=10;
         System.out.println(hub.o);
         Thread.sleep(2000);
         hub.notifyObserver("Le carte utensili sono: "+match.toolcardsString()+
@@ -69,6 +70,7 @@ public class Controller {
                             hub.notify(c,"Il tuo obiettivo privato è "+match.getPlayers().get(client_index).getPrivatetarget().toString());
                             hub.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
                             hub.timer.schedule(schemetimer,1000*timer_window);
+                            hub.notifyOthers(c,c.getNickname()+" sta scegliendo la propria carta schema");
                             int scheme=selection(5,1,client_index)-1;
                             this.match.getPlayers().get(client_index).setWindow(windows.get(scheme));
                             if (client_index!= hub.getListofobserver().size()-1)

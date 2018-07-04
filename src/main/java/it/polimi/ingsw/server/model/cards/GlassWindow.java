@@ -11,7 +11,7 @@ public class GlassWindow  {
     private Slot[][] scheme = new Slot[width][height];
 
     /**
-     * This method return number of empty slot in this window
+     * This method calculate number of empty slots in this window
      * @return int number of empty slot
      */
     public int calculateEmptySlot(){

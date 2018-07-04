@@ -63,6 +63,10 @@ public class Scheme {
     }
 
 
+    /**This method allows to extract casually 4 different windows, in order to make the player choose one among them, and put
+     * them into an arraylist.
+     * @return ArrayList<GlassWindow> arraylist of Glasswindow.
+     */
     public ArrayList<GlassWindow> extractGlass(){
         GlassWindow temp1,temp2;
         ArrayList<GlassWindow> glasses = new ArrayList<GlassWindow>();
