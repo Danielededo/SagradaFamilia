@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.LuzCelestial;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard9;
 import it.polimi.ingsw.server.utils.Colour;
@@ -9,13 +10,14 @@ import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Rules;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class testToolCard9_Test {
 
     @Test
     void testingTool9(){
         Die dado = new Die(4, Colour.BLUE);
         ToolCard9 carta9 = new ToolCard9();
-        carta9.setUsed(true);
 
         Player b = new Player("b");
         Player a = new Player("a");
@@ -37,11 +39,19 @@ public class testToolCard9_Test {
         ToolCard9 tool9 = new ToolCard9();
         tool9.setPlayer(a);
 
-        if (tool9.effect(dado, null,false,null,null, a.getWindow().getSlot(2,2),null,null,null,0))System.out.println("operazione riuscita");
+        ArrayList<Die> dice=new ArrayList<>();
+        ArrayList<Slot> slots=new ArrayList<>();
+
+        dice.add(dado);
+        slots.add(a.getWindow().getSlot(2,2));
+
+        if (tool9.effect(dice,null,slots,0))System.out.println("operazione riuscita");
         else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());
 
-        if (tool9.effect(dado,null,false,null,null, a.getWindow().getSlot(3,4),null,null,null,0))System.out.println("operazione riuscita");
+        slots.clear();
+        slots.add(a.getWindow().getSlot(3,4));
+        if (tool9.effect(dice,null,slots,0))System.out.println("operazione riuscita");
         else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());
 

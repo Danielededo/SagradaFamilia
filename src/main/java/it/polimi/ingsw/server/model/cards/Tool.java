@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.model.game.Stock;
+import it.polimi.ingsw.server.utils.Colour;
+
+import java.util.List;
 
 public abstract class Tool extends Card{
     private boolean accessed=false;
-    private boolean used=false;  //for the payment of the favor token, if use==true the payment has already happened
     private String name;
     private String effect;
     private Player player;
@@ -40,6 +40,7 @@ public abstract class Tool extends Card{
         this.accessed = accessed;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -52,6 +53,7 @@ public abstract class Tool extends Card{
         this.player = player;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -68,19 +70,33 @@ public abstract class Tool extends Card{
         return effect;
     }
 
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
-
-    public boolean isUsed() {
-
-        return used;
+    protected int tokenpayment(){
+        if (!this.isAccessed()) {
+            if (getPlayer().getMarker() > 0) {
+                getPlayer().setMarker(getPlayer().getMarker() - 1);
+                setAccessed(true);
+                return 1;
+            } else {
+                System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                error=list__of_errors[0];
+                return 0;
+            }
+        } else {
+            if (getPlayer().getMarker() > 1) {
+                getPlayer().setMarker(getPlayer().getMarker() - 2);
+                return 2;
+            } else {
+                System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
+                error=list__of_errors[0];
+                return 0;
+            }
+        }
     }
 
     /**This method is extended by subclasses, ToolCard1,ToolCard2..ecc.
      * @return boolean
      */
-    public abstract boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value);
+    public abstract boolean effect(List<Die> dice, Match match, List<Slot> slots, int value);
 
 
 

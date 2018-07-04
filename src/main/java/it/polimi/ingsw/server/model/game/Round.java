@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Round {
     private ArrayList<Turn> turns;
@@ -14,7 +15,7 @@ public class Round {
     public Round(Match a) {
         int i = 0;
         a.getStock().setDicestock(a.getSack().extractfromSack(a));
-        this.turns =new ArrayList<Turn>(2*a.getnumberPlayers());
+        this.turns = new ArrayList<>(2 * a.getnumberPlayers());
         while(i<a.getnumberPlayers()){
             Turn turn = new Turn(a.getPlayers().get(i));
             turn.getOneplayer().setContTurn(1);
@@ -29,12 +30,8 @@ public class Round {
         }
     }
 
-    public ArrayList<Turn> getTurns() {
+    public List<Turn> getTurns() {
         return turns;
-    }
-
-    public void clearRound(){
-        this.turns.clear();
     }
 
     @Override

@@ -102,21 +102,14 @@ public class ControllerG {
 
 
                     System.out.println(c.getNickname() + " ha scelto " + windows.get(scheme).getName());
-                } catch (ConnectException e) {
+                } catch (ConnectException | UnmarshalException e) {
                     match.getPlayers().get(client_index).setConnected(false);
                     System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
                     Random r=new Random();
                     this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
                     System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
                     server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
-                } catch (UnmarshalException e){
-                    match.getPlayers().get(client_index).setConnected(false);
-                    System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
-                    Random r=new Random();
-                    this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                    System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
-                    server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
-                }finally {
+                } finally {
                     schemetimer.cancel();
                 }
             }else {
@@ -137,8 +130,7 @@ public class ControllerG {
         server.notifyObserver(this.match.ranking());
         try {
             Thread.sleep(1000*20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ignored) {
         }
         server.notifyObserver("disconnettiti");
         server.start=false;
@@ -197,7 +189,7 @@ public class ControllerG {
 
                 server.timer.schedule(timerTurn,1000*timer_t);
 
-                if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
+                if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
                     do {
                         JSONArray ris = new JSONArray();
                         for(Die d: match.getStock().getDicestock()){
@@ -262,7 +254,7 @@ public class ControllerG {
                 }else {
                     server.notify(server.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
                     server.notifyOthers(server.getListofobserver().get(k),server.getListofobserver().get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
-                    round.getTurns().get(z).getOneplayer().setMissednext_turn(false);
+                    round.getTurns().get(z).getOneplayer().setMissednextturn(false);
                 }
                 server.notifyObserver("Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
             }
@@ -270,105 +262,90 @@ public class ControllerG {
                 server.notifyOthers(server.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
                         +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
             }
-        } catch (UnmarshalException e) {
+        } catch (UnmarshalException | ConnectException e) {
             round.getTurns().get(z).getOneplayer().setConnected(false);
             System.out.println(round.getTurns().get(z).getOneplayer().getNickname()+" disconnesso");
             server.notifyOthers(server.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
                     +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
             timerTurn.cancel();
             return;
-        }catch (ConnectException e){
-            round.getTurns().get(z).getOneplayer().setConnected(false);
-            System.out.println(round.getTurns().get(z).getOneplayer().getNickname()+" disconnesso");
-            server.notifyOthers(server.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
-                    +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
-            timerTurn.cancel();
-            return;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ignored) {
         }
     }
 
     public void dicehand(int k,int z,Round round) throws RemoteException, InterruptedException {
-        int cont=1;
-        while(cont!=0) {
-            int index_draft = -1, row, column;
-            server.notify(server.getListofobserver().get(k), "Scegli un dado.");
+        int index_draft = -1, row, column;
+        server.notify(server.getListofobserver().get(k), "Scegli un dado.");
 
-            boolean wait = true;
+        boolean wait = true;
 
-            while(wait){
-                Thread.sleep(1000);
-                index_draft = selection(match.getStock().getDicestock().size()+1,0, k);
-                if(index_draft < Constants.F_SLOT && index_draft > Constants.F_DIE){
-                    wait = false;
-                }
+        while(wait){
+            Thread.sleep(1000);
+            index_draft = selection(match.getStock().getDicestock().size()+1,0, k);
+            if(index_draft < Constants.F_SLOT && index_draft > Constants.F_DIE){
+                wait = false;
             }
-            server.notify(server.getListofobserver().get(k), "DIE OK");
+        }
+        server.notify(server.getListofobserver().get(k), "DIE OK");
 
 
-            server.notify(server.getListofobserver().get(k), "Ora scegli una casella della tua vetrata.");
-            wait = true;
-            int choice = -1;
-            while(wait){
-                Thread.sleep(1000);
-                choice = selection(20, 0, k);
-                if(choice > Constants.F_SLOT && choice <= Constants.S_DIE){
-                    wait = false;
-                }
+        server.notify(server.getListofobserver().get(k), "Ora scegli una casella della tua vetrata.");
+        wait = true;
+        int choice = -1;
+        while(wait){
+            Thread.sleep(1000);
+            choice = selection(20, 0, k);
+            if(choice > Constants.F_SLOT && choice <= Constants.S_DIE){
+                wait = false;
             }
+        }
 
-            row = rowRefactor(choice - Constants.F_SLOT);
-            column = coloumnRefactor(choice - Constants.F_SLOT);
-            index_draft = index_draft - Constants.F_DIE;
-            //int indexdie=match.getStock().getDicestock().indexOf(match.getStock().getDieMap().get(index_draft - Constants.F_DIE));
+        row = rowRefactor(choice - Constants.F_SLOT);
+        column = coloumnRefactor(choice - Constants.F_SLOT);
+        index_draft = index_draft - Constants.F_DIE;
+        //int indexdie=match.getStock().getDicestock().indexOf(match.getStock().getDieMap().get(index_draft - Constants.F_DIE));
 
-            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft - 1));
+        match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft - 1));
 
-            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
-                server.notify(server.getListofobserver().get(k), "Dado piazzato correttamente");
-                server.notify(server.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
+        if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
+            server.notify(server.getListofobserver().get(k), "Dado piazzato correttamente");
+            server.notify(server.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
-                /*server.notifyOthers(server.getListofobserver().get(k),"Adv place");
-                server.notifyOthers(server.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());*/
+            /*server.notifyOthers(server.getListofobserver().get(k),"Adv place");
+               server.notifyOthers(server.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());*/
 
-                /*choice = choice - Constants.F_SLOT;
-                server.notifyOthers(server.getListofobserver().get(k), updateTassel(k, index_draft, choice).toString());*/
+            /*choice = choice - Constants.F_SLOT;
+               server.notifyOthers(server.getListofobserver().get(k), updateTassel(k, index_draft, choice).toString());*/
 
-                match.getStock().getDicestock().remove(index_draft - 1);
-                match.getStock().getDieMap().remove(index_draft-Constants.F_DIE);
+            match.getStock().getDicestock().remove(index_draft - 1);
+            match.getStock().getDieMap().remove(index_draft-Constants.F_DIE);
 
-                cont = 0;
-                dicehand_done=true;
-            } else {
-                    server.notify(server.getListofobserver().get(k), "ERROR");
-                    server.notify(server.getListofobserver().get(k), match.getRules().getError());
-                    cont = 0;
-            }
+            dicehand_done=true;
+        } else {
+            server.notify(server.getListofobserver().get(k), "ERROR");
+            server.notify(server.getListofobserver().get(k), match.getRules().getError());
         }
     }
 
     public void tool_hand(int k,int z,Round round,int cont_turn)throws RemoteException{
-        int cont=1,placed=1;
+        int cont=1;
         int index;
         server.notify(server.getListofobserver().get(k),"Scegli una carta utensile dalla lista tramite il suo indice: ");
         index=selection(4,1,k);
         server.notify(server.getListofobserver().get(k),"La tua scelta è: "+match.getTool().get(index-1));
-        while (cont!=0&&placed!=0){
-            match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
-            if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn,placed)){
-                server.notify(server.getListofobserver().get(k),match.getTool().get(index-1).getError());
-                if (!match.getTool().get(index-1).isUsed()) placed=0;
-            }else {
-                server.notify(server.getListofobserver().get(k),"Operazione completata");
-                toolhand_done=true;
-                server.notifyOthers(server.getListofobserver().get(k),server.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
-                cont=0;
-            }
+        match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
+        if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn)){
+            server.notify(server.getListofobserver().get(k),match.getTool().get(index-1).getError());
+        }else {
+            server.notify(server.getListofobserver().get(k),"Operazione completata");
+            toolhand_done=true;
+            server.notifyOthers(server.getListofobserver().get(k),server.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
         }
     }
 
-    public boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn, int placed) throws RemoteException {
+    public boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn) throws RemoteException {
+        ArrayList<Die> dice=new ArrayList<>();
+        ArrayList<Slot> slots=new ArrayList<>();
         try {
             switch (tool.getName()){
                 case "Pinza Sgrossatrice":{
@@ -385,9 +362,8 @@ public class ControllerG {
                             piumeno=10;
                         }
                     } while (piumeno!=0&&piumeno!=1);
-                    if (piumeno==0)b=false;
-                    else b=true;
-                    return tool.effect(match.getStock().getDicestock().get(index_draft),null,b,match,match.getStock(),null,null,null,null,0);
+                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    return tool.effect(dice,match,slots,piumeno);
                 }
                 case "Pennello per Eglomise": {
                     int row1,column1,row2,column2;
@@ -399,7 +375,9 @@ public class ControllerG {
                     column2=selection(5,0,k);
                     Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
                     Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                    return tool.effect(null,null,false,match,match.getStock(),slot1,slot2,null,null,0);
+                    slots.add(slot1);
+                    slots.add(slot2);
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Alesatore per lamina di rame": {
                     int row1,column1,row2,column2;
@@ -411,7 +389,9 @@ public class ControllerG {
                     column2=selection(5,0,k);
                     Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
                     Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                    return tool.effect(null,null,false,match,match.getStock(),slot1,slot2,null,null,0);
+                    slots.add(slot1);
+                    slots.add(slot2);
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Lathekin": {
                     int row1,column1,row2,column2,row3,column3,row4,column4;
@@ -427,11 +407,11 @@ public class ControllerG {
                     server.notify(server.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
                     row4=selection(4,0,k);
                     column4=selection(5,0,k);
-                    Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
-                    Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                    Slot slot3=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3);
-                    Slot slot4=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4);
-                    return tool.effect(null,null,false,match,match.getStock(),slot1,slot2,slot3,slot4,0);
+                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
+                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
+                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
+                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Taglierina circolare": {
                     int index_draft,index_roundtrackList,index_roundtrackDie;
@@ -442,8 +422,9 @@ public class ControllerG {
                         server.notify(server.getListofobserver().get(k),"Ora inserisci il numero del round e l'indice del dado scelto");
                         index_roundtrackList=selection(match.getRound(),1,k)-1;
                         index_roundtrackDie=selection(match.getRoundTrackList(index_roundtrackList).size(),0,k);
-                        Die d=match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie);
-                        return tool.effect(match.getStock().getDicestock().get(index_draft),d,false,match,match.getStock(),null,null,null,null,index_roundtrackList);
+                        dice.add(match.getStock().getDicestock().get(index_draft));
+                        dice.add(match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie));
+                        return tool.effect(dice,match,slots,index_roundtrackList);
                     }else server.notify(server.getListofobserver().get(k),"Non ci sono dadi sul tracciato dei round");
                     return false;
                 }
@@ -451,15 +432,15 @@ public class ControllerG {
                     int index_draft;
                     server.notify(server.getListofobserver().get(k),"Scgli un dado dalla riserva: "+match.getStock().toString());
                     index_draft=selection(match.getStock().getDicestock().size(),0,k);
-                    return tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0);
+                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Martelletto": {
                     if (round.getTurns().get(z).getOneplayer().getContTurn()==2){
                         if (!dicehand_done)
-                            return tool.effect(null,null,false,match,match.getStock(),null,null,null,null,0);
+                            return tool.effect(dice,match,slots,0);
                         else {
                             server.notify(server.getListofobserver().get(k),"Hai già posizionato un dado perciò non puoi usare questa carta");
-                            placed=0;
                             return false;
                         }
                     }
@@ -470,18 +451,18 @@ public class ControllerG {
                     int index_draft,row,column;
                     if (!dicehand_done){
                         server.notify(server.getListofobserver().get(k),"Per usare questa carta devi prima posizionare un dado");
-                        placed=0;
                         return false;
                     }
                     server.notify(server.getListofobserver().get(k),tool.getPlayer().getWindow()+"\nPuoi selezionare un altro dado dalla riserva: "+match.getStock().toString());
                     index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
-                    if (index_draft==match.getStock().getDicestock().size()){placed=0;return false;}
+                    if (index_draft==match.getStock().getDicestock().size()){return false;}
                     server.notify(server.getListofobserver().get(k), "\nLa tua scelta è: " + match.getStock().getDicestock().get(index_draft).toString() +
                             "\nScegli la casella della tua tua carta schema dove posizionare il dado, rispettivamente riga e colonna: ");
                     row=selection(4,0,k);
                     column=selection(5,0,k);
-                    Slot slot=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column);
-                    if (tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),slot,null,null,null,0)){
+                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column));
+                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    if (tool.effect(dice,match,slots,0)){
                         cont_turn=0;
                         return true;
                     }else return false;
@@ -491,26 +472,28 @@ public class ControllerG {
                     if (!dicehand_done) {
                         server.notify(server.getListofobserver().get(k),"Scegli un dado dalla riserva: "+match.getStock().toString());
                         index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
-                        if(index_draft==match.getStock().getDicestock().size()){placed=0;return false;}
+                        if(index_draft==match.getStock().getDicestock().size()){return false;}
                         server.notify(server.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dalla quale prendere il dado");
                         row=selection(4,0,k);
                         column=selection(5,0,k);
-                        Slot slot=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column);
-                        if (tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),slot,null,null,null,0)){
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column));
+                        dice.add(match.getStock().getDicestock().get(index_draft));
+                        if (tool.effect(dice,match,slots,0)){
                             dicehand_done=true;
                             match.getStock().getDicestock().remove(index_draft);
                             cont_turn=0;
                             server.notify(server.getListofobserver().get(k),"DieG posizionato correttamente");
                             return true;
                         }else return false;
-                    }else {server.notify(server.getListofobserver().get(k),"Hai già posizionato un dado");placed=0;}
+                    }else {server.notify(server.getListofobserver().get(k),"Hai già posizionato un dado");}
                     return false;
                 }
                 case "Tampone Diamantato": {
                     int index_draft;
                     server.notify(server.getListofobserver().get(k),"Scegli un dado dalla riserva al quale invertire la faccia:\n"+match.getStock().toString());
                     index_draft=selection(match.getStock().getDicestock().size(),0,k);
-                    return tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0);
+                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Diluente per Pasta Salda": {
                     int index_draft,value,row,column;
@@ -518,22 +501,26 @@ public class ControllerG {
                     if (!dicehand_done) {
                         server.notify(server.getListofobserver().get(k),"Scegli un dado dalla riserva da rimettere nel sacchetto:\n"+match.getStock().toString());
                         index_draft=selection(match.getStock().getDicestock().size(),0,k);
-                        if (tool.effect(match.getStock().getDicestock().get(index_draft),null,false,match,match.getStock(),null,null,null,null,0)){
+                        Die die=match.getStock().getDicestock().get(index_draft);
+                        dice.add(die);
+                        if (tool.effect(dice,match,slots,0)){
                             Die d = match.getSack().extractdie();
                             server.notify(server.getListofobserver().get(k),d+" ora seleziona la faccia da dare al dado");
                             value=selection(7,0,k);
                             d.setFace(value);
-                            do {
-                                server.notify(server.getListofobserver().get(k),d+"\nAdesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
-                                row=selection(4,0,k);
-                                column=selection(5,0,k);
-                                Slot slot=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column);
-                                match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(),slot,d);
-                                if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
-                                    dicehand_done=true;
-                                    return true;
-                                }else loop=false;
-                            } while (!loop);
+                            server.notify(server.getListofobserver().get(k),d+"\nAdesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
+                            row=selection(4,0,k);
+                            column=selection(5,0,k);
+                            Slot slot=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column);
+                            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(),slot,d);
+                            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
+                                dicehand_done=true;
+                                return true;
+                            }else {
+                                match.getStock().getDicestock().add(die);
+                                match.getSack().adddie(d);
+                                return false;
+                            }
                         }
                     }else server.notify(server.getListofobserver().get(k),"Hai già posizionato un dado");
                     return false;
@@ -549,8 +536,8 @@ public class ControllerG {
                         server.notify(server.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il primo dado");
                         row2=selection(4,0,k);
                         column2=selection(5,0,k);
-                        Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
-                        Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
                         if(move==2){
                             server.notify(server.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il secondo dado");
                             row3=selection(4,0,k);
@@ -558,10 +545,10 @@ public class ControllerG {
                             server.notify(server.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
                             row4=selection(4,0,k);
                             column4=selection(5,0,k);
-                            Slot slot3=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3);
-                            Slot slot4=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4);
-                            return tool.effect(null,null,false,match,match.getStock(),slot1,slot3,slot2,slot4,0);
-                        }else return tool.effect(null,null,false,match,match.getStock(),slot1,null,slot2,null,0);
+                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
+                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
+                            return tool.effect(dice,match,slots,0);
+                        }else return tool.effect(dice,match,slots,0);
                     }else {
                         server.notify(server.getListofobserver().get(k),"Non puoi usare questa carta nel 1° round perchè non ci sono dadi sul tracciato dei round");
                         return false;

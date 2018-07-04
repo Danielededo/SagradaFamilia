@@ -19,7 +19,7 @@ public class DifferentColumnsColors extends PublicObject {
      * @param player from which to take the scheme card
      * @return int cont number of column
      */
-    private int numerocolonne(Player player){
+    private int numbercolumns(Player player){
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
         for (int i=0;i<height;i++){
@@ -48,6 +48,6 @@ public class DifferentColumnsColors extends PublicObject {
      * @return int column number multiplied by score of this scheme card
      */
     public int calcola_punteggio(Player player) {
-        return numerocolonne(player)*getPunteggio();
+        return numbercolumns(player)*getPunteggio();
     }
 }

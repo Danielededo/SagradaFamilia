@@ -21,7 +21,7 @@ public class Stock {
         dicestock.clear();
     }
 
-    public void show_riserva(){
+    public void show_stock(){
         int i=0;
         for (Die d : dicestock){
             out.println("index"+i+": "+d.toString());
@@ -47,7 +47,7 @@ public class Stock {
         temp = dicestock.get(index);
         dicestock.remove(index);
         out.println("new Stock:");
-        show_riserva();
+        show_stock();
         return temp;
     }
 
@@ -58,10 +58,10 @@ public class Stock {
 
     @Override
     public String toString() {
-        String stringa="";
+        String string="";
         for (Die d:dicestock){
-            stringa+=" ("+dicestock.indexOf(d)+" - "+ d+")";
+            string+=" ("+dicestock.indexOf(d)+" - "+ d+")";
         }
-        return stringa;
+        return string;
     }
 }

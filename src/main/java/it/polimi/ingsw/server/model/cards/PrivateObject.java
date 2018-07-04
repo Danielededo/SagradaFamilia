@@ -41,7 +41,7 @@ public class PrivateObject extends Card{
         final int height=5;
         for (int i=0;i<width;i++){
             for (int j=0;j<height;j++){
-                if (player.getWindow().getSlot(i,j).isOccupate()==true &&
+                if (player.getWindow().getSlot(i,j).isOccupate() &&
                         player.getWindow().getSlot(i,j).getDice().getDicecolor()==this.color) {
                     sum += player.getWindow().getSlot(i, j).getDice().getFace();
                 }

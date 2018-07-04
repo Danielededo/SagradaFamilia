@@ -16,7 +16,7 @@ public class testToolCard7_Test {
         match.getStock().setDicestock(match.getSack().extractfromSack(match));
         System.out.println(match.getStock().toString());
         a.setContTurn(2);
-        tool.effect(null,null,false,null,match.getStock(),null,null,null,null,0);
+        tool.effect(null,match,null,0);
         System.out.println(match.getStock().toString());
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.SunGlory;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard12;
 import it.polimi.ingsw.server.utils.Colour;
@@ -21,7 +22,6 @@ public class testToolCard12_Test {
         Player b = new Player("b");
 
         carta.setPlayer(a);
-        carta.setUsed(true);
         Match partita = new Match(a,b);
         ArrayList<Die> dice1=new ArrayList<Die>();
         ArrayList<Die> dice2=new ArrayList<Die>();
@@ -63,8 +63,11 @@ public class testToolCard12_Test {
 
         System.out.println(a.getWindow().toString());
 
+        ArrayList<Slot> slots=new ArrayList<>();
+        slots.add(carta.getPlayer().getWindow().getSlot(1,2));
+        slots.add( carta.getPlayer().getWindow().getSlot(2,1));
         //ayo let's go
-        carta.effect(null,null,false,partita,null, carta.getPlayer().getWindow().getSlot(1,2), null, carta.getPlayer().getWindow().getSlot(2,1), null,0);
+        carta.effect(null,partita,slots,0);
 
         assertEquals(Colour.GREEN, carta.getPlayer().getWindow().getSlot(2,1).getDice().getDicecolor());
         assertEquals(false, carta.getPlayer().getWindow().getSlot(1,2).isOccupate());

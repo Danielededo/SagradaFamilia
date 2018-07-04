@@ -4,7 +4,8 @@ import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.Tool;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
-import it.polimi.ingsw.server.model.game.Stock;
+
+import java.util.List;
 
 public class ToolCard5 extends Tool {
     public ToolCard5() {
@@ -17,41 +18,20 @@ public class ToolCard5 extends Tool {
 
     /**
      * This method is the effect of this card called by match
-     * @param dado1 die to be put in the round track
+     * @param dice die to be put in the round track
      * @param value index of the position of the die to be taken from the round track
      * @return true if effect is done false in other case
      */
     @Override
-    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
-        if(!isUsed()) {
-            if (!this.isAccessed()) {
-                if (getPlayer().getMarker() > 0) {
-                    getPlayer().setMarker(getPlayer().getMarker() - 1);
-                    setAccessed(true);
-                    setUsed(true);
-                } else {
-                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    error=list__of_errors[0];
-                    return false;
-                }
-            } else {
-                if (getPlayer().getMarker() > 1) {
-                    getPlayer().setMarker(getPlayer().getMarker() - 2);
-                    setUsed(true);
-                } else {
-                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    error=list__of_errors[0];
-                    return false;
-                }
-            }
-        }
-        int i=partita.getRoundTrackList(value).indexOf(dado2);
+    public boolean effect(List<Die> dice, Match match, List<Slot> slots, int value){
+        int j=tokenpayment();
+        if (j==0)return false;
+        int i= match.getRoundTrackList(value).indexOf(dice.get(1));
         Die d;
-        d = partita.getRoundTrackList(value).get(i);
-        partita.getRoundTrackList(value).set(i,dado1);
-        partita.getStock().getDicestock().remove(dado1);
-        partita.getStock().getDicestock().add(d);
-        this.setUsed(false);
+        d = match.getRoundTrackList(value).get(i);
+        match.getRoundTrackList(value).set(i,dice.get(0));
+        match.getStock().getDicestock().remove(dice.get(0));
+        match.getStock().getDicestock().add(d);
         return true;
     }
 

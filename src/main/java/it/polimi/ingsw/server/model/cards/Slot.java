@@ -55,7 +55,7 @@ public class Slot {
         return occupate;
     }
 
-    public boolean exists(){ return exists(); }
+    public boolean exists(){ return exist; }
     public void setExists(boolean exists) { this.exist = exists; }
 
     /**

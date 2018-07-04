@@ -7,16 +7,16 @@ import java.util.ConcurrentModificationException;
 import java.util.TimerTask;
 
 public class DisconnectionThread extends TimerTask {
-    private Hub server;
+    private Hub hub;
 
-    public DisconnectionThread(Hub server) {
-        this.server = server;
+    public DisconnectionThread(Hub hub) {
+        this.hub = hub;
     }
 
     @Override
     public void run() {
         try {
-            server.vericaconnessione();
+            hub.connection_verify();
         } catch (ConcurrentModificationException | RemoteException | IllegalMonitorStateException e) {
         }
     }

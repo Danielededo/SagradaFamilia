@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.SunGlory;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard12;
 import it.polimi.ingsw.server.utils.Colour;
@@ -21,7 +22,6 @@ public class testAltraToolCard12_Test {
         Player b = new Player("b");
 
         carta.setPlayer(a);
-        carta.setUsed(true);
         Match partita = new Match(a,b);
         ArrayList<Die> track = new ArrayList<Die>();
         //daditrack
@@ -55,8 +55,15 @@ public class testAltraToolCard12_Test {
         partita.getRules().diePlacing(a,a.getWindow().getSlot(0,3),fin);
         partita.getRules().diePlacing(a,a.getWindow().getSlot(0,4),cin);
 
+        System.out.println(a.getWindow().toString());
+        ArrayList<Slot> slots=new ArrayList<>();
+        slots.add(carta.getPlayer().getWindow().getSlot(0,1));
+        slots.add(carta.getPlayer().getWindow().getSlot(1,3));
+        slots.add(carta.getPlayer().getWindow().getSlot(1,0));
+        slots.add(carta.getPlayer().getWindow().getSlot(2,1));
 
-        carta.effect(null,null,false,partita,null, carta.getPlayer().getWindow().getSlot(0,1),carta.getPlayer().getWindow().getSlot(1,0), carta.getPlayer().getWindow().getSlot(1,3), carta.getPlayer().getWindow().getSlot(2,1),0);
+        carta.effect(null,partita,slots,0);
+        System.out.println(a.getWindow().toString());
         assertEquals(Colour.PURPLE, carta.getPlayer().getWindow().getSlot(2,1).getDice().getDicecolor());
         assertEquals(null, carta.getPlayer().getWindow().getSlot(1,0).getDice());
 

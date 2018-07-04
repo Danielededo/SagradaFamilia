@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.game;
 import it.polimi.ingsw.server.model.cards.GlassWindow;
 import it.polimi.ingsw.server.model.cards.PrivateObject;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Player {
@@ -13,7 +13,7 @@ public class Player {
     private int score;
     private int marker;
     private int contTurn;
-    private boolean missednext_turn=false;
+    private boolean missednextturn =false;
     private boolean connected=true;
 
     public boolean isConnected() {
@@ -28,12 +28,12 @@ public class Player {
         return score;
     }
 
-    public boolean isMissednext_turn() {
-        return missednext_turn;
+    public boolean isMissednextturn() {
+        return missednextturn;
     }
 
-    public void setMissednext_turn(boolean missednext_turn) {
-        this.missednext_turn = missednext_turn;
+    public void setMissednextturn(boolean missednextturn) {
+        this.missednextturn = missednextturn;
     }
 
     public void setMarker(int marker) {
@@ -62,7 +62,7 @@ public class Player {
         this.marker=window.getDifficulty();
     }
 
-    public void setWindow(ArrayList<GlassWindow> window) {
+    public void setWindow(List<GlassWindow> window) {
         Random random=new Random();
         int i=random.nextInt(window.size());
         this.window = window.get(i);

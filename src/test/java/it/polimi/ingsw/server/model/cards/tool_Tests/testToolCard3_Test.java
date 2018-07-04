@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
 import it.polimi.ingsw.server.model.cards.GlassWindow;
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.KaleidoscopicDream;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard3;
 import it.polimi.ingsw.server.utils.Colour;
@@ -9,6 +10,8 @@ import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Rules;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 public class testToolCard3_Test {
     @Test
@@ -26,7 +29,10 @@ public class testToolCard3_Test {
         System.out.println(match.getPlayers().get(0).getWindow().toString());
         ToolCard3 tool= new ToolCard3();
         tool.setPlayer(match.getPlayers().get(0));
-        if (tool.effect(null,null,false, null,null, tool.getPlayer().getWindow().getSlot(3,0),tool.getPlayer().getWindow().getSlot(1,4),null,null,0)){
+        ArrayList<Slot> slots=new ArrayList<>();
+        slots.add(tool.getPlayer().getWindow().getSlot(3,0));
+        slots.add(tool.getPlayer().getWindow().getSlot(1,4));
+        if (tool.effect(null,null,slots,0)){
             System.out.println("operazione riuscita");
         }else System.out.println("operazione fallita");
         System.out.println(match.getPlayers().get(0).getWindow().toString());

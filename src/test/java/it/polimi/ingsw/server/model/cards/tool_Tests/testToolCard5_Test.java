@@ -25,10 +25,13 @@ public class testToolCard5_Test {
         match.setRoundTrack(dice,0);
         match.getStock().setDicestock(match.getSack().extractfromSack(match));
         System.out.println(match.getStock().toString());
-        if (tool.effect(match.getStock().getDicestock().get(0),c,false,match, null,null,null,null,null,0)){
+        ArrayList<Die> dice1=new ArrayList<>();
+        dice1.add(match.getStock().getDicestock().get(0));
+        dice1.add(c);
+        if (tool.effect(dice1,match,null,0)){
             System.out.println("operzione riuscita");
         }else System.out.println("operazione fallita");
-        match.getStock().show_riserva();
+        match.getStock().show_stock();
         System.out.println(match.getRoundTrack());
     }
 }

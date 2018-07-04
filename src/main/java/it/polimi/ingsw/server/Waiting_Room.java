@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Waiting_Room {
     private ArrayList<Player> players;
     private Hub hub;
-    private Match match;
     private Controller c;
     private static int timer_waiting;
 
@@ -44,7 +43,7 @@ public class Waiting_Room {
                 '}';
     }
 
-    public void attesa_partita() throws InterruptedException, RemoteException {
+    public void waiting_match() throws InterruptedException, RemoteException {
         for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);
             hub.notifyObserver("Timer");

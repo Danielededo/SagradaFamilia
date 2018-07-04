@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
-import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,6 @@ public class Hub {
     private Controller controller;
     private Waiting_Room room;
     private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
-    private Registry registry;
     Boolean start;
     public Timer timer=new Timer();
     Timer t=new Timer();
@@ -203,7 +201,7 @@ public class Hub {
         }
     }
 
-    public void vericaconnessione() throws RemoteException {
+    public void connection_verify() throws RemoteException {
         int i=0,j=0;
         if (start) {
             for(Player p:controller.match.getPlayers()){

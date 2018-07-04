@@ -5,7 +5,8 @@ import it.polimi.ingsw.server.model.cards.Tool;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Rules;
-import it.polimi.ingsw.server.model.game.Stock;
+
+import java.util.List;
 
 public class ToolCard8 extends Tool {
     public ToolCard8() {
@@ -18,51 +19,34 @@ public class ToolCard8 extends Tool {
 
     /**
      * This method is the effect of this card called by match
-     * @param dado1 die to be put in slot1
-     * @param stock collection of die in from where remove dado1
-     * @param slot1 slot of window where place the die
+     * @param dice die to be put in slot1
+     * @param match match has the collection of die in from where remove dado1
+     * @param slots slot of window where place the die
      * @return true if effect is done false in other case
      */
     @Override
-    public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value){
-        if(!isUsed()) {
-            if (!this.isAccessed()) {
-                if (getPlayer().getMarker() > 0) {
-                    getPlayer().setMarker(getPlayer().getMarker() - 1);
-                    setAccessed(true);
-                    setUsed(true);
-                } else {
-                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    error=list__of_errors[0];
-                    return false;
-                }
-            } else {
-                if (getPlayer().getMarker() > 1) {
-                    getPlayer().setMarker(getPlayer().getMarker() - 2);
-                    setUsed(true);
-                } else {
-                    System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
-                    error=list__of_errors[0];
-                    return false;
-                }
-            }
-        }
+    public boolean effect(List<Die> dice, Match match, List<Slot> slots, int value){
+        int i=tokenpayment();
+        if (i==0)return false;
         Rules rules=new Rules();
-        if (getPlayer().getContTurn()==1 && !slot1.isOccupate()){
-            getPlayer().setWindow(rules.diePlacing(getPlayer(),slot1,dado1));
-            if (slot1.isOccupate()){
-                getPlayer().setMissednext_turn(true);
-                stock.getDicestock().remove(dado1);
-                this.setUsed(false);
+        if (getPlayer().getContTurn()==1 && !slots.get(0).isOccupate()){
+            rules.diePlacing(getPlayer(),slots.get(0),dice.get(0));
+            if (slots.get(0).isOccupate()){
+                getPlayer().setMissednextturn(true);
+                match.getStock().getDicestock().remove(dice.get(0));
                 return true;
             }else {
                 System.out.println("Non è stato possibile piazzare il dado in questa casella");
                 error=list__of_errors[4];
+                getPlayer().setMarker(getPlayer().getMarker()+i);
+                if (i==1)setAccessed(false);
                 return false;
             }
         }else {
             System.out.println("Non puoi utilizzare questa carta nel tuo secondo turno");
             error=list__of_errors[8];
+            getPlayer().setMarker(getPlayer().getMarker()+i);
+            if (i==1)setAccessed(false);
             return false;
         }
     }

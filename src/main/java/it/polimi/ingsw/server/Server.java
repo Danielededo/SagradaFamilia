@@ -16,11 +16,10 @@ public class Server implements ServerInt {
     private ArrayList<Hub> hubs=new ArrayList<Hub>();
     private HashMap<String,Hub> matches=new HashMap();
     private Registry registry;
-    private boolean endRound=false;
 
     public void start_server(String arg){
-        boolean gone=true;
         try{
+            boolean gone=true;
             String server_name;
             ServerInt stub;
             PORT= Integer.parseInt(arg);
@@ -32,7 +31,7 @@ public class Server implements ServerInt {
             registry= LocateRegistry.createRegistry(PORT);
             registry.rebind(server_name,stub);
             System.err.println(server_name + " pronto");
-            while (gone) {
+            while(gone){
             }
         }catch (Exception e){
             System.err.println("Server exception:   " + e.toString());

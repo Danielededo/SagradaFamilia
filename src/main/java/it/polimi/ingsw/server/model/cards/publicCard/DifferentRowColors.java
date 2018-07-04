@@ -19,7 +19,7 @@ public class DifferentRowColors extends PublicObject {
      * @param player need its scheme card
      * @return int cont number of row
      */
-    private int numerorighe(Player player) {
+    private int numberrow(Player player) {
         int cont=0;
         ArrayList<Colour> colori = new ArrayList<Colour>();
         for (int i=0;i<width;i++){
@@ -44,9 +44,9 @@ public class DifferentRowColors extends PublicObject {
 
     /**
      * @param player that need to calculate score
-     * @return number of row returned by numerorighe method multiplied by score of this scheme card
+     * @return number of row returned by numberrow method multiplied by score of this scheme card
      */
     public int calcola_punteggio(Player player) {
-        return numerorighe(player)*getPunteggio();
+        return numberrow(player)*getPunteggio();
     }
 }

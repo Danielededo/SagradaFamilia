@@ -85,7 +85,7 @@ public class Rules {
         }
 
         if(!vuota) {
-            tracker = firstDado(choice.getLine(),choice.getColumn());
+            tracker = firstDice(choice.getLine(),choice.getColumn());
             if(!tracker) {
                 System.out.println("Questa casella non è sul bordo dello schema.\n");
                 error=list__of_errors[0];
@@ -145,31 +145,31 @@ public class Rules {
      * with the same value or colour as the chosen one. The diagonally adjacent ones are checked to see if at least one is
      * occupied. In fact we can't place a die if all the eight slots around the chosen one are empty.
      * @param current the scheme card of the current player
-     * @param colonna the column of the chosen slot
-     * @param riga the row of the chosen slot
+     * @param column the column of the chosen slot
+     * @param row the row of the chosen slot
      * @param die the colour of the chosen die
      * @param face the value of the chosen die
      * @return boolean, true if the rule is obeyed.
      */
-    public boolean neighboursCheck (GlassWindow current, int colonna, int riga, Colour die, int face) {
+    public boolean neighboursCheck (GlassWindow current, int column, int row, Colour die, int face) {
         boolean diagOccupate = true;
         boolean ortOccupate = false;
 
-        if(!current.getSlot(riga - 1, colonna -1).isOccupate())
-        {if(!current.getSlot(riga - 1, colonna + 1).isOccupate())
-            if(!current.getSlot(riga + 1, colonna -1).isOccupate())
-                if(!current.getSlot(riga + 1, colonna + 1).isOccupate())
+        if(!current.getSlot(row - 1, column -1).isOccupate())
+        {if(!current.getSlot(row - 1, column + 1).isOccupate())
+            if(!current.getSlot(row + 1, column -1).isOccupate())
+                if(!current.getSlot(row + 1, column + 1).isOccupate())
                     diagOccupate = false;
         }
 
 
-        if(current.getSlot(riga, colonna - 1).isOccupate()) {
-            if (current.getSlot(riga, colonna - 1).getDice().getDicecolor() == die) {
+        if(current.getSlot(row, column - 1).isOccupate()) {
+            if (current.getSlot(row, column - 1).getDice().getDicecolor() == die) {
                 System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
-            if (current.getSlot(riga, colonna - 1).getDice().getFace() == face) {
+            if (current.getSlot(row, column - 1).getDice().getFace() == face) {
                 System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
@@ -178,13 +178,13 @@ public class Rules {
         }
 
 
-        if(current.getSlot(riga - 1, colonna).isOccupate()) {
-            if (current.getSlot(riga - 1, colonna).getDice().getDicecolor() == die) {
+        if(current.getSlot(row - 1, column).isOccupate()) {
+            if (current.getSlot(row - 1, column).getDice().getDicecolor() == die) {
                 System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
-            if (current.getSlot(riga - 1, colonna).getDice().getFace() == face) {
+            if (current.getSlot(row - 1, column).getDice().getFace() == face) {
                 System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
@@ -193,13 +193,13 @@ public class Rules {
         }
 
 
-        if(current.getSlot(riga + 1, colonna).isOccupate()) {
-            if (current.getSlot(riga + 1, colonna).getDice().getDicecolor() == die) {
+        if(current.getSlot(row + 1, column).isOccupate()) {
+            if (current.getSlot(row + 1, column).getDice().getDicecolor() == die) {
                 System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
-            if (current.getSlot(riga + 1, colonna).getDice().getFace() == face) {
+            if (current.getSlot(row + 1, column).getDice().getFace() == face) {
                 System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
@@ -208,13 +208,13 @@ public class Rules {
         }
 
 
-        if(current.getSlot(riga, colonna + 1).isOccupate()) {
-            if (current.getSlot(riga, colonna + 1).getDice().getDicecolor() == die) {
+        if(current.getSlot(row, column + 1).isOccupate()) {
+            if (current.getSlot(row, column + 1).getDice().getDicecolor() == die) {
                 System.out.print("C'è già un dado dello stesso colore vicino a questa casella.\n");
                 error=list__of_errors[4];
                 return false;
             }
-            if (current.getSlot(riga, colonna + 1).getDice().getFace() == face) {
+            if (current.getSlot(row, column + 1).getDice().getFace() == face) {
                 System.out.print("C'è già un dado dello stesso valore vicino a questa casella.\n");
                 error=list__of_errors[5];
                 return false;
@@ -258,12 +258,12 @@ public class Rules {
 
 
     /**This method checks if you are placing your first die on the border of your scheme card
-     * @param riga row of the slot
-     * @param colonna coloumn of the slot
+     * @param row row of the slot
+     * @param column coloumn of the slot
      * @return boolean, true if the slot is on the border
      */
-    public boolean firstDado(int riga, int colonna){
-        if((riga == 1 && (colonna == 1 || colonna == 2 || colonna == 3)) || (riga == 2 && (colonna == 1 || colonna == 2 || colonna == 3)) )
+    public boolean firstDice(int row, int column){
+        if((row == 1 && (column == 1 || column == 2 || column == 3)) || (row == 2 && (column == 1 || column == 2 || column == 3)) )
             return false;
         else
             return true;

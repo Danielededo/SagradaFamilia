@@ -29,10 +29,6 @@ public class GlassWindow  {
         this.link = link;
     }
 
-    public int getLink() {
-        return link;
-    }
-
     public void setName(String name) {
         this.name = name;
     }

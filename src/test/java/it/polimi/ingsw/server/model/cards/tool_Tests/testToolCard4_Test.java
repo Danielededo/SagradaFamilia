@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
 import it.polimi.ingsw.server.model.cards.GlassWindow;
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.KaleidoscopicDream;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard4;
 import it.polimi.ingsw.server.utils.Colour;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 public class testToolCard4_Test {
     @Test
@@ -24,7 +27,12 @@ public class testToolCard4_Test {
         a.getWindow().getSlot(1,2).setDie(c);
         a.getWindow().getSlot(0,3).setDie(d);
         System.out.println(match.getPlayers().get(0).getWindow().toString());
-        if (toolCard4.effect(null,null,false,null,null,a.getWindow().getSlot(1,2),a.getWindow().getSlot(1,0),a.getWindow().getSlot(0,3),a.getWindow().getSlot(2,0),0)){
+        ArrayList<Slot> slots=new ArrayList<>();
+        slots.add(a.getWindow().getSlot(1,2));
+        slots.add(a.getWindow().getSlot(1,0));
+        slots.add(a.getWindow().getSlot(0,3));
+        slots.add(a.getWindow().getSlot(2,0));
+        if (toolCard4.effect(null,null,slots,0)){
             System.out.println("operazione riuscita");
         }else System.out.println("operazione fallita");
         System.out.println(a.getWindow().toString());

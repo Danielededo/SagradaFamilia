@@ -24,7 +24,7 @@ public class RuotaTurni2_Test{
         Stock stock = new Stock();
         Sack sacktest = new Sack();
         stock.setDicestock(sacktest.extractfromSack(game));
-        stock.show_riserva();
+        stock.show_stock();
         int z = 0;
         for (int i = 0; i < 2 * game.getnumberPlayers(); i++) {
             round.getTurns().get(i).getOneplayer().getWindow().getSlot(2, 3).setDie(stock.extract_die(z));

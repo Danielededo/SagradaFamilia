@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
 import it.polimi.ingsw.server.model.cards.GlassWindow;
+import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.KaleidoscopicDream;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard2;
 import it.polimi.ingsw.server.utils.Colour;
@@ -10,9 +11,13 @@ import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Rules;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class testToolCard2_Test {
     @Test
     void effectToolCard2(){
+        ArrayList<Die> dice=new ArrayList<>();
+        ArrayList<Slot> slots=new ArrayList<>();
         Player a= new Player("a");
         Player b= new Player("b");
         Match match= new Match(a,b);
@@ -26,7 +31,9 @@ public class testToolCard2_Test {
         System.out.println(match.getPlayers().get(0).getWindow().toString());
         ToolCard2 tool= new ToolCard2();
         tool.setPlayer(match.getPlayers().get(0));
-        if (tool.effect(null,null,false,null,null,tool.getPlayer().getWindow().getSlot(2,2),tool.getPlayer().getWindow().getSlot(0,1),null,null,0)){
+        slots.add(tool.getPlayer().getWindow().getSlot(2,2));
+        slots.add(tool.getPlayer().getWindow().getSlot(0,1));
+        if (tool.effect(dice,match,slots,0)){
             System.out.println("operazione riuscita");
         }else System.out.println("operazione fallita");
         System.out.println(match.getPlayers().get(0).getWindow().toString());
