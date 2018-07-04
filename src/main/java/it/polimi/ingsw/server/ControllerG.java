@@ -287,14 +287,6 @@ public class ControllerG {
             }
         }
         server.notify(server.getListofobserver().get(k), "DIE OK");
-            while(wait){
-                Thread.sleep(1000);
-                index_draft = selection(match.getStock().getDicestock().size()+1,0, k);
-                if(index_draft < Constants.F_SLOT && index_draft >= Constants.F_DIE){
-                    wait = false;
-                }
-            }
-            server.notify(server.getListofobserver().get(k), "DIE OK");
 
 
         server.notify(server.getListofobserver().get(k), "Ora scegli una casella della tua vetrata.");
