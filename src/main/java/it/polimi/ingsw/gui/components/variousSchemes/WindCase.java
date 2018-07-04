@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 public class WindCase extends Canvas {
 
     private Windows scelta;
-    private StackPane lay = new StackPane();
+    private StackPane lay;
 
     public WindCase(double w, double h){
 
@@ -21,7 +21,6 @@ public class WindCase extends Canvas {
         getGraphicsContext2D().strokeLine(w - Constants.PADD_CASE,h - Constants.PADD_CASE,w - Constants.PADD_CASE,Constants.PADD_CASE);
         getGraphicsContext2D().strokeLine(w - Constants.PADD_CASE, Constants.PADD_CASE, Constants.PADD_CASE, Constants.PADD_CASE);
         getGraphicsContext2D().strokeLine(w - Constants.PADD_CASE, Constants.PADD_CASE + 50, Constants.PADD_CASE, Constants.PADD_CASE + 50);
-
     }
 
     public void addChosen(Windows choice){

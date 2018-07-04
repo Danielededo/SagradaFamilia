@@ -7,7 +7,6 @@ import it.polimi.ingsw.gui.components.Tools;
 import it.polimi.ingsw.gui.components.mainboard.*;
 import it.polimi.ingsw.gui.components.panels.DieG;
 import it.polimi.ingsw.gui.components.panels.Tassel;
-import it.polimi.ingsw.gui.components.variousSchemes.WindCase;
 import it.polimi.ingsw.gui.components.variousSchemes.Windows;
 import it.polimi.ingsw.server.utils.Constants;
 import javafx.application.Platform;
@@ -37,7 +36,7 @@ public class MainBoard extends BorderPane{
     private VBox personal = new VBox();
 
     private TokenSpace tspace = new TokenSpace();
-    private WindCase scheme = new WindCase(Constants.WI_CASE, Constants.HE_CASE);
+    private Windows scheme;
     private ChooseBox popup = new ChooseBox();
     private MenuBox menuBox = new MenuBox();
 
@@ -136,9 +135,10 @@ public class MainBoard extends BorderPane{
             Platform.runLater(() -> hey.setValue(popup.gimmeInt("Vetrate estratte", "Scegli una carta vetrata tra quelle estratte")));
         }else if(newie.equals("Timer scelta stop")){
             Platform.runLater(() -> {
-                scheme.addChosen(popup.getAmong().get(hey.getValue()-1));
-                personal.getChildren().add(scheme.getLay());
-                tspace.setTok(scheme.getScelta().getDifficulty());
+                scheme = popup.getAmong().get(hey.getValue()-1);
+                personal.getChildren().add(new Label(scheme.getName()));
+                personal.getChildren().add(scheme);
+                tspace.setTok(scheme.getDifficulty());
             });
         }else if(oldie.equals("Adv")){
             Platform.runLater(() -> {
@@ -198,7 +198,7 @@ public class MainBoard extends BorderPane{
             });
         } else if (newie.equals("Ora scegli una casella della tua vetrata.")) {
             Platform.runLater(() -> {
-                for (Tassel t : scheme.getScelta().getList()) {
+                for (Tassel t : scheme.getList()) {
                     t.getButton().setOnMouseClicked(e -> {
                         hey.setValue(t.getValue() + Constants.F_SLOT);
                     });
@@ -208,7 +208,11 @@ public class MainBoard extends BorderPane{
             });
 
         } else if (oldie.equals("Dado piazzato correttamente")) {
-            Platform.runLater(() -> scheme.addChosen(updatingScheme(new JSONObject(newie))));
+            Platform.runLater(() -> {
+                personal.getChildren().remove(scheme);
+                scheme = updatingScheme(new JSONObject(newie));
+                personal.getChildren().add(scheme);
+            });
         } else if (oldie.equals("ERROR")) {
             Platform.runLater(() -> mex.setText(newie));
         } else if (oldie.equals("Remove die")) {
@@ -223,7 +227,9 @@ public class MainBoard extends BorderPane{
                 for(Adversary a: adv){
                     if(a.getName().equals(avv.getString("player"))){
                         i = adv.indexOf(a);
-                        a.setWindowcase(updatingAdversary(avv).getWindowcase());
+                        a.getChildren().remove(a.getGlasswindow());
+                        a.setGlasswindow(updatingAdversary(avv).getGlasswindow());
+                        a.getChildren().add(a.getGlasswindow());
                         //adv.add(i, updatingAdversary(avv));
                         //a.setGlasswindow(updatingScheme(avv.getJSONObject("glasswindow")));
                         //a.getWindowcase().addChosen(a.getGlasswindow());
@@ -263,8 +269,8 @@ public class MainBoard extends BorderPane{
 
         Adversary def = new Adversary(obj.getString("player"));
         JSONObject window = obj.getJSONObject("glasswindow");
-        def.getWindowcase().addChosen(updatingScheme(window));
-        def.getChildren().add(def.getWindowcase().getLay());
+        def.setGlasswindow(updatingScheme(window));
+        def.getChildren().add(def.getGlasswindow());
         return def;
     }
 
@@ -406,11 +412,11 @@ public class MainBoard extends BorderPane{
         this.personal = personal;
     }
 
-    public WindCase getScheme() {
+    public Windows getScheme() {
         return scheme;
     }
 
-    public void setScheme(WindCase scheme) {
+    public void setScheme(Windows scheme) {
         this.scheme = scheme;
     }
 
