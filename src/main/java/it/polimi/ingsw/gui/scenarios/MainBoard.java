@@ -223,27 +223,13 @@ public class MainBoard extends BorderPane{
         } else if (oldie.equals("Adv place")) {
             Platform.runLater(() -> {
                 JSONObject avv = new JSONObject(newie);
-                int i = 0;
                 for(Adversary a: adv){
                     if(a.getName().equals(avv.getString("player"))){
-                        i = adv.indexOf(a);
                         a.getChildren().remove(a.getGlasswindow());
                         a.setGlasswindow(updatingAdversary(avv).getGlasswindow());
                         a.getChildren().add(a.getGlasswindow());
-                        //adv.add(i, updatingAdversary(avv));
-                        //a.setGlasswindow(updatingScheme(avv.getJSONObject("glasswindow")));
-                        //a.getWindowcase().addChosen(a.getGlasswindow());
                     }
                 }
-
-
-
-                /*for(Adversary a: adv){
-                    if(a.getName().equals(avv.getString("name"))){
-                        a.getGlasswindow().getList().get(avv.getInt("pos") - 1).setStyle("fx-background-color: " + necessary.colorComparing(avv.getString("color")));
-                        a.getGlasswindow().getList().get(avv.getInt("pos") - 1).getChildren().add(necessary.faceComparing(avv.getString("face")));
-                    }
-                }*/
             });
         }
 
