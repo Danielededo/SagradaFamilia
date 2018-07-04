@@ -57,7 +57,7 @@ public class ChooseBox {
         window.initModality(Modality.APPLICATION_MODAL);
 
         window.setTitle(title);
-        window.setMinWidth(1000);
+        window.setMinWidth(600);
         Label label = new Label();
         label.setText(message);
         window.setOnCloseRequest(event -> answer[0] = 1);

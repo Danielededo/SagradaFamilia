@@ -127,7 +127,7 @@ public class GUI extends Application implements ClientInt {
                 registry = null;
             }
         });
-        stage.setScene(new Scene(loggin));
+        stage.setScene(new Scene(loggin,800,600));
         stage.show();
     }
 

@@ -24,13 +24,15 @@ public class SchermataLog extends VBox{
 
     public SchermataLog(){
         super();
-
         setAlignment(Pos.CENTER);
         setVisible(true);
         setStyle("-fx-background-color: black");
 
         Image logo = new Image("/images/logoscritta.png");
         ImageView logoview = new ImageView(logo);
+        logoview.setFitHeight(270);
+        logoview.setFitWidth(712);
+        logoview.setPreserveRatio(true);
 
         GridPane griglialog = new GridPane();
         griglialog.setVgap(8);

@@ -9,7 +9,7 @@ public class TokenG extends Canvas{
     public TokenG(double w, double h){
         super(w,h);
         getGraphicsContext2D().setFill(Paint.valueOf(Constants.BLACK));
-        getGraphicsContext2D().fillOval(15,15,30,30);
+        getGraphicsContext2D().fillOval(7,7,15,15);
     }
 
 }
