@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
@@ -83,6 +84,8 @@ public class MainBoard extends BorderPane{
         setCenter(two);
         setBottom(mex);
         setTop(roundtrack);
+        autosize();
+        setPrefSize(1200,900);
     }
 
 
@@ -180,7 +183,30 @@ public class MainBoard extends BorderPane{
                 mex.setText(newie);
                 hey.setValue(-1);
             });
-        } else if (newie.equals("Scegli un dado.")) {
+        } else if (oldie.equals("Remove die")) {
+            Platform.runLater(() -> {
+                draftp.getChildren().clear();
+                draftp.getDraftie().removeAll(draftp.getDraftie());
+            });
+        } else if (oldie.equals("Adv place")) {
+            Platform.runLater(() -> {
+                JSONObject avv = new JSONObject(newie);
+                for(Adversary a: adv){
+                    if(a.getName().equals(avv.getString("player"))){
+                        a.getChildren().remove(a.getGlasswindow());
+                        a.setGlasswindow(updatingAdversary(avv).getGlasswindow());
+                        a.getChildren().add(a.getGlasswindow());
+                    }
+                }
+            });
+        } else if (oldie.equals("ROUNDTRACK")){
+
+        }
+
+    }
+
+    public void placeThatDie(String oldie, String newie, IntegerProperty hey){
+        if (newie.equals("Scegli un dado.")) {
             Platform.runLater(() -> {
                 for (DieG d : draftp.getDraftie()) {
                     d.getButton().setOnMouseClicked(e -> {
@@ -213,26 +239,12 @@ public class MainBoard extends BorderPane{
                 scheme = updatingScheme(new JSONObject(newie));
                 personal.getChildren().add(scheme);
             });
-        } else if (oldie.equals("ERROR")) {
-            Platform.runLater(() -> mex.setText(newie));
-        } else if (oldie.equals("Remove die")) {
+        } else if (oldie.equals("ERROR D")) {
             Platform.runLater(() -> {
-                draftp.getChildren().clear();
-                draftp.getDraftie().removeAll(draftp.getDraftie());
-            });
-        } else if (oldie.equals("Adv place")) {
-            Platform.runLater(() -> {
-                JSONObject avv = new JSONObject(newie);
-                for(Adversary a: adv){
-                    if(a.getName().equals(avv.getString("player"))){
-                        a.getChildren().remove(a.getGlasswindow());
-                        a.setGlasswindow(updatingAdversary(avv).getGlasswindow());
-                        a.getChildren().add(a.getGlasswindow());
-                    }
-                }
+                mex.setText(newie);
+                hey.setValue(-1);
             });
         }
-
     }
 
 
@@ -422,7 +434,7 @@ public class MainBoard extends BorderPane{
         this.adversus = adversus;
     }
 
-    public HBox getRoundtrack() {
+    public GridPane getRoundtrack() {
         return roundtrack;
     }
 

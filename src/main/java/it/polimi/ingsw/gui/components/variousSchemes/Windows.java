@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui.components.variousSchemes;
 
 import it.polimi.ingsw.gui.components.panels.DieG;
 import it.polimi.ingsw.gui.components.panels.Tassel;
+import it.polimi.ingsw.server.utils.Constants;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 
@@ -18,7 +19,7 @@ public class Windows extends GridPane{
 
 
     public Windows(){
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < Constants.F_SLOT; i++){
             list.add(new Tassel(i));
         }
 

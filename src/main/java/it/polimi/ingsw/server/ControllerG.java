@@ -170,6 +170,14 @@ public class ControllerG {
         server.thread.cancel();
         Thread.sleep(2000);
         match.endRound();
+
+        server.notifyObserver("ROUNDTRACK");
+        server.notifyObserver(dicePacking(match.getRoundTrackList(match.getRound() - 1)).toString());
+
+
+
+
+
         if(match.getRound()!=11) {
             server.getListofobserver().add(server.getListofobserver().get(0));
             server.getListofobserver().remove(0);
@@ -191,14 +199,7 @@ public class ControllerG {
 
                 if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
                     do {
-                        JSONArray ris = new JSONArray();
-                        for(Die d: match.getStock().getDicestock()){
-                            JSONObject provv = new JSONObject();
-                            provv.put("Face", d.getFace());
-                            provv.put("Color", d.getDicecolor().name());
-                            ris.put(provv);
-                        }
-
+                        JSONArray ris = dicePacking(match.getStock().getDicestock());
                         server.notifyObserver("DRAFT");
                         server.notifyObserver(ris.toString());
 
@@ -644,4 +645,14 @@ public class ControllerG {
         def.put("glasswindow", glass);
         return def;
     }
+     public JSONArray dicePacking(ArrayList<Die> list){
+         JSONArray ris = new JSONArray();
+         for(Die d: list){
+             JSONObject provv = new JSONObject();
+             provv.put("Face", d.getFace());
+             provv.put("Color", d.getDicecolor().name());
+             ris.put(provv);
+         }
+         return ris;
+     }
 }
