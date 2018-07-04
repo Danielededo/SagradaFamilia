@@ -16,6 +16,16 @@ public class ToolCard4 extends Tool {
         super.setValue(4);
     }
 
+    /**
+     * This method represents the effect of the 4th tool card. It lets you move exactly two dice already placed on your
+     * scheme card to different slots, obeying every placement rule.
+     * @param slot1 the slot from which you want to move the first die
+     * @param slot2 the slot you want to move the first die into
+     * @param slot3 the slot from which you want to move the second die
+     * @param slot4 the slot you want to move the second die into
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card.
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         Rules rules = new Rules();

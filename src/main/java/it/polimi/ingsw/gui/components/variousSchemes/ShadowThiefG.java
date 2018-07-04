@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.server.utils.Constants;
-import it.polimi.ingsw.gui.components.panels.*;
-
 public class ShadowThiefG extends Windows{
 
     public ShadowThiefG(){
@@ -11,7 +8,7 @@ public class ShadowThiefG extends Windows{
         this.setName("Shadow Thief");
         this.setDifficulty(5);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.PURPLE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -52,6 +49,6 @@ public class ShadowThiefG extends Windows{
         this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
         this.getCasella32().getChildren().addAll(new Faccia5(Constants.SLOT,Constants.H_SLOT));
         this.getCasella33().getChildren().addAll(new Faccia4(Constants.SLOT,Constants.H_SLOT));
-        this.getCasella34().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella34().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.H_SLOT));*/
     }
 }

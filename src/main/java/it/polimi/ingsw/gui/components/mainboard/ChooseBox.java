@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,16 +37,16 @@ public class ChooseBox {
 
 
     public void lastAdding(ArrayList<Windows> glass){
-        extracted.add(new StackPane(new Label(glass.get(0).getName())),0,0);
+        //extracted.add(new StackPane(new Label(glass.get(0).getName())),0,0);
         extracted.add(glass.get(0),0,1);
 
-        extracted.add(new StackPane(new Label(glass.get(1).getName())),1,0);
+        //extracted.add(new StackPane(new Label(glass.get(1).getName())),1,0);
         extracted.add(glass.get(1),1,1);
 
-        extracted.add(new StackPane(new Label(glass.get(2).getName())),0,2);
+        //extracted.add(new StackPane(new Label(glass.get(2).getName())),0,2);
         extracted.add(glass.get(2),0,3);
 
-        extracted.add(new StackPane(new Label(glass.get(3).getName())),1,2);
+        //extracted.add(new StackPane(new Label(glass.get(3).getName())),1,2);
         extracted.add(glass.get(3),1,3);
     }
 
@@ -61,6 +60,7 @@ public class ChooseBox {
         window.setMinWidth(1000);
         Label label = new Label();
         label.setText(message);
+        window.setOnCloseRequest(event -> answer[0] = 1);
 
         getOne().setOnMouseClicked(event -> {
             answer[0] = 1;

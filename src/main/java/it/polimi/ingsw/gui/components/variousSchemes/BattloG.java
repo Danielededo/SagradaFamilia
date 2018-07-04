@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.server.utils.Constants;
-import it.polimi.ingsw.gui.components.panels.*;
-
 public class BattloG extends Windows{
 
     public BattloG(){
@@ -11,7 +8,7 @@ public class BattloG extends Windows{
         this.setName("Battlo");
         this.setDifficulty(5);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -52,6 +49,6 @@ public class BattloG extends Windows{
         this.getCasella31().getChildren().addAll(new Faccia4(Constants.SLOT,Constants.SLOT));
         this.getCasella32().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
         this.getCasella33().getChildren().addAll(new Faccia5(Constants.SLOT,Constants.SLOT));
-        this.getCasella34().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.SLOT));
+        this.getCasella34().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.SLOT));*/
     }
 }

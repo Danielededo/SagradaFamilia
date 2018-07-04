@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.server.utils.Constants;
-import it.polimi.ingsw.gui.components.panels.*;
-
 public class LuxMundiG extends Windows{
 
     public LuxMundiG(){
@@ -11,7 +8,7 @@ public class LuxMundiG extends Windows{
         this.setName("Lux Mundi");
         this.setDifficulty(6);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -52,6 +49,6 @@ public class LuxMundiG extends Windows{
         this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
         this.getCasella32().getChildren().addAll(new Faccia5(Constants.SLOT,Constants.H_SLOT));
         this.getCasella33().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
-        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));
+        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.H_SLOT));*/
     }
 }

@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.gui.components.panels.*;
-import it.polimi.ingsw.server.utils.Constants;
-
 public class AuroraSagradisG extends Windows{
 
     public AuroraSagradisG(){
@@ -10,7 +7,7 @@ public class AuroraSagradisG extends Windows{
         this.setName("Aurora Sagradis");
         this.setDifficulty(4);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.RED);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.RED);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.BLUE);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -51,6 +48,6 @@ public class AuroraSagradisG extends Windows{
         this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
         this.getCasella32().getChildren().addAll(new Faccia6(Constants.SLOT,Constants.SLOT));
         this.getCasella33().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
-        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
+        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));*/
     }
 }

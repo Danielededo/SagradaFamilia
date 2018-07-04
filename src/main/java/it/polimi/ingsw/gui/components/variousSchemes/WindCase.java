@@ -24,23 +24,25 @@ public class WindCase extends Canvas {
 
     }
 
-    public StackPane addChosen(Windows choice){
+    public void addChosen(Windows choice){
         this.scelta = choice;
         Label nameCase = new Label(choice.getName());
         nameCase.setStyle("-fx-font-family: Times New Roman");
         nameCase.setStyle("-fx-font-size: 28");
-        StackPane layout = new StackPane();
+        lay = new StackPane();
 
-        layout.getChildren().add(this);
-        layout.getChildren().add(choice);
-        layout.getChildren().add(nameCase);
-        layout.setMargin(choice, Constants.INS_WIND);
-        layout.setMargin(nameCase, Constants.INS_LAB);
-
-        return layout;
+        lay.getChildren().add(this);
+        lay.getChildren().add(choice);
+        lay.getChildren().add(nameCase);
+        lay.setMargin(choice, Constants.INS_WIND);
+        lay.setMargin(nameCase, Constants.INS_LAB);
     }
 
     public Windows getScelta() {
         return scelta;
+    }
+
+    public StackPane getLay() {
+        return lay;
     }
 }

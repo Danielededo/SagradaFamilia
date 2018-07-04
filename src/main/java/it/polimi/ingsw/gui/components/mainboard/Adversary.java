@@ -16,7 +16,7 @@ public class Adversary extends VBox {
         super();
         name = nom;
         Label etich = new Label(nom);
-        getChildren().addAll(etich, windowcase);
+        getChildren().addAll(etich);
     }
 
     public String getName() {

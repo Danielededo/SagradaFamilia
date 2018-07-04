@@ -19,6 +19,14 @@ public class ToolCard3 extends Tool {
         super.setValue(3);
     }
 
+    /**
+     * This method represents the effect of the 3rd tool card. It lets you move a die already placed on your scheme card
+     * to a different slot, ignoring the shade restrictions. You have to obey all the others placement rules.
+     * @param slot1 the slot from which you want to move the die
+     * @param slot2 the slot you want to place the die into
+     * @return boolean, true if the card was effective, false if you don't have enough tokens or if you've made mistakes
+     *          while using this card.
+     */
     @Override
     public boolean effect(Die dado1, Die dado2, boolean plusminus, Match partita, Stock stock, Slot slot1, Slot slot2, Slot slot3, Slot slot4, int value) {
         Rules rules = new Rules();

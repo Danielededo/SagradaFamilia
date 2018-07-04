@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.gui.components.panels.*;
-import it.polimi.ingsw.server.utils.Constants;
-
 public class FulgordelCieloG extends Windows{
 
     public FulgordelCieloG(){
@@ -11,7 +8,7 @@ public class FulgordelCieloG extends Windows{
         this.setName("Fulgor del Cielo");
         this.setDifficulty(5);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.BLUE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.RED);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -52,6 +49,6 @@ public class FulgordelCieloG extends Windows{
         this.getCasella31().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
         this.getCasella32().getChildren().addAll(new Faccia3(Constants.SLOT,Constants.SLOT));
         this.getCasella33().getChildren().addAll(new Faccia1(Constants.SLOT,Constants.SLOT));
-        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
+        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));*/
     }
 }

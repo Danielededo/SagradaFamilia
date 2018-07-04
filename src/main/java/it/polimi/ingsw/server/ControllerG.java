@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
-import it.polimi.ingsw.server.model.cards.*;
+import it.polimi.ingsw.server.model.cards.GlassWindow;
+import it.polimi.ingsw.server.model.cards.PublicObject;
+import it.polimi.ingsw.server.model.cards.Slot;
+import it.polimi.ingsw.server.model.cards.Tool;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
@@ -9,6 +12,8 @@ import it.polimi.ingsw.server.model.game.Round;
 import it.polimi.ingsw.server.utils.Colour;
 import it.polimi.ingsw.server.utils.Constants;
 import it.polimi.ingsw.server.utils.DisconnectionThread;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
@@ -46,18 +51,21 @@ public class ControllerG {
             server.o.put(match.getPlayers().get(i).getNickname(),server.getListofobserver().get(i).getPassword());
         }
         System.out.println(server.o);
-        //Thread.sleep(2000);
 
+        server.notifyObserver("Public");
+        JSONArray pubb = new JSONArray();
         for(PublicObject p: match.getPublictarget()){
-            server.notifyObserver("Public");
-            server.notifyObserver("" + p.getName());
+            pubb.put(p.getName());
         }
+        server.notifyObserver(pubb.toString());
 
+        server.notifyObserver("Tool");
+        JSONArray tool = new JSONArray();
         for(Tool p: match.getTool()){
-            server.notifyObserver("Tool");
-            server.notifyObserver("" + p.getName());
+            tool.put(p.getName());
         }
 
+        server.notifyObserver(tool.toString());
 
 
         for (ClientInt c:server.getListofobserver()){
@@ -70,14 +78,13 @@ public class ControllerG {
                     server.notify(c, "" + match.getPlayers().get(client_index).getPrivatetarget().getName());
 
 
-                    server.notify(c, "Scheme");
                     for(GlassWindow p: windows){
-                        server.notify(c, "Glasswindow");
-                        server.notify(c, p.getName());
+                        server.notify(c, "Scheme");
+                        server.notify(c, updateWindow(p).toString());
                     }
+
                     server.notify(c, "Scheme done");
 
-                    //server.notify(c,"\n"+ match.getScheme().schemechoice(windows)+"\nScegli la tua carta schema tramite il suo indice");
                     server.timer.schedule(schemetimer,1000*timer_window);
                     boolean wait = true;
                     int scheme = 6;
@@ -89,10 +96,9 @@ public class ControllerG {
                     }
                     server.notify(c, "Timer scelta stop");
                     this.match.getPlayers().get(client_index).setWindow(windows.get(scheme));
-                    server.notifyOthers(c, "Avversario nome");
-                    server.notifyOthers(c, match.getPlayers().get(client_index).getNickname());
-                    server.notifyOthers(c, "Avversario vetrata");
-                    server.notifyOthers(c,match.getPlayers().get(client_index).getWindow().getName());
+
+                    server.notifyOthers(c, "Adv");
+                    server.notifyOthers(c, updateAdversary(match.getPlayers().get(client_index)).toString());
 
 
                     System.out.println(c.getNickname() + " ha scelto " + windows.get(scheme).getName());
@@ -120,12 +126,6 @@ public class ControllerG {
                 server.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
             }
         }
-
-        server.notifyObserver("START");
-
-        //server.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+ Colour.RED.escape()+"LA PARTITA HA INIZIO"+Colour.RESET);
-
-
 
 
         while(this.match.getRound()!=11){
@@ -195,51 +195,52 @@ public class ControllerG {
                 toolhand_done=false;
                 int cont_turn=1;
 
-                server.notifyOthers(server.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
-                server.notify(server.getListofobserver().get(k),"E' il tuo turno. " + "Round: "+match.getRound()+"; Turno: " + t);
-
-
-                int menu = -1;
                 server.timer.schedule(timerTurn,1000*timer_t);
 
                 if (!round.getTurns().get(z).getOneplayer().isMissednext_turn()){
                     do {
+                        JSONArray ris = new JSONArray();
+                        for(Die d: match.getStock().getDicestock()){
+                            JSONObject provv = new JSONObject();
+                            provv.put("Face", d.getFace());
+                            provv.put("Color", d.getDicecolor().name());
+                            ris.put(provv);
+                        }
+
+                        server.notifyObserver("DRAFT");
+                        server.notifyObserver(ris.toString());
+
+                        server.notifyObserver("DRAFT END");
+                        server.notifyOthers(server.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
+                        server.notify(server.getListofobserver().get(k),"E' il tuo turno. " + "Round: "+match.getRound()+"; Turno: " + t);
+
+                        server.notifyOthers(server.getListofobserver().get(k),"Adv place");
+                        server.notifyOthers(server.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());
+
                         if (dicehand_done && toolhand_done){
-                            //server.notify(server.getListofobserver().get(k),"Puoi solo terminare il tuo turno ");
                             server.notify(server.getListofobserver().get(k), "PASS");
                         }
-                        else
-                        if(!dicehand_done && toolhand_done) {
-                            //server.notify(server.getListofobserver().get(k),"Puoi solo posizionare un dado o terminare il turno");
+                        else if(!dicehand_done && toolhand_done) {
                             server.notify(server.getListofobserver().get(k), "MENU die");
                         }else if(dicehand_done && !toolhand_done){
-                            //server.notify(server.getListofobserver().get(k),"Puoi solo usare una carta utensile o terminare il turno");
                             server.notify(server.getListofobserver().get(k), "MENU tool");
                         }else{
                             server.notify(server.getListofobserver().get(k), "MENU whole");
                         }
-
-                        for (Die d: match.getStock().getDicestock()) {
-                            server.notifyObserver("Draft face");
-                            server.notifyObserver(d.getFace() + "");
-                            server.notifyObserver("Draft color");
-                            server.notifyObserver(d.getDicecolor().name());
-                        }
-
-                        server.notifyObserver("Draft end");
-
+                        int menu = -1;
                         boolean wait = true;
 
                         while(wait){
                             Thread.sleep(1000);
                             menu = selection(3,0, k);
-                            if(menu >= 5){
+                            if(menu >= Constants.MENU){
                                 wait = false;
                             }
                         }
+                        menu = menu - Constants.MENU;
 
                         switch (menu){
-                            case 5:{
+                            case 1:{
                                 server.notifyObserver("Shift");
                                 server.notify(server.getListofobserver().get(k), "Il tuo turno è terminato.");
                                 server.notifyOthers(server.getListofobserver().get(k),server.getListofobserver().get(k).getNickname()+" ha terminato il suo turno");
@@ -247,21 +248,16 @@ public class ControllerG {
                                 cont_turn=0;
                                 break;
                             }
-                            case 6:{
-                                //if (!dicehand_done)
-                                //server.notify(server.getListofobserver().get(k), "DIE");
+                            case 2:{
                                 dicehand(k,z,round);
-                                //else server.notify(server.getListofobserver().get(k),"Hai già posizionato un dado in questo turno");
                                 break;
                             }
-                            case 7:{
-                                //if(!toolhand_done)
-                                    tool_hand(k,z,round,cont_turn);
-                                //else
-                                //    server.notify(server.getListofobserver().get(k),"Hai già usato una carta utensile in questo turno");
+                            case 3:{
+                                tool_hand(k,z,round,cont_turn);
                                 break;
                             }
                         }
+                        server.notifyObserver("Remove die");
                     } while (cont_turn!=0);
                 }else {
                     server.notify(server.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
@@ -304,7 +300,7 @@ public class ControllerG {
             while(wait){
                 Thread.sleep(1000);
                 index_draft = selection(match.getStock().getDicestock().size()+1,0, k);
-                if(index_draft > Constants.F_DIE){
+                if(index_draft < Constants.F_SLOT && index_draft > Constants.F_DIE){
                     wait = false;
                 }
             }
@@ -317,7 +313,7 @@ public class ControllerG {
             while(wait){
                 Thread.sleep(1000);
                 choice = selection(20, 0, k);
-                if(choice > Constants.F_SLOT){
+                if(choice > Constants.F_SLOT && choice <= Constants.S_DIE){
                     wait = false;
                 }
             }
@@ -331,21 +327,13 @@ public class ControllerG {
 
             if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
                 server.notify(server.getListofobserver().get(k), "Dado piazzato correttamente");
+                server.notify(server.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
+                /*server.notifyOthers(server.getListofobserver().get(k),"Adv place");
+                server.notifyOthers(server.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());*/
 
-                server.notifyObserver("Remove die");
-
-
-                server.notifyOthers(server.getListofobserver().get(k), "Adv place");
-                server.notifyOthers(server.getListofobserver().get(k), server.getListofobserver().get(k).getNickname());
-                server.notifyOthers(server.getListofobserver().get(k), "Placed face");
-                server.notifyOthers(server.getListofobserver().get(k), match.getStock().getDicestock().get(index_draft - 1).getFace() + "");
-                server.notifyOthers(server.getListofobserver().get(k), "Placed face");
-                server.notifyOthers(server.getListofobserver().get(k), match.getStock().getDicestock().get(index_draft - 1).getDicecolor().name());
-                server.notifyOthers(server.getListofobserver().get(k), "Tassel place");
-                choice = choice - Constants.F_SLOT;
-                server.notifyOthers(server.getListofobserver().get(k), choice + "");
-
+                /*choice = choice - Constants.F_SLOT;
+                server.notifyOthers(server.getListofobserver().get(k), updateTassel(k, index_draft, choice).toString());*/
 
                 match.getStock().getDicestock().remove(index_draft - 1);
                 match.getStock().getDieMap().remove(index_draft-Constants.F_DIE);
@@ -355,6 +343,7 @@ public class ControllerG {
             } else {
                     server.notify(server.getListofobserver().get(k), "ERROR");
                     server.notify(server.getListofobserver().get(k), match.getRules().getError());
+                    cont = 0;
             }
         }
     }
@@ -605,28 +594,67 @@ public class ControllerG {
     }
 
     public int rowRefactor(int i){
-        if(i <= 5 && i >=1){
+        if(i <= 4 && i >= 0){
             return 0;
-        }else if(i <= 10 && i >= 6){
+        }else if(i <= 9 && i >= 5){
             return 1;
-        }else if(i <= 15 && i >= 11){
+        }else if(i <= 14 && i >= 10){
             return 2;
-        }else if(i <= 20 && i >= 16){
+        }else if(i <= 19 && i >= 15){
             return 3;
         }else return -1;
     }
 
     public int coloumnRefactor(int i){
-        if(i == 1 || i ==6 || i == 11 || i == 16){
+        if(i == 0 || i == 5 || i == 10 || i == 15){
             return 0;
-        }else if(i == 2 || i == 7 || i == 12 || i == 17){
+        }else if(i == 1 || i == 6 || i == 11 || i == 16){
             return 1;
-        }else if(i == 3 || i == 8 || i == 13 || i == 18){
+        }else if(i == 2 || i == 7 || i == 12 || i == 17){
             return 2;
-        }else if(i == 4 || i == 9 || i == 14 || i == 19){
+        }else if(i == 3 || i == 8 || i == 13 || i == 18){
             return 3;
-        }else if(i == 5 || i == 10 || i == 15 || i == 20){
+        }else if(i == 4 || i == 9 || i == 14 || i == 19){
             return 4;
         }else return -1;
+    }
+
+    public JSONObject updateTassel(int k, int index_draft, int choice) throws RemoteException {
+        JSONObject change = new JSONObject();
+        change.put("name", server.getListofobserver().get(k).getNickname());
+        change.put("face", match.getStock().getDicestock().get(index_draft - 1).getFace() + "");
+        change.put("color", match.getStock().getDicestock().get(index_draft - 1).getDicecolor().name());
+        change.put("pos", choice);
+        return change;
+    }
+
+    public JSONObject updateWindow(GlassWindow provv){
+        JSONObject def = new JSONObject();
+        def.put("name", provv.getName());
+        def.put("diff", provv.getDifficulty());
+        JSONArray change = new JSONArray();
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 5; j++){
+                JSONObject obj = new JSONObject();
+                if(provv.getSlot(i,j).isOccupate()){
+                    obj.put("face", provv.getSlot(i,j).getDice().getFace() + "");
+                    obj.put("color", provv.getSlot(i,j).getDice().getDicecolor().name());
+                }else{
+                    obj.put("face", provv.getSlot(i,j).getValue() + "");
+                    obj.put("color", provv.getSlot(i,j).getSlotcolour().name());
+                }
+                change.put(obj);
+            }
+        }
+        def.put("glass",change);
+        return def;
+    }
+
+    public JSONObject updateAdversary(Player p){
+        JSONObject def = new JSONObject();
+        def.put("player", p.getNickname());
+        JSONObject glass = updateWindow(p.getWindow());
+        def.put("glasswindow", glass);
+        return def;
     }
 }

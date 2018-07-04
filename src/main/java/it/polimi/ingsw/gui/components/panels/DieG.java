@@ -14,7 +14,7 @@ public class DieG extends StackPane{
     public DieG(Canvas tel){
         super();
         face = tel;
-        this.getChildren().addAll(face, button);
+        this.getChildren().addAll(face);
 
     }
 

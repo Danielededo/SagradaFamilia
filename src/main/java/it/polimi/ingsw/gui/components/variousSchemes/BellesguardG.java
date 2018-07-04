@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.server.utils.Constants;
-import it.polimi.ingsw.gui.components.panels.*;
-
 public class BellesguardG extends Windows{
 
     public BellesguardG(){
@@ -10,7 +7,7 @@ public class BellesguardG extends Windows{
         this.setName("Bellesguard");
         this.setDifficulty(3);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.BLUE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.BLUE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -51,7 +48,7 @@ public class BellesguardG extends Windows{
         this.getCasella31().getChildren().addAll(new Faccia4(Constants.SLOT,Constants.SLOT));
         this.getCasella32().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
         this.getCasella33().getChildren().addAll(new Faccia1(Constants.SLOT,Constants.SLOT));
-        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));
+        this.getCasella34().getChildren().addAll(new FacciaVuota(Constants.SLOT,Constants.SLOT));*/
 
     }
 }

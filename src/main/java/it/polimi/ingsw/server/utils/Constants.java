@@ -5,6 +5,10 @@ import javafx.geometry.Insets;
 public class Constants {
 
 
+    //GlassWindow Bounds
+    public static final int W_ROWS = 4;
+    public static final int W_COLOMN = 5;
+
 
     //GUI main path
     public static final String IMG_PRINC = "/images";
@@ -77,6 +81,6 @@ public class Constants {
     //GUI messages
     public static final int F_DIE = 10;
     public static final int F_SLOT = 20;
-
-
+    public static final int MENU = 100;
+    public static final int S_DIE = 40;
 }

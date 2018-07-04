@@ -1,8 +1,5 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
-import it.polimi.ingsw.gui.components.panels.*;
-import it.polimi.ingsw.server.utils.Constants;
-
 public class SunGloryG extends Windows{
 
     public SunGloryG(){
@@ -11,7 +8,7 @@ public class SunGloryG extends Windows{
         this.setName("Sun's Glory");
         this.setDifficulty(6);
 
-        this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
+        /*this.getCasella00().setStyle("-fx-background-color: " + Constants.WHITE);
         this.getCasella01().setStyle("-fx-background-color: " + Constants.PURPLE);
         this.getCasella02().setStyle("-fx-background-color: " + Constants.YELLOW);
         this.getCasella03().setStyle("-fx-background-color: " + Constants.WHITE);
@@ -52,6 +49,6 @@ public class SunGloryG extends Windows{
         this.getCasella31().getChildren().addAll(new Faccia5(Constants.SLOT,Constants.SLOT));
         this.getCasella32().getChildren().addAll(new Faccia4(Constants.SLOT,Constants.SLOT));
         this.getCasella33().getChildren().addAll(new Faccia2(Constants.SLOT,Constants.SLOT));
-        this.getCasella34().getChildren().addAll(new Faccia1(Constants.SLOT,Constants.SLOT));
+        this.getCasella34().getChildren().addAll(new Faccia1(Constants.SLOT,Constants.SLOT));*/
     }
 }

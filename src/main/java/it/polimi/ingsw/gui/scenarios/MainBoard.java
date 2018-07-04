@@ -12,11 +12,12 @@ import it.polimi.ingsw.gui.components.variousSchemes.Windows;
 import it.polimi.ingsw.server.utils.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class MainBoard extends BorderPane{
 
     private TokenSpace tspace = new TokenSpace();
     private WindCase scheme = new WindCase(Constants.WI_CASE, Constants.HE_CASE);
-    private ChooseBox popup;
+    private ChooseBox popup = new ChooseBox();
     private MenuBox menuBox = new MenuBox();
 
 
@@ -91,21 +92,32 @@ public class MainBoard extends BorderPane{
     public void setting(String oldie, String newie, IntegerProperty hey){
         if(oldie.equals("Public")){
             Platform.runLater(() -> {
-                for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
-                    if (p.getName().equals(newie)) {
-                        pubb.add(p);
-                        cardsp.getChildren().add(p);
-                    }
-                }
+                JSONArray publi = new JSONArray(newie);
+                int i = 0;
+                while (i < 3) {
 
+                    for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
+                        if (p.getName().equals(publi.get(i))) {
+                            pubb.add(p);
+                            cardsp.getChildren().add(p);
+                        }
+                    }
+                    i++;
+                }
             });
         }else if(oldie.equals("Tool")){
             Platform.runLater(() -> {
-                for(Tools p: necessary.buildingTools(necessary.getToolpath())){
-                    if(p.getName().equals(newie)){
-                        toolz.add(p);
-                        cardst.getChildren().add(p);
+                JSONArray too = new JSONArray(newie);
+                int i = 0;
+                while(i < 3) {
+                    for (Tools p : necessary.buildingTools(necessary.getToolpath())) {
+                        if (p.getName().equals(too.get(i))) {
+                            p.setValue(i);
+                            toolz.add(p);
+                            cardst.getChildren().add(p);
+                        }
                     }
+                    i++;
                 }
             });
         }else if(oldie.equals("Privato")){
@@ -117,34 +129,23 @@ public class MainBoard extends BorderPane{
                     }
                 }
             });
-        }else if(oldie.equals("Scheme")){
-            popup = new ChooseBox();
-        }else if(oldie.equals("Glasswindow")){
-            for(Windows p: necessary.buildingGlasswindow()){
-                if(p.getName().equals(newie)){
-                    popup.getAmong().add(p);
-                }
-            }
+        }else if(oldie.equals("Scheme")) {
+            Platform.runLater(() -> popup.getAmong().add(updatingScheme(new JSONObject(newie))));
+
         }else if(newie.equals("Scheme done")){
             Platform.runLater(() -> hey.setValue(popup.gimmeInt("Vetrate estratte", "Scegli una carta vetrata tra quelle estratte")));
         }else if(newie.equals("Timer scelta stop")){
             Platform.runLater(() -> {
-                personal.getChildren().add(scheme.addChosen(popup.getAmong().get(hey.getValue()-1)));
+                scheme.addChosen(popup.getAmong().get(hey.getValue()-1));
+                personal.getChildren().add(scheme.getLay());
                 tspace.setTok(scheme.getScelta().getDifficulty());
             });
-        }else if(oldie.equals("Avversario nome")){
-            players.add(newie);
-        }else if(oldie.equals("Avversario vetrata")){
-            Adversary provv = new Adversary(players.get(players.size() - 1));
-
-            for(Windows w: necessary.buildingGlasswindow()){
-               if(w.getName().equals(newie)){
-                   provv.setGlasswindow(w);
-               }
-            }
-            adv.add(provv);
-            Platform.runLater(() -> adversus.getChildren().add(adv.get(adv.size() - 1).getWindowcase().addChosen(adv.get(adv.size() - 1).getGlasswindow())));
-
+        }else if(oldie.equals("Adv")){
+            Platform.runLater(() -> {
+                Adversary provv = updatingAdversary(new JSONObject(newie));
+                adv.add(provv);
+                adversus.getChildren().add(adv.get(adv.size() - 1));
+            });
         }
     }
 
@@ -152,101 +153,119 @@ public class MainBoard extends BorderPane{
 
 
     public void duringTurn(String oldie, String newie, IntegerProperty hey) {
-        if (oldie.equals("Draft face")) {
-            DieG provv = new DieG(necessary.faceComparing(newie));
-            provv.setPos(draftp.getDraftie().size() + 1);
-            draftp.getDraftie().add(provv);
-
-        } else if (oldie.equals("Draft color")) {
-            draftp.getDraftie().get(draftp.getDraftie().size() - 1).setColour(necessary.colorComparing(newie));
-            draftp.getDraftie().get(draftp.getDraftie().size() - 1).setPos(draftp.getDraftie().size());
-
-        } else if (oldie.equals("Draft end")) {
+        if (oldie.equals("DRAFT")) {
+            JSONArray dr = new JSONArray(newie);
+            int i;
+            for(i = 0; i < dr.length(); i++){
+                JSONObject obj = dr.getJSONObject(i);
+                DieG provv = new DieG(necessary.faceComparing(String.valueOf(obj.get("Face"))));
+                provv.setColour(necessary.colorComparing(obj.getString("Color")));
+                provv.setPos(draftp.getDraftie().size() + 1);
+                draftp.getDraftie().add(provv);
+            }
+            Platform.runLater(() -> {
+                for (DieG d: draftp.getDraftie())
+                    draftp.add(d, draftp.getDraftie().indexOf(d), 1);
+        });
+        }else if (oldie.equals("Draft end")) {
+            Platform.runLater(() -> mex.setText(newie));
+        } else if (newie.equals("MENU whole")) {
+            Platform.runLater(() -> hey.setValue(menuBox.menuC("Menù") + Constants.MENU));
+        } else if (newie.equals("MENU die")) {
+            Platform.runLater(() -> hey.setValue(menuBox.menuD("Menù") + Constants.MENU));
+        } else if (newie.equals("MENU tool")) {
+            Platform.runLater(() -> hey.setValue(menuBox.menuT("Menù") + Constants.MENU));
+        } else if (oldie.equals("Shift")) {
             Platform.runLater(() -> {
                 mex.setText(newie);
-                for (DieG d: draftp.getDraftie()){
-                    draftp.add(d, draftp.getDraftie().indexOf(d), 1);
-                }
+                hey.setValue(-1);
             });
-        } else if (newie.equals("MENU whole")) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuC("Menù", "Scegli cosa fare in questo turno")));
-        } else if (newie.equals("MENU die")) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuD("Menù")));
-        } else if (newie.equals("MENU tool")) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuT("Menù")));
-        } else if (oldie.equals("Shift")) {
-            Platform.runLater(() -> mex.setText(newie));
         } else if (newie.equals("Scegli un dado.")) {
             Platform.runLater(() -> {
                 for (DieG d : draftp.getDraftie()) {
-                    //d.getButton.setStyle("-fx-background-color: transparent;");
                     d.getButton().setOnMouseClicked(e -> {
-                        draftp.setSelected(d);
-                        hey.setValue(draftp.getSelected().getPos() + Constants.F_DIE);
+                        hey.setValue(d.getPos() + Constants.F_DIE);
                     });
+                    d.getChildren().add(d.getButton());
                 }
                 mex.setText(newie);
             });
         } else if (newie.equals("DIE OK")) {
             Platform.runLater(() -> {
                 for (DieG d : draftp.getDraftie()) {
-                    d.setButton(null);
+                    d.getChildren().remove(d.getButton());
                 }
             });
         } else if (newie.equals("Ora scegli una casella della tua vetrata.")) {
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getScelta().getList()) {
-                    Button button = new Button();
-                    //button.setStyle("-fx-background-color: transparent;");
-                    button.setOnMouseClicked(e -> {
-                        scheme.getScelta().setSelected(t.getValue());
-                        hey.setValue(scheme.getScelta().getSelected() + Constants.F_SLOT);
+                    t.getButton().setOnMouseClicked(e -> {
+                        hey.setValue(t.getValue() + Constants.F_SLOT);
                     });
-                    t.setButton(button);
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
             });
 
-        } else if (newie.equals("Dado piazzato correttamente")) {
-            Platform.runLater(() -> {
-                for (Tassel t : scheme.getScelta().getList()) {
-                    t.setButton(null);
-                }
-                scheme.getScelta().getList().get(scheme.getScelta().getSelected() - 1).setStyle("-fx-background-color: " + draftp.getSelected().getColour());
-                scheme.getScelta().getList().get(scheme.getScelta().getSelected() - 1).getChildren().add(draftp.getSelected().getFace());
-                draftp.setSelected(null);
-            });
+        } else if (oldie.equals("Dado piazzato correttamente")) {
+            Platform.runLater(() -> scheme.addChosen(updatingScheme(new JSONObject(newie))));
         } else if (oldie.equals("ERROR")) {
             Platform.runLater(() -> mex.setText(newie));
         } else if (oldie.equals("Remove die")) {
-            Platform.runLater(() -> draftp.getChildren().clear());
-
+            Platform.runLater(() -> {
+                draftp.getChildren().clear();
+                draftp.getDraftie().removeAll(draftp.getDraftie());
+            });
         } else if (oldie.equals("Adv place")) {
             Platform.runLater(() -> {
+                JSONObject avv = new JSONObject(newie);
+                int i = 0;
                 for(Adversary a: adv){
-                    if(a.getName().equals(newie)){
-                        temp = a;
-                        adversus.getChildren().remove(a);
+                    if(a.getName().equals(avv.getString("player"))){
+                        i = adv.indexOf(a);
+                        a.setWindowcase(updatingAdversary(avv).getWindowcase());
+                        //adv.add(i, updatingAdversary(avv));
+                        //a.setGlasswindow(updatingScheme(avv.getJSONObject("glasswindow")));
+                        //a.getWindowcase().addChosen(a.getGlasswindow());
                     }
                 }
-                adv.remove(temp);
-            });
-        }else if(oldie.equals("Placed face")){
-            temp.getGlasswindow().setUpdate(new DieG(necessary.faceComparing(newie)));
-        }else if(oldie.equals("Placed color")){
-            temp.getGlasswindow().getUpdate().setColour(necessary.colorComparing(newie));
 
-        }else if(oldie.equals("Tassel place")){
-            Platform.runLater(() -> {
-                int i = Integer.valueOf(newie);
-                temp.getGlasswindow().getList().get(i - 1).setStyle("fx-background-color: " + temp.getGlasswindow().getUpdate().getColour());
-                temp.getGlasswindow().getList().get(i - 1).getChildren().add(temp.getGlasswindow().getUpdate().getFace());
-                adversus.getChildren().add(temp);
-                adv.add(temp);
+
+
+                /*for(Adversary a: adv){
+                    if(a.getName().equals(avv.getString("name"))){
+                        a.getGlasswindow().getList().get(avv.getInt("pos") - 1).setStyle("fx-background-color: " + necessary.colorComparing(avv.getString("color")));
+                        a.getGlasswindow().getList().get(avv.getInt("pos") - 1).getChildren().add(necessary.faceComparing(avv.getString("face")));
+                    }
+                }*/
             });
         }
 
+    }
+
+
+
+    public Windows updatingScheme(JSONObject obj){
+        Windows gone = new Windows();
+        gone.setName(obj.getString("name"));
+        gone.setDifficulty(obj.getInt("diff"));
+        JSONArray tass = obj.getJSONArray("glass");
+
+        for(int i = 0; i < Constants.F_SLOT; i++){
+            JSONObject provv = tass.getJSONObject(i);
+            gone.getList().get(i).getChildren().add(necessary.faceComparing(provv.getString("face")));
+            gone.getList().get(i).setStyle("-fx-background-color: " + necessary.colorComparing(provv.getString("color")));
+        }
+        return gone;
+    }
+
+    public Adversary updatingAdversary(JSONObject obj){
+
+        Adversary def = new Adversary(obj.getString("player"));
+        JSONObject window = obj.getJSONObject("glasswindow");
+        def.getWindowcase().addChosen(updatingScheme(window));
+        def.getChildren().add(def.getWindowcase().getLay());
+        return def;
     }
 
 

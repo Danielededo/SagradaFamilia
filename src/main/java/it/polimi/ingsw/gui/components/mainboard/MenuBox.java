@@ -12,18 +12,16 @@ import javafx.stage.Stage;
 
 public class MenuBox {
 
-    private VBox menu = new VBox();
-    private Scene scene = new Scene(menu);
     private RadioButton die = new RadioButton("Scegli un dado");
     private RadioButton tool = new RadioButton("Usa una carta strumento");
     private RadioButton pass = new RadioButton("Passa o salta il turno");
-    Button button = new Button("Scegli");
+    private Button button = new Button("Scegli");
+    private Label label = new Label("Scegli cosa fare in questo turno");
+
 
 
     public MenuBox(){
         ToggleGroup group = new ToggleGroup();
-        menu.setAlignment(Pos.CENTER);
-        menu.setSpacing(10);
 
         pass.setToggleGroup(group);
         die.setToggleGroup(group);
@@ -31,31 +29,33 @@ public class MenuBox {
 
     }
 
-    public int menuC(String title, String tag){
+    public int menuC(String title){
 
         final int[] answer = new int[1];
         answer[0] = 5;
 
-        pass.setOnAction(event -> answer[0] = 5);
-        die.setOnAction(event -> answer[0] = 6);
-        tool.setOnAction(event -> answer[0] = 7);
+        pass.setOnAction(event -> answer[0] = 1);
+        die.setOnAction(event -> answer[0] = 2);
+        tool.setOnAction(event -> answer[0] = 3);
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
 
         window.setTitle(title);
         window.setMinWidth(200);
-        Label label = new Label();
-        label.setText(tag);
 
 
         button.setOnMouseClicked(event -> window.close());
 
-        window.setOnCloseRequest(event -> answer[0] = 5);
+        window.setOnCloseRequest(event -> answer[0] = 1);
+
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
 
         menu.getChildren().addAll(label, pass, die, tool, button);
 
-        window.setScene(scene);
+        window.setScene(new Scene(menu));
         window.showAndWait();
 
 
@@ -74,17 +74,21 @@ public class MenuBox {
         window.setTitle(title);
         window.setMinWidth(200);
 
-        window.setOnCloseRequest(event -> answer[0] = 5);
+        window.setOnCloseRequest(event -> answer[0] = 1);
 
-        pass.setOnAction(event -> answer[0] = 5);
-        die.setOnAction(event -> answer[0] = 6);
+        pass.setOnAction(event -> answer[0] = 1);
+        die.setOnAction(event -> answer[0] = 2);
 
         button.setOnMouseClicked(event -> window.close());
 
-        menu.getChildren().remove(tool);
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.getChildren().addAll(label, pass, die, button);
 
-        scene = new Scene(menu);
-        window.setScene(scene);
+
+
+        window.setScene(new Scene(menu));
         window.showAndWait();
 
 
@@ -103,17 +107,20 @@ public class MenuBox {
         window.setMinWidth(200);
 
 
-        window.setOnCloseRequest(event -> answer[0] = 5);
+        window.setOnCloseRequest(event -> answer[0] = 1);
 
-        pass.setOnAction(event -> answer[0] = 5);
-        tool.setOnAction(event -> answer[0] = 7);
+        pass.setOnAction(event -> answer[0] = 1);
+        tool.setOnAction(event -> answer[0] = 3);
 
         button.setOnMouseClicked(event -> window.close());
 
-        menu.getChildren().remove(die);
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.getChildren().addAll(label, pass, tool, button);
 
 
-        window.setScene(scene);
+        window.setScene(new Scene(menu));
         window.showAndWait();
 
 
