@@ -27,7 +27,6 @@ public class ToolCard4 extends Tool {
     @Override
     public boolean effect(List<Die> dice, Match match, List<Slot> slots, int value) {
         Rules rules = new Rules();
-        if (rules.getCont(getPlayer())<2){ error=list__of_errors[14];return false;}
         boolean e = false, f = false;
         int j=tokenpayment();
         if (j==0)return false;

@@ -70,6 +70,22 @@ public abstract class Tool extends Card{
         return effect;
     }
 
+    public boolean tokencontroller(){
+        if (!this.isAccessed()) {
+            if (getPlayer().getMarker() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (getPlayer().getMarker() > 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     protected int tokenpayment(){
         if (!this.isAccessed()) {
             if (getPlayer().getMarker() > 0) {

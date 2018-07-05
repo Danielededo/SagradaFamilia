@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.dice.Sack;
+import it.polimi.ingsw.utils.Colour;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 
 public class Match {
@@ -318,9 +317,14 @@ public class Match {
      */
     private void setTool() {
         int i = 0;
-        int a=-1;
         ToolCards t = new ToolCards();
-        do {
+        Tool uno=t.creatingTool(1);
+        Tool due=t.creatingTool(2);
+        Tool tre=t.creatingTool(3);
+        toolcards.add(uno);
+        toolcards.add(due);
+        toolcards.add(tre);
+        /*do {
             Random numero = new Random();
             Tool inserire = t.creatingTool((numero.nextInt(12) + 1));
             if (!getNamesTool().contains(inserire.getName())) {
@@ -329,7 +333,7 @@ public class Match {
                 i--;
             }
             i++;
-        } while (i < 3);
+        } while (i < 3);*/
     }
 
     private ArrayList<String> getNamesTool(){

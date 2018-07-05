@@ -249,13 +249,15 @@ public class Controller {
         index=selection(4,1,k);
         hub.notify(hub.getListofobserver().get(k),"La tua scelta è: "+match.getTool().get(index-1));
         match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
-        if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn)){
-            hub.notify(hub.getListofobserver().get(k),match.getTool().get(index-1).getError());
-        }else {
-            hub.notify(hub.getListofobserver().get(k),"Operazione completata");
-            toolhand_done=true;
-            hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
-        }
+        if (match.getTool().get(index-1).tokencontroller()){
+            if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn)){
+                hub.notify(hub.getListofobserver().get(k),match.getTool().get(index-1).getError());
+            }else {
+                hub.notify(hub.getListofobserver().get(k),"Operazione completata");
+                toolhand_done=true;
+                hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
+            }
+        }else hub.notify(hub.getListofobserver().get(k),"Non hai abbastanza segnalini favore");
     }
 
     public boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn) throws RemoteException {
@@ -295,38 +297,46 @@ public class Controller {
                     return tool.effect(dice,match,slots,0);
                 }
                 case "Alesatore per lamina di rame": {
-                    int row1,column1,row2,column2;
-                    hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
-                    row1=selection(4,0,k);
-                    column1=selection(5,0,k);
-                    hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
-                    row2=selection(4,0,k);
-                    column2=selection(5,0,k);
-                    Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
-                    Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                    slots.add(slot1);
-                    slots.add(slot2);
-                    return tool.effect(dice,match,slots,0);
+                    if (match.getRules().getCont(tool.getPlayer())>1){
+                        int row1,column1,row2,column2;
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
+                        row1=selection(4,0,k);
+                        column1=selection(5,0,k);
+                        hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
+                        row2=selection(4,0,k);
+                        column2=selection(5,0,k);
+                        Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
+                        Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
+                        slots.add(slot1);
+                        slots.add(slot2);
+                        return tool.effect(dice,match,slots,0);
+                    }
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    return false;
                 }
                 case "Lathekin": {
-                    int row1,column1,row2,column2,row3,column3,row4,column4;
-                    hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il primo dado");
-                    row1=selection(4,0,k);
-                    column1=selection(5,0,k);
-                    hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il primo dado");
-                    row2=selection(4,0,k);
-                    column2=selection(5,0,k);
-                    hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il secondo dado");
-                    row3=selection(4,0,k);
-                    column3=selection(5,0,k);
-                    hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
-                    row4=selection(4,0,k);
-                    column4=selection(5,0,k);
-                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
-                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
-                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
-                    slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
-                    return tool.effect(dice,match,slots,0);
+                    if (match.getRules().getCont(tool.getPlayer())>=2){
+                        int row1,column1,row2,column2,row3,column3,row4,column4;
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il primo dado");
+                        row1=selection(4,0,k);
+                        column1=selection(5,0,k);
+                        hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il primo dado");
+                        row2=selection(4,0,k);
+                        column2=selection(5,0,k);
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il secondo dado");
+                        row3=selection(4,0,k);
+                        column3=selection(5,0,k);
+                        hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
+                        row4=selection(4,0,k);
+                        column4=selection(5,0,k);
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
+                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
+                        return tool.effect(dice,match,slots,0);
+                    }
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    return false;
                 }
                 case "Taglierina circolare": {
                     int index_draft,index_roundtrackList,index_roundtrackDie;

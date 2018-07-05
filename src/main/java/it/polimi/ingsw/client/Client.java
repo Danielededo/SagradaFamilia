@@ -23,8 +23,10 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     private ServerInt stub;
 
 
-    protected Client() throws RemoteException {
+    protected Client(String PORT,String serverIP) throws RemoteException {
         super();
+        this.PORT= Integer.parseInt(PORT);
+        this.serverIP=serverIP;
     }
 
     public String getPassword() throws RemoteException{
@@ -33,19 +35,13 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 
     public void startclient(String[] args) {
         try {
-            args[0]=args[0].replaceAll("-","");
-            args[1]=args[1].replaceAll("-","");
-            PORT= Integer.parseInt(args[0]);
-            serverIP=args[1];
-            Client client=new Client();
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
             stub= (ServerInt) registry.lookup(name);
-            if(!stub.addObserver(client)){
+            if(!stub.addObserver(this)){
                 System.err.println("Sei stato disconnesso");
                 registry=null;
                 stub=null;
-                client=null;
                 System.exit(-1);
             }
             Timer timer=new Timer();
@@ -59,7 +55,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         } catch (ConnectException e){
             System.err.println("Il server non è connesso");
             System.exit(-1);
-        } catch (UnmarshalException e){} catch (Exception e) {
+        } catch (UnmarshalException ignored){} catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();
             System.exit(-1);
