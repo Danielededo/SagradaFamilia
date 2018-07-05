@@ -283,18 +283,22 @@ public class Controller {
                     return tool.effect(dice,match,slots,piumeno);
                 }
                 case "Pennello per Eglomise": {
-                    int row1,column1,row2,column2;
-                    hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
-                    row1=selection(4,0,k);
-                    column1=selection(5,0,k);
-                    hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
-                    row2=selection(4,0,k);
-                    column2=selection(5,0,k);
-                    Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
-                    Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
-                    slots.add(slot1);
-                    slots.add(slot2);
-                    return tool.effect(dice,match,slots,0);
+                    if (match.getRules().getCont(tool.getPlayer())>1){
+                        int row1,column1,row2,column2;
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
+                        row1=selection(4,0,k);
+                        column1=selection(5,0,k);
+                        hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
+                        row2=selection(4,0,k);
+                        column2=selection(5,0,k);
+                        Slot slot1=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1);
+                        Slot slot2=round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2);
+                        slots.add(slot1);
+                        slots.add(slot2);
+                        return tool.effect(dice,match,slots,0);
+                    }
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    return false;
                 }
                 case "Alesatore per lamina di rame": {
                     if (match.getRules().getCont(tool.getPlayer())>1){
