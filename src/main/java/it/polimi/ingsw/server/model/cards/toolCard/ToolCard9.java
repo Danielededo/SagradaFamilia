@@ -33,21 +33,18 @@ public class ToolCard9 extends Tool {
         if (i==0) return false;
         Rules r = new Rules();
         if(!r.occupiedSlot(slots.get(0))){
-            System.out.println("Questo slot è occupato, scegli un altro slot.");
             error=list__of_errors[2];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
             return false;
         }
         if(!r.colourCheck(slots.get(0).getSlotcolour(), dice.get(0).getDicecolor())){
-            System.out.println("Non puoi mettere un dado di questo colore in questo slot, scegli un altro slot.");
             error=list__of_errors[4];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
             return false;
         }
         if(!r.numberCheck(slots.get(0).getValue(), dice.get(0).getFace())){
-            System.out.println("Non puoi mettere un dado con questa faccia in questo slot, scegli un altro slot.");
             error=list__of_errors[4];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
@@ -64,7 +61,6 @@ public class ToolCard9 extends Tool {
                 }
             }
         }
-        System.out.println("C'è un dado in uno slot adiacente a quello scelto, scegli un altro slot.");
         error=list__of_errors[4];
         getPlayer().setMarker(getPlayer().getMarker()+i);
         if (i==1)setAccessed(false);

@@ -36,14 +36,12 @@ public class ToolCard8 extends Tool {
                 match.getStock().getDicestock().remove(dice.get(0));
                 return true;
             }else {
-                System.out.println("Non è stato possibile piazzare il dado in questa casella");
                 error=list__of_errors[4];
                 getPlayer().setMarker(getPlayer().getMarker()+i);
                 if (i==1)setAccessed(false);
                 return false;
             }
         }else {
-            System.out.println("Non puoi utilizzare questa carta nel tuo secondo turno");
             error=list__of_errors[8];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);

@@ -37,7 +37,6 @@ public class ToolCard12 extends Tool {
         Colour scelto = slots.get(0).getDice().getDicecolor();
 
         if(this.getPlayer().getWindow().getSlot(slots.get(0)).getDice() == null){
-            System.out.println("This slot is empty.\n");
             error=list__of_errors[3];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
@@ -45,7 +44,6 @@ public class ToolCard12 extends Tool {
         }
 
         if(!this.scorroTrack(match, scelto)){
-            System.out.println("You can't choose this die.\n");
             error=list__of_errors[11];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
@@ -54,7 +52,6 @@ public class ToolCard12 extends Tool {
 
 
         if(!match.getRules().rules(ToolCard12.super.getPlayer(), slots.get(1), slots.get(0).getDice())){
-            System.out.println("Choose another slot.\n");
             error=list__of_errors[12];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
@@ -74,7 +71,6 @@ public class ToolCard12 extends Tool {
         //secondo dado
         //esiste
         if(this.getPlayer().getWindow().getSlot(slots.get(2)).getDice() == null){
-            System.out.println("This slot is empty");
             this.getPlayer().getWindow().getSlot(slots.get(0)).setDie(slots.get(1).getDice());
             this.getPlayer().getWindow().getSlot(slots.get(1)).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(null);
@@ -87,7 +83,6 @@ public class ToolCard12 extends Tool {
 
         //sono dello stesso colore?
         if(slots.get(2).getDice().getDicecolor() != slots.get(1).getDice().getDicecolor()){
-            System.out.println("You can't choose dice with different colours. Start again.\n");
             this.getPlayer().getWindow().getSlot(slots.get(0)).setDie(slots.get(1).getDice());
             this.getPlayer().getWindow().getSlot(slots.get(1)).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(null);
@@ -101,7 +96,6 @@ public class ToolCard12 extends Tool {
 
         //regole di piazzamento
         if(!match.getRules().rules(this.getPlayer(),slots.get(3), slots.get(2).getDice())){
-            System.out.println("You can't place the selected die on an occupied slot.\n");
             this.getPlayer().getWindow().getSlot(slots.get(0)).setDie(slots.get(1).getDice());
             this.getPlayer().getWindow().getSlot(slots.get(1)).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(null);

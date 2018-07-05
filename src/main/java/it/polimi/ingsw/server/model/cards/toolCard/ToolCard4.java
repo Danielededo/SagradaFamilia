@@ -36,14 +36,12 @@ public class ToolCard4 extends Tool {
         while (i != 2) {
             if (i == 0) {
                 if (getPlayer().getWindow().getSlot(slots.get(1)).isOccupate()) {
-                    System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
                     error=list__of_errors[2];
                     getPlayer().setMarker(getPlayer().getMarker()+j);
                     if (j==1)setAccessed(false);
                     return false;
                 }
                 if (!getPlayer().getWindow().getSlot(slots.get(0)).isOccupate()) {
-                    System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
                     error=list__of_errors[3];
                     getPlayer().setMarker(getPlayer().getMarker()+j);
                     if (j==1)setAccessed(false);
@@ -55,7 +53,6 @@ public class ToolCard4 extends Tool {
                 rules.diePlacing(getPlayer(), slots.get(1), a);
                 if (!getPlayer().getWindow().getSlot(slots.get(1)).isOccupate()) {
                     getPlayer().getWindow().getSlot(slots.get(0)).setDie(a);
-                    System.out.println("Il dado selezionato non può essere spostato in questa casella");
                     error=list__of_errors[6];
                     getPlayer().setMarker(getPlayer().getMarker()+j);
                     if (j==1)setAccessed(false);
@@ -66,11 +63,9 @@ public class ToolCard4 extends Tool {
                 }
             } else {
                 if (getPlayer().getWindow().getSlot(slots.get(3)).isOccupate()) {
-                    System.out.println("Lo slot selezionato per posizionare il dado possiede già un dado");
                     error=list__of_errors[2];
                     i++;
                 }else if (!getPlayer().getWindow().getSlot(slots.get(2)).isOccupate()) {
-                    System.out.println("Lo slot selezionato per prendere il dado non possiede un dado");
                     error=list__of_errors[3];
                     i++;
                 }else {
@@ -80,7 +75,6 @@ public class ToolCard4 extends Tool {
                     rules.diePlacing(getPlayer(), slots.get(3), b);
                     if (!getPlayer().getWindow().getSlot(slots.get(3)).isOccupate()) {
                         getPlayer().getWindow().getSlot(slots.get(2)).setDie(b);
-                        System.out.println("Il dado selezionato non può essere spostato in questa casella");
                         error=list__of_errors[6];
                         i++;
                     } else {

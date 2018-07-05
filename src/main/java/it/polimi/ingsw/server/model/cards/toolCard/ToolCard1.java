@@ -34,7 +34,6 @@ public class ToolCard1 extends Tool{
         int i=tokenpayment();
         if (i==0) return false;
         if((dice.get(0).getFace()==1 && value==0)|| (dice.get(0).getFace()==6 && value==1)) {
-            System.out.println("Non puoi cambiare un 6 in 1 o un 1 in 6, scegli un nuovo dado");
             error=list__of_errors[1];
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
