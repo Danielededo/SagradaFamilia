@@ -47,10 +47,6 @@ public class Die {
         return escape+value + Colour.RESET;
     }
 
-    void dump(){
-        System.out.println(this);
-    }
-
     public int getFace() {
         return face;
     }

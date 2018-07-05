@@ -5,6 +5,7 @@ import it.polimi.ingsw.rmi.ServerInt;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.rmi.UnknownHostException;
 import java.rmi.UnmarshalException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -25,8 +26,13 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 
     protected Client(String PORT,String serverIP) throws RemoteException {
         super();
-        this.PORT= Integer.parseInt(PORT);
         this.serverIP=serverIP;
+        try {
+            this.PORT= Integer.parseInt(PORT);
+        } catch (NumberFormatException e) {
+            System.err.println("Porta inserita non valida");
+            System.exit(-1);
+        }
     }
 
     public String getPassword() throws RemoteException{
@@ -53,11 +59,13 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             };
             timer.scheduleAtFixedRate(task,0,1000);
         } catch (ConnectException e){
-            System.err.println("Il server non è connesso");
+            System.err.println("Nessun server connesso a questo indirizzo ip su questa porta");
             System.exit(-1);
-        } catch (UnmarshalException ignored){} catch (Exception e) {
-            System.err.println("Client exception:   "+ e.toString());
-            e.printStackTrace();
+        } catch (UnmarshalException ignored){
+        } catch (UnknownHostException e){
+            System.err.println("Indirizzo ip non valido");
+            System.exit(-1);
+        } catch (Exception e) {
             System.exit(-1);
         }
     }
