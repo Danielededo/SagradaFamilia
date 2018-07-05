@@ -7,6 +7,7 @@ import it.polimi.ingsw.utils.Colour;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 
 public class Match {
@@ -74,9 +75,9 @@ public class Match {
     public void endRound(){
         ArrayList<Die> die=new ArrayList<Die>();
         die.addAll(getStock().getDicestock());
-        setRoundTrack(die,round-1);
-        getStock().reset_stock();
         if(getRound()!=10){
+            setRoundTrack(die,round-1);
+            getStock().reset_stock();
             changePlayer();
         }
         setRound(this.round +1);
@@ -318,13 +319,7 @@ public class Match {
     private void setTool() {
         int i = 0;
         ToolCards t = new ToolCards();
-        Tool uno=t.creatingTool(1);
-        Tool due=t.creatingTool(2);
-        Tool tre=t.creatingTool(3);
-        toolcards.add(uno);
-        toolcards.add(due);
-        toolcards.add(tre);
-        /*do {
+        do {
             Random numero = new Random();
             Tool inserire = t.creatingTool((numero.nextInt(12) + 1));
             if (!getNamesTool().contains(inserire.getName())) {
@@ -333,7 +328,7 @@ public class Match {
                 i--;
             }
             i++;
-        } while (i < 3);*/
+        } while (i < 3);
     }
 
     private ArrayList<String> getNamesTool(){

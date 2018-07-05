@@ -13,7 +13,10 @@ import it.polimi.ingsw.utils.Colour;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.InputMismatchException;
+import java.util.Random;
 
 public class Controller {
     protected Match match;
@@ -94,28 +97,32 @@ public class Controller {
                 }
             }
         } catch (ConcurrentModificationException ignored) {}
-        while(this.match.getRound()!=11){
+        while(this.match.getRound()<11 && hub.isStart()){
             round();
         }
+        try {
+            timerTurn.cancel();
+            hub.timer.cancel();
+        }catch (NullPointerException e){}
         if (hub.start) {
             rank=true;
             hub.notifyObserver("PARTITA TERMINATA");
             this.match.endMatch();
             hub.notifyObserver(this.match.ranking());
+            hub.thread.cancel();
+            hub.timer.cancel();
             try {
-                Thread.sleep(1000*20);
+                Thread.sleep(1000*10);
             } catch (InterruptedException ignored) {
             }
             for(Player p: match.getPlayers())
                 hub.getServer().getMatches().remove(p.getNickname());
-            hub.notifyObserver("disconnettiti");
+            for(ClientInt c: hub.getListofobserver())
+                hub.notify(c,"disconnettiti");
             hub.start=false;
-            //hub.thread.cancel();
             try {
-                timerTurn.cancel();
                 hub.terminateHub();
-            } catch (NullPointerException ignored) {
-            }
+            } catch (NullPointerException ignored) {}
         }
     }
 
@@ -166,8 +173,8 @@ public class Controller {
                 hub.notifyOthers(hub.getListofobserver().get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
                 hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
                 int menu;
-                hub.timer.schedule(timerTurn,1000*timer_t);
                 if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
+                    hub.timer.schedule(timerTurn,1000*timer_t);
                     do {
                         hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().toString());
                         if (dicehand_done && toolhand_done){
@@ -426,7 +433,9 @@ public class Controller {
                     return tool.effect(dice,match,slots,0);
                 }
                 case "Diluente per Pasta Salda": {
-                    int index_draft,value,row,column;
+                    int index_draft,value,row,column,tokens;
+                    if (tool.isAccessed())tokens=2;
+                    else tokens=1;
                     boolean loop;
                     if (!dicehand_done) {
                         hub.notify(hub.getListofobserver().get(k),"Scegli un dado dalla riserva da rimettere nel sacchetto:\n"+match.getStock().toString());
@@ -447,6 +456,8 @@ public class Controller {
                                 dicehand_done=true;
                                 return true;
                             }else{
+                                round.getTurns().get(z).getOneplayer().setMarker(round.getTurns().get(z).getOneplayer().getMarker()+tokens);
+                                tool.setAccessed(false);
                                 match.getStock().getDicestock().add(die);
                                 match.getSack().adddie(d);
                                 return false;
@@ -459,26 +470,32 @@ public class Controller {
                     if (match.getRound()!=1) {
                         int row1,column1,row2,column2,row3,column3,row4,column4;
                         hub.notify(hub.getListofobserver().get(k),"Vuoi muovere 1 o 2 dadi?");
-                        int move=selection(4,1,k);
-                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il primo dado");
-                        row1=selection(4,0,k);
-                        column1=selection(5,0,k);
-                        hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il primo dado");
-                        row2=selection(4,0,k);
-                        column2=selection(5,0,k);
-                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
-                        slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
-                        if(move==2){
-                            hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il secondo dado");
-                            row3=selection(4,0,k);
-                            column3=selection(5,0,k);
-                            hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
-                            row4=selection(4,0,k);
-                            column4=selection(5,0,k);
-                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
-                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
-                            return tool.effect(dice,match,slots,0);
-                        }else return tool.effect(dice,match,slots,0);
+                        int move=selection(3,1,k);
+                        if ((move==1 && match.getRules().getCont(tool.getPlayer())>=2)||(move==2 && match.getRules().getCont(tool.getPlayer())>=3)) {
+                            hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il primo dado");
+                            row1=selection(4,0,k);
+                            column1=selection(5,0,k);
+                            hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il primo dado");
+                            row2=selection(4,0,k);
+                            column2=selection(5,0,k);
+                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row1,column1));
+                            slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
+                            if(move==2){
+                                hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il secondo dado");
+                                row3=selection(4,0,k);
+                                column3=selection(5,0,k);
+                                hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il secondo dado");
+                                row4=selection(4,0,k);
+                                column4=selection(5,0,k);
+                                slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
+                                slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
+                                return tool.effect(dice,match,slots,0);
+                            }else return tool.effect(dice,match,slots,0);
+                        }
+                        else{
+                            hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta perchè non ci sono abbastanza dadi sulla tua vetrata");
+                            return false;
+                        }
                     }else {
                         hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta nel 1° round perchè non ci sono dadi sul tracciato dei round");
                         return false;

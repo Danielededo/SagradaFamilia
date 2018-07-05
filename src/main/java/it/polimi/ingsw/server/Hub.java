@@ -238,6 +238,7 @@ public class Hub {
                 }
 
                 else{
+
                     if(controller.match.getPlayers().get(i).isConnected()) {
                         controller.match.getPlayers().get(i).setConnected(false);
                         System.out.println(controller.match.getPlayers().get(i).getNickname() + " disconnesso");

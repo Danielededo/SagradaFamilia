@@ -75,6 +75,7 @@ public class Waiting_Room {
         }else if (players.size()==3) {
             c.match=new Match(players.get(0),players.get(1),players.get(2));
             hub.getSetupGame().cancel();
+            hub.t.cancel();
             hub.start=true;
             try {
                 c.setMatch();
@@ -84,6 +85,7 @@ public class Waiting_Room {
         }else if (players.size()==4){
             c.match=new Match(players.get(0),players.get(1),players.get(2),players.get(3));
             hub.getSetupGame().cancel();
+            hub.t.cancel();
             hub.start=true;
             try {
                 c.setMatch();
