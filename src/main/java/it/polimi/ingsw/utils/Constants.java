@@ -109,6 +109,7 @@ public class Constants {
     public static final String ON_DIE_CLICKED = "DIE OKAY";
     public static final String ON_TOOL_CLICKED = "TOOL OKAY";
     public static final String WHERE_ON_SCHEME = "Scegli la casella dove posizionare il dado";
+    public static final String PLUS_MINUS = "Scegli se decrementare o diminuire il valore";
 
 
 

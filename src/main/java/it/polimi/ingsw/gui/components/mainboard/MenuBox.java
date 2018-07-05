@@ -18,6 +18,8 @@ public class MenuBox {
     private Button button = new Button("Scegli");
     private Label label = new Label("Scegli cosa fare in questo turno");
 
+    private RadioButton plus = new RadioButton("+");
+    private RadioButton minus = new RadioButton("-");
 
 
     public MenuBox(){
@@ -26,6 +28,10 @@ public class MenuBox {
         pass.setToggleGroup(group);
         die.setToggleGroup(group);
         tool.setToggleGroup(group);
+
+        ToggleGroup other = new ToggleGroup();
+        plus.setToggleGroup(other);
+        minus.setToggleGroup(other);
 
     }
 
@@ -119,6 +125,34 @@ public class MenuBox {
         menu.setSpacing(10);
         menu.getChildren().addAll(label, pass, tool, button);
 
+
+        window.setScene(new Scene(menu));
+        window.showAndWait();
+
+
+        return answer[0];
+    }
+
+    public int piumeno(String title){
+        final int[] answer = new int[1];
+        answer[0] = 2;
+
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        window.setTitle(title);
+        window.setMinWidth(200);
+
+        window.setOnCloseRequest(event -> answer[0] = 2);
+
+        plus.setOnAction(event -> answer[0] = 1);
+        plus.setOnAction(event -> answer[0] = 0);
+
+        button.setOnMouseClicked(event -> window.close());
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.getChildren().addAll(plus, minus);
 
         window.setScene(new Scene(menu));
         window.showAndWait();

@@ -326,10 +326,9 @@ public class ControllerG {
                     hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
 
-                    hub.notify(hub.getListofobserver().get(k), "Piumeno");
-                    hub.notify(hub.getListofobserver().get(k),"Ora seleziona 0 se vuoi decrementare il valore o 1 se vuoi incrementare il valore");
-
-                    piumeno = selection(2,0, k);
+                    hub.notify(hub.getListofobserver().get(k), Constants.PLUS_MINUS);
+                    //hub.notify(hub.getListofobserver().get(k),"Ora seleziona 0 se vuoi decrementare il valore o 1 se vuoi incrementare il valore");
+                    piumeno = selection(3,0, k);
 
                     dice.add(match.getStock().getDicestock().get(index_draft));
                     return tool.effect(dice,match,slots,piumeno);
@@ -339,7 +338,7 @@ public class ControllerG {
                     int row1,column1,row2,column2;
 
                     hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
-                    index1 = selection(Constants.S_SLOT, Constants.F_SLOT , k) - Constants.F_SLOT;
+                    index1 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
                     row1 = rowRefactor(index1);
                     column1 = coloumnRefactor(index1);
                     hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
