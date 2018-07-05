@@ -11,6 +11,7 @@ import it.polimi.ingsw.gui.components.variousSchemes.Windows;
 import it.polimi.ingsw.utils.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -22,8 +23,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainBoard extends BorderPane{
-
-    private Adversary temp;
 
     private Label mex = new Label();
     private Label timer = new Label();
@@ -96,8 +95,7 @@ public class MainBoard extends BorderPane{
             Platform.runLater(() -> {
                 JSONArray publi = new JSONArray(newie);
                 int i = 0;
-                while (i < 3) {
-
+                while (i < publi.length()) {
                     for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
                         if (p.getName().equals(publi.get(i))) {
                             pubb.add(p);
@@ -111,12 +109,12 @@ public class MainBoard extends BorderPane{
             Platform.runLater(() -> {
                 JSONArray too = new JSONArray(newie);
                 int i = 0;
-                while(i < 3) {
+                while(i < too.length()) {
                     for (Tools p : necessary.buildingTools(necessary.getToolpath())) {
                         if (p.getName().equals(too.get(i))) {
                             p.setValue(i);
                             toolz.add(p);
-                            cardst.getChildren().add(p);
+                            cardst.add(p,i,0);
                         }
                     }
                     i++;
@@ -157,38 +155,40 @@ public class MainBoard extends BorderPane{
 
     public void duringTurn(String oldie, String newie, IntegerProperty hey) {
         if (oldie.equals("DRAFT")) {
-            JSONArray dr = new JSONArray(newie);
-            int i;
-            for(i = 0; i < dr.length(); i++){
-                JSONObject obj = dr.getJSONObject(i);
-                DieG provv = new DieG(necessary.faceComparing(String.valueOf(obj.get("Face"))));
-                provv.setColour(necessary.colorComparing(obj.getString("Color")));
-                provv.setPos(draftp.getDraftie().size() + 1);
-                draftp.getDraftie().add(provv);
-            }
             Platform.runLater(() -> {
+                JSONArray dr = new JSONArray(newie);
+                int i;
+                for(i = 0; i < dr.length(); i++){
+                    JSONObject obj = dr.getJSONObject(i);
+                    DieG provv = new DieG(necessary.faceComparing(String.valueOf(obj.get("Face"))));
+                    provv.setColour(necessary.colorComparing(obj.getString("Color")));
+                    provv.setPos(draftp.getDraftie().size() + 1);
+                    draftp.getDraftie().add(provv);
+                }
                 for (DieG d: draftp.getDraftie())
                     draftp.add(d, draftp.getDraftie().indexOf(d), 1);
+                hey.setValue(-1);
         });
-        }else if (oldie.equals("Draft end")) {
+        }else if (oldie.equals("DRAFT END")) {
             Platform.runLater(() -> mex.setText(newie));
-        } else if (newie.equals("MENU whole")) {
+        } else if (newie.equals(Constants.MENU_W)) {
             Platform.runLater(() -> hey.setValue(menuBox.menuC("Menù") + Constants.MENU));
-        } else if (newie.equals("MENU die")) {
+        } else if (newie.equals(Constants.MENU_D)) {
             Platform.runLater(() -> hey.setValue(menuBox.menuD("Menù") + Constants.MENU));
-        } else if (newie.equals("MENU tool")) {
+        } else if (newie.equals(Constants.MENU_T)) {
             Platform.runLater(() -> hey.setValue(menuBox.menuT("Menù") + Constants.MENU));
-        } else if (oldie.equals("Shift")) {
+        } else if (oldie.equals(Constants.SHIFT)) {
             Platform.runLater(() -> {
                 mex.setText(newie);
                 hey.setValue(-1);
             });
-        } else if (oldie.equals("Remove die")) {
+        } else if (oldie.equals(Constants.CLEAN_DRAFT)) {
             Platform.runLater(() -> {
                 draftp.getChildren().clear();
                 draftp.getDraftie().removeAll(draftp.getDraftie());
+                hey.setValue(-1);
             });
-        } else if (oldie.equals("Adv place")) {
+        } else if (oldie.equals(Constants.ADV_RELOAD)) {
             Platform.runLater(() -> {
                 JSONObject avv = new JSONObject(newie);
                 for(Adversary a: adv){
@@ -199,14 +199,14 @@ public class MainBoard extends BorderPane{
                     }
                 }
             });
-        } else if (oldie.equals("ROUNDTRACK")){
-
-        }
+        } /*else if (oldie.equals("ROUNDTRACK")){
+            Platform.runLater(() -> roundtrack.getChildren().add(diceUnpackR(new JSONArray(newie))));
+        }*/
 
     }
 
     public void placeThatDie(String oldie, String newie, IntegerProperty hey){
-        if (newie.equals("Scegli un dado.")) {
+        if (newie.equals(Constants.CHOOSE_DIE)) {
             Platform.runLater(() -> {
                 for (DieG d : draftp.getDraftie()) {
                     d.getButton().setOnMouseClicked(e -> {
@@ -216,28 +216,28 @@ public class MainBoard extends BorderPane{
                 }
                 mex.setText(newie);
             });
-        } else if (newie.equals("DIE OK")) {
+        } else if (newie.equals(Constants.ON_DIE_CLICKED)) {
             Platform.runLater(() -> {
                 for (DieG d : draftp.getDraftie()) {
                     d.getChildren().remove(d.getButton());
                 }
+                hey.setValue(-1);
             });
-        } else if (newie.equals("Ora scegli una casella della tua vetrata.")) {
+        } else if (newie.equals(Constants.CHOOSE_TAS)) {
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getList()) {
-                    t.getButton().setOnMouseClicked(e -> {
-                        hey.setValue(t.getValue() + Constants.F_SLOT);
-                    });
+                    t.getButton().setOnMouseClicked(e -> hey.setValue(t.getValue() + Constants.F_SLOT));
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
             });
 
-        } else if (oldie.equals("Dado piazzato correttamente")) {
+        } else if (oldie.equals(Constants.SCHEME_RELOAD)) {
             Platform.runLater(() -> {
                 personal.getChildren().remove(scheme);
                 scheme = updatingScheme(new JSONObject(newie));
                 personal.getChildren().add(scheme);
+                hey.setValue(-1);
             });
         } else if (oldie.equals("ERROR D")) {
             Platform.runLater(() -> {
@@ -246,6 +246,66 @@ public class MainBoard extends BorderPane{
             });
         }
     }
+
+
+    public void tooling(String oldie, String newie, IntegerProperty key){
+        if(newie.equals(Constants.CHOOSE_TOOL)){
+            Platform.runLater(() -> {
+                int i = 0;
+                while(i < 3){
+                    Button provv = new Button("Scegli");
+                    int cho = i + Constants.CLICK_TOOL;
+                    provv.setOnMouseClicked(event -> key.setValue(cho));
+                    cardst.getChoosing().add(provv);
+                    cardst.add(cardst.getChoosing().get(i), i, 1);
+                    i++;
+                }
+                mex.setText(newie);
+            });
+        }else if(newie.equals(Constants.ON_TOOL_CLICKED)){
+            Platform.runLater(() -> {
+                int i = cardst.getChoosing().size() - 1;
+                while(i >= 0){
+                    cardst.getChildren().remove(cardst.getChoosing().get(i));
+                    cardst.getChoosing().remove(i);
+                    i--;
+                }
+            });
+        }
+
+
+
+
+
+
+
+        else if(newie.equals(Constants.CHOOSE_FROM_SCHEME)){
+            Platform.runLater(() -> {
+                for (Tassel t : scheme.getList()) {
+                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.F_SLOT));
+                    t.getChildren().add(t.getButton());
+                }
+                mex.setText(newie);
+            });
+        }else if(newie.equals(Constants.WHERE_ON_SCHEME)){
+            Platform.runLater(() -> {
+                for (Tassel t : scheme.getList()) {
+                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.F_SLOT));
+                    t.getChildren().add(t.getButton());
+                }
+                mex.setText(newie);
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -272,6 +332,22 @@ public class MainBoard extends BorderPane{
         return def;
     }
 
+    public GridPane diceUnpackR(JSONArray obj){
+        GridPane neuv = new GridPane();
+        int i = 0;
+        while(i < obj.length()){
+            int r = 0;
+            for(int j = 0; j < 3; j++){
+                JSONObject die = obj.getJSONObject(i);
+                DieG provv = new DieG(necessary.faceComparing(die.getString("Face")));
+                provv.setColour(necessary.colorComparing(die.getString("Color")));
+                neuv.add(provv, j, r);
+            }
+            r++;
+        }
+
+        return neuv;
+    }
 
     public VBox getTwo() {
         return two;

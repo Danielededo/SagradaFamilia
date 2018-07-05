@@ -14,10 +14,10 @@ public class RoundtrackG extends GridPane {
     public RoundtrackG(){
         super();
         Label title = new Label("Roundtrack");
-        getChildren().add(title);
+        add(title, 0,0);
         for(int i = 0; i < Constants.F_DIE; i++){
             list.add(i, new GridPane());
-            getChildren().add(list.get(i));
+            add(list.get(i), i, 1);
         }
     }
 }

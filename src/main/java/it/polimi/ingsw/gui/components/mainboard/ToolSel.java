@@ -1,10 +1,19 @@
 package it.polimi.ingsw.gui.components.mainboard;
 
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 
-public class ToolSel extends HBox {
+import java.util.ArrayList;
+
+public class ToolSel extends GridPane {
+
+    ArrayList<Button> choosing = new ArrayList<>();
 
     public ToolSel(){
         super();
+    }
+
+    public ArrayList<Button> getChoosing() {
+        return choosing;
     }
 }

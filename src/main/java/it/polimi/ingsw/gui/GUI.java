@@ -86,7 +86,7 @@ public class GUI extends Application implements ClientInt {
         stolen.addListener(((observable, oldValue, newValue) -> main.setting(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.duringTurn(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.placeThatDie(oldValue, newValue, guisays)));
-
+        stolen.addListener(((observable, oldValue, newValue) -> main.tooling(oldValue, newValue, guisays)));
 
 
         loggin.getClick().onMouseClickedProperty().set( e -> {

@@ -13,14 +13,13 @@ import javafx.scene.text.Font;
 
 public class WaitingR extends BorderPane{
 
-    //private BorderPane wrl = new BorderPane();
 
     private String planciapath = new String(Constants.IMG_PRINC + Constants.IMG_SCHE + "/planciaBlue.png");
 
     private Label current = new Label("");
     private VBox players = new VBox();
     private HBox rulez = new HBox();
-    private Label other = new Label("");
+    private Label other = new Label();
     private Label soli = new Label("");
 
 
@@ -85,6 +84,8 @@ public class WaitingR extends BorderPane{
         primaryStage.show();
 
     }*/
+
+
 
     public Label getSoli() {
         return soli;

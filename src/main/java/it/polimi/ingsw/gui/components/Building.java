@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gui.components;
 
 import it.polimi.ingsw.gui.components.panels.*;
-import it.polimi.ingsw.gui.components.variousSchemes.*;
 import it.polimi.ingsw.utils.Constants;
 import javafx.scene.canvas.Canvas;
 
@@ -48,52 +47,21 @@ public class Building {
 
     public ArrayList<Tools> buildingTools(String path){
         ArrayList<Tools> tooldeck = new ArrayList<>();
-        tooldeck.add(new Tools("Pinza Sgrossatrice", path + "/1 Pinza Sgrossatrice.png", 1));
-        tooldeck.add(new Tools("Pennello per Eglomise", path + "/2 pennello per eglomise.png",2));
-        tooldeck.add(new Tools("Alesatore per lamina di rame", path + "/3 alesatore per lamina di rame.png",3));
-        tooldeck.add(new Tools("Lathekin", path + "/4 lathekin.png",4));
-        tooldeck.add(new Tools("Taglierina circolare", path + "/5 taglierina circolare.png",5));
-        tooldeck.add(new Tools("Pennello per Pasta Salda", path + "/6 pennello per pasta salda.png",6));
-        tooldeck.add(new Tools("Martelletto", path + "/7 martelletto.png",7));
-        tooldeck.add(new Tools("Tenaglia a Rotelle", path + "/8 tenaglia a rotelle.png",8));
-        tooldeck.add(new Tools("Riga in Sughero", path + "/9 riga in sughero.png",9));
-        tooldeck.add(new Tools("Tampone Diamantato", path + "/10 tampone diamantato.png",10));
-        tooldeck.add(new Tools("Diluente per Pasta Salda", path + "/11 diluente per pasta salda.png",11));
-        tooldeck.add(new Tools("Taglierina Manuale", path + "/12 taglierina manuale.png",12));
-        tooldeck.add(new Tools("Retro", path + "/retro tool.png", 13));
+        tooldeck.add(new Tools("Pinza Sgrossatrice", path + "/1 Pinza Sgrossatrice.png"));
+        tooldeck.add(new Tools("Pennello per Eglomise", path + "/2 pennello per eglomise.png"));
+        tooldeck.add(new Tools("Alesatore per lamina di rame", path + "/3 alesatore per lamina di rame.png"));
+        tooldeck.add(new Tools("Lathekin", path + "/4 lathekin.png"));
+        tooldeck.add(new Tools("Taglierina circolare", path + "/5 taglierina circolare.png"));
+        tooldeck.add(new Tools("Pennello per Pasta Salda", path + "/6 pennello per pasta salda.png"));
+        tooldeck.add(new Tools("Martelletto", path + "/7 martelletto.png"));
+        tooldeck.add(new Tools("Tenaglia a Rotelle", path + "/8 tenaglia a rotelle.png"));
+        tooldeck.add(new Tools("Riga in Sughero", path + "/9 riga in sughero.png"));
+        tooldeck.add(new Tools("Tampone Diamantato", path + "/10 tampone diamantato.png"));
+        tooldeck.add(new Tools("Diluente per Pasta Salda", path + "/11 diluente per pasta salda.png"));
+        tooldeck.add(new Tools("Taglierina Manuale", path + "/12 taglierina manuale.png"));
+        tooldeck.add(new Tools("Retro", path + "/retro tool.png"));
 
         return tooldeck;
-    }
-
-    public ArrayList<Windows> buildingGlasswindow(){
-        ArrayList<Windows> windowdeck = new ArrayList<>();
-        windowdeck.add(new AuroraeMagnificusG());
-        windowdeck.add(new AuroraSagradisG());
-        windowdeck.add(new BattloG());
-        windowdeck.add(new BellesguardG());
-        windowdeck.add(new ChromaticSplendorG());
-        windowdeck.add(new ComitasG());
-        windowdeck.add(new FirelightG());
-        windowdeck.add(new FirmitasG());
-        windowdeck.add(new FractalDropsG());
-        windowdeck.add(new FulgordelCieloG());
-        windowdeck.add(new GravitasG());
-        windowdeck.add(new IndustriaG());
-        windowdeck.add(new KaleidoscopicDreamG());
-        windowdeck.add(new LuxAstramG());
-        windowdeck.add(new LuxMundiG());
-        windowdeck.add(new LuzCelestialG());
-        windowdeck.add(new RipplesofLightG());
-        windowdeck.add(new ShadowThiefG());
-        windowdeck.add(new SunCatcherG());
-        windowdeck.add(new SunGloryG());
-        windowdeck.add(new SymphonyofLightG());
-        windowdeck.add(new ViaLuxG());
-        windowdeck.add(new VirtusG());
-        windowdeck.add(new WaterofLifeG());
-
-
-        return windowdeck;
     }
 
     public String colorComparing(String color) {
