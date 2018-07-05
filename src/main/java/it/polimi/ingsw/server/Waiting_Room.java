@@ -25,6 +25,12 @@ public class Waiting_Room {
         players=new ArrayList<Player>();
     }
 
+    /**
+     * Hub call this method to add a player to game connected by name to client
+     * @param player is the name of current player that try to connect
+     * @throws RemoteException
+     * @throws InterruptedException
+     */
     public void addPlayer(String player) throws RemoteException, InterruptedException {
         if (status_verify()) {
             Player player1=new Player(player);
@@ -32,6 +38,9 @@ public class Waiting_Room {
         }
     }
 
+    /**
+     * @return If there is less then four players return true, false in other case
+     */
     public boolean status_verify(){
         if (players.size()<4) return true;
         else return false;
@@ -44,6 +53,11 @@ public class Waiting_Room {
                 '}';
     }
 
+    /**
+     * Is used to put in stand-by client until match begun
+     * @throws InterruptedException
+     * @throws RemoteException
+     */
     public void waiting_match() throws InterruptedException, RemoteException {
         for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);

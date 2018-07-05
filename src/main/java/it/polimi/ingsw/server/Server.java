@@ -27,6 +27,9 @@ public class Server implements ServerInt {
         }
     }
 
+    /**
+     * This method allows to create a server in RMI protocol
+     */
     public void start_server(){
         try{
             boolean gone=true;
@@ -55,10 +58,21 @@ public class Server implements ServerInt {
         return matches;
     }
 
+    /**
+     * This method is called when a game is end and cancelled the hub
+     * @param hub to be cancelled
+     */
     public void terminatehub(Hub hub){
         hubs.remove(hub);
     }
 
+    /**
+     * This method is called by client to join in game.
+     * Client is connected in an already started hub or to another one by create it
+     * @param o is the interface of client that had the connection to client
+     * @return true if connection is done correctly or false if it hasn't
+     * @throws RemoteException
+     */
     public boolean addObserver(ClientInt o) throws RemoteException {
         String nick=o.setupconnection();
         if(matches.containsKey(nick)){
@@ -78,6 +92,10 @@ public class Server implements ServerInt {
         return false;
     }
 
+    /**
+     * This method is called by client to control if server is still alive
+     * @throws RemoteException
+     */
     @Override
     public void ping() throws RemoteException {
         return;

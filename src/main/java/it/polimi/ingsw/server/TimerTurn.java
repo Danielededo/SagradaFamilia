@@ -18,6 +18,9 @@ public class TimerTurn extends TimerTask {
         this.s = s;
     }
 
+    /**
+     * This method is called during turn and disconnect client if the time is up
+     */
     @Override
     public void run() {
         try {

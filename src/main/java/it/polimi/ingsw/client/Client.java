@@ -39,6 +39,9 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return password;
     }
 
+    /**
+     * This method is used to connect client to server via RMI
+     */
     public void startclient() {
         try {
             String name="Sagrada server";
@@ -78,6 +81,11 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return serverIP;
     }
 
+    /**
+     * Update client with message sent by server
+     * @param msg is the message that server send
+     * @throws RemoteException
+     */
     public void update(String msg) throws RemoteException {
         if (!msg.equals("")){
             if (!msg.equals("disconnettiti"))
@@ -86,6 +94,11 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         }
     }
 
+    /**
+     * This method is called from server to enter username and password
+     * @return username of current client
+     * @throws RemoteException
+     */
     public String setupconnection() throws RemoteException {
         boolean a=true;
         Scanner in = new Scanner(System.in);
@@ -122,6 +135,9 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return s.nextInt();
     }
 
+    /**
+     * This method notify to client if server is off
+     */
     public void verifyconnection(){
         try {
             stub.ping();
@@ -131,6 +147,10 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         }
     }
 
+    /**
+     * Server called this method if something goes wrong and disconnect client
+     * @throws RemoteException
+     */
     public void exit()throws RemoteException{
         System.exit(0);
     }

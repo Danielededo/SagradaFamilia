@@ -59,6 +59,10 @@ public class Hub {
         return setupGame;
     }
 
+    /**
+     * @param o is removed from the list of client in game
+     * @throws RemoteException
+     */
     public void removeObserver(ClientInt o) throws RemoteException {
         listofobserver.remove(o);
     }
@@ -67,6 +71,12 @@ public class Hub {
         return server;
     }
 
+    /**
+     * Add a client to list of observer client connected to the game
+     * @param o client to be connected to current hub
+     * @return true if adding was made, else in other case
+     * @throws RemoteException
+     */
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
             if(start){
@@ -103,6 +113,11 @@ public class Hub {
             return false;
     }
 
+    /**
+     * This method is used to notify change on every client in the listofOberver
+     * @param arg is the parameter to send to client
+     * @throws RemoteException
+     */
     void notifyObserver(String arg) throws RemoteException {
         try {
             for (int i=0;i<listofobserver.size();i++) {
@@ -113,6 +128,12 @@ public class Hub {
         catch (ConcurrentModificationException e){}
     }
 
+    /**
+     * This method is used to notify change on specified client
+     * @param o is the client to notify
+     * @param arg is the parameter to send to client
+     * @throws RemoteException
+     */
     void notify(ClientInt o,String arg) throws RemoteException{
         try {
             if(!start || (start && controller.match.getPlayers().get(listofobserver.indexOf(o)).isConnected()))
@@ -120,6 +141,12 @@ public class Hub {
         } catch (RemoteException e) {}
     }
 
+    /**
+     * It used to notify change all client except one
+     * @param o is the client to exclude from notification
+     * @param arg is the parameter to send to client
+     * @throws RemoteException
+     */
     void notifyOthers(ClientInt o,String arg)throws RemoteException{
         try{
             for(ClientInt c:listofobserver){
@@ -130,6 +157,12 @@ public class Hub {
         catch (ConnectException e){}
     }
 
+    /**
+     * This method is called by addobserver to verify if client has the right requirement
+     * @param o is the client to be added to match
+     * @return true if requirement are right, false in other case
+     * @throws RemoteException
+     */
     public boolean loginconnection(ClientInt o) throws RemoteException {
         final int list=4;
         int i=0;
@@ -172,6 +205,9 @@ public class Hub {
         return start;
     }
 
+    /**
+     * This method is called when match is end. It's used to terminate this game and eliminate hub
+     */
     public void terminateHub(){
         try {
             thread.cancel();
@@ -185,6 +221,11 @@ public class Hub {
         }
     }
 
+    /**
+     * DisconnectionThread called this method to verify if client on list is alive,
+     * in other case it remove it or set to player boolean disconnected to true
+     * @throws RemoteException
+     */
     public void connection_verify() throws RemoteException {
         int i=0,j=0;
         if (start) {

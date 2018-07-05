@@ -44,6 +44,11 @@ public class Controller {
         return rank;
     }
 
+    /**
+     * This method deals with managing game and called other method to carry it out
+     * @throws RemoteException
+     * @throws InterruptedException
+     */
     public void setMatch() throws RemoteException, InterruptedException {
         int i=0;
         for(Player p: match.getPlayers()){
@@ -124,6 +129,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Round deals with managing round during match. There is 10 round
+     * @throws RemoteException
+     * @throws InterruptedException
+     */
     public void round() throws RemoteException, InterruptedException {
         if(match.getRound()==1)
             hub.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+Colour.RED.escape()
@@ -161,7 +171,15 @@ public class Controller {
         endRound=false;
     }
 
-    public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
+    /**
+     * Turn is the center of the game. Every player has to turn in every round and this method is used to do this
+     * @param round is the reference of the current round in model
+     * @param k is the reference to listofobserver index that do this turn
+     * @param z is the reference to players index in match that do this turn
+     * @param t is the reference to turn if it second or first
+     * @throws RemoteException
+     */
+    private void handleTurn(Round round, int z, int k, int t)throws RemoteException{
         timerTurn=new TimerTurn(hub.getListofobserver().get(k), hub);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
@@ -229,7 +247,14 @@ public class Controller {
         }
     }
 
-    public void dicehand(int k,int z,Round round)throws RemoteException{
+    /**
+     * dicehand allows to client to put die in his scheme card
+     * @param k is the reference to listofobserver index that do this turn
+     * @param z is the reference to players index in match that do this turn
+     * @param round is the reference of the current round in model
+     * @throws RemoteException
+     */
+    private void dicehand(int k, int z, Round round)throws RemoteException{
         int index_draft, row, column;
         hub.notify(hub.getListofobserver().get(k), "Scegli un dado attraverso il suo indice");
         index_draft=selection(match.getStock().getDicestock().size(),0,k);
@@ -248,7 +273,15 @@ public class Controller {
             hub.notify(hub.getListofobserver().get(k), match.getRules().getError());
     }
 
-    public void tool_hand(int k,int z,Round round,int cont_turn)throws RemoteException{
+    /**
+     * toolhand allows to client to use a toolcard
+     * @param k is the reference to listofobserver index that do this turn
+     * @param z is the reference to players index in match that do this turn
+     * @param round is the reference of the current round in model
+     * @param cont_turn it used to end tool_hand
+     * @throws RemoteException
+     */
+    private void tool_hand(int k, int z, Round round, int cont_turn)throws RemoteException{
         int index;
         hub.notify(hub.getListofobserver().get(k),"Scegli una carta utensile dalla lista tramite il suo indice: ");
         index=selection(4,1,k);
@@ -265,7 +298,17 @@ public class Controller {
         }else hub.notify(hub.getListofobserver().get(k),"Non hai abbastanza segnalini favore");
     }
 
-    public boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn) throws RemoteException {
+    /**
+     * toolselection allows to client to use a specified toolcard in match
+     * @param k is the reference to listofobserver index that do this turn
+     * @param z is the reference to players index in match that do this turn
+     * @param round is the reference of the current round in model
+     * @param tool is the current toolcard used by player
+     * @param cont_turn is used to end tool_hand
+     * @return true if effect of toolcard is done, false in other case
+     * @throws RemoteException
+     */
+    private boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn) throws RemoteException {
         ArrayList<Die> dice=new ArrayList<>();
         ArrayList<Slot> slots=new ArrayList<>();
         try {
@@ -507,7 +550,15 @@ public class Controller {
         }
     }
 
-    public int selection(int max,int min,int k)throws RemoteException{
+    /**
+     * It called when client has to do a choice. It require to insert number to the client
+     * @param max is the max of range that client can select
+     * @param min is the min of range that client can select
+     * @param k is current client that need to put number
+     * @return the number selected by client
+     * @throws RemoteException
+     */
+    private int selection(int max, int min, int k)throws RemoteException{
         int index;
         do {
             try {
@@ -520,7 +571,7 @@ public class Controller {
         return index;
     }
 
-    public String menu(){
+    private String menu(){
         return match.toStringRoundTrack()+"\nRiserva: "+match.getStock().toString()+"\nScegli cosa fare : \n0: fine turno; \n1: posiziona un dado dalla riserva;" +
                 "\n2: usa una carta utensile:\n"+match.toolcardsString();
 
