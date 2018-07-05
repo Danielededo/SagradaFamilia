@@ -83,7 +83,6 @@ public class Controller {
                             System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
                             Random r=new Random();
                             this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                            System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
                             hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
                         } finally {
                             schemetimer.cancel();
@@ -91,7 +90,6 @@ public class Controller {
                     }else {
                         Random r=new Random();
                         this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                        System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
                         hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
                     }
                 }

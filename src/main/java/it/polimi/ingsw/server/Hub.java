@@ -149,34 +149,19 @@ public class Hub {
             if (i==1) i=0;
             else if (i==0) i=2;
         }
-        if(start){
-            System.out.println(nick+" ha tentato di partecipare");
-            notify(o,"La partita è già iniziata");
-            return false;
+        if(o.getServerIp().equals("127.0.0.1"))
+            System.out.println(nick + " connesso localmente");
+        else
+            System.out.println(nick + " connesso da remoto");
+        notify(o, "welcome");
+        notify(o, "Benvenuto " + nick);
+        for (Player p:room.getPlayers()){
+            notify(o, "connesso");
+            notify(o, p.getNickname() + " è pronto per giocare.");
         }
-        if(listofobserver.size()<list) {
-            if(o.getServerIp().equals("127.0.0.1"))
-                System.out.println(nick + " connesso localmente");
-            else
-                System.out.println(nick + " connesso da remoto");
-            notify(o, "welcome");
-            notify(o, "Benvenuto " + nick);
-
-            for (Player p:room.getPlayers()){
-                notify(o, "connesso");
-                notify(o, p.getNickname() + " è pronto per giocare.");
-            }
-
-            notifyOthers(o, "connesso");
-            notifyOthers(o, nick + " è pronto per giocare.");
-
-            return true;
-        }
-        else{
-            System.out.println(nick+ " ha tentato di partecipare ma è stato respinto");
-            notify(o,"La partita ha raggiunto il numero massimo di giocatori" );
-            return false;
-        }
+        notifyOthers(o, "connesso");
+        notifyOthers(o, nick + " è pronto per giocare.");
+        return true;
     }
 
     public Waiting_Room getRoom() {
