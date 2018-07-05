@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.cards.GlassWindow;
 import it.polimi.ingsw.server.model.cards.Slot;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.utils;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.Hub;
 

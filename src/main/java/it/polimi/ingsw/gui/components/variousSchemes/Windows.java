@@ -2,7 +2,7 @@ package it.polimi.ingsw.gui.components.variousSchemes;
 
 import it.polimi.ingsw.gui.components.panels.DieG;
 import it.polimi.ingsw.gui.components.panels.Tassel;
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 

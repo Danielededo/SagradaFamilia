@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.cards;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 
 import java.util.List;
 
@@ -77,7 +77,6 @@ public abstract class Tool extends Card{
                 setAccessed(true);
                 return 1;
             } else {
-                System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
                 error=list__of_errors[0];
                 return 0;
             }
@@ -86,7 +85,6 @@ public abstract class Tool extends Card{
                 getPlayer().setMarker(getPlayer().getMarker() - 2);
                 return 2;
             } else {
-                System.out.println("Non puoi utilizzare questa carta Tool perchè non possiedi abbastanza segnalini favore");
                 error=list__of_errors[0];
                 return 0;
             }

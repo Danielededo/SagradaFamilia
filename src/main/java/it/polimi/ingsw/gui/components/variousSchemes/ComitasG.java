@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.components.variousSchemes;
 
 import it.polimi.ingsw.gui.components.panels.*;
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 
 public class ComitasG extends Windows{
 

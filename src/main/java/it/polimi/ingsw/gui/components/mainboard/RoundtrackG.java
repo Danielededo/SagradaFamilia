@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.components.mainboard;
 
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.AuroraeMagnificus;
 import it.polimi.ingsw.server.model.cards.schemeCard.Battlo;
 import it.polimi.ingsw.server.model.cards.schemeCard.FractalDrops;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Rules;

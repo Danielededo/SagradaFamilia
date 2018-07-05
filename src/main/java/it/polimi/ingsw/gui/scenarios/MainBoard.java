@@ -8,7 +8,7 @@ import it.polimi.ingsw.gui.components.mainboard.*;
 import it.polimi.ingsw.gui.components.panels.DieG;
 import it.polimi.ingsw.gui.components.panels.Tassel;
 import it.polimi.ingsw.gui.components.variousSchemes.Windows;
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;

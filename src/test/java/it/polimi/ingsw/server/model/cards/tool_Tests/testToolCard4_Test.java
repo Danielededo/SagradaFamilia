@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.cards.GlassWindow;
 import it.polimi.ingsw.server.model.cards.Slot;
 import it.polimi.ingsw.server.model.cards.schemeCard.KaleidoscopicDream;
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard4;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;

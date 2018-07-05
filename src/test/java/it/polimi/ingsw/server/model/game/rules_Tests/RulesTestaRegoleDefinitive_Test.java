@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.game.rules_Tests;
 
 import it.polimi.ingsw.server.model.cards.schemeCard.Gravitas;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Rules;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.scenarios;
 
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

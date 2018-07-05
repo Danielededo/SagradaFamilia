@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.components.mainboard;
 
 import it.polimi.ingsw.gui.components.panels.TokenG;
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.scene.layout.HBox;
 
 public class TokenSpace extends HBox {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards.privateCard;
 
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.cards.PrivateObject;
 
 public class RedShades extends PrivateObject {

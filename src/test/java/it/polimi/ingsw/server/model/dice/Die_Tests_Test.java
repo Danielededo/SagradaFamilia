@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.dice;
 
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.cards.GlassWindow;
 import it.polimi.ingsw.server.model.cards.schemeCard.Comitas;
 import org.junit.jupiter.api.Test;

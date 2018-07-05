@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 
 public class GlassWindow  {
     private String name;
@@ -37,12 +37,26 @@ public class GlassWindow  {
         this.difficulty = difficulty;
     }
 
+    public void setSlot(Slot slot,int i, int j){
+        this.scheme[i][j]=slot;
+        scheme[i][j].setLine(i);
+        scheme[i][j].setColumn(j);
+    }
 
-
-    public void setSlot(Slot scheme, int i, int j) {
-        this.scheme[i][j] = scheme;
-        scheme.setLine(i);
-        scheme.setColumn(j);
+    /**
+     * This method creates single Slot of Glasswindow
+     * @param value Int value of Slot that has row i and column j
+     * @param colour Colour of Slot that has row i and column j
+     * @param i int row
+     * @param j int column
+     */
+    public void setSlot(int value,Colour colour, int i, int j) {
+        Slot a=new Slot();
+        this.scheme[i][j]=a;
+        this.scheme[i][j].setSlotcolour(colour);
+        this.scheme[i][j].setValue(value);
+        scheme[i][j].setLine(i);
+        scheme[i][j].setColumn(j);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards.publicCard;
 
 import it.polimi.ingsw.server.model.cards.PublicObject;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.game.Player;
 
 import java.util.ArrayList;

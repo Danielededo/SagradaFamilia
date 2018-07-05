@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.cards.*;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.dice.Sack;
 
@@ -73,14 +73,14 @@ public class Match {
      * that moves player of first position in the arraylist 'players' of the Match to the last position.
      */
     public void endRound(){
-        if(getRound()!=11){
-            ArrayList<Die> die=new ArrayList<Die>();
-            die.addAll(getStock().getDicestock());
-            setRoundTrack(die,round-1);
-            setRound(this.round +1);
-            getStock().reset_stock();
+        ArrayList<Die> die=new ArrayList<Die>();
+        die.addAll(getStock().getDicestock());
+        setRoundTrack(die,round-1);
+        getStock().reset_stock();
+        if(getRound()!=10){
             changePlayer();
         }
+        setRound(this.round +1);
     }
 
     public void setPlayerswindow(){
@@ -96,6 +96,11 @@ public class Match {
         calculatescore();
     }
 
+    /**This method allows to order the ranking of players of Match in order to them's scores. The player with the highest Victory Point
+     total is the winner. Ties are broken by most points from Private Objectives, most remaining Favor Tokens, then finally
+     by reverse player order in the final round.
+     * @return String that represents Match's ranking
+     */
     public String ranking(){
         String escape= Colour.RED.escape();
         ArrayList<Player> playerArrayList=new ArrayList<Player>();
@@ -124,7 +129,11 @@ public class Match {
         return ranking;
     }
 
-    public void sortPrivateScore(int num,ArrayList<Player> p){
+    /**Order players in order to them's private score
+     * @param num int number of player that have same final score
+     * @param p arraylist of player that contains all the players that have the same final score
+     */
+    private void sortPrivateScore(int num,ArrayList<Player> p){
         if(num==2){
             if(p.get(0).getPrivatetarget().calculate_score(p.get(0))==p.get(1).getPrivatetarget().calculate_score(p.get(1)))
                 sortMarkerScore(2,p);
@@ -186,7 +195,12 @@ public class Match {
         }
     }
 
-    public void sortMarkerScore(int i,ArrayList<Player> p){
+    /**Order players in order to them's favor token score
+     * @param i int number of players that have the same final score and private score
+     * @param p arraylist of player that contains all the players that have the same private score
+
+     */
+    private void sortMarkerScore(int i,ArrayList<Player> p){
         if(i==2){
             if(p.get(0).getMarker()<p.get(1).getMarker())
                 Collections.swap(p,0,1);
@@ -249,7 +263,11 @@ public class Match {
         }
     }
 
-    public void sortOrderRound(int j,ArrayList<Player> p){
+    /**Order players in order to them's position in the last Round of Match
+     * @param j int number of players that have the same final score, private score and favor tokens score
+     * @param p arraylist of player that contains all the players that have the same favor tokens score
+     */
+    private void sortOrderRound(int j,ArrayList<Player> p){
         if(j==2){
                 Collections.swap(p,0,1);
         }

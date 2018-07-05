@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.game.Player;
 
 public class PrivateObject extends Card{

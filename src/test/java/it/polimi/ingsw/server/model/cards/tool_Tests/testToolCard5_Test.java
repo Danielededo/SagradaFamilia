@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards.tool_Tests;
 
 import it.polimi.ingsw.server.model.cards.toolCard.ToolCard5;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;

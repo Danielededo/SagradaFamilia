@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.components.panels;
 
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Paint;
 

@@ -2,8 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.utils.Colour;
-import it.polimi.ingsw.server.utils.DisconnectionThread;
+import it.polimi.ingsw.utils.Colour;
 
 import java.io.FileReader;
 import java.io.IOException;

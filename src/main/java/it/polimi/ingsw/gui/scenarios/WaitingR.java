@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.scenarios;
 
 import it.polimi.ingsw.gui.components.Plancia;
-import it.polimi.ingsw.server.utils.Constants;
+import it.polimi.ingsw.utils.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.cards.privateObject_Test;
 import it.polimi.ingsw.server.model.cards.GlassWindow;
 import it.polimi.ingsw.server.model.cards.privateCard.BlueShades;
 import it.polimi.ingsw.server.model.cards.schemeCard.ViaLux;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Player;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.server.model.dice.Die;
 
 public class Slot {
@@ -13,6 +13,13 @@ public class Slot {
     private boolean exist;
 
     public Slot() {
+    }
+
+    public Slot(int line, int column, int value, Colour slotcolour) {
+        this.line = line;
+        this.column = column;
+        this.value = value;
+        this.slotcolour = slotcolour;
     }
 
     public Slot(int value, Colour slotcolour) {

@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.cards.Tool;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Rules;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 
 import java.util.List;
 

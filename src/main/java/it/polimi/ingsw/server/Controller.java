@@ -8,8 +8,7 @@ import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
-import it.polimi.ingsw.server.utils.Colour;
-import it.polimi.ingsw.server.utils.DisconnectionThread;
+import it.polimi.ingsw.utils.Colour;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;

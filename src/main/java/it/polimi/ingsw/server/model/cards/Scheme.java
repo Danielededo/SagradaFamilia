@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards;
 
 import it.polimi.ingsw.server.model.cards.schemeCard.*;
-import it.polimi.ingsw.server.utils.Colour;
+import it.polimi.ingsw.utils.Colour;
 
 import java.util.ArrayList;
 import java.util.Arrays;
