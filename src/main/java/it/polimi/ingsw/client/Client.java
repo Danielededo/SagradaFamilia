@@ -33,7 +33,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         return password;
     }
 
-    public void startclient(String[] args) {
+    public void startclient() {
         try {
             String name="Sagrada server";
             Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
