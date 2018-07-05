@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,12 +18,20 @@ public class Server implements ServerInt {
     private HashMap<String,Hub> matches=new HashMap();
     private Registry registry;
 
-    public void start_server(String arg){
+    public Server(String PORT) {
+        try {
+            this.PORT= Integer.parseInt(PORT);
+        } catch (NumberFormatException e) {
+            System.err.println("Porta inserita non valida");
+            System.exit(-1);
+        }
+    }
+
+    public void start_server(){
         try{
             boolean gone=true;
             String server_name;
             ServerInt stub;
-            PORT= Integer.parseInt(arg);
             server_name = "Sagrada server";
             InetAddress address=InetAddress.getLocalHost();
             String IP=address.getHostAddress();
@@ -33,10 +42,13 @@ public class Server implements ServerInt {
             System.err.println(server_name + " pronto");
             while(gone){
             }
-        }catch (Exception e){
-            System.err.println("Server exception:   " + e.toString());
-            e.printStackTrace();
-        }
+        }catch (IllegalArgumentException e){
+            System.err.println("Porta inserita non valida, il numero di porta va da 0 a 65355");
+            System.exit(-1);
+        }catch (ExportException e) {
+            System.err.println("Porta attualmente in uso");
+            System.exit(-1);
+        }catch (Exception e){}
     }
 
     public HashMap<String, Hub> getMatches() {
