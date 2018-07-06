@@ -7,7 +7,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.rmi.UnknownHostException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -32,31 +34,38 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
 
 
 
-    public ClientGui(String[] args) throws RemoteException {
+    public ClientGui(String PORT, String serverIP) throws RemoteException {
         super();
 
         try {
-            args[0]=args[0].replaceAll("-","");
-            args[1]=args[1].replaceAll("-","");
-            PORT= Integer.parseInt(args[0]);
-            serverIP=args[1];
-            String name="Sagrada server";
-            Registry registry= LocateRegistry.getRegistry(serverIP,PORT);
-            stub= (ServerInt) registry.lookup(name);
+            this.PORT = Integer.parseInt(PORT);
+            this.serverIP = serverIP;
+            String name = "Sagrada server";
+            Registry registry = LocateRegistry.getRegistry(this.serverIP, this.PORT);
+            stub = (ServerInt) registry.lookup(name);
             /*if(!stub.addObserver(this)){
                 System.err.println("You have been disconnected");
                 registry=null;
                 stub=null;
                 System.exit(-1);
             }*/
-            Timer timer=new Timer();
-            TimerTask task=new TimerTask() {
+            Timer timer = new Timer();
+            TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
                     verifyconnection();
                 }
             };
-            timer.scheduleAtFixedRate(task,0,1000);
+            timer.scheduleAtFixedRate(task, 0, 1000);
+        }catch (NumberFormatException e) {
+            System.err.println("Porta inserita non valida");
+            System.exit(-1);
+        }catch (UnknownHostException e) {
+            System.err.println("Indirizzo ip non valido");
+            System.exit(-1);
+        }catch (ConnectException e){
+            System.err.println("Nessun server connesso a questo indirizzo ip su questa porta");
+            System.exit(-1);
         } catch (Exception e) {
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();

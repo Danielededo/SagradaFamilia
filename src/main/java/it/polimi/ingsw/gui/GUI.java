@@ -49,11 +49,15 @@ public class GUI extends Application implements ClientInt {
 
     public static void main(String[] args){
         try {
-            clientGui=new ClientGui(args);
+            args[0]=args[0].replaceAll("-","");
+            args[1]=args[1].replaceAll("-","");
+            clientGui=new ClientGui(args[0],args[1]);
             launch(args);
 
             /**/
-
+        }catch (ArrayIndexOutOfBoundsException e ){
+            System.err.println("Non è stata inserita nessuna porta o indirizzo ip");
+            System.exit(-1);
         }catch (Exception e){
             System.err.println("Client exception:   "+ e.toString());
             e.printStackTrace();

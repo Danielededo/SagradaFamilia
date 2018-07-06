@@ -46,7 +46,7 @@ public class Controller {
 
     /**
      * This method deals with managing game and called other method to carry it out
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      * @throws InterruptedException
      */
     public void setMatch() throws RemoteException, InterruptedException {
@@ -131,7 +131,7 @@ public class Controller {
 
     /**
      * Round deals with managing round during match. There is 10 round
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      * @throws InterruptedException
      */
     public void round() throws RemoteException, InterruptedException {
@@ -177,7 +177,7 @@ public class Controller {
      * @param k is the reference to listofobserver index that do this turn
      * @param z is the reference to players index in match that do this turn
      * @param t is the reference to turn if it second or first
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     private void handleTurn(Round round, int z, int k, int t)throws RemoteException{
         timerTurn=new TimerTurn(hub.getListofobserver().get(k), hub);
@@ -252,7 +252,7 @@ public class Controller {
      * @param k is the reference to listofobserver index that do this turn
      * @param z is the reference to players index in match that do this turn
      * @param round is the reference of the current round in model
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     private void dicehand(int k, int z, Round round)throws RemoteException{
         int index_draft, row, column;
@@ -279,7 +279,7 @@ public class Controller {
      * @param z is the reference to players index in match that do this turn
      * @param round is the reference of the current round in model
      * @param cont_turn it used to end tool_hand
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     private void tool_hand(int k, int z, Round round, int cont_turn)throws RemoteException{
         int index;
@@ -306,7 +306,7 @@ public class Controller {
      * @param tool is the current toolcard used by player
      * @param cont_turn is used to end tool_hand
      * @return true if effect of toolcard is done, false in other case
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     private boolean tool_selection(int k, int z, Round round, Tool tool, int cont_turn) throws RemoteException {
         ArrayList<Die> dice=new ArrayList<>();
@@ -477,7 +477,6 @@ public class Controller {
                     int index_draft,value,row,column,tokens;
                     if (tool.isAccessed())tokens=2;
                     else tokens=1;
-                    boolean loop;
                     if (!dicehand_done) {
                         hub.notify(hub.getListofobserver().get(k),"Scegli un dado dalla riserva da rimettere nel sacchetto:\n"+match.getStock().toString());
                         index_draft=selection(match.getStock().getDicestock().size(),0,k);
@@ -486,7 +485,7 @@ public class Controller {
                         if (tool.effect(dice,match,slots,0)){
                             Die d = match.getSack().extractdie();
                             hub.notify(hub.getListofobserver().get(k),d+" ora seleziona la faccia da dare al dado");
-                            value=selection(7,0,k);
+                            value=selection(7,1,k);
                             d.setFace(value);
                             hub.notify(hub.getListofobserver().get(k),d+"\nAdesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
                             row=selection(4,0,k);
@@ -498,7 +497,7 @@ public class Controller {
                                 return true;
                             }else{
                                 round.getTurns().get(z).getOneplayer().setMarker(round.getTurns().get(z).getOneplayer().getMarker()+tokens);
-                                tool.setAccessed(false);
+                                if (tokens==1)tool.setAccessed(false);
                                 match.getStock().getDicestock().add(die);
                                 match.getSack().adddie(d);
                                 return false;
@@ -556,7 +555,7 @@ public class Controller {
      * @param min is the min of range that client can select
      * @param k is current client that need to put number
      * @return the number selected by client
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     private int selection(int max, int min, int k)throws RemoteException{
         int index;

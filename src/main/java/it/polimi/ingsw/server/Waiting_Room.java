@@ -56,7 +56,7 @@ public class Waiting_Room {
     /**
      * Is used to put in stand-by client until match begun
      * @throws InterruptedException
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     public void waiting_match() throws InterruptedException, RemoteException {
         for (int i=timer_waiting;i>0;i--){

@@ -61,7 +61,7 @@ public class Hub {
 
     /**
      * @param o is removed from the list of client in game
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     public void removeObserver(ClientInt o) throws RemoteException {
         listofobserver.remove(o);
@@ -75,7 +75,7 @@ public class Hub {
      * Add a client to list of observer client connected to the game
      * @param o client to be connected to current hub
      * @return true if adding was made, else in other case
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     public boolean addObserver(ClientInt o) throws RemoteException {
         if (loginconnection(o)) {
@@ -116,7 +116,7 @@ public class Hub {
     /**
      * This method is used to notify change on every client in the listofOberver
      * @param arg is the parameter to send to client
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     void notifyObserver(String arg) throws RemoteException {
         try {
@@ -132,7 +132,7 @@ public class Hub {
      * This method is used to notify change on specified client
      * @param o is the client to notify
      * @param arg is the parameter to send to client
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     void notify(ClientInt o,String arg) throws RemoteException{
         try {
@@ -145,7 +145,7 @@ public class Hub {
      * It used to notify change all client except one
      * @param o is the client to exclude from notification
      * @param arg is the parameter to send to client
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     void notifyOthers(ClientInt o,String arg)throws RemoteException{
         try{
@@ -161,7 +161,7 @@ public class Hub {
      * This method is called by addobserver to verify if client has the right requirement
      * @param o is the client to be added to match
      * @return true if requirement are right, false in other case
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     public boolean loginconnection(ClientInt o) throws RemoteException {
         final int list=4;
@@ -224,7 +224,7 @@ public class Hub {
     /**
      * DisconnectionThread called this method to verify if client on list is alive,
      * in other case it remove it or set to player boolean disconnected to true
-     * @throws RemoteException
+     * @throws RemoteException called when connection is lost
      */
     public void connection_verify() throws RemoteException {
         int i=0,j=0;

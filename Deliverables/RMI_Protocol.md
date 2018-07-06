@@ -13,54 +13,39 @@ let the client know who to talk with
 
 ->
 addObserver()
+let the client join the game
 returns a boolean: if false the client has not been added to the list of future players
-this method calls:
 
 <-
-loginconnection(Client o)
-here we can check:
-if the client can be added to the match that will start as soon as there are enough players;
-if the client chose a nickname already taken by another player;
-if there are no problems, the client is added to the players' list, 
-which is saved in the "waiting room", an attribute class the server possess, with the method
-
-addPlayer(String player)
-this method starts the main timer when there are at least two clients successfully connected
-
-attesa_partita()
-this method calls
-
-control()
-this method see that every client is still connected when it's time to start the match, thanks to
-
-->
-setupPlayer
-a method that askes the client to input a string so to know they are still there
-
-<-
-setupconnection
+if addObserver is true
+setupconnection()
 returns to the server the client's nickname
 
+<-
+ping()
+client verify every second if server is up
 
-update(String msg)
-prints the string, msg comes from the server thanks to
+->
+connection_verify()
+server verify every second if client is up
 
 <-
 notify(Client o, String arg)
-arg messages are sent only to the client o
+arg messages are sent only to the client o by calling method update in client
+
 <-
 notifyOthers(Client o, String arg)
-arg messages are sent to every client except for o
+arg messages are sent to every client except for o by calling update in client
+
 <-
 notifyObserver(String arg)
-arg messages are sent to every client successfully added to le list of future players
+arg messages are sent to every client successfully added to le listofObserver
 
-
-<-
-setMatch(Match match)
-this method gives out scheme cards and private objective cards to every future player
-
-thanks to
 ->
-setupgame()
-the client can choose a scheme card
+update(String msg)
+update client interface whit msg
+
+->
+selectionint()
+let the client return to server what it wants
+

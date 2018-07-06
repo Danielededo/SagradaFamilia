@@ -42,6 +42,11 @@ public class Stock {
         }
     }
 
+    /**
+     * remove dice from stock and return it.
+     * @param index is necessary to select specified die
+     * @return die chosen
+     */
     public Die extract_die(int index){
         Die temp;
         temp = dicestock.get(index);
