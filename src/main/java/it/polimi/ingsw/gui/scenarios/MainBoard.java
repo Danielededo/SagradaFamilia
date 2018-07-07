@@ -14,7 +14,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -141,6 +144,7 @@ public class MainBoard extends GridPane{
                 scheme = popup.getAmong().get(hey.getValue()-1);
                 personal.getChildren().add(new Label(scheme.getName()));
                 personal.getChildren().add(scheme);
+                //tspace = new TokenSpace();
                 tspace.setTok(scheme.getDifficulty());
             });
         }else if(oldie.equals("Adv")){
@@ -193,6 +197,9 @@ public class MainBoard extends GridPane{
                 mex.setText(newie);
                 hey.setValue(-1);
             });
+        } else if(newie.equals(Constants.PASS)){
+            Platform.runLater(() -> hey.setValue(1 + Constants.MENU));
+
         } else if (newie.equals(Constants.CLEAN_DRAFT)) {
             Platform.runLater(() -> {
                 draftp.getChildren().clear();
@@ -351,6 +358,33 @@ public class MainBoard extends GridPane{
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
+            });
+        } else if(newie.equals(Constants.CLICK_ON_TRACK)){
+            Platform.runLater(() -> {
+                for(DieG d: roundtrack.getList()){
+                    d.getButton().setOnMouseClicked(e -> key.setValue(roundtrack.getList().indexOf(d) + Constants.ROUNDTRACK));
+                    d.getChildren().add(d.getButton());
+                }
+                mex.setText(newie);
+            });
+        }else if(newie.equals(Constants.ON_TRACK_CLICKED)){
+            Platform.runLater(() -> {
+                for(DieG d: roundtrack.getList()){
+                    d.getChildren().remove(d.getButton());
+                }
+            });
+        } else if(oldie.equals(Constants.PAY_UP)){
+            Platform.runLater(() -> {
+                if((tspace.getMoney().size() - Integer.parseInt(newie)) == 1){
+                    tspace.getMoney().remove(0);
+                }else if((tspace.getMoney().size() - Integer.parseInt(newie)) == 2){
+                    tspace.getMoney().remove(0);
+                    tspace.getMoney().remove(0);
+                }else{
+                    while(tspace.getMoney().size()!=0){
+                        tspace.getMoney().remove(0);
+                    }
+                }
             });
         }
     }

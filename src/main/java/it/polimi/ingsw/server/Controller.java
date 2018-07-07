@@ -431,7 +431,7 @@ public class Controller {
                 }
                 case "Tenaglia a Rotelle": {
                     int index_draft,row,column;
-                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==1){
+                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==2){
                         hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta");
                         return false;
                     }

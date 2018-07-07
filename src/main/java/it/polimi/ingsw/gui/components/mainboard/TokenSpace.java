@@ -4,15 +4,11 @@ import it.polimi.ingsw.gui.components.panels.TokenG;
 import it.polimi.ingsw.utils.Constants;
 import javafx.scene.layout.HBox;
 
+import java.util.ArrayList;
+
 public class TokenSpace extends HBox {
 
-    private TokenG one = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-    private TokenG two = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-    private TokenG three = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-    private TokenG four = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-    private TokenG five = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-    private TokenG six = new TokenG(Constants.W_TOKEN,Constants.H_TOKEN);
-
+    private ArrayList<TokenG> money = new ArrayList<>();
 
     public TokenSpace(){
         super();
@@ -21,11 +17,15 @@ public class TokenSpace extends HBox {
 
 
     public void setTok(int j){
-        switch (j){
-            case (3): {this.getChildren().addAll(one, two, three); break;}
-            case (4): {this.getChildren().addAll(one, two, three, four); break;}
-            case (5): {this.getChildren().addAll(one, two, three, four, five); break;}
-            case (6): {this.getChildren().addAll(one, two, three, four, five, six); break;}
+        while(j > 0){
+            TokenG provv = new TokenG(Constants.W_TOKEN, Constants.H_TOKEN);
+            money.add(provv);
+            this.getChildren().add(money.get(money.size() - 1));
+            j--;
         }
+    }
+
+    public ArrayList<TokenG> getMoney() {
+        return money;
     }
 }

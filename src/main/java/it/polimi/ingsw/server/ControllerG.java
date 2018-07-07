@@ -205,7 +205,7 @@ public class ControllerG {
                         hub.notifyOthers(hub.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
                         hub.notify(hub.getListofobserver().get(k),"E' il tuo turno. " + "Round: "+match.getRound()+"; Turno: " + t);
 
-                        System.out.println("BAH 2");
+                        System.out.println(t + "");
 
                         hub.notifyOthers(hub.getListofobserver().get(k), Constants.ADV_RELOAD);
                         hub.notifyOthers(hub.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());
@@ -241,7 +241,6 @@ public class ControllerG {
                                 break;
                             }
                         }
-                        //hub.notifyObserver(Constants.CLEAN_DRAFT);
                     } while (cont_turn!=0);
                 }else {
                     hub.notify(hub.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
@@ -322,7 +321,9 @@ public class ControllerG {
             hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
             toolhand_done=true;
 
-            //TOKENS REMOVAL
+            hub.notify(hub.getListofobserver().get(k), Constants.PAY_UP);
+            hub.notify(hub.getListofobserver().get(k), match.getPlayers().get(k).getMarker() + "");
+
             System.out.println("SCHIFO");
             hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index).getName());
         }
@@ -470,9 +471,10 @@ public class ControllerG {
                     if (match.getRound()>1) {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
                         index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
+                        hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
                         hub.notify(hub.getListofobserver().get(k),Constants.CLICK_ON_TRACK);
-                        index_roundtrackDie=selection(90,0,k);
+                        index_roundtrackDie=selection(Constants.ROUNDTRACK + 90,0,k) - Constants.ROUNDTRACK;
                         hub.notify(hub.getListofobserver().get(k), Constants.ON_TRACK_CLICKED);
 
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
@@ -514,7 +516,7 @@ public class ControllerG {
                 }
                 case "Tenaglia a Rotelle": {
                     int index_draft, index_tas, row,column;
-                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==1){
+                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==2){
                         error=true;
                         hub.notify(hub.getListofobserver().get(k), "ERROR");
                         hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta");
@@ -555,7 +557,7 @@ public class ControllerG {
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
                         if (tool.effect(dice,match,slots,0)){
                             dicehand_done=true;
-                            match.getStock().getDicestock().remove(index_draft);
+                            match.getStock().getDicestock().remove(index_draft - 1);
                             return true;
                         }else return false;
                     }else {
@@ -625,7 +627,7 @@ public class ControllerG {
                         hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado");
                     }
                     return false;
-                }//WARNING
+                }
                 case "Taglierina Manuale": {
                     if (match.getRound()!=1) {
                         int index1, index2, index3, index4;

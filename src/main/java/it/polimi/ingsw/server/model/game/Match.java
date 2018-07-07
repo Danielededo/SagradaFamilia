@@ -78,9 +78,9 @@ public class Match {
     public void endRound(){
         ArrayList<Die> die=new ArrayList<Die>();
         die.addAll(getStock().getDicestock());
+        setRoundTrack(die,round-1);
+        getStock().reset_stock();
         if(getRound()!=10){
-            setRoundTrack(die,round-1);
-            getStock().reset_stock();
             changePlayer();
         }
         setRound(this.round +1);
