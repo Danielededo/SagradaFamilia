@@ -106,7 +106,7 @@ public class Controller {
         try {
             timerTurn.cancel();
             hub.timer.cancel();
-        }catch (NullPointerException e){}
+        }catch (NullPointerException ignored){}
         if (hub.start) {
             rank=true;
             hub.notifyObserver("PARTITA TERMINATA");
@@ -141,7 +141,6 @@ public class Controller {
         Round round= new Round(match);
         int k=0;
         int t=1;
-        int j;
         for(int z=0; z<2*match.getnumberPlayers();z++){
             if (hub.start){
                 handleTurn(round,z,k,t);
@@ -432,25 +431,20 @@ public class Controller {
                         return false;
                     }
                     hub.notify(hub.getListofobserver().get(k),tool.getPlayer().getWindow()+"\nPuoi selezionare un altro dado dalla riserva: "+match.getStock().toString());
-                    index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
-                    if (index_draft==match.getStock().getDicestock().size()){return false;}
+                    index_draft=selection(match.getStock().getDicestock().size(),0,k);
                     hub.notify(hub.getListofobserver().get(k), "\nLa tua scelta è: " + match.getStock().getDicestock().get(index_draft).toString() +
                             "\nScegli la casella della tua tua carta schema dove posizionare il dado, rispettivamente riga e colonna: ");
                     row=selection(4,0,k);
                     column=selection(5,0,k);
                     slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column));
                     dice.add(match.getStock().getDicestock().get(index_draft));
-                    if (tool.effect(dice,match,slots,0)){
-                        cont_turn=0;
-                        return true;
-                    }else return false;
+                    return tool.effect(dice,match,slots,0);
                 }
                 case "Riga in Sughero": {
                     int index_draft,row,column;
                     if (!dicehand_done) {
                         hub.notify(hub.getListofobserver().get(k),"Scegli un dado dalla riserva: "+match.getStock().toString());
-                        index_draft=selection(match.getStock().getDicestock().size()+1,0,k);
-                        if(index_draft==match.getStock().getDicestock().size()){return false;}
+                        index_draft=selection(match.getStock().getDicestock().size(),0,k);
                         hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dalla quale prendere il dado");
                         row=selection(4,0,k);
                         column=selection(5,0,k);
@@ -459,7 +453,6 @@ public class Controller {
                         if (tool.effect(dice,match,slots,0)){
                             dicehand_done=true;
                             match.getStock().getDicestock().remove(index_draft);
-                            cont_turn=0;
                             hub.notify(hub.getListofobserver().get(k),"Dado posizionato correttamente");
                             return true;
                         }else return false;
@@ -545,7 +538,6 @@ public class Controller {
             }
             return false;
         } catch (UnmarshalException e) {
-            cont_turn=0;
             return false;
         }
     }
