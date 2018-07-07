@@ -4,8 +4,8 @@ import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.utils.Colour;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
@@ -29,9 +29,9 @@ public class Hub {
 
     public Hub(Server server) {
         Properties properties=new Properties();
-        String path="src/main/resources/timer.properties";
+        InputStream is = Hub.class.getResourceAsStream("/timer.properties");
         try {
-            properties.load(new FileReader(path));
+            properties.load(is);
             timer_window= Integer.parseInt(properties.getProperty("Timer_window"));
             timer_t= Integer.parseInt(properties.getProperty("Timer_turn"));
             timer_waiting= Integer.parseInt(properties.getProperty("Timer_waiting"));

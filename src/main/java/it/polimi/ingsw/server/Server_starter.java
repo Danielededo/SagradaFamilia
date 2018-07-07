@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Server_starter {
@@ -11,9 +11,9 @@ public class Server_starter {
             int timer_t=0;
             int timer_waiting=0;
             Properties properties=new Properties();
-            String path="src/main/resources/timer.properties";
+            InputStream is = Server_starter.class.getResourceAsStream("/timer.properties");
             try {
-                properties.load(new FileReader(path));
+                properties.load(is);
                 timer_window= Integer.parseInt(properties.getProperty("Timer_window"));
                 timer_t= Integer.parseInt(properties.getProperty("Timer_turn"));
                 timer_waiting= Integer.parseInt(properties.getProperty("Timer_waiting"));
@@ -30,6 +30,9 @@ public class Server_starter {
             System.exit(-1);
         }catch (NumberFormatException e){
             System.err.println("Valori di uno o più timer non idonei");
+            System.exit(-1);
+        }catch (NullPointerException e){
+            System.err.println("file missing");
             System.exit(-1);
         }
     }
