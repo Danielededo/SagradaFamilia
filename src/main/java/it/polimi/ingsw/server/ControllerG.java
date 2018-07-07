@@ -416,7 +416,7 @@ public class ControllerG {
                     return false;
                 }
                 case "Lathekin": {
-                    if(match.getRules().getCont(tool.getPlayer()) >= 2){
+                    if(match.getRules().getCont(tool.getPlayer()) >= 3){
 
                         int index1, index2, index3, index4;
                         int row1,column1,row2,column2,row3,column3,row4,column4;
@@ -514,10 +514,10 @@ public class ControllerG {
                 }
                 case "Tenaglia a Rotelle": {
                     int index_draft, index_tas, row,column;
-                    if (!dicehand_done){
+                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==1){
                         error=true;
                         hub.notify(hub.getListofobserver().get(k), "ERROR");
-                        hub.notify(hub.getListofobserver().get(k),"Per usare questa carta devi prima posizionare un dado");
+                        hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta");
                         return false;
                     }
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);

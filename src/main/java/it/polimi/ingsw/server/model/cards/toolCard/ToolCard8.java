@@ -29,7 +29,7 @@ public class ToolCard8 extends Tool {
         int i=tokenpayment();
         if (i==0)return false;
         Rules rules=new Rules();
-        if (getPlayer().getContTurn()==1 && !slots.get(0).isOccupate()){
+        if (!slots.get(0).isOccupate()){
             rules.diePlacing(getPlayer(),slots.get(0),dice.get(0));
             if (slots.get(0).isOccupate()){
                 getPlayer().setMissednextturn(true);

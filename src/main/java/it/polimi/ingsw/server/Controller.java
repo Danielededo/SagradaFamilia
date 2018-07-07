@@ -372,7 +372,7 @@ public class Controller {
                     return false;
                 }
                 case "Lathekin": {
-                    if (match.getRules().getCont(tool.getPlayer())>=2){
+                    if (match.getRules().getCont(tool.getPlayer())>=3){
                         int row1,column1,row2,column2,row3,column3,row4,column4;
                         hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale vuoi muovere il primo dado");
                         row1=selection(4,0,k);
@@ -431,8 +431,8 @@ public class Controller {
                 }
                 case "Tenaglia a Rotelle": {
                     int index_draft,row,column;
-                    if (!dicehand_done){
-                        hub.notify(hub.getListofobserver().get(k),"Per usare questa carta devi prima posizionare un dado");
+                    if (!dicehand_done || match.getPlayers().get(k).getContTurn()==1){
+                        hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta");
                         return false;
                     }
                     hub.notify(hub.getListofobserver().get(k),tool.getPlayer().getWindow()+"\nPuoi selezionare un altro dado dalla riserva: "+match.getStock().toString());
