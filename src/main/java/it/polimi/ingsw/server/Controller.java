@@ -158,7 +158,9 @@ public class Controller {
             }else return;
         }
         endRound=true;
-        hub.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
+        hub.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET+
+                "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
+
         //hub.thread.cancel();
         Thread.sleep(2000);
         match.endRound();
@@ -315,7 +317,6 @@ public class Controller {
             switch (tool.getName()){
                 case "Pinza Sgrossatrice":{
                     int index_draft,piumeno;
-                    boolean b;
                     hub.notify(hub.getListofobserver().get(k),"Scegli un dado dalla riserva: "+match.getStock().toString());
                     index_draft=selection(match.getStock().getDicestock().size(),0,k);
                     hub.notify(hub.getListofobserver().get(k),"la tua scelta è "+match.getStock().getDicestock().get(index_draft));
@@ -333,7 +334,7 @@ public class Controller {
                 case "Pennello per Eglomise": {
                     if (match.getRules().getCont(tool.getPlayer())>1){
                         int row1,column1,row2,column2;
-                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dado");
                         row1=selection(4,0,k);
                         column1=selection(5,0,k);
                         hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
@@ -345,13 +346,13 @@ public class Controller {
                         slots.add(slot2);
                         return tool.effect(dice,match,slots,0);
                     }
-                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
                     return false;
                 }
                 case "Alesatore per lamina di rame": {
                     if (match.getRules().getCont(tool.getPlayer())>1){
                         int row1,column1,row2,column2;
-                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dadoe");
+                        hub.notify(hub.getListofobserver().get(k),"Inserisci riga e colonna rispettivamente della casella dalla quale prendere il dado");
                         row1=selection(4,0,k);
                         column1=selection(5,0,k);
                         hub.notify(hub.getListofobserver().get(k),"Adesso inserisci riga e colonna rispettivamente della casella dove posizionare il dado");
