@@ -268,20 +268,25 @@ public class ControllerG {
         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
         hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
-        match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft - 1));
-
-
-        if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
-            hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
-            hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
-
-            match.getStock().getDicestock().remove(index_draft - 1);
-            match.getStock().getDieMap().remove(index_draft);
-
-            dicehand_done=true;
-        } else {
+        if(match.getPlayers().get(k).getWindow().getSlot(row,column).isOccupate()){
             hub.notify(hub.getListofobserver().get(k), "ERROR");
-            hub.notify(hub.getListofobserver().get(k), match.getRules().getError());
+            hub.notify(hub.getListofobserver().get(k),"C'è già un dado su questo slot");
+            return;
+        }else{
+            match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft - 1));
+
+            if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()){
+                hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
+                hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
+
+                match.getStock().getDicestock().remove(index_draft - 1);
+                match.getStock().getDieMap().remove(index_draft);
+
+                dicehand_done=true;
+            } else {
+                hub.notify(hub.getListofobserver().get(k), "ERROR");
+                hub.notify(hub.getListofobserver().get(k), match.getRules().getError());
+            }
         }
     }
 

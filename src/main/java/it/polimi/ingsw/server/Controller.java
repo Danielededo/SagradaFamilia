@@ -263,6 +263,10 @@ public class Controller {
                 "\nScegli la casella della tua carta schema dove posizionare il dado, rispettivamente inserisci riga e colonna: ");
         row=selection(4,0,k);
         column=selection(5,0,k);
+        if(match.getPlayers().get(k).getWindow().getSlot(row,column).isOccupate()){
+            hub.notify(hub.getListofobserver().get(k),"C'è già un dado su questo slot");
+            return;
+        }else{
         match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft));
         if (round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column).isOccupate()) {
             hub.notify(hub.getListofobserver().get(k), "Dado piazzato correttamente");
@@ -272,6 +276,7 @@ public class Controller {
             dicehand_done=true;
         } else
             hub.notify(hub.getListofobserver().get(k), match.getRules().getError());
+        }
     }
 
     /**
