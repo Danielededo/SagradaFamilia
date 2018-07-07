@@ -17,12 +17,22 @@ public class Server implements ServerInt {
     private ArrayList<Hub> hubs=new ArrayList<Hub>();
     private HashMap<String,Hub> matches=new HashMap();
     private Registry registry;
+    private int timer_t;
+    private int timer_window;
+    private int timer_waiting;
 
-    public Server(String PORT) {
+    public Server(String PORT,String timer_window,String timer_waiting,String timer_t) {
         try {
             this.PORT= Integer.parseInt(PORT);
+            this.timer_t= Integer.parseInt(timer_t);
+            this.timer_waiting= Integer.parseInt(timer_waiting);
+            this.timer_window= Integer.parseInt(timer_window);
+            if (this.timer_t<=0||this.timer_window<=0||this.timer_waiting<=0){
+                System.err.println("Parametri dei timer inseriti negativi o nulli");
+                System.exit(-1);
+            }
         } catch (NumberFormatException e) {
-            System.err.println("Porta inserita non valida");
+            System.err.println("Parametri inseriti non validi");
             System.exit(-1);
         }
     }
@@ -84,7 +94,7 @@ public class Server implements ServerInt {
                 else i=hubs.size();
             }
             if (hubs.size()==0||cont==hubs.size()){
-                Hub hub=new Hub(this);
+                Hub hub=new Hub(this,timer_t,timer_waiting,timer_window);
                 hubs.add(hub);
                 if (hub.addObserver(o))return true;
             }else return hubs.get(cont).addObserver(o);

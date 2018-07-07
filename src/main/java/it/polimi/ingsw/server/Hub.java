@@ -4,8 +4,6 @@ import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.utils.Colour;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
@@ -27,21 +25,16 @@ public class Hub {
     private int timer_window,timer_t,timer_waiting;
 
 
-    public Hub(Server server) {
-        Properties properties=new Properties();
-        InputStream is = Hub.class.getResourceAsStream("/timer.properties");
-        try {
-            properties.load(is);
-            timer_window= Integer.parseInt(properties.getProperty("Timer_window"));
-            timer_t= Integer.parseInt(properties.getProperty("Timer_turn"));
-            timer_waiting= Integer.parseInt(properties.getProperty("Timer_waiting"));
-        } catch (IOException e) {}
+    public Hub(Server server,int timer_t,int timer_waiting,int timer_window) {
         this.start = false;
         this.server=server;
+        this.timer_waiting=timer_waiting;
+        this.timer_window=timer_window;
+        this.timer_t=timer_t;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new Controller(this,timer_window,timer_t);
-        this.room=new Waiting_Room(this, controller,timer_waiting);
+        controller=new Controller(this,this.timer_window,this.timer_t);
+        this.room=new Waiting_Room(this, controller,this.timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
         t.scheduleAtFixedRate(setupGame,0,1000);
     }
