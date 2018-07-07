@@ -2,11 +2,9 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.client.ClientGui;
 import it.polimi.ingsw.gui.components.BoxUnsure;
-import it.polimi.ingsw.gui.scenarios.Disconnected;
-import it.polimi.ingsw.gui.scenarios.MainBoard;
-import it.polimi.ingsw.gui.scenarios.SchermataLog;
-import it.polimi.ingsw.gui.scenarios.WaitingR;
+import it.polimi.ingsw.gui.scenarios.*;
 import it.polimi.ingsw.rmi.ClientInt;
+import it.polimi.ingsw.utils.Constants;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -16,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -23,9 +23,6 @@ import java.util.ArrayList;
 
 
 public class GUI extends Application implements ClientInt {
-    //private String nickname;
-    //private static String serverIP;
-    //static int PORT;
     private SimpleStringProperty stolen = new SimpleStringProperty();
     private IntegerProperty guisays = new SimpleIntegerProperty();
 
@@ -37,6 +34,7 @@ public class GUI extends Application implements ClientInt {
     private WaitingR wr = new WaitingR();
     private MainBoard main = new MainBoard();
     private Disconnected dis = new Disconnected();
+    private Ranking rank = new Ranking();
 
 
     private BoxUnsure uscita = new BoxUnsure();
@@ -71,6 +69,7 @@ public class GUI extends Application implements ClientInt {
         stolen.addListener(((observable, oldValue, newValue) -> main.duringTurn(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.placeThatDie(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.tooling(oldValue, newValue, guisays)));
+        stolen.addListener(((observable, oldValue, newValue) -> endGame(oldValue, newValue, stage)));
 
 
         loggin.getClick().onMouseClickedProperty().set( e -> {
@@ -170,6 +169,24 @@ public class GUI extends Application implements ClientInt {
         }
     }
 
+    public void endGame(String oldie, String newie, Stage stage){
+        if(oldie.equals(Constants.END_GAME)){
+            Platform.runLater(() -> {
+                JSONArray ranking = new JSONArray(newie);
+                int i = 0;
+                while (i < ranking.length()){
+                    JSONObject provv = ranking.getJSONObject(i);
+                    rank.add(new Label(provv.getString("player")), 0, i + 1);
+                    rank.add(new Label(provv.getString("score")), 1, i + 1);
+                    i++;
+                }
+                stage.setScene(new Scene(rank));
+                stage.show();
+            });
+
+        }
+    }
+
 
 
     @Override
@@ -211,17 +228,5 @@ public class GUI extends Application implements ClientInt {
     @Override
     public void setNickerr(boolean nickerr) throws RemoteException {
 
-    }
-
-    public String getStolen() {
-        return stolen.get();
-    }
-
-    public SimpleStringProperty stolenProperty() {
-        return stolen;
-    }
-
-    public void setStolen(String stolen) {
-        this.stolen.set(stolen);
     }
 }

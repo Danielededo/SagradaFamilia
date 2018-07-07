@@ -111,16 +111,19 @@ public class Constants {
     public static final String CHOOSE_TOOL = "Scegli una carta utensile";
     public static final String TOOL_RIGHT_USE = "Operazione completata";
     public static final String CHOOSE_FROM_SCHEME = "Scegli la casella dalla quale prendere il dado.";
+    public static final String CHOOSE_FROM_SCHEME_2 = "Scegli la casella dalla quale prendere il secondo dado.";
     public static final String ON_SLOT_CLICKED = "SLOT OKAY";
     public static final String ON_DIE_CLICKED = "DIE OKAY";
     public static final String ON_TOOL_CLICKED = "TOOL OKAY";
     public static final String WHERE_ON_SCHEME = "Scegli la casella dove posizionare il dado";
+    public static final String WHERE_ON_SCHEME_2 = "Scegli la casella dove posizionare il dado";
     public static final String PLUS_MINUS = "Scegli se decrementare o diminuire il valore";
     public static final String ENTER_VALUE = " Scegli quale valore dare al dado";
     public static final String HOW_MANY = "Vuoi scegliere 1 o 2 dadi?";
     public static final String CLICK_ON_TRACK = "Ora inserisci il numero del round e l'indice del dado scelto";
     public static final String ON_TRACK_CLICKED = "Rimuovi i dadi dal tracciato del round";
-
+    public static final String END_GAME = "LA PARTITA E' TERMINATA";
+    public static final String PAY_UP = "Segnalini favore necessari";
 
 
 

@@ -29,7 +29,6 @@ public class ControllerG {
     private boolean endRound=false;
     private boolean rank=false;
     private boolean error=false;
-    private static String separator="\n---------------------------------------------------------------------------------------------";
 
     public ControllerG(Hub hub, int timer_window, int timer_t) {
         this.hub = hub;
@@ -94,22 +93,19 @@ public class ControllerG {
                         hub.notifyOthers(c, updateAdversary(match.getPlayers().get(client_index)).toString());
 
 
-                        System.out.println(c.getNickname() + " ha scelto " + windows.get(scheme).getName());
                     } catch (ConnectException | UnmarshalException e) {
                         match.getPlayers().get(client_index).setConnected(false);
                         System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
                         Random r=new Random();
                         this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                        System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
-                        hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
+                        //hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
                     } finally {
                         schemetimer.cancel();
                     }
                 }else {
                     Random r=new Random();
                     this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
-                    System.out.println(match.getPlayers().get(client_index).getNickname() + " ha scelto " + match.getPlayers().get(client_index).getWindow().getName());
-                    hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
+                    //hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
                 }
             }
         }catch (ConcurrentModificationException ignored){}
@@ -120,15 +116,20 @@ public class ControllerG {
             timerTurn.cancel();
             hub.timer.cancel();
         }catch (NullPointerException ignored){}
-        if (hub.start){
+        if (hub.start) {
             rank=true;
-            hub.notifyObserver("PARTITA TERMINATA");
+
             this.match.endMatch();
-            hub.notifyObserver(this.match.ranking());
+            JSONArray scores = this.match.rankingGui();
+            hub.notifyObserver(Constants.END_GAME);
+            hub.notifyObserver(scores.toString());
+
+
+
             hub.thread.cancel();
             hub.timer.cancel();
             try {
-                Thread.sleep(1000*20);
+                Thread.sleep(1000*10);
             } catch (InterruptedException ignored) {
             }
             for(Player p: match.getPlayers())
@@ -136,9 +137,9 @@ public class ControllerG {
             for(ClientInt c: hub.getListofobserver())
                 hub.notify(c,"disconnettiti");
             hub.start=false;
-            try{
+            try {
                 hub.terminateHub();
-            }catch (NullPointerException ignored){}
+            } catch (NullPointerException ignored) {}
         }
     }
 
@@ -161,14 +162,19 @@ public class ControllerG {
                 }
             }else return;
         }
+
+
         endRound=true;
         hub.thread.cancel();
         //Thread.sleep(2000);
+
         match.endRound();
-        hub.notifyObserver("ROUNDTRACK");
-        hub.notifyObserver(roundtrackPacking().toString());
-        System.out.println(roundtrackPacking().toString());
+
         if(match.getRound()!=11) {
+            hub.notifyObserver("ROUNDTRACK");
+            hub.notifyObserver(roundtrackPacking().toString());
+            System.out.println(roundtrackPacking().toString());
+
             hub.getListofobserver().add(hub.getListofobserver().get(0));
             hub.getListofobserver().remove(0);
         }
@@ -185,16 +191,21 @@ public class ControllerG {
                 toolhand_done=false;
                 int cont_turn=1;
 
-
                 if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
                     hub.timer.schedule(timerTurn,1000*timer_t);
                     do {
+                        hub.notifyObserver(Constants.CLEAN_DRAFT);
+
+                        System.out.println("BAH");
+
                         hub.notifyObserver("DRAFT");
                         hub.notifyObserver(dicePacking(match.getStock().getDicestock()).toString());
 
                         hub.notifyObserver("DRAFT END");
                         hub.notifyOthers(hub.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
                         hub.notify(hub.getListofobserver().get(k),"E' il tuo turno. " + "Round: "+match.getRound()+"; Turno: " + t);
+
+                        System.out.println("BAH 2");
 
                         hub.notifyOthers(hub.getListofobserver().get(k), Constants.ADV_RELOAD);
                         hub.notifyOthers(hub.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());
@@ -230,7 +241,7 @@ public class ControllerG {
                                 break;
                             }
                         }
-                        hub.notifyObserver(Constants.CLEAN_DRAFT);
+                        //hub.notifyObserver(Constants.CLEAN_DRAFT);
                     } while (cont_turn!=0);
                 }else {
                     hub.notify(hub.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
@@ -257,7 +268,7 @@ public class ControllerG {
         int index_draft, choice, row, column;
 
         hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);
-        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_SLOT,Constants.F_DIE + 1, k) - Constants.F_DIE;
+        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_SLOT + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
         hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
 
@@ -311,6 +322,8 @@ public class ControllerG {
             hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
             toolhand_done=true;
 
+            //TOKENS REMOVAL
+            System.out.println("SCHIFO");
             hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index).getName());
         }
     }
@@ -324,30 +337,35 @@ public class ControllerG {
                     int index_draft, plusminus;
 
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);
-                    index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k) - Constants.F_DIE;
+                    index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
                     hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
 
                     hub.notify(hub.getListofobserver().get(k), Constants.PLUS_MINUS);
-                    //hub.notify(hub.getListofobserver().get(k),"Ora seleziona 0 se vuoi decrementare il valore o 1 se vuoi incrementare il valore");
                     plusminus = selection(3,0, k);
-                    //if(plusminus == 2)
+                    if(plusminus == 2){
+                        hub.notify(hub.getListofobserver().get(k),"ERROR");
+                        hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
+                        return false;
+                    }
 
-                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    dice.add(match.getStock().getDicestock().get(index_draft - 1));
                     return tool.effect(dice,match,slots,plusminus);
                 }
                 case "Pennello per Eglomise": {
                     if(match.getRules().getCont(tool.getPlayer()) > 1){
                         int index1, index2;
                         int row1,column1,row2,column2;
+
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
                         index1 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
                         row1 = rowRefactor(index1);
                         column1 = coloumnRefactor(index1);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
                         hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
+
                         hub.notify(hub.getListofobserver().get(k), Constants.WHERE_ON_SCHEME);
-                        index2 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                        index2 = selection(Constants.T_SLOT, Constants.S_SLOT, k) - Constants.S_SLOT;
                         row2 = rowRefactor(index2);
                         column2 = coloumnRefactor(index2);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -379,7 +397,7 @@ public class ControllerG {
                         hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
                         hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME);
-                        index2 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                        index2 = selection(Constants.T_SLOT, Constants.S_SLOT, k) - Constants.S_SLOT;
                         row2 = rowRefactor(index2);
                         column2 = coloumnRefactor(index2);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -412,7 +430,7 @@ public class ControllerG {
                         hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
                         hub.notify(hub.getListofobserver().get(k), Constants.WHERE_ON_SCHEME);
-                        index2 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                        index2 = selection(Constants.T_SLOT, Constants.S_SLOT, k) - Constants.S_SLOT;
                         row2 = rowRefactor(index2);
                         column2 = coloumnRefactor(index2);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -420,15 +438,15 @@ public class ControllerG {
 
 
                         hub.notify(hub.getListofobserver().get(k), "SECONDO DADO");
-                        hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
-                        index3 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                        hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME_2);
+                        index3 = selection(Constants.FO_SLOT, Constants.T_SLOT, k) - Constants.T_SLOT;
                         row3 = rowRefactor(index3);
                         column3 = coloumnRefactor(index3);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
                         hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
-                        hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME);
-                        index4 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                        hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME_2);
+                        index4 = selection(Constants.MENU, Constants.FO_SLOT, k) - Constants.FO_SLOT;
                         row4 = rowRefactor(index4);
                         column4 = coloumnRefactor(index4);
                         hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -446,16 +464,17 @@ public class ControllerG {
                     hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
                     return false;
                 }
-                //WARNING
                 case "Taglierina circolare": {
-                    int index_draft,index_roundtrackList,index_roundtrackDie;
+                    int index_draft,index_roundtrackDie;
 
                     if (match.getRound()>1) {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
-                        index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k)-Constants.F_DIE;
+                        index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
 
                         hub.notify(hub.getListofobserver().get(k),Constants.CLICK_ON_TRACK);
                         index_roundtrackDie=selection(90,0,k);
+                        hub.notify(hub.getListofobserver().get(k), Constants.ON_TRACK_CLICKED);
+
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
                         dice.add(match.scanTrack(index_roundtrackDie));
 
@@ -471,13 +490,12 @@ public class ControllerG {
                     int index_draft;
 
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);
-                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k) - Constants.F_DIE;
+                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1, Constants.F_DIE + 1, k) - Constants.F_DIE;
                     hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
                     dice.add(match.getStock().getDicestock().get(index_draft - 1));
-                    return tool.effect(dice,match,slots,0);
+                    return tool.effect(dice, match, slots, 0);
                 }
-                //WARNING
                 case "Martelletto": {
                     if (round.getTurns().get(z).getOneplayer().getContTurn()==2){
                         if (!dicehand_done)
@@ -494,7 +512,6 @@ public class ControllerG {
                     hub.notify(hub.getListofobserver().get(k),"Non è il tuo secondo turno");
                     return false;
                 }
-                //WARNING
                 case "Tenaglia a Rotelle": {
                     int index_draft, index_tas, row,column;
                     if (!dicehand_done){
@@ -504,7 +521,7 @@ public class ControllerG {
                         return false;
                     }
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);
-                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1,k) - Constants.F_DIE;
+                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1,k) - Constants.F_DIE;
                     hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_TAS);
@@ -515,7 +532,7 @@ public class ControllerG {
                     hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
                     slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row,column));
-                    dice.add(match.getStock().getDicestock().get(index_draft));
+                    dice.add(match.getStock().getDicestock().get(index_draft - 1));
 
                     return tool.effect(dice,match,slots,0);
                 }
@@ -524,7 +541,7 @@ public class ControllerG {
 
                     if (!dicehand_done) {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
-                        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k) - Constants.F_DIE;
+                        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
                         hub.notify(hub.getListofobserver().get(k),Constants.ON_DIE_CLICKED);
 
                         hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_TAS);
@@ -550,7 +567,7 @@ public class ControllerG {
                 case "Tampone Diamantato": {
                     int index_draft;
                     hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
-                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k) - Constants.F_DIE;
+                    index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1,Constants.F_DIE + 1, k) - Constants.F_DIE;
                     hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
                     dice.add(match.getStock().getDicestock().get(index_draft - 1));
                     return tool.effect(dice,match,slots,0);
@@ -562,7 +579,7 @@ public class ControllerG {
                     else tokens=1;
                     if (!dicehand_done) {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
-                        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE, Constants.F_DIE, k) - Constants.F_DIE;
+                        index_draft = selection(match.getStock().getDicestock().size() + Constants.F_DIE + 1, Constants.F_DIE + 1, k) - Constants.F_DIE;
                         hub.notify(hub.getListofobserver().get(k),Constants.ON_DIE_CLICKED);
                         Die die = match.getStock().getDicestock().get(index_draft - 1);
                         dice.add(die);
@@ -595,6 +612,8 @@ public class ControllerG {
                                 error=true;
                                 hub.notify(hub.getListofobserver().get(k), "ERROR");
                                 hub.notify(hub.getListofobserver().get(k), "Dado nella riserva");
+                                round.getTurns().get(z).getOneplayer().setMarker(round.getTurns().get(z).getOneplayer().getMarker()+tokens);
+                                if (tokens==1)tool.setAccessed(false);
                                 match.getStock().getDicestock().add(die);
                                 match.getSack().adddie(d);
                                 return false;
@@ -631,7 +650,7 @@ public class ControllerG {
                             hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
                             hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME);
-                            index2 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                            index2 = selection(Constants.T_SLOT, Constants.S_SLOT, k) - Constants.S_SLOT;
                             row2 = rowRefactor(index2);
                             column2 = coloumnRefactor(index2);
                             hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -642,15 +661,15 @@ public class ControllerG {
                             slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
                             if(move==2){
                                 hub.notify(hub.getListofobserver().get(k), "SECONDO DADO");
-                                hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
-                                index3 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                                hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME_2);
+                                index3 = selection(Constants.FO_SLOT, Constants.T_SLOT, k) - Constants.T_SLOT;
                                 row3 = rowRefactor(index3);
                                 column3 = coloumnRefactor(index3);
                                 hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
                                 hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
-                                hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME);
-                                index4 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
+                                hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME_2);
+                                index4 = selection(Constants.MENU, Constants.FO_SLOT, k) - Constants.FO_SLOT;
                                 row4 = rowRefactor(index4);
                                 column4 = coloumnRefactor(index4);
                                 hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
@@ -718,14 +737,6 @@ public class ControllerG {
         }else return -1;
     }
 
-    public JSONObject updateTassel(int k, int index_draft, int choice) throws RemoteException {
-        JSONObject change = new JSONObject();
-        change.put("name", hub.getListofobserver().get(k).getNickname());
-        change.put("face", match.getStock().getDicestock().get(index_draft - 1).getFace() + "");
-        change.put("color", match.getStock().getDicestock().get(index_draft - 1).getDicecolor().name());
-        change.put("pos", choice);
-        return change;
-    }
 
     public JSONObject updateWindow(GlassWindow provv){
         JSONObject def = new JSONObject();

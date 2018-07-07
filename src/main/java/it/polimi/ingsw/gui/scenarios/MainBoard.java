@@ -331,7 +331,23 @@ public class MainBoard extends GridPane{
         }else if(newie.equals(Constants.WHERE_ON_SCHEME)){
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getList()) {
-                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.F_SLOT));
+                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.S_SLOT));
+                    t.getChildren().add(t.getButton());
+                }
+                mex.setText(newie);
+            });
+        }else if(newie.equals(Constants.CHOOSE_FROM_SCHEME_2)){
+            Platform.runLater(() -> {
+                for (Tassel t : scheme.getList()) {
+                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.T_SLOT));
+                    t.getChildren().add(t.getButton());
+                }
+                mex.setText(newie);
+            });
+        }else if(newie.equals(Constants.WHERE_ON_SCHEME_2)) {
+            Platform.runLater(() -> {
+                for (Tassel t : scheme.getList()) {
+                    t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.FO_SLOT));
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
@@ -403,135 +419,6 @@ public class MainBoard extends GridPane{
         this.two = two;
     }
 
-    public BorderPane getLower() {
-        return lower;
-    }
-
-    public void setLower(BorderPane lower) {
-        this.lower = lower;
-    }
-
-    public VBox getHalf() {
-        return half;
-    }
-
-    public void setHalf(VBox half) {
-        this.half = half;
-    }
-
-    public TokenSpace getTspace() {
-        return tspace;
-    }
-
-    public void setTspace(TokenSpace tspace) {
-        this.tspace = tspace;
-    }
-
-    public ChooseBox getPopup() {
-        return popup;
-    }
-
-    public void setPopup(ChooseBox popup) {
-        this.popup = popup;
-    }
-
-    public MenuBox getMenuBox() {
-        return menuBox;
-    }
-
-    public void setMenuBox(MenuBox menuBox) {
-        this.menuBox = menuBox;
-    }
-
-    public HBox getCardsp() {
-        return cardsp;
-    }
-
-    public void setCardsp(HBox cardsp) {
-        this.cardsp = cardsp;
-    }
-
-    public ToolSel getCardst() {
-        return cardst;
-    }
-
-    public void setCardst(ToolSel cardst) {
-        this.cardst = cardst;
-    }
-
-    public PrivObje getYours() {
-        return yours;
-    }
-
-    public void setYours(PrivObje yours) {
-        this.yours = yours;
-    }
-
-    public ArrayList<PubbObj> getPubb() {
-        return pubb;
-    }
-
-    public void setPubb(ArrayList<PubbObj> pubb) {
-        this.pubb = pubb;
-    }
-
-    public ArrayList<Tools> getToolz() {
-        return toolz;
-    }
-
-    public void setToolz(ArrayList<Tools> toolz) {
-        this.toolz = toolz;
-    }
-
-    public ArrayList<Adversary> getAdv() {
-        return adv;
-    }
-
-    public void setAdv(ArrayList<Adversary> adv) {
-        this.adv = adv;
-    }
-
-    public ArrayList<String> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<String> players) {
-        this.players = players;
-    }
-
-    public DraftG getDraftp() {
-        return draftp;
-    }
-
-    public void setDraftp(DraftG draftp) {
-        this.draftp = draftp;
-    }
-
-    public Label getMex() {
-        return mex;
-    }
-
-    public void setMex(Label mex) {
-        this.mex = mex;
-    }
-
-    public Label getTimer() {
-        return timer;
-    }
-
-    public void setTimer(Label timer) {
-        this.timer = timer;
-    }
-
-
-    public VBox getPersonal() {
-        return personal;
-    }
-
-    public void setPersonal(VBox personal) {
-        this.personal = personal;
-    }
-
     public Windows getScheme() {
         return scheme;
     }
@@ -548,19 +435,4 @@ public class MainBoard extends GridPane{
         this.cards = cards;
     }
 
-    public HBox getAdversus() {
-        return adversus;
-    }
-
-    public void setAdversus(HBox adversus) {
-        this.adversus = adversus;
-    }
-
-    public GridPane getRoundtrack() {
-        return roundtrack;
-    }
-
-    public void setRoundtrack(RoundtrackG roundtrack) {
-        this.roundtrack = roundtrack;
-    }
 }
