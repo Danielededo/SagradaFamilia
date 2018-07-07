@@ -2,7 +2,6 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.client.ClientGui;
 import it.polimi.ingsw.gui.components.BoxUnsure;
-import it.polimi.ingsw.gui.components.Building;
 import it.polimi.ingsw.gui.scenarios.Disconnected;
 import it.polimi.ingsw.gui.scenarios.MainBoard;
 import it.polimi.ingsw.gui.scenarios.SchermataLog;
@@ -38,7 +37,6 @@ public class GUI extends Application implements ClientInt {
     private WaitingR wr = new WaitingR();
     private MainBoard main = new MainBoard();
     private Disconnected dis = new Disconnected();
-    private Building necessary = new Building();
 
 
     private BoxUnsure uscita = new BoxUnsure();
@@ -68,25 +66,7 @@ public class GUI extends Application implements ClientInt {
     public void start(Stage stage) {
         stage.setOnCloseRequest(event -> System.exit(-1));
 
-        stolen.addListener((observable, oldValue, newValue) -> talkingToServer(oldValue,newValue));
-        stolen.addListener(((observable, oldValue, newValue) -> {
-            if(oldValue.equals("Timer")) {
-                Platform.runLater(() -> wr.getOther().setText(newValue));
-            }else if(oldValue.equals("Timer stop")) {
-                if (newValue.equals("Solo")) {
-                    Platform.runLater(() -> {
-                        wr.getSoli().setText("Attendi che uno o più giocatori partecipino alla partita");
-                        wr.getOther().setText("");
-                });
-            } else {
-                Platform.runLater(() -> {
-                    stage.setScene(new Scene(main));
-                    stage.show();
-                });
-            }
-        }
-    }));
-
+        stolen.addListener((observable, oldValue, newValue) -> talkingToServer(oldValue,newValue,stage));
         stolen.addListener(((observable, oldValue, newValue) -> main.setting(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.duringTurn(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.placeThatDie(oldValue, newValue, guisays)));
@@ -159,17 +139,35 @@ public class GUI extends Application implements ClientInt {
 
 
 
-    public void talkingToServer(String oldie, String newie){
-        if(oldie.equals("welcome")){
+    public void talkingToServer(String oldie, String newie, Stage stage) {
+        if (oldie.equals("welcome")) {
             wr.getCurrent().setText(newie);
-        }else if(oldie.equals("connesso")){
+        } else if (oldie.equals("connesso")) {
             Platform.runLater(() -> {
                 Label gioc = new Label(newie);
                 wr.getPlayers().getChildren().add(gioc);
             });
+        } else if (oldie.equals("Left")) {
+            Platform.runLater(() -> {
+                Label gioc = new Label(newie);
+                wr.getPlayers().getChildren().add(gioc);
+                wr.getSoli().setText("");
+            });
+        } else if (oldie.equals("Timer")) {
+            Platform.runLater(() -> wr.getOther().setText(newie));
+        } else if (oldie.equals("Timer stop")) {
+            if (newie.equals("Solo")) {
+                Platform.runLater(() -> {
+                    wr.getSoli().setText("Attendi che uno o più giocatori partecipino alla partita");
+                    wr.getOther().setText("");
+                });
+            } else {
+                Platform.runLater(() -> {
+                    stage.setScene(new Scene(main));
+                    stage.show();
+                });
+            }
         }
-
-
     }
 
 

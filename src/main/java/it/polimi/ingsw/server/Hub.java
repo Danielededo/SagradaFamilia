@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class Hub {
     private Server server;
-    private Controller controller;
+    private ControllerG controller;
     private Waiting_Room room;
     private ArrayList<ClientInt> listofobserver = new ArrayList<ClientInt>();
     Boolean start;
@@ -40,7 +40,7 @@ public class Hub {
         this.server=server;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new Controller(this,timer_window,timer_t);
+        controller=new ControllerG(this,timer_window,timer_t);
         this.room=new Waiting_Room(this, controller,timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
         t.scheduleAtFixedRate(setupGame,0,1000);
@@ -217,7 +217,7 @@ public class Hub {
         } catch (NullPointerException e) {}
         finally {
             server.terminatehub(this);
-            this.controller=new Controller(this,timer_window,timer_t);
+            this.controller=new ControllerG(this,timer_window,timer_t);
         }
     }
 
@@ -258,6 +258,7 @@ public class Hub {
             }catch (RemoteException e){
                 if(!this.start) {
                     System.out.println(room.getPlayers().get(i).getNickname()+" disconnesso");
+                    notifyOthers(c,"Left");
                     notifyOthers(c,room.getPlayers().get(i).getNickname()+" disconnesso");
                     room.getPlayers().remove(i);
                     removeObserver(c);

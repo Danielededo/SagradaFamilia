@@ -110,6 +110,10 @@ public class Constants {
     public static final String ON_TOOL_CLICKED = "TOOL OKAY";
     public static final String WHERE_ON_SCHEME = "Scegli la casella dove posizionare il dado";
     public static final String PLUS_MINUS = "Scegli se decrementare o diminuire il valore";
+    public static final String ENTER_VALUE = " Scegli quale valore dare al dado";
+    public static final String HOW_MANY = "Vuoi scegliere 1 o 2 dadi?";
+    public static final String CLICK_ON_TRACK = "Ora inserisci il numero del round e l'indice del dado scelto";
+    public static final String ON_TRACK_CLICKED = "Rimuovi i dadi dal tracciato del round";
 
 
 

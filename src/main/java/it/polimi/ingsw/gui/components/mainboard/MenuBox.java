@@ -1,11 +1,9 @@
 package it.polimi.ingsw.gui.components.mainboard;
 
+import it.polimi.ingsw.gui.components.panels.DieG;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -50,6 +48,7 @@ public class MenuBox {
         window.setTitle(title);
         window.setMinWidth(200);
 
+        //pass.setSelected(true);
 
         button.setOnMouseClicked(event -> window.close());
 
@@ -87,6 +86,8 @@ public class MenuBox {
 
         button.setOnMouseClicked(event -> window.close());
 
+        //pass.setSelected(true);
+
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
@@ -112,6 +113,7 @@ public class MenuBox {
         window.setTitle(title);
         window.setMinWidth(200);
 
+        //pass.setSelected(true);
 
         window.setOnCloseRequest(event -> answer[0] = 1);
 
@@ -133,7 +135,7 @@ public class MenuBox {
         return answer[0];
     }
 
-    public int piumeno(String title){
+    public int plusminus(String title, String message){
         final int[] answer = new int[1];
         answer[0] = 2;
 
@@ -143,16 +145,89 @@ public class MenuBox {
         window.setTitle(title);
         window.setMinWidth(200);
 
+        //plus.setSelected(true);
+
         window.setOnCloseRequest(event -> answer[0] = 2);
 
         plus.setOnAction(event -> answer[0] = 1);
-        plus.setOnAction(event -> answer[0] = 0);
+        minus.setOnAction(event -> answer[0] = 0);
 
+        Label lab = new Label(message);
         button.setOnMouseClicked(event -> window.close());
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
-        menu.getChildren().addAll(plus, minus);
+        menu.getChildren().addAll(lab, plus, minus, button);
+
+        window.setScene(new Scene(menu));
+        window.showAndWait();
+
+
+        return answer[0];
+    }
+
+    public int enterValue(String title, String message, DieG die){
+        final int[] answer = new int[1];
+        answer[0] = 0;
+
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        window.setTitle(title);
+        window.setMinWidth(200);
+
+        window.setOnCloseRequest(event -> answer[0] = 0);
+
+        ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
+        Label lab = new Label(message);
+        choiceBox.getItems().addAll(1,2,3,4,5,6);
+        choiceBox.setValue(1);
+
+        button.setOnMouseClicked(event -> {
+            answer[0] = choiceBox.getValue();
+            window.close();
+        });
+
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.getChildren().addAll(die, lab, choiceBox, button);
+
+        window.setScene(new Scene(menu));
+        window.showAndWait();
+
+
+        return answer[0];
+
+    }
+
+    public int howMany(String title, String message){
+        final int[] answer = new int[1];
+        answer[0] = 3;
+
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        window.setTitle(title);
+        window.setMinWidth(200);
+
+        RadioButton one = new RadioButton("1");
+        RadioButton two = new RadioButton("2");
+        ToggleGroup another = new ToggleGroup();
+        one.setToggleGroup(another);
+        two.setToggleGroup(another);
+
+        window.setOnCloseRequest(event -> answer[0] = 3);
+
+        one.setOnAction(event -> answer[0] = 1);
+        two.setOnAction(event -> answer[0] = 2);
+
+        Label lab = new Label(message);
+        button.setOnMouseClicked(event -> window.close());
+        VBox menu = new VBox();
+        menu.setAlignment(Pos.CENTER);
+        menu.setSpacing(10);
+        menu.getChildren().addAll(lab, one, two, button);
 
         window.setScene(new Scene(menu));
         window.showAndWait();

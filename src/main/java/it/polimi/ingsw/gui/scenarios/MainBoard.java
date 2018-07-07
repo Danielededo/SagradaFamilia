@@ -11,18 +11,16 @@ import it.polimi.ingsw.gui.components.variousSchemes.Windows;
 import it.polimi.ingsw.utils.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainBoard extends BorderPane{
+public class MainBoard extends GridPane{
 
     private Label mex = new Label();
     private Label timer = new Label();
@@ -60,6 +58,7 @@ public class MainBoard extends BorderPane{
     private RoundtrackG roundtrack = new RoundtrackG();
     private DraftG draftp = new DraftG();
 
+    private BorderPane mainone = new BorderPane();
 
 
     public MainBoard(){
@@ -80,11 +79,14 @@ public class MainBoard extends BorderPane{
         two.getChildren().add(cards);
         two.getChildren().add(lower);
 
-        setCenter(two);
-        setBottom(mex);
-        setTop(roundtrack);
-        autosize();
-        setPrefSize(1200,900);
+        mainone.setCenter(two);
+        mainone.setBottom(mex);
+        mainone.setTop(roundtrack);
+        mainone.setPrefSize(1200,900);
+
+        getChildren().add(mainone);
+        setAlignment(Pos.CENTER);
+
     }
 
 
@@ -182,7 +184,7 @@ public class MainBoard extends BorderPane{
                 mex.setText(newie);
                 hey.setValue(-1);
             });
-        } else if (oldie.equals(Constants.CLEAN_DRAFT)) {
+        } else if (newie.equals(Constants.CLEAN_DRAFT)) {
             Platform.runLater(() -> {
                 draftp.getChildren().clear();
                 draftp.getDraftie().removeAll(draftp.getDraftie());
@@ -198,10 +200,22 @@ public class MainBoard extends BorderPane{
                         a.getChildren().add(a.getGlasswindow());
                     }
                 }
+                hey.setValue(-1);
             });
-        } /*else if (oldie.equals("ROUNDTRACK")){
-            Platform.runLater(() -> roundtrack.getChildren().add(diceUnpackR(new JSONArray(newie))));
-        }*/
+        }else if(oldie.equals("ERROR")){
+            Platform.runLater(() -> {
+                mex.setText(newie);
+                hey.setValue(-1);
+            });
+        }else if (oldie.equals("ROUNDTRACK")){
+            Platform.runLater(() -> {
+                JSONObject obj = new JSONObject(newie);
+                int i = obj.getInt("round");
+                GridPane provv = diceUnpackR(obj.getJSONArray("roundtrack"));
+                roundtrack.add(provv, i, 1);
+                hey.setValue(-1);
+            });
+        }
 
     }
 
@@ -271,9 +285,27 @@ public class MainBoard extends BorderPane{
                     i--;
                 }
             });
+        }else if(newie.equals(Constants.PLUS_MINUS)){
+            Platform.runLater(() -> key.setValue(menuBox.plusminus("Pinza Sgrossatrice", Constants.PLUS_MINUS)));
+        }else if(oldie.equals(Constants.ENTER_VALUE)){
+            Platform.runLater(() -> {
+                    JSONObject object = new JSONObject(newie);
+                    DieG d = new DieG(necessary.faceComparing(object.getString("face")));
+                    d.setColour(necessary.colorComparing(object.getString("color")));
+                    key.setValue(menuBox.enterValue("Diluente per Pasta Salda", Constants.ENTER_VALUE, d));
+            });
+        }else if(oldie.equals("ERROR")){
+            Platform.runLater(() -> {
+                mex.setText(newie);
+                key.setValue(-1);
+            });
+        }else if(newie.equals(Constants.HOW_MANY)){
+            Platform.runLater(() -> key.setValue(menuBox.howMany("Taglierina Manuale", Constants.HOW_MANY)));
+        }else if(newie.equals(Constants.CLICK_ON_TRACK)){
+            Platform.runLater(() -> {
+
+            });
         }
-
-
 
 
 
@@ -335,15 +367,20 @@ public class MainBoard extends BorderPane{
     public GridPane diceUnpackR(JSONArray obj){
         GridPane neuv = new GridPane();
         int i = 0;
+        int c = 0;
+        int r = 0;
         while(i < obj.length()){
-            int r = 0;
-            for(int j = 0; j < 3; j++){
-                JSONObject die = obj.getJSONObject(i);
-                DieG provv = new DieG(necessary.faceComparing(die.getString("Face")));
-                provv.setColour(necessary.colorComparing(die.getString("Color")));
-                neuv.add(provv, j, r);
-            }
-            r++;
+            JSONObject die = obj.getJSONObject(i);
+            DieG provv = new DieG(necessary.faceComparing(die.getString("Face")));
+            provv.setColour(necessary.colorComparing(die.getString("Color")));
+            provv.setPos(roundtrack.getList().size());
+            roundtrack.getList().add(provv);
+            neuv.add(roundtrack.getList().get(roundtrack.getList().size()-1),c,r);
+            if (r==2){
+                r=0;
+                c++;
+            }else r++;
+            i++;
         }
 
         return neuv;

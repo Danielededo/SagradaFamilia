@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.components.mainboard;
 
-import it.polimi.ingsw.utils.Constants;
+import it.polimi.ingsw.gui.components.panels.DieG;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -8,16 +8,17 @@ import java.util.ArrayList;
 
 public class RoundtrackG extends GridPane {
 
-    public ArrayList<GridPane> list = new ArrayList<>();
+    private ArrayList<DieG> list = new ArrayList<>();
 
 
     public RoundtrackG(){
         super();
         Label title = new Label("Roundtrack");
         add(title, 0,0);
-        for(int i = 0; i < Constants.F_DIE; i++){
-            list.add(i, new GridPane());
-            add(list.get(i), i, 1);
-        }
+        setHgap(20);
+    }
+
+    public ArrayList<DieG> getList() {
+        return list;
     }
 }

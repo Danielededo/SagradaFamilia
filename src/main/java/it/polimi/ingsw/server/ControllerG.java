@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.game.Match;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
-import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.utils.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -133,12 +132,6 @@ public class ControllerG {
         hub.terminateHub();
     }
 
-    public void attend(){
-        boolean c=true;
-        while (c){
-
-        }
-    }
 
     public void round() throws RemoteException, InterruptedException {
         Round round= new Round(match);
@@ -157,17 +150,18 @@ public class ControllerG {
                     }
                     t=2;
                 }
-            }else attend();
+            }else return;
         }
+
+
         endRound=true;
-        hub.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET);
         hub.thread.cancel();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         match.endRound();
 
-        //hub.notifyObserver("ROUNDTRACK");
-        //hub.notifyObserver(dicePacking(match.getRoundTrackList(match.getRound())).toString());
-
+        hub.notifyObserver("ROUNDTRACK");
+        hub.notifyObserver(roundtrackPacking().toString());
+        System.out.println(roundtrackPacking().toString());
 
 
 
@@ -193,9 +187,8 @@ public class ControllerG {
 
                 if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
                     do {
-                        JSONArray ris = dicePacking(match.getStock().getDicestock());
                         hub.notifyObserver("DRAFT");
-                        hub.notifyObserver(ris.toString());
+                        hub.notifyObserver(dicePacking(match.getStock().getDicestock()).toString());
 
                         hub.notifyObserver("DRAFT END");
                         hub.notifyOthers(hub.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
@@ -270,6 +263,8 @@ public class ControllerG {
         choice = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
         row = rowRefactor(choice);
         column = coloumnRefactor(choice);
+        hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
+        hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
         match.getRules().diePlacing(round.getTurns().get(z).getOneplayer(), round.getTurns().get(z).getOneplayer().getWindow().getSlot(row, column), match.getStock().getDicestock().get(index_draft - 1));
 
@@ -294,7 +289,7 @@ public class ControllerG {
         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_TOOL);
 
         index = selection( Constants.CLICK_TOOL + 3, Constants.CLICK_TOOL, k) - Constants.CLICK_TOOL;
-        hub.notify(hub.getListofobserver().get(k),Constants.ON_SLOT_CLICKED);
+        hub.notify(hub.getListofobserver().get(k),Constants.ON_TOOL_CLICKED);
 
         match.getTool().get(index).setPlayer(round.getTurns().get(z).getOneplayer());
 
@@ -319,7 +314,7 @@ public class ControllerG {
         try {
             switch (tool.getName()){
                 case "Pinza Sgrossatrice":{
-                    int index_draft, piumeno;
+                    int index_draft, plusminus;
 
                     hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_DIE);
                     index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k) - Constants.F_DIE;
@@ -328,12 +323,15 @@ public class ControllerG {
 
                     hub.notify(hub.getListofobserver().get(k), Constants.PLUS_MINUS);
                     //hub.notify(hub.getListofobserver().get(k),"Ora seleziona 0 se vuoi decrementare il valore o 1 se vuoi incrementare il valore");
-                    piumeno = selection(3,0, k);
+                    plusminus = selection(3,0, k);
+                    //if(plusminus == 2)
 
                     dice.add(match.getStock().getDicestock().get(index_draft));
-                    return tool.effect(dice,match,slots,piumeno);
+                    return tool.effect(dice,match,slots,plusminus);
                 }
                 case "Pennello per Eglomise": {
+                    if(match.getRules().getCont(tool.getPlayer()) > 1){
+
                     int index1, index2;
                     int row1,column1,row2,column2;
 
@@ -356,9 +354,14 @@ public class ControllerG {
                     slots.add(slot1);
                     slots.add(slot2);
 
-                    return tool.effect(dice,match,slots,0);
+                    return tool.effect(dice,match,slots,0);}
+                    hub.notify(hub.getListofobserver().get(k),"ERROR");
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
+                    return false;
                 }
                 case "Alesatore per lamina di rame": {
+                    if(match.getRules().getCont(tool.getPlayer()) > 1){
+
                     int index1, index2;
                     int row1,column1,row2,column2;
 
@@ -381,14 +384,19 @@ public class ControllerG {
                     slots.add(slot1);
                     slots.add(slot2);
 
-                    return tool.effect(dice,match,slots,0);
+                    return tool.effect(dice,match,slots,0);}
+                    hub.notify(hub.getListofobserver().get(k),"ERROR");
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
+                    return false;
                 }
                 case "Lathekin": {
+                    if(match.getRules().getCont(tool.getPlayer()) >= 2){
+
                     int index1, index2, index3, index4;
                     int row1,column1,row2,column2,row3,column3,row4,column4;
 
                     hub.notify(hub.getListofobserver().get(k),"PRIMO DADO");
-                    hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
+                    hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_FROM_SCHEME);
                     index1 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
                     row1 = rowRefactor(index1);
                     column1 = coloumnRefactor(index1);
@@ -423,8 +431,12 @@ public class ControllerG {
                     slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row3,column3));
                     slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
 
-                    return tool.effect(dice,match,slots,0);
+                    return tool.effect(dice,match,slots,0);}
+                    hub.notify(hub.getListofobserver().get(k),"ERROR");
+                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
+                    return false;
                 }
+                //WARNING
                 case "Taglierina circolare": {
                     int index_draft,index_roundtrackList,index_roundtrackDie;
 
@@ -432,15 +444,14 @@ public class ControllerG {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
                         index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k);
 
-                        hub.notify(hub.getListofobserver().get(k),"Ora inserisci il numero del round e l'indice del dado scelto");
-
-                        index_roundtrackList=selection(match.getRound(),1,k)-1;
-                        index_roundtrackDie=selection(match.getRoundTrackList(index_roundtrackList).size(),0,k);
+                        hub.notify(hub.getListofobserver().get(k),Constants.CLICK_ON_TRACK);
+                        index_roundtrackDie=selection(90,0,k);
 
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
-                        dice.add(match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie));
 
-                        return tool.effect(dice,match,slots,index_roundtrackList);
+                        //dice.add(match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie));
+
+                        return tool.effect(dice,match,slots,0);
                     }else {
                         hub.notify(hub.getListofobserver().get(k), "ERROR");
                         hub.notify(hub.getListofobserver().get(k),"Non ci sono dadi sul tracciato dei round");
@@ -457,6 +468,7 @@ public class ControllerG {
                     dice.add(match.getStock().getDicestock().get(index_draft - 1));
                     return tool.effect(dice,match,slots,0);
                 }
+                //WARNING
                 case "Martelletto": {
                     if (round.getTurns().get(z).getOneplayer().getContTurn()==2){
                         if (!dicehand_done)
@@ -471,6 +483,7 @@ public class ControllerG {
                     hub.notify(hub.getListofobserver().get(k),"Non è il tuo secondo turno");
                     return false;
                 }
+                //WARNING
                 case "Tenaglia a Rotelle": {
                     int index_draft, index_tas, row,column;
                     if (!dicehand_done){
@@ -514,7 +527,6 @@ public class ControllerG {
                         if (tool.effect(dice,match,slots,0)){
                             dicehand_done=true;
                             match.getStock().getDicestock().remove(index_draft);
-                            //hub.notify(hub.getListofobserver().get(k),"Dado posizionato correttamente");
                             return true;
                         }else return false;
                     }else {
@@ -531,6 +543,7 @@ public class ControllerG {
                     dice.add(match.getStock().getDicestock().get(index_draft - 1));
                     return tool.effect(dice,match,slots,0);
                 }
+                //WARNING
                 case "Diluente per Pasta Salda": {
                     int index_draft, index_tas, value, row, column;
                     if (!dicehand_done) {
@@ -542,10 +555,15 @@ public class ControllerG {
                         dice.add(die);
                         if (tool.effect(dice,match,slots,0)){
                             Die d = match.getSack().extractdie();
+                            JSONObject obj = new JSONObject();
+                            obj.put("color", d.getDicecolor().name());
+                            obj.put("face", d.getFace());
 
-                            hub.notify(hub.getListofobserver().get(k),d+" ora seleziona la faccia da dare al dado");
+                            hub.notify(hub.getListofobserver().get(k),Constants.ENTER_VALUE);
+                            hub.notify(hub.getListofobserver().get(k), obj.toString());
                             value = selection(7,0,k);
-                            d.setFace(value);
+                            if(value != 0)
+                                d.setFace(value);
 
                             hub.notify(hub.getListofobserver().get(k), Constants.CHOOSE_TAS);
                             index_tas = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
@@ -561,21 +579,31 @@ public class ControllerG {
                                 dicehand_done=true;
                                 return true;
                             }else {
+                                hub.notify(hub.getListofobserver().get(k), "ERROR");
                                 hub.notify(hub.getListofobserver().get(k), "Dado nella riserva");
                                 match.getStock().getDicestock().add(die);
                                 match.getSack().adddie(d);
                                 return true;
                             }
                         }
-                    }else hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado");
+                    }else {
+                        hub.notify(hub.getListofobserver().get(k), "ERROR");
+                        hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado");
+                    }
                     return false;
-                }
+                }//WARNING
                 case "Taglierina Manuale": {
                     if (match.getRound()!=1) {
                         int index1, index2, index3, index4;
                         int row1,column1,row2,column2,row3,column3,row4,column4;
-                        hub.notify(hub.getListofobserver().get(k),"Vuoi muovere 1 o 2 dadi?");
+                        hub.notify(hub.getListofobserver().get(k),Constants.HOW_MANY);
                         int move = selection(3,1,k);
+
+                        if(move == 3){
+                            hub.notify(hub.getListofobserver().get(k), "ERROR");
+                            hub.notify(hub.getListofobserver().get(k), "Errore durante l'uso della carta utensile");
+                            return false;
+                        }
 
                         hub.notify(hub.getListofobserver().get(k), "PRIMO DADO");
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
@@ -634,14 +662,6 @@ public class ControllerG {
             index = hub.getListofobserver().get(k).selection_int();
         } while (index >= max || index < min);
         return index;
-    }
-
-
-
-    public String menu(){
-        return match.toStringRoundTrack()+"\nRiserva: "+match.getStock().toString()+"\nScegli cosa fare : \n0: fine turno; \n1: posiziona un dado dalla riserva;" +
-                "\n2: usa una carta utensile:\n"+match.toolcardsString();
-
     }
 
     public boolean isStart() {
@@ -716,10 +736,17 @@ public class ControllerG {
          JSONArray ris = new JSONArray();
          for(Die d: list){
              JSONObject provv = new JSONObject();
-             provv.put("Face", d.getFace());
+             provv.put("Face", d.getFace() + "");
              provv.put("Color", d.getDicecolor().name());
              ris.put(provv);
          }
          return ris;
+     }
+
+     public JSONObject roundtrackPacking(){
+        JSONObject object = new JSONObject();
+        object.put("round", match.getRound() - 1);
+        object.put("roundtrack", dicePacking(match.getRoundTrackList(match.getRound() - 2)));
+        return object;
      }
 }
