@@ -447,14 +447,12 @@ public class ControllerG {
 
                     if (match.getRound()>1) {
                         hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_DIE);
-                        index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k);
+                        index_draft=selection(match.getStock().getDicestock().size() + Constants.F_DIE,Constants.F_DIE + 1, k)-Constants.F_DIE;
 
                         hub.notify(hub.getListofobserver().get(k),Constants.CLICK_ON_TRACK);
                         index_roundtrackDie=selection(90,0,k);
-
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
-
-                        //dice.add(match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie));
+                        dice.add(match.scanTrack(index_roundtrackDie));
 
                         return tool.effect(dice,match,slots,0);
                     }else {
