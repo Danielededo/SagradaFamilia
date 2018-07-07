@@ -49,19 +49,19 @@ public class ControllerG {
         }
         System.out.println(hub.o);
 
-        hub.notifyObserver("Public");
         JSONArray pubb = new JSONArray();
         for(PublicObject p: match.getPublictarget()){
             pubb.put(p.getName());
         }
+        hub.notifyObserver("Public");
         hub.notifyObserver(pubb.toString());
 
-        hub.notifyObserver("Tool");
         JSONArray tool = new JSONArray();
         for(Tool p: match.getTool()){
             tool.put(p.getName());
         }
 
+        hub.notifyObserver("Tool");
         hub.notifyObserver(tool.toString());
 
 

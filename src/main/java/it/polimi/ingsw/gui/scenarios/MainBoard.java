@@ -36,7 +36,7 @@ public class MainBoard extends GridPane{
     private TokenSpace tspace = new TokenSpace();
     private Windows scheme;
     private ChooseBox popup = new ChooseBox();
-    private MenuBox menuBox = new MenuBox();
+    private MenuBox menuBox;
 
 
     private HBox cards = new HBox();
@@ -174,11 +174,20 @@ public class MainBoard extends GridPane{
         }else if (oldie.equals("DRAFT END")) {
             Platform.runLater(() -> mex.setText(newie));
         } else if (newie.equals(Constants.MENU_W)) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuC("Menù") + Constants.MENU));
+            Platform.runLater(()->{
+                menuBox=new MenuBox();
+                hey.setValue(menuBox.menuC("Menù") + Constants.MENU);
+            });
         } else if (newie.equals(Constants.MENU_D)) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuD("Menù") + Constants.MENU));
+            Platform.runLater(() ->{
+                menuBox=new MenuBox();
+                hey.setValue(menuBox.menuD("Menù") + Constants.MENU);
+            });
         } else if (newie.equals(Constants.MENU_T)) {
-            Platform.runLater(() -> hey.setValue(menuBox.menuT("Menù") + Constants.MENU));
+            Platform.runLater(() -> {
+                menuBox=new MenuBox();
+                hey.setValue(menuBox.menuT("Menù") + Constants.MENU);
+            });
         } else if (oldie.equals(Constants.SHIFT)) {
             Platform.runLater(() -> {
                 mex.setText(newie);
