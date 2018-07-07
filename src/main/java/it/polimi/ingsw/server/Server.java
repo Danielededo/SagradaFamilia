@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.rmi.ServerInt;
+import it.polimi.ingsw.utils.Constants;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;
@@ -21,20 +22,25 @@ public class Server implements ServerInt {
     private int timer_window;
     private int timer_waiting;
 
-    public Server(String PORT,String timer_window,String timer_waiting,String timer_t) {
-        try {
-            this.PORT= Integer.parseInt(PORT);
-            this.timer_t= Integer.parseInt(timer_t);
-            this.timer_waiting= Integer.parseInt(timer_waiting);
-            this.timer_window= Integer.parseInt(timer_window);
-            if (this.timer_t<=0||this.timer_window<=0||this.timer_waiting<=0){
-                System.err.println("Parametri dei timer inseriti negativi o nulli");
-                System.exit(-1);
+    public Server(String[] args) {
+        boolean error=false;
+        ArrayList<Integer> config=new ArrayList<>();
+        for (int i = 0; i<4 ; i++){
+            try {
+                if (i==0) args[i]=args[i].replaceAll("-","");
+                if (Integer.valueOf(args[i])<=0) throw new ArrayIndexOutOfBoundsException();
+                config.add(Integer.valueOf(args[i]));
+            } catch (ArrayIndexOutOfBoundsException|NumberFormatException e) {
+                config.add(Integer.valueOf(Constants.config.get(i)));
+                error=true;
             }
-        } catch (NumberFormatException e) {
-            System.err.println("Parametri inseriti non validi");
-            System.exit(-1);
         }
+        PORT=config.get(0);
+        timer_waiting=config.get(1);
+        timer_window=config.get(2);
+        timer_t=config.get(3);
+        System.out.println(config);
+        if (error)System.out.println("Uno o più parametri non sono stati inseriti correttamente quindi il server prosegue con valori di default");
     }
 
     /**

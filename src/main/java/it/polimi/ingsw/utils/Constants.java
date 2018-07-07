@@ -2,7 +2,13 @@ package it.polimi.ingsw.utils;
 
 import javafx.geometry.Insets;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Constants {
+
+    //Configuration default parameter
+    public static final ArrayList<String> config=new ArrayList<String>(Arrays.asList("8080","60","30","120"));
 
     public static final double resize=0.6;
 
