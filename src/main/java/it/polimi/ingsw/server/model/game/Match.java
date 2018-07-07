@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.cards.*;
 import it.polimi.ingsw.server.model.dice.Die;
 import it.polimi.ingsw.server.model.dice.Sack;
 import it.polimi.ingsw.utils.Colour;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +24,7 @@ public class Match {
     private Rules rules = new Rules();
     private ArrayList<Die>[] roundTrack=new ArrayList[10];
     private int round=1;
+    private Player winner;
 
     public String toolcardsString(){
         String string="\n";
@@ -128,6 +131,35 @@ public class Match {
         }
         return ranking;
     }
+
+    public JSONArray rankingGui(){
+        JSONArray ranking = new JSONArray();
+        ArrayList<Player> playerArrayList=new ArrayList<Player>();
+        playerArrayList.addAll(players);
+        Collections.sort(playerArrayList,(player1,player2)->{
+            if(player1.getScore()>player2.getScore())
+                return -1;
+            else return 1;
+        });
+        if(playerArrayList.get(0).getScore()==playerArrayList.get(1).getScore()){
+            if(getnumberPlayers()>=3 && playerArrayList.get(1).getScore()==playerArrayList.get(2).getScore()){
+                if(getnumberPlayers()==4 && playerArrayList.get(2).getScore()==playerArrayList.get(3).getScore()){
+                    sortPrivateScore(4,playerArrayList);
+                }else
+                    sortPrivateScore(3,playerArrayList);
+            }else
+                sortPrivateScore(2,playerArrayList);
+        }
+        winner = playerArrayList.get(0);
+        for(Player p:playerArrayList) {
+            JSONObject provv = new JSONObject();
+            provv.put("player", p.getNickname());
+            provv.put("score", p.getScore() + "");
+            ranking.put(provv);
+        }
+        return ranking;
+    }
+
 
     /**Order players in order to them's private score
      * @param num int number of player that have same final score
