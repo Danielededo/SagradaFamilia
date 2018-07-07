@@ -474,7 +474,7 @@ public class ControllerG {
                         hub.notify(hub.getListofobserver().get(k), Constants.ON_DIE_CLICKED);
 
                         hub.notify(hub.getListofobserver().get(k),Constants.CLICK_ON_TRACK);
-                        index_roundtrackDie=selection(Constants.ROUNDTRACK + 90,0,k) - Constants.ROUNDTRACK;
+                        index_roundtrackDie=selection(Constants.ROUNDTRACK + 90,Constants.ROUNDTRACK,k) - Constants.ROUNDTRACK;
                         hub.notify(hub.getListofobserver().get(k), Constants.ON_TRACK_CLICKED);
 
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
@@ -589,7 +589,7 @@ public class ControllerG {
                             Die d = match.getSack().extractdie();
                             JSONObject obj = new JSONObject();
                             obj.put("color", d.getDicecolor().name());
-                            obj.put("face", d.getFace());
+                            obj.put("face", d.getFace() + "");
 
                             hub.notify(hub.getListofobserver().get(k),Constants.ENTER_VALUE);
                             hub.notify(hub.getListofobserver().get(k), obj.toString());
