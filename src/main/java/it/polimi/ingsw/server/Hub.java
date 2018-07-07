@@ -241,6 +241,7 @@ public class Hub {
                         }
                         controller.match.setRound(11);
                         terminateHub();
+                        return;
                     }
             }
         }
