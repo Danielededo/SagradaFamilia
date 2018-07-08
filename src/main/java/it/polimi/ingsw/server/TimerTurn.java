@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
 
-import java.rmi.RemoteException;
 import java.util.TimerTask;
 
 public class TimerTurn extends TimerTask {
@@ -30,7 +29,7 @@ public class TimerTurn extends TimerTask {
                 s.notify(c,"Sei stato disconnesso dato che è scaduto il tempo\nPotrai riconnetterti usando le tue credenziali");
                 s.notify(c,"disconnettiti");
             }
-        } catch (RemoteException e) {
-        } catch (InterruptedException e) {}
+        } catch (Exception ignored) {
+        }
     }
 }

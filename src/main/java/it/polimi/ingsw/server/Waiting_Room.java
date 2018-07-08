@@ -57,7 +57,7 @@ public class Waiting_Room {
      * @throws InterruptedException
      * @throws RemoteException called when connection is lost
      */
-    public void waiting_match() throws InterruptedException, RemoteException {
+    public void waiting_match() throws Exception {
         for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);
             hub.notifyObserver("Timer");

@@ -49,7 +49,7 @@ public class Controller {
      * @throws RemoteException called when connection is lost
      * @throws InterruptedException
      */
-    public void setMatch() throws RemoteException, InterruptedException {
+    public void setMatch() throws Exception {
         int i=0;
         for(Player p: match.getPlayers()){
             hub.getServer().getMatches().put(p.getNickname(), hub);
@@ -134,7 +134,7 @@ public class Controller {
      * @throws RemoteException called when connection is lost
      * @throws InterruptedException
      */
-    public void round() throws RemoteException, InterruptedException {
+    public void round() throws RemoteException, InterruptedException,Exception {
         if(match.getRound()==1)
             hub.notifyObserver(match.getGlassWindowPlayers()+separator+"\n"+Colour.RED.escape()
                     +"LA PARTITA HA INIZIO"+Colour.RESET);
@@ -156,20 +156,22 @@ public class Controller {
                 }
             }else return;
         }
-        endRound=true;
-        hub.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET+
-                "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
+        if (hub.start){
+            endRound=true;
+            hub.notifyObserver(Colour.GREEN.escape()+"IL "+match.getRound()+"° ROUND è TERMINATO"+Colour.RESET+
+                    "\nServer -> Le carte obiettivo pubblico sono: "+match.publictargetString());
 
-        //hub.thread.cancel();
-        Thread.sleep(2000);
-        match.endRound();
-        if(match.getRound()!=11) {
-            hub.getListofobserver().add(hub.getListofobserver().get(0));
-            hub.getListofobserver().remove(0);
+            //hub.thread.cancel();
+            Thread.sleep(2000);
+            match.endRound();
+            if(match.getRound()!=11) {
+                hub.getListofobserver().add(hub.getListofobserver().get(0));
+                hub.getListofobserver().remove(0);
+            }
+            hub.thread=new DisconnectionThread(hub);
+            //hub.timer.schedule(hub.thread,0,500);
+            endRound=false;
         }
-        hub.thread=new DisconnectionThread(hub);
-        //hub.timer.schedule(hub.thread,0,500);
-        endRound=false;
     }
 
     /**
@@ -180,72 +182,74 @@ public class Controller {
      * @param t is the reference to turn if it second or first
      * @throws RemoteException called when connection is lost
      */
-    private void handleTurn(Round round, int z, int k, int t)throws RemoteException{
-        timerTurn=new TimerTurn(hub.getListofobserver().get(k), hub);
+    private void handleTurn(Round round, int z, int k, int t)throws RemoteException,Exception{
         try {
-            if (round.getTurns().get(z).getOneplayer().isConnected()) {
-                dicehand_done=false;
-                toolhand_done=false;
-                int cont_turn=1;
-                hub.notifyOthers(hub.getListofobserver().get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
-                hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
-                int menu;
-                if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
-                    hub.timer.schedule(timerTurn,1000*timer_t);
-                    do {
-                        hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().toString());
-                        if (dicehand_done && toolhand_done){
-                            hub.notify(hub.getListofobserver().get(k),"Puoi solo terminare il tuo turno ");
-                        }
-                        else
-                        if(!dicehand_done && toolhand_done)
-                            hub.notify(hub.getListofobserver().get(k),"Puoi solo posizionare un dado o terminare il turno");
-                        else if(dicehand_done && !toolhand_done)
-                            hub.notify(hub.getListofobserver().get(k),"Puoi solo usare una carta utensile o terminare il turno");
-                        hub.notify(hub.getListofobserver().get(k),menu());
-                        menu=selection(3,0,k);
-                        switch (menu){
-                            case 0:{
-                                hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha terminato il suo turno");
-                                timerTurn.cancel();
-                                hub.timer.purge();
-                                cont_turn=0;
-                                break;
+            timerTurn=new TimerTurn(hub.getListofobserver().get(k), hub);
+            try {
+                if (round.getTurns().get(z).getOneplayer().isConnected()) {
+                    dicehand_done=false;
+                    toolhand_done=false;
+                    int cont_turn=1;
+                    hub.notifyOthers(hub.getListofobserver().get(k),"Aspetta il tuo turno\n"+round.getTurns().get(z).getOneplayer().getNickname()+" sta eseguendo il suo turno\nRiserva: "+match.getStock().toString());
+                    hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" è il tuo turno"+Colour.GREEN.escape()+"\nRound: "+match.getRound()+"; Turno: "+t+Colour.RESET);
+                    int menu;
+                    if (!round.getTurns().get(z).getOneplayer().isMissednextturn()){
+                        hub.timer.schedule(timerTurn,1000*timer_t);
+                        do {
+                            hub.notify(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().toString());
+                            if (dicehand_done && toolhand_done){
+                                hub.notify(hub.getListofobserver().get(k),"Puoi solo terminare il tuo turno ");
                             }
-                            case 1:{
-                                if (!dicehand_done) dicehand(k,z,round);
-                                else hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado in questo turno");
-                                break;
+                            else
+                            if(!dicehand_done && toolhand_done)
+                                hub.notify(hub.getListofobserver().get(k),"Puoi solo posizionare un dado o terminare il turno");
+                            else if(dicehand_done && !toolhand_done)
+                                hub.notify(hub.getListofobserver().get(k),"Puoi solo usare una carta utensile o terminare il turno");
+                            hub.notify(hub.getListofobserver().get(k),menu());
+                            menu=selection(3,0,k);
+                            switch (menu){
+                                case 0:{
+                                    hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha terminato il suo turno");
+                                    timerTurn.cancel();
+                                    hub.timer.purge();
+                                    cont_turn=0;
+                                    break;
+                                }
+                                case 1:{
+                                    if (!dicehand_done) dicehand(k,z,round);
+                                    else hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado in questo turno");
+                                    break;
+                                }
+                                case 2:{
+                                    if(!toolhand_done)
+                                        tool_hand(k,z,round,cont_turn);
+                                    else
+                                        hub.notify(hub.getListofobserver().get(k),"Hai già usato una carta utensile in questo turno");
+                                    break;
+                                }
                             }
-                            case 2:{
-                                if(!toolhand_done)
-                                    tool_hand(k,z,round,cont_turn);
-                                else
-                                    hub.notify(hub.getListofobserver().get(k),"Hai già usato una carta utensile in questo turno");
-                                break;
-                            }
-                        }
-                    } while (cont_turn!=0);
-                }else {
-                    hub.notify(hub.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
-                    hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
-                    round.getTurns().get(z).getOneplayer().setMissednextturn(false);
+                        } while (cont_turn!=0);
+                    }else {
+                        hub.notify(hub.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
+                        hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
+                        round.getTurns().get(z).getOneplayer().setMissednextturn(false);
+                    }
+                    hub.notifyObserver("Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
                 }
-                hub.notifyObserver("Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
-            }
-            else{
+                else{
+                    hub.notifyOthers(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
+                            +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
+                }
+            } catch (UnmarshalException | ConnectException e) {
+                round.getTurns().get(z).getOneplayer().setConnected(false);
+                System.out.println(round.getTurns().get(z).getOneplayer().getNickname()+" disconnesso");
                 hub.notifyOthers(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
                         +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
+                timerTurn.cancel();
+                hub.timer.purge();
+                return;
             }
-        } catch (UnmarshalException | ConnectException e) {
-            round.getTurns().get(z).getOneplayer().setConnected(false);
-            System.out.println(round.getTurns().get(z).getOneplayer().getNickname()+" disconnesso");
-            hub.notifyOthers(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname()+" salta il turno perchè è disconnesso\n"
-                    +"Alla fine di questo turno, "+round.getTurns().get(z).getOneplayer().toStringpublic()+separator);
-            timerTurn.cancel();
-            hub.timer.purge();
-            return;
-        }
+        }catch (NullPointerException ignored){}
     }
 
     /**
@@ -275,7 +279,7 @@ public class Controller {
             match.getStock().getDicestock().remove(index_draft);
             dicehand_done=true;
         } else
-            hub.notify(hub.getListofobserver().get(k), match.getRules().getError());
+            hub.notify(hub.getListofobserver().get(k), Colour.GREEN.escape()+match.getRules().getError()+Colour.RESET);
         }
     }
 
@@ -295,13 +299,13 @@ public class Controller {
         match.getTool().get(index-1).setPlayer(round.getTurns().get(z).getOneplayer());
         if (match.getTool().get(index-1).tokencontroller()){
             if (!tool_selection(k,z,round,match.getTool().get(index-1),cont_turn)){
-                hub.notify(hub.getListofobserver().get(k),match.getTool().get(index-1).getError());
+                hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+match.getTool().get(index-1).getError()+Colour.RESET);
             }else {
                 hub.notify(hub.getListofobserver().get(k),"Operazione completata");
                 toolhand_done=true;
                 hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index-1).getName());
             }
-        }else hub.notify(hub.getListofobserver().get(k),"Non hai abbastanza segnalini favore");
+        }else hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non hai abbastanza segnalini favore"+Colour.RESET);
     }
 
     /**
@@ -350,7 +354,7 @@ public class Controller {
                         slots.add(slot2);
                         return tool.effect(dice,match,slots,0);
                     }
-                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sulla tua carta schema");
+                    hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non ci sono abbastanza dadi sulla tua carta schema"+Colour.RESET);
                     return false;
                 }
                 case "Alesatore per lamina di rame": {
@@ -368,7 +372,7 @@ public class Controller {
                         slots.add(slot2);
                         return tool.effect(dice,match,slots,0);
                     }
-                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non ci sono abbastanza dadi sul tracciato"+Colour.RESET);
                     return false;
                 }
                 case "Lathekin": {
@@ -392,7 +396,7 @@ public class Controller {
                         slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row4,column4));
                         return tool.effect(dice,match,slots,0);
                     }
-                    hub.notify(hub.getListofobserver().get(k),"Non ci sono abbastanza dadi sul tracciato");
+                    hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non ci sono abbastanza dadi sul tracciato"+Colour.RESET);
                     return false;
                 }
                 case "Taglierina circolare": {
@@ -407,7 +411,7 @@ public class Controller {
                         dice.add(match.getStock().getDicestock().get(index_draft));
                         dice.add(match.getRoundTrackList(index_roundtrackList).get(index_roundtrackDie));
                         return tool.effect(dice,match,slots,index_roundtrackList);
-                    }else hub.notify(hub.getListofobserver().get(k),"Non ci sono dadi sul tracciato dei round");
+                    }else hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non ci sono dadi sul tracciato dei round"+Colour.RESET);
                     return false;
                 }
                 case "Pennello per Pasta Salda": {
@@ -422,17 +426,17 @@ public class Controller {
                         if (!dicehand_done)
                             return tool.effect(dice,match,slots,0);
                         else {
-                            hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado perciò non puoi usare questa carta");
+                            hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Hai già posizionato un dado perciò non puoi usare questa carta"+Colour.RESET);
                             return false;
                         }
                     }
-                    hub.notify(hub.getListofobserver().get(k),"Non è il tuo secondo turno");
+                    hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non è il tuo secondo turno"+Colour.RESET);
                     return false;
                 }
                 case "Tenaglia a Rotelle": {
                     int index_draft,row,column;
                     if (!dicehand_done || match.getPlayers().get(k).getContTurn()==2){
-                        hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta");
+                        hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non puoi usare questa carta"+Colour.RESET);
                         return false;
                     }
                     hub.notify(hub.getListofobserver().get(k),tool.getPlayer().getWindow()+"\nPuoi selezionare un altro dado dalla riserva: "+match.getStock().toString());
@@ -462,7 +466,7 @@ public class Controller {
                             return true;
                         }else return false;
                     }else {
-                        hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado");}
+                        hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Hai già posizionato un dado"+Colour.RESET);}
                     return false;
                 }
                 case "Tampone Diamantato": {
@@ -502,7 +506,7 @@ public class Controller {
                                 return false;
                             }
                         }
-                    }else hub.notify(hub.getListofobserver().get(k),"Hai già posizionato un dado");
+                    }else hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Hai già posizionato un dado"+Colour.RESET);
                     return false;
                 }
                 case "Taglierina Manuale": {
@@ -532,11 +536,11 @@ public class Controller {
                             }else return tool.effect(dice,match,slots,0);
                         }
                         else{
-                            hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta perchè non ci sono abbastanza dadi sulla tua vetrata");
+                            hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non puoi usare questa carta perchè non ci sono abbastanza dadi sulla tua vetrata"+Colour.RESET);
                             return false;
                         }
                     }else {
-                        hub.notify(hub.getListofobserver().get(k),"Non puoi usare questa carta nel 1° round perchè non ci sono dadi sul tracciato dei round");
+                        hub.notify(hub.getListofobserver().get(k),Colour.GREEN.escape()+"Non puoi usare questa carta nel 1° round perchè non ci sono dadi sul tracciato dei round"+Colour.RESET);
                         return false;
                     }
                 }
