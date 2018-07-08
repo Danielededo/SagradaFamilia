@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class MainBoard extends GridPane{
     public void setting(String oldie, String newie, IntegerProperty hey){
         if(oldie.equals("Public")){
             Platform.runLater(() -> {
-                JSONArray publi = new JSONArray(newie);
+                try{JSONArray publi = new JSONArray(newie);
                 int i = 0;
                 while (i < publi.length()) {
                     for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
@@ -108,7 +109,7 @@ public class MainBoard extends GridPane{
                         }
                     }
                     i++;
-                }
+                }}catch (JSONException e){}
             });
         }else if(oldie.equals("Tool")){
             Platform.runLater(() -> {
@@ -135,7 +136,11 @@ public class MainBoard extends GridPane{
                 }
             });
         }else if(oldie.equals("Scheme")) {
-            Platform.runLater(() -> popup.getAmong().add(updatingScheme(new JSONObject(newie))));
+            Platform.runLater(() -> {
+                try{
+                    popup.getAmong().add(updatingScheme(new JSONObject(newie)));
+                }catch (JSONException e){}
+            });
 
         }else if(newie.equals("Scheme done")){
             Platform.runLater(() -> hey.setValue(popup.gimmeInt("Vetrate estratte", "Scegli una carta vetrata tra quelle estratte")));
@@ -162,18 +167,20 @@ public class MainBoard extends GridPane{
     public void duringTurn(String oldie, String newie, IntegerProperty hey) {
         if (oldie.equals("DRAFT")) {
             Platform.runLater(() -> {
-                JSONArray dr = new JSONArray(newie);
-                int i;
-                for(i = 0; i < dr.length(); i++){
-                    JSONObject obj = dr.getJSONObject(i);
-                    DieG provv = new DieG(necessary.faceComparing(String.valueOf(obj.get("Face"))));
-                    provv.setColour(necessary.colorComparing(obj.getString("Color")));
-                    provv.setPos(draftp.getDraftie().size() + 1);
-                    draftp.getDraftie().add(provv);
-                }
-                for (DieG d: draftp.getDraftie())
-                    draftp.add(d, draftp.getDraftie().indexOf(d), 1);
-                hey.setValue(-1);
+                try {
+                    JSONArray dr = new JSONArray(newie);
+                    int i;
+                    for(i = 0; i < dr.length(); i++){
+                        JSONObject obj = dr.getJSONObject(i);
+                        DieG provv = new DieG(necessary.faceComparing(String.valueOf(obj.get("Face"))));
+                        provv.setColour(necessary.colorComparing(obj.getString("Color")));
+                        provv.setPos(draftp.getDraftie().size() + 1);
+                        draftp.getDraftie().add(provv);
+                    }
+                    for (DieG d: draftp.getDraftie())
+                        draftp.add(d, draftp.getDraftie().indexOf(d), 1);
+                    hey.setValue(-1);
+                }catch (JSONException e){}
         });
         }else if (oldie.equals("DRAFT END")) {
             Platform.runLater(() -> mex.setText(newie));
@@ -321,6 +328,11 @@ public class MainBoard extends GridPane{
             Platform.runLater(() -> {
 
             });
+        }else if(oldie.equals(Constants.TOOL_RIGHT_USE)){
+            Platform.runLater(()->{
+                int i=Integer.parseInt(newie);
+                cardst.add(new Label("Segnalini necessari: 2"), i, 2);
+            });
         }
 
 
@@ -376,12 +388,16 @@ public class MainBoard extends GridPane{
         } else if(oldie.equals(Constants.PAY_UP)){
             Platform.runLater(() -> {
                 if((tspace.getMoney().size() - Integer.parseInt(newie)) == 1){
+                    tspace.getChildren().remove(0);
                     tspace.getMoney().remove(0);
                 }else if((tspace.getMoney().size() - Integer.parseInt(newie)) == 2){
+                    tspace.getChildren().remove(0);
+                    tspace.getChildren().remove(0);
                     tspace.getMoney().remove(0);
                     tspace.getMoney().remove(0);
                 }else{
                     while(tspace.getMoney().size()!=0){
+                        tspace.getChildren().remove(0);
                         tspace.getMoney().remove(0);
                     }
                 }
