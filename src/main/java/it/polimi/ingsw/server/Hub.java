@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.utils.Colour;
 import it.polimi.ingsw.utils.Constants;
 
 import java.rmi.ConnectException;
@@ -233,7 +232,11 @@ public class Hub {
                         start=false;
                         thread.cancel();
                         j = controller.match.getPlayers().indexOf(p);
-                        notify(listofobserver.get(j), Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
+                        notify(listofobserver.get(j),Constants.WINNER);
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {}
+                        //notify(listofobserver.get(j), Colour.RED.escape()+"Hai vinto, non ci sono altri giocatori connessi"+Colour.RESET);
                         notify(listofobserver.get(j),"disconnettiti");
                         System.out.println(p.getNickname()+ " ha vinto dato che non ci sono altri giocatori connessi");
                         List<String> list=controller.match.getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());

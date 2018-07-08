@@ -11,8 +11,10 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.json.JSONArray;
@@ -197,6 +199,19 @@ public class GUI extends Application implements ClientInt {
                     if(a.getName().equals(newie))
                         a.getLabel().setText("disconnesso");
                 }
+            });
+        }else if(newie.equals(Constants.WINNER)){
+            Platform.runLater(()->{
+                Label lab= new Label();
+                lab.setText(Constants.WINNER);
+                lab.setStyle("-fx-font-size: 30");
+                lab.setTextFill(Paint.valueOf("#6600cc"));
+                StackPane stackPane= new StackPane();
+                stackPane.setStyle("-fx-background-color: #cce6ff");
+                stackPane.getChildren().add(lab);
+                stackPane.setAlignment(Pos.CENTER);
+                stage.setScene(new Scene(stackPane, 1000,600));
+                stage.show();
             });
         }
     }

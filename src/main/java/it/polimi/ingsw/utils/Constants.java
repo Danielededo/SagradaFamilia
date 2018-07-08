@@ -102,6 +102,7 @@ public class Constants {
     public static final String CLEAN_DRAFT = "Remove dice";
     public static final String SHIFT = "Shift";
     public static final String DISCONNECTED = " salta il turno perchè è disconnesso";
+    public static final String WINNER ="Hai vinto dato che non ci sono altri giocatori connessi";
     public static final String PASS = "Pass";
     public static final String MENU_W = "Menù complete";
     public static final String MENU_T = "Menù tool";
