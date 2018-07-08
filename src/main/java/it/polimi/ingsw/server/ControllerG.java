@@ -44,7 +44,7 @@ public class ControllerG {
         return rank;
     }
 
-    public void setMatch() throws RemoteException, InterruptedException {
+    public void setMatch() throws RemoteException, InterruptedException,Exception {
         for (int i=0;i<match.getnumberPlayers();i++) {
             hub.o.put(match.getPlayers().get(i).getNickname(), hub.getListofobserver().get(i).getPassword());
         }
@@ -144,7 +144,7 @@ public class ControllerG {
     }
 
 
-    public void round() throws RemoteException, InterruptedException {
+    public void round() throws RemoteException, InterruptedException,Exception {
         Round round= new Round(match);
         int k=0,t=1;
         for(int z=0; z<2*match.getnumberPlayers();z++){
@@ -163,27 +163,28 @@ public class ControllerG {
             }else return;
         }
 
+        if (hub.start){
+            endRound=true;
+            hub.thread.cancel();
+            //Thread.sleep(2000);
 
-        endRound=true;
-        hub.thread.cancel();
-        //Thread.sleep(2000);
+            match.endRound();
 
-        match.endRound();
+            if(match.getRound()!=11) {
+                hub.notifyObserver("ROUNDTRACK");
+                hub.notifyObserver(roundtrackPacking().toString());
+                System.out.println(roundtrackPacking().toString());
 
-        if(match.getRound()!=11) {
-            hub.notifyObserver("ROUNDTRACK");
-            hub.notifyObserver(roundtrackPacking().toString());
-            System.out.println(roundtrackPacking().toString());
-
-            hub.getListofobserver().add(hub.getListofobserver().get(0));
-            hub.getListofobserver().remove(0);
+                hub.getListofobserver().add(hub.getListofobserver().get(0));
+                hub.getListofobserver().remove(0);
+            }
+            hub.thread=new DisconnectionThread(hub);
+            hub.timer.schedule(hub.thread,0,500);
+            endRound=false;
         }
-        hub.thread=new DisconnectionThread(hub);
-        hub.timer.schedule(hub.thread,0,500);
-        endRound=false;
     }
 
-    public void handleTurn(Round round,int z,int k,int t)throws RemoteException{
+    public void handleTurn(Round round,int z,int k,int t)throws RemoteException,Exception{
         timerTurn=new TimerTurn(hub.getListofobserver().get(k), hub);
         try {
             if (round.getTurns().get(z).getOneplayer().isConnected()) {
