@@ -9,7 +9,6 @@ public class Client_starter {
     public static void main(String[] args) throws RemoteException {
         Client client = null;
         String port = null,ip = null;
-        boolean c=false;
         int i=0;
         try {
             while(i<args.length) {

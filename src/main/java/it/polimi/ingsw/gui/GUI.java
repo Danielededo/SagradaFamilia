@@ -43,22 +43,29 @@ public class GUI extends Application implements ClientInt {
 
 
 
-    public static void main(String[] args){
-        try {
-            args[0]=args[0].replaceAll("-","");
-            args[1]=args[1].replaceAll("-","");
-            clientGui=new ClientGui(args[0],args[1]);
+    public static void main(String[] args) throws RemoteException {
+            String port = null,ip = null;
+            int i=0;
+            try {
+                while(i<args.length) {
+                    if (args[i].equals("-p") && i == 1) {
+                        port = args[i + 1];
+                        ip = args[0];
+                    } else if (args[i].equals("-p") && i == 0) {
+                        port = args[i + 1];
+                        ip = args[i + 2];
+                    }
+                    i++;
+                }
+                if (args.length==1){
+                    clientGui=new ClientGui(Constants.config.get(0),args[0]);
+                }else clientGui=new ClientGui(port,ip);
+            }catch (ArrayIndexOutOfBoundsException|NullPointerException e){
+                System.err.println("Non è stata inserita nessuna porta o indirizzo ip");
+                System.out.println("usage: LM_15_client.jar IP_ADDRESS [-p PORT_NUMBER]");
+                System.exit(-1);
+            }
             launch(args);
-
-            /**/
-        }catch (ArrayIndexOutOfBoundsException e ){
-            System.err.println("Non è stata inserita nessuna porta o indirizzo ip");
-            System.exit(-1);
-        }catch (Exception e){
-            System.err.println("Client exception:   "+ e.toString());
-            e.printStackTrace();
-            System.exit(-1);
-        }
     }
 
     public void start(Stage stage) {

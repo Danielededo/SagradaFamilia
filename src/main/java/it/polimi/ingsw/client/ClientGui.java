@@ -36,7 +36,6 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
 
     public ClientGui(String PORT, String serverIP) throws RemoteException {
         super();
-
         try {
             this.PORT = Integer.parseInt(PORT);
             this.serverIP = serverIP;
@@ -58,9 +57,11 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
             };
             timer.scheduleAtFixedRate(task, 0, 1000);
         }catch (NumberFormatException e) {
+            System.out.println("usage: LM_15_client.jar IP_ADDRESS [-p PORT_NUMBER]");
             System.err.println("Porta inserita non valida");
             System.exit(-1);
         }catch (UnknownHostException e) {
+            System.out.println("usage: LM_15_client.jar IP_ADDRESS [-p PORT_NUMBER]");
             System.err.println("Indirizzo ip non valido");
             System.exit(-1);
         }catch (ConnectException e){
