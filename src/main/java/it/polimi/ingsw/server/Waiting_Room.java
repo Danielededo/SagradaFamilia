@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class Waiting_Room {
     private ArrayList<Player> players;
     private Hub hub;
-    private Controller c;
+    private Match match;
+    private ControllerG c;
     private static int timer_waiting;
 
 
@@ -17,7 +18,7 @@ public class Waiting_Room {
         return players;
     }
 
-    public Waiting_Room(Hub hub, Controller controller, int timer_waiting) {
+    public Waiting_Room(Hub hub, ControllerG controller, int timer_waiting) {
         this.hub = hub;
         this.c = controller;
         this.timer_waiting=timer_waiting;
@@ -61,11 +62,10 @@ public class Waiting_Room {
         for (int i=timer_waiting;i>0;i--){
             Thread.sleep(500);
             hub.notifyObserver("Timer");
+            hub.notifyObserver(i+"");
             Thread.sleep(500);
-            if (players.size()>1&&players.size()<4){
-            hub.notifyObserver(""+i);
             System.out.print("\r"+i);
-            }else {
+            if (players.size()<=1 || players.size()==4){
                 i=0;
             }
         }

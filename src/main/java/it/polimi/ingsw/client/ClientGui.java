@@ -114,6 +114,11 @@ public class ClientGui extends UnicastRemoteObject implements ClientInt {
         this.nickerr = nickerr;
     }
 
+    @Override
+    public void connected() throws RemoteException {
+
+    }
+
     public void verifyconnection(){
         try {
             stub.ping();

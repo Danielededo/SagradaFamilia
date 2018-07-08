@@ -53,40 +53,6 @@ public class WaitingR extends BorderPane{
 
     }
 
-    /*public void start(Stage primaryStage) throws Exception {
-        wrlistensProperty().addListener(((observable, oldValue, newValue) -> {
-            if(oldValue.equals("Timer")) {
-                Platform.runLater(() -> other.setText(newValue));
-            }else if(oldValue.equals("Timer stop")) {
-                if (newValue.equals("Solo")) {
-                    Platform.runLater(() -> {
-                            soli.setText("Attendi che uno o più giocatori partecipino alla partita");
-                            other.setText("");
-                    });
-                } else {
-                    Platform.runLater(() -> {
-                        try {
-                            board.start(primaryStage);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-        }));
-
-        primaryStage.setOnCloseRequest(event -> {
-            System.exit(-1);
-        });
-
-        primaryStage.setScene(new Scene(wrl));
-        //primaryStage.setFullScreen(true);
-        primaryStage.show();
-
-    }*/
-
-
-
     public Label getSoli() {
         return soli;
     }

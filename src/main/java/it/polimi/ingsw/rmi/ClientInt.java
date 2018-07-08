@@ -14,4 +14,5 @@ public interface ClientInt extends Remote {
     public String getPassword() throws RemoteException;
     public boolean isNickerr() throws RemoteException;
     public void setNickerr(boolean nickerr) throws RemoteException;
+    public void connected() throws RemoteException;
 }

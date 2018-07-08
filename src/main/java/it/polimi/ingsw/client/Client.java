@@ -171,4 +171,8 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     public void setNickerr(boolean nickerr) throws RemoteException{
         this.nickerr = nickerr;
     }
+
+    @Override
+    public void connected() throws RemoteException {
+    }
 }

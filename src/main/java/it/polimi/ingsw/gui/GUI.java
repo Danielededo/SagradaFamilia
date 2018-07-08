@@ -229,4 +229,9 @@ public class GUI extends Application implements ClientInt {
     public void setNickerr(boolean nickerr) throws RemoteException {
 
     }
+
+    @Override
+    public void connected() throws RemoteException {
+
+    }
 }
