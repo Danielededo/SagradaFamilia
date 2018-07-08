@@ -50,8 +50,11 @@ public class MenuBox {
 
         //pass.setSelected(true);
 
-        button.setOnMouseClicked(event -> window.close());
-
+        button.setOnMouseClicked(event -> {
+            if (answer[0]==5)
+                answer[0] = 1;
+            window.close();
+        });
         window.setOnCloseRequest(event -> answer[0] = 1);
 
         VBox menu = new VBox();
@@ -84,7 +87,11 @@ public class MenuBox {
         pass.setOnAction(event -> answer[0] = 1);
         die.setOnAction(event -> answer[0] = 2);
 
-        button.setOnMouseClicked(event -> window.close());
+        button.setOnMouseClicked(event -> {
+            if (answer[0]==5)
+                answer[0] = 1;
+            window.close();
+        });
 
         //pass.setSelected(true);
 
@@ -120,7 +127,11 @@ public class MenuBox {
         pass.setOnAction(event -> answer[0] = 1);
         tool.setOnAction(event -> answer[0] = 3);
 
-        button.setOnMouseClicked(event -> window.close());
+        button.setOnMouseClicked(event -> {
+            if (answer[0]==5)
+                answer[0] = 1;
+            window.close();
+        });
 
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
@@ -137,7 +148,7 @@ public class MenuBox {
 
     public int plusminus(String title, String message){
         final int[] answer = new int[1];
-        answer[0] = 2;
+        answer[0] = 7;
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -153,7 +164,11 @@ public class MenuBox {
         minus.setOnAction(event -> answer[0] = 0);
 
         Label lab = new Label(message);
-        button.setOnMouseClicked(event -> window.close());
+        button.setOnMouseClicked(event -> {
+            if (answer[0]==7)
+                answer[0] = 2;
+            window.close();
+        });
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
@@ -203,7 +218,7 @@ public class MenuBox {
 
     public int howMany(String title, String message){
         final int[] answer = new int[1];
-        answer[0] = 3;
+        answer[0] = 7;
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -223,7 +238,11 @@ public class MenuBox {
         two.setOnAction(event -> answer[0] = 2);
 
         Label lab = new Label(message);
-        button.setOnMouseClicked(event -> window.close());
+        button.setOnMouseClicked(event -> {
+            if (answer[0]==7)
+                answer[0] = 3;
+            window.close();
+        });
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(10);
