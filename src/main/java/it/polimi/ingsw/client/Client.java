@@ -31,6 +31,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             this.PORT= Integer.parseInt(PORT);
         } catch (NumberFormatException e) {
             System.err.println("Porta inserita non valida");
+            System.out.println("usage: LM_15_client.jar -p PORT_NUMBER -ip IP_ADDRESS");
             System.exit(-1);
         }
     }

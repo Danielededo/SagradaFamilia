@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Waiting_Room {
     private ArrayList<Player> players;
     private Hub hub;
-    private Match match;
     private Controller c;
     private static int timer_waiting;
 
