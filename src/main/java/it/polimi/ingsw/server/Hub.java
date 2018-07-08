@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.utils.Constants;
+import org.json.JSONObject;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
@@ -33,7 +34,7 @@ public class Hub {
         this.timer_t=timer_t;
         thread=new DisconnectionThread(this);
         setupGame=new TimerTurn(this);
-        controller=new ControllerG(this,this.timer_window,this.timer_t);
+        controller =new ControllerG(this,this.timer_window,this.timer_t);
         this.room=new Waiting_Room(this, controller,this.timer_waiting);
         timer.scheduleAtFixedRate(thread,0,500);
         t.scheduleAtFixedRate(setupGame,0,1000);
@@ -86,7 +87,10 @@ public class Hub {
                 } catch (InterruptedException e) {}
                 listofobserver.set(i,o);
                 controller.match.getPlayers().get(i).setConnected(true);
-                notify(o,"Sei stato riconnesso");
+                JSONObject rec = controller.packForReconnecting(i);
+
+                notify(o, Constants.RECONNECTED);
+                notify(o, rec.toString());
                 System.out.println(o.getNickname()+" riconnesso");
                 if(!endRound) {
                     thread = new DisconnectionThread(this);

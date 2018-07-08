@@ -148,7 +148,6 @@ public class MainBoard extends GridPane{
                 scheme = popup.getAmong().get(hey.getValue()-1);
                 personal.getChildren().add(new Label(scheme.getName()));
                 personal.getChildren().add(scheme);
-                //tspace = new TokenSpace();
                 tspace.setTok(scheme.getDifficulty());
             });
         }else if(oldie.equals("Adv")){
@@ -176,7 +175,9 @@ public class MainBoard extends GridPane{
                         draftp.getDraftie().add(provv);
                     }
                     for (DieG d: draftp.getDraftie())
+                        try{
                         draftp.add(d, draftp.getDraftie().indexOf(d), 1);
+                        }catch (IllegalArgumentException e){}
                     hey.setValue(-1);
         });
         }else if (oldie.equals("DRAFT END")) {
@@ -232,10 +233,11 @@ public class MainBoard extends GridPane{
             Platform.runLater(() -> {
                 JSONObject obj = new JSONObject(newie);
                 int i = obj.getInt("round");
-                GridPane provv = diceUnpackR(obj.getJSONArray("roundtrack"));
-                roundtrack.add(provv, i, 1);
+                diceUnpackR(obj.getJSONArray("roundtrack"), i);
                 hey.setValue(-1);
             });
+        }else if(oldie.equals(Constants.RECONNECTED)){
+
         }
 
     }
@@ -416,17 +418,10 @@ public class MainBoard extends GridPane{
                     }
                 }
             });
+        } else if(oldie.equals(Constants.RECONNECTED)){
+            Platform.runLater(() -> unpackForReset(new JSONObject(newie)));
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -453,10 +448,9 @@ public class MainBoard extends GridPane{
         return def;
     }
 
-    public GridPane diceUnpackR(JSONArray obj){
-        GridPane neuv = new GridPane();
+    public void diceUnpackR(JSONArray obj, int j){
         int i = 0;
-        int c = 0;
+        int c = 1 + 3*j;
         int r = 0;
         while(i < obj.length()){
             JSONObject die = obj.getJSONObject(i);
@@ -464,15 +458,60 @@ public class MainBoard extends GridPane{
             provv.setColour(necessary.colorComparing(die.getString("Color")));
             provv.setPos(roundtrack.getList().size());
             roundtrack.getList().add(provv);
-            neuv.add(roundtrack.getList().get(roundtrack.getList().size()-1),c,r);
+            roundtrack.add(roundtrack.getList().get(roundtrack.getList().size()-1),c,r);
             if (r==2){
                 r=0;
                 c++;
             }else r++;
             i++;
         }
+    }
 
-        return neuv;
+    public void unpackForReset(JSONObject obj){
+
+        JSONArray publi = new JSONArray(obj.getJSONArray("public"));
+        int i = 0;
+        while (i < publi.length()) {
+            for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
+                if (p.getName().equals(publi.getString(i))) {
+                    pubb.add(p);
+                    cardsp.getChildren().add(p);
+                }
+            }
+            i++;
+        }
+
+        JSONArray too = new JSONArray(obj.getJSONArray("tool"));
+        i = 0;
+        while(i < too.length()) {
+            for (Tools p : necessary.buildingTools(necessary.getToolpath())) {
+                if (p.getName().equals(too.getString(i))) {
+                    p.setValue(i);
+                    toolz.add(p);
+                    cardst.add(p,i,0);
+                }
+            }
+            i++;
+        }
+
+        for(PrivObje p: necessary.buildingPriv(necessary.getPrivpath())){
+            if(p.getName().equals(obj.getString("private"))){
+                yours = p;
+                cards.getChildren().add(yours);
+            }
+        }
+
+        scheme = updatingScheme(obj.getJSONObject("personal"));
+
+        i = 0;
+        JSONArray players = obj.getJSONArray("others");
+        while(i < players.length()) {
+            Adversary provv = updatingAdversary(new JSONObject(players.getJSONObject(i)));
+            adv.add(provv);
+            adversus.getChildren().add(adv.get(adv.size() - 1));
+        }
+
+
     }
 
     public VBox getTwo() {

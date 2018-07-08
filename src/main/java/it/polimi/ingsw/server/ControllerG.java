@@ -45,8 +45,11 @@ public class ControllerG {
     }
 
     public void setMatch() throws RemoteException, InterruptedException,Exception {
-        for (int i=0;i<match.getnumberPlayers();i++) {
-            hub.o.put(match.getPlayers().get(i).getNickname(), hub.getListofobserver().get(i).getPassword());
+        int i=0;
+        for(Player p: match.getPlayers()){
+            hub.getServer().getMatches().put(p.getNickname(), hub);
+            hub.o.put(p.getNickname(), hub.getListofobserver().get(i).getPassword());
+            i++;
         }
         System.out.println(hub.o);
 
@@ -173,9 +176,9 @@ public class ControllerG {
             match.endRound();
 
             if(match.getRound()!=11) {
+                JSONObject obj = roundtrackPacking();
                 hub.notifyObserver("ROUNDTRACK");
-                hub.notifyObserver(roundtrackPacking().toString());
-                System.out.println(roundtrackPacking().toString());
+                hub.notifyObserver(obj.toString());
 
                 hub.getListofobserver().add(hub.getListofobserver().get(0));
                 hub.getListofobserver().remove(0);
@@ -199,16 +202,12 @@ public class ControllerG {
                     do {
                         hub.notifyObserver(Constants.CLEAN_DRAFT);
 
-                        System.out.println("BAH");
-
                         hub.notifyObserver("DRAFT");
                         hub.notifyObserver(dicePacking(match.getStock().getDicestock()).toString());
 
                         hub.notifyObserver("DRAFT END");
-                        hub.notifyOthers(hub.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + "sta eseguendo il suo turno.");
+                        hub.notifyOthers(hub.getListofobserver().get(k), round.getTurns().get(z).getOneplayer().getNickname() + " sta eseguendo il suo turno.");
                         hub.notify(hub.getListofobserver().get(k),"E' il tuo turno. " + "Round: "+match.getRound()+"; Turno: " + t);
-
-                        System.out.println(t + "");
 
                         hub.notifyOthers(hub.getListofobserver().get(k), Constants.ADV_RELOAD);
                         hub.notifyOthers(hub.getListofobserver().get(k), updateAdversary(match.getPlayers().get(k)).toString());
@@ -246,6 +245,7 @@ public class ControllerG {
                         }
                     } while (cont_turn!=0);
                 }else {
+                    hub.notify(hub.getListofobserver().get(k), "ERROR");
                     hub.notify(hub.getListofobserver().get(k),"Hai usato la carta utensile Tenaglia a Rotelle nel tuo primo turno perciò salti il turno corrente");
                     hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" salta il turno per l'uso della carta utensile Tenaglia a Rotelle");
                     round.getTurns().get(z).getOneplayer().setMissednextturn(false);
@@ -328,7 +328,6 @@ public class ControllerG {
             hub.notify(hub.getListofobserver().get(k), Constants.PAY_UP);
             hub.notify(hub.getListofobserver().get(k), match.getPlayers().get(k).getMarker() + "");
 
-            System.out.println("SCHIFO");
             hub.notifyOthers(hub.getListofobserver().get(k), hub.getListofobserver().get(k).getNickname()+" ha usato la carta utensile "+match.getTool().get(index).getName());
         }
     }
@@ -786,8 +785,38 @@ public class ControllerG {
 
      public JSONObject roundtrackPacking(){
         JSONObject object = new JSONObject();
-        object.put("round", match.getRound() - 1);
+        object.put("round", match.getRound());
         object.put("roundtrack", dicePacking(match.getRoundTrackList(match.getRound() - 2)));
         return object;
+     }
+
+     public JSONObject packForReconnecting(int k){
+        JSONObject matching = new JSONObject();
+
+         matching.put("private", match.getPlayers().get(k).getPrivatetarget().getName());
+
+         JSONArray pubb = new JSONArray();
+         for(PublicObject p: match.getPublictarget()){
+             pubb.put(p.getName());
+         }
+         matching.put("public", pubb);
+
+         JSONArray tool = new JSONArray();
+         for(Tool p: match.getTool()){
+             tool.put(p.getName());
+         }
+         matching.put("tool", tool);
+
+         matching.put("personal", updateWindow(match.getPlayers().get(k).getWindow()));
+
+         JSONArray adv = new JSONArray();
+         for(Player p: match.getPlayers()){
+             if(!p.getNickname().equals(match.getPlayers().get(k).getNickname())){
+                 adv.put(updateAdversary(p));
+             }
+         }
+         matching.put("others", adv);
+
+         return matching;
      }
 }

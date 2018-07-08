@@ -125,6 +125,7 @@ public class Constants {
     public static final String ON_TRACK_CLICKED = "Rimuovi i dadi dal tracciato del round";
     public static final String END_GAME = "LA PARTITA E' TERMINATA";
     public static final String PAY_UP = "Segnalini favore necessari";
+    public static final String RECONNECTED = "Sei stato riconnesso";
 
 
 

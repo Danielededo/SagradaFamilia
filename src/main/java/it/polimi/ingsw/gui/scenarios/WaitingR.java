@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui.scenarios;
 
 import it.polimi.ingsw.gui.components.Plancia;
 import it.polimi.ingsw.utils.Constants;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -51,6 +52,13 @@ public class WaitingR extends BorderPane{
 
         setStyle("-fx-background-color: black;");
 
+    }
+
+
+    public void wrlistens(String oldie, String newie) {
+        if (oldie.equals("Timer")) {
+            Platform.runLater(() -> other.setText(newie));
+        }
     }
 
     public Label getSoli() {

@@ -13,20 +13,20 @@ public class ToolSel extends GridPane {
 
     public ToolSel(){
         super();
-        int i=0;
-        while(i<3){
-            Label lab =new Label("Segnalini necessari: 1");
+        int i = 0;
+        while(i < 3){
+            Label lab = new Label("Segnalini necessari: 1");
             signal.add(lab);
-            add(signal.get(signal.size()-1),i,2);
+            add(signal.get(signal.size() - 1), i, 2);
             i++;
         }
     }
 
-    public ArrayList<Label> getSignal() {
-        return signal;
-    }
-
     public ArrayList<Button> getChoosing() {
         return choosing;
+    }
+
+    public ArrayList<Label> getSignal() {
+        return signal;
     }
 }

@@ -8,11 +8,7 @@ import java.util.ArrayList;
 
 public class DraftG extends GridPane {
 
-
-
     private ArrayList<DieG> draftie = new ArrayList<>();
-
-    //private DieG selected = new DieG(new FacciaVuota(Constants.SLOT, Constants.SLOT));
 
     public DraftG(){
         super();
@@ -26,7 +22,5 @@ public class DraftG extends GridPane {
     public ArrayList<DieG> getDraftie() {
         return draftie;
     }
-
-
 
 }

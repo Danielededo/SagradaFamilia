@@ -79,6 +79,8 @@ public class GUI extends Application implements ClientInt {
         stolen.addListener(((observable, oldValue, newValue) -> main.duringTurn(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.placeThatDie(oldValue, newValue, guisays)));
         stolen.addListener(((observable, oldValue, newValue) -> main.tooling(oldValue, newValue, guisays)));
+        stolen.addListener(((observable, oldValue, newValue) -> wr.wrlistens(oldValue, newValue)));
+
         stolen.addListener(((observable, oldValue, newValue) -> endGame(oldValue, newValue, stage)));
 
 
@@ -108,9 +110,6 @@ public class GUI extends Application implements ClientInt {
                             stage.setScene(tavolo);
                             stage.show();
                         }
-                    } else {
-                        stage.setScene(new Scene(wr));
-                        stage.show();
                     }
                 }
             }catch (RemoteException ex) {
@@ -150,8 +149,18 @@ public class GUI extends Application implements ClientInt {
 
     public void talkingToServer(String oldie, String newie, Stage stage) {
         if (oldie.equals("welcome")) {
-            wr.getCurrent().setText(newie);
-        } else if (oldie.equals("connesso")) {
+            Platform.runLater(() -> {
+                wr.getCurrent().setText(newie);
+                stage.setScene(new Scene(wr));
+                stage.show();
+            });
+        } else if (newie.equals(Constants.RECONNECTED)){
+            Platform.runLater(() -> {
+                stage.setScene(new Scene(main));
+                stage.show();
+            });
+
+        }else if (oldie.equals("connesso")) {
             Platform.runLater(() -> {
                 Label gioc = new Label(newie);
                 wr.getPlayers().getChildren().add(gioc);
@@ -162,8 +171,6 @@ public class GUI extends Application implements ClientInt {
                 wr.getPlayers().getChildren().add(gioc);
                 wr.getSoli().setText("");
             });
-        } else if (oldie.equals("Timer")) {
-            Platform.runLater(() -> wr.getOther().setText(newie));
         } else if (oldie.equals("Timer stop")) {
             if (newie.equals("Solo")) {
                 Platform.runLater(() -> {
@@ -190,6 +197,10 @@ public class GUI extends Application implements ClientInt {
                     rank.add(new Label(provv.getString("score")), 1, i + 1);
                     i++;
                 }
+                Label winner = new Label(ranking.getJSONObject(0).getString("player") + " HA VINTO");
+                winner.setTextFill(Paint.valueOf("#ccffff"));
+                winner.setStyle("-fx-font-size: 30");
+                rank.add(winner,0,5, 4,1);
                 stage.setScene(new Scene(rank));
                 stage.show();
             });
