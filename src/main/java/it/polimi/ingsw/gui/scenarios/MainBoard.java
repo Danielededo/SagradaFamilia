@@ -25,8 +25,9 @@ import java.util.ArrayList;
 
 public class MainBoard extends GridPane{
 
+    private BorderPane messages = new BorderPane();
     private Label mex = new Label();
-    private Label timer = new Label();
+    private Label error = new Label();
 
     private Building necessary = new Building();
 
@@ -83,7 +84,9 @@ public class MainBoard extends GridPane{
         two.getChildren().add(lower);
 
         mainone.setCenter(two);
-        mainone.setBottom(mex);
+        messages.setLeft(mex);
+        messages.setRight(error);
+        mainone.setBottom(messages);
         mainone.setTop(roundtrack);
         mainone.setPrefSize(1200,900);
 
@@ -195,6 +198,7 @@ public class MainBoard extends GridPane{
         } else if (oldie.equals(Constants.SHIFT)) {
             Platform.runLater(() -> {
                 mex.setText(newie);
+                error.setText("");
                 hey.setValue(-1);
             });
         } else if(newie.equals(Constants.PASS)){
@@ -220,7 +224,7 @@ public class MainBoard extends GridPane{
             });
         }else if(oldie.equals("ERROR")){
             Platform.runLater(() -> {
-                mex.setText(newie);
+                error.setText(newie);
                 hey.setValue(-1);
             });
         }else if (oldie.equals("ROUNDTRACK")){
@@ -271,7 +275,7 @@ public class MainBoard extends GridPane{
             });
         } else if (oldie.equals("ERROR D")) {
             Platform.runLater(() -> {
-                mex.setText(newie);
+                error.setText(newie);
                 hey.setValue(-1);
             });
         }
@@ -312,7 +316,7 @@ public class MainBoard extends GridPane{
             });
         }else if(oldie.equals("ERROR")){
             Platform.runLater(() -> {
-                mex.setText(newie);
+                error.setText(newie);
                 key.setValue(-1);
             });
         }else if(newie.equals(Constants.HOW_MANY)){
