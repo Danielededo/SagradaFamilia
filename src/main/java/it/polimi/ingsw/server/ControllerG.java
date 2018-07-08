@@ -316,8 +316,8 @@ public class ControllerG {
 
         }else if (!error){
 
-            hub.notify(hub.getListofobserver().get(k),Constants.TOOL_RIGHT_USE);
-            hub.notify(hub.getListofobserver().get(k), index+"");
+            hub.notifyObserver(Constants.TOOL_RIGHT_USE);
+            hub.notifyObserver(index + "");
             hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
             hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
             toolhand_done=true;
@@ -664,15 +664,15 @@ public class ControllerG {
                             slots.add(round.getTurns().get(z).getOneplayer().getWindow().getSlot(row2,column2));
                             if(move==2){
                                 hub.notify(hub.getListofobserver().get(k), "SECONDO DADO");
-                                hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME_2);
-                                index3 = selection(Constants.FO_SLOT, Constants.T_SLOT, k) - Constants.T_SLOT;
+                                hub.notify(hub.getListofobserver().get(k),Constants.CHOOSE_FROM_SCHEME);
+                                index3 = selection(Constants.S_SLOT, Constants.F_SLOT, k) - Constants.F_SLOT;
                                 row3 = rowRefactor(index3);
                                 column3 = coloumnRefactor(index3);
                                 hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);
                                 hub.notify(hub.getListofobserver().get(k), updateWindow(match.getPlayers().get(k).getWindow()).toString());
 
-                                hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME_2);
-                                index4 = selection(Constants.MENU, Constants.FO_SLOT, k) - Constants.FO_SLOT;
+                                hub.notify(hub.getListofobserver().get(k),Constants.WHERE_ON_SCHEME);
+                                index4 = selection(Constants.T_SLOT, Constants.S_SLOT, k) - Constants.S_SLOT;
                                 row4 = rowRefactor(index4);
                                 column4 = coloumnRefactor(index4);
                                 hub.notify(hub.getListofobserver().get(k), Constants.SCHEME_RELOAD);

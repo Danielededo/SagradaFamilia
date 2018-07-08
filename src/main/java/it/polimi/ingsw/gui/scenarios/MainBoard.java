@@ -19,7 +19,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -99,7 +98,7 @@ public class MainBoard extends GridPane{
     public void setting(String oldie, String newie, IntegerProperty hey){
         if(oldie.equals("Public")){
             Platform.runLater(() -> {
-                try{JSONArray publi = new JSONArray(newie);
+                JSONArray publi = new JSONArray(newie);
                 int i = 0;
                 while (i < publi.length()) {
                     for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
@@ -109,9 +108,8 @@ public class MainBoard extends GridPane{
                         }
                     }
                     i++;
-                }}catch (JSONException e){}
-            });
-        }else if(oldie.equals("Tool")){
+            }
+        });}else if(oldie.equals("Tool")){
             Platform.runLater(() -> {
                 JSONArray too = new JSONArray(newie);
                 int i = 0;
@@ -137,11 +135,8 @@ public class MainBoard extends GridPane{
             });
         }else if(oldie.equals("Scheme")) {
             Platform.runLater(() -> {
-                try{
-                    popup.getAmong().add(updatingScheme(new JSONObject(newie)));
-                }catch (JSONException e){}
-            });
-
+                popup.getAmong().add(updatingScheme(new JSONObject(newie)));
+                });
         }else if(newie.equals("Scheme done")){
             Platform.runLater(() -> hey.setValue(popup.gimmeInt("Vetrate estratte", "Scegli una carta vetrata tra quelle estratte")));
         }else if(newie.equals("Timer scelta stop")){
@@ -167,7 +162,6 @@ public class MainBoard extends GridPane{
     public void duringTurn(String oldie, String newie, IntegerProperty hey) {
         if (oldie.equals("DRAFT")) {
             Platform.runLater(() -> {
-                try {
                     JSONArray dr = new JSONArray(newie);
                     int i;
                     for(i = 0; i < dr.length(); i++){
@@ -180,7 +174,6 @@ public class MainBoard extends GridPane{
                     for (DieG d: draftp.getDraftie())
                         draftp.add(d, draftp.getDraftie().indexOf(d), 1);
                     hey.setValue(-1);
-                }catch (JSONException e){}
         });
         }else if (oldie.equals("DRAFT END")) {
             Platform.runLater(() -> mex.setText(newie));
@@ -331,7 +324,7 @@ public class MainBoard extends GridPane{
         }else if(oldie.equals(Constants.TOOL_RIGHT_USE)){
             Platform.runLater(()->{
                 int i=Integer.parseInt(newie);
-                cardst.add(new Label("Segnalini necessari: 2"), i, 2);
+                cardst.getSignal().get(i).setText("Segnalini necessari: 2");
             });
         }
 

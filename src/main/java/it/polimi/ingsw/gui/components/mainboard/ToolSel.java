@@ -9,16 +9,21 @@ import java.util.ArrayList;
 public class ToolSel extends GridPane {
 
     ArrayList<Button> choosing = new ArrayList<>();
+    ArrayList<Label> signal = new ArrayList<>();
 
     public ToolSel(){
         super();
-        Label label = new Label("Segnalini necessari: 1");
-        Label labe = new Label("Segnalini necessari: 1");
-        Label lab = new Label("Segnalini necessari: 1");
-        add(label, 0, 2);
-        add(labe, 1, 2);
-        add(lab, 2, 2);
+        int i=0;
+        while(i<3){
+            Label lab =new Label("Segnalini necessari: 1");
+            signal.add(lab);
+            add(signal.get(signal.size()-1),i,2);
+            i++;
+        }
+    }
 
+    public ArrayList<Label> getSignal() {
+        return signal;
     }
 
     public ArrayList<Button> getChoosing() {

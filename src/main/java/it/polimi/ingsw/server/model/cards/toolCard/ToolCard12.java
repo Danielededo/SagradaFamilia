@@ -50,16 +50,19 @@ public class ToolCard12 extends Tool {
             return false;
         }
 
-
-        if(!match.getRules().rules(ToolCard12.super.getPlayer(), slots.get(1), slots.get(0).getDice())){
+        Die d=slots.get(0).getDice();
+        slots.get(0).setOccupate(false);
+        slots.get(0).setDie(null);
+        if(!match.getRules().rules(ToolCard12.super.getPlayer(), slots.get(1), d)){
             error=list__of_errors[12];
+            slots.get(0).setDie(d);
             getPlayer().setMarker(getPlayer().getMarker()+i);
             if (i==1)setAccessed(false);
             return false;
         }
 
 
-        this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(slots.get(0).getDice());
+        this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(d);
         this.getPlayer().getWindow().getSlot(slots.get(0)).setOccupate(false);
         this.getPlayer().getWindow().getSlot(slots.get(0)).setDie(null);
 
@@ -95,7 +98,10 @@ public class ToolCard12 extends Tool {
 
 
         //regole di piazzamento
-        if(!match.getRules().rules(this.getPlayer(),slots.get(3), slots.get(2).getDice())){
+        Die c=slots.get(2).getDice();
+        slots.get(2).setOccupate(false);
+        slots.get(2).setDie(null);
+        if(!match.getRules().rules(this.getPlayer(),slots.get(3),c)){
             this.getPlayer().getWindow().getSlot(slots.get(0)).setDie(slots.get(1).getDice());
             this.getPlayer().getWindow().getSlot(slots.get(1)).setOccupate(false);
             this.getPlayer().getWindow().getSlot(slots.get(1)).setDie(null);
@@ -106,7 +112,7 @@ public class ToolCard12 extends Tool {
         }
 
 
-        this.getPlayer().getWindow().getSlot(slots.get(3)).setDie(slots.get(2).getDice());
+        this.getPlayer().getWindow().getSlot(slots.get(3)).setDie(c);
         this.getPlayer().getWindow().getSlot(slots.get(2)).setOccupate(false);
         this.getPlayer().getWindow().getSlot(slots.get(2)).setDie(null);
         return true;
