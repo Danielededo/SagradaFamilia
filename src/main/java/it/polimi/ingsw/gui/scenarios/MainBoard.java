@@ -246,6 +246,10 @@ public class MainBoard extends GridPane{
                     d.getButton().setOnMouseClicked(e -> {
                         hey.setValue(d.getPos() + Constants.F_DIE);
                     });
+                    d.getButton().setMaxWidth(Constants.SLOT);
+                    d.getButton().setMaxHeight(Constants.SLOT);
+                    d.getButton().setStyle("-fx-border-color: transparent");
+                    d.getButton().setStyle("-fx-background-color: transparent");
                     d.getChildren().add(d.getButton());
                 }
                 mex.setText(newie);
@@ -261,6 +265,10 @@ public class MainBoard extends GridPane{
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getList()) {
                     t.getButton().setOnMouseClicked(e -> hey.setValue(t.getValue() + Constants.F_SLOT));
+                    t.getButton().setMaxWidth(Constants.SLOT);
+                    t.getButton().setMaxHeight(Constants.SLOT);
+                    t.getButton().setStyle("-fx-border-color: transparent");
+                    t.getButton().setStyle("-fx-background-color: transparent");
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
@@ -340,6 +348,10 @@ public class MainBoard extends GridPane{
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getList()) {
                     t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.F_SLOT));
+                    t.getButton().setMaxWidth(Constants.SLOT);
+                    t.getButton().setMaxHeight(Constants.SLOT);
+                    t.getButton().setStyle("-fx-border-color: transparent");
+                    t.getButton().setStyle("-fx-background-color: transparent");
                     t.getChildren().add(t.getButton());
                 }
                 mex.setText(newie);
@@ -372,6 +384,10 @@ public class MainBoard extends GridPane{
             Platform.runLater(() -> {
                 for(DieG d: roundtrack.getList()){
                     d.getButton().setOnMouseClicked(e -> key.setValue(roundtrack.getList().indexOf(d) + Constants.ROUNDTRACK));
+                    //d.getButton().setMaxWidth(Constants.SLOT);
+                    //d.getButton().setMaxHeight(Constants.SLOT);
+                    //d.getButton().setStyle("-fx-border-color: transparent");
+                    //d.getButton().setStyle("-fx-background-color: transparent");
                     d.getChildren().add(d.getButton());
                 }
                 mex.setText(newie);
