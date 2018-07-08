@@ -463,6 +463,19 @@ public class Match {
         return null;
     }
 
+    public int scanArray(int position){
+        int cont=0;
+        for (int i = 0; i <getRound()-1; i++) {
+            for (int j = 0; j < getRoundTrackList(i).size(); j++) {
+                if (position == cont)
+                    return i;
+                else
+                    cont++;
+            }
+        }
+        return 0;
+    }
+
     public String toStringRoundTrack() {
         String string = "Tracciato dei round:\n";
         for (int i = 0; i <getRound()-1; i++) {

@@ -332,22 +332,12 @@ public class MainBoard extends GridPane{
             });
         }else if(newie.equals(Constants.HOW_MANY)){
             Platform.runLater(() -> key.setValue(menuBox.howMany("Taglierina Manuale", Constants.HOW_MANY)));
-        }else if(newie.equals(Constants.CLICK_ON_TRACK)){
-            Platform.runLater(() -> {
-
-            });
         }else if(oldie.equals(Constants.TOOL_RIGHT_USE)){
             Platform.runLater(()->{
                 int i=Integer.parseInt(newie);
                 cardst.getSignal().get(i).setText("Segnalini necessari: 2");
             });
-        }
-
-
-
-
-
-        else if(newie.equals(Constants.CHOOSE_FROM_SCHEME)){
+        }else if(newie.equals(Constants.CHOOSE_FROM_SCHEME)){
             Platform.runLater(() -> {
                 for (Tassel t : scheme.getList()) {
                     t.getButton().setOnMouseClicked(e -> key.setValue(t.getValue() + Constants.F_SLOT));
@@ -397,8 +387,10 @@ public class MainBoard extends GridPane{
             });
         }else if(newie.equals(Constants.ON_TRACK_CLICKED)){
             Platform.runLater(() -> {
-                for(DieG d: roundtrack.getList()){
-                    d.getChildren().remove(d.getButton());
+                int i=roundtrack.getList().size();
+                while(i!=0){
+                    roundtrack.getList().remove(0);
+                    i--;
                 }
             });
         } else if(oldie.equals(Constants.PAY_UP)){

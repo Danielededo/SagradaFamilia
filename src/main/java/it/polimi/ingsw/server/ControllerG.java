@@ -483,7 +483,16 @@ public class ControllerG {
                         dice.add(match.getStock().getDicestock().get(index_draft - 1));
                         dice.add(match.scanTrack(index_roundtrackDie));
 
-                        return tool.effect(dice,match,slots,0);
+                        int a=match.scanArray(index_roundtrackDie);
+                        if(tool.effect(dice,match,slots,a)){
+                            hub.notifyOthers(hub.getListofobserver().get(k),Constants.ON_TRACK_CLICKED);
+                            for(int i=0;i<match.getRound()-1;i++){
+                                JSONObject obj = roundtrackPacking();
+                                hub.notifyObserver("ROUNDTRACK");
+                                hub.notifyObserver(obj.toString());
+                            }
+                            return true;
+                        }
                     }else {
                         error=true;
                         hub.notify(hub.getListofobserver().get(k), "ERROR");
