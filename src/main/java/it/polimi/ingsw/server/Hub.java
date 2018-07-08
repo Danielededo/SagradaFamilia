@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.utils.Colour;
+import it.polimi.ingsw.utils.Constants;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
@@ -257,10 +258,10 @@ public class Hub {
                     room.getPlayers().remove(i);
                     removeObserver(c);
                 }
-
                 else{
-
                     if(controller.match.getPlayers().get(i).isConnected()) {
+                        notifyOthers(c, Constants.DISCONNECTED);
+                        notifyOthers(c,controller.match.getPlayers().get(i).getNickname());
                         controller.match.getPlayers().get(i).setConnected(false);
                         System.out.println(controller.match.getPlayers().get(i).getNickname() + " disconnesso");
                     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.client.ClientGui;
 import it.polimi.ingsw.gui.components.BoxUnsure;
+import it.polimi.ingsw.gui.components.mainboard.Adversary;
 import it.polimi.ingsw.gui.scenarios.*;
 import it.polimi.ingsw.rmi.ClientInt;
 import it.polimi.ingsw.utils.Constants;
@@ -190,7 +191,13 @@ public class GUI extends Application implements ClientInt {
                 stage.setScene(new Scene(rank));
                 stage.show();
             });
-
+        }else if(oldie.equals(Constants.DISCONNECTED)){
+            Platform.runLater(()->{
+                for(Adversary a: main.getAdv()){
+                    if(a.getName().equals(newie))
+                        a.getLabel().setText("disconnesso");
+                }
+            });
         }
     }
 

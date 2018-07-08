@@ -95,8 +95,9 @@ public class MainBoard extends GridPane{
 
     }
 
-
-
+    public ArrayList<Adversary> getAdv() {
+        return adv;
+    }
 
     public void setting(String oldie, String newie, IntegerProperty hey){
         if(oldie.equals("Public")){

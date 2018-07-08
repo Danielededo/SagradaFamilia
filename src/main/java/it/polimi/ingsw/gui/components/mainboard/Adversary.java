@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 
 public class Adversary extends VBox {
 
+    private Label label=new Label("connesso");
     private String name;
     private Windows glasswindow;
 
@@ -13,7 +14,7 @@ public class Adversary extends VBox {
         super();
         name = nom;
         Label etich = new Label(nom);
-        getChildren().addAll(etich);
+        getChildren().addAll(etich, label);
     }
 
     public String getName() {
@@ -26,6 +27,10 @@ public class Adversary extends VBox {
 
     public Windows getGlasswindow() {
         return glasswindow;
+    }
+
+    public Label getLabel() {
+        return label;
     }
 
     public void setGlasswindow(Windows glasswindow) {

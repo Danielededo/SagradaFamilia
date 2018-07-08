@@ -96,6 +96,8 @@ public class ControllerG {
                     } catch (ConnectException | UnmarshalException e) {
                         match.getPlayers().get(client_index).setConnected(false);
                         System.out.println(match.getPlayers().get(client_index).getNickname()+" disconnesso");
+                        hub.notifyOthers(c, Constants.DISCONNECTED);
+                        hub.notifyOthers(c,match.getPlayers().get(client_index).getNickname());
                         Random r=new Random();
                         this.match.getPlayers().get(client_index).setWindow(windows.get(r.nextInt(windows.size())));
                         //hub.notifyObserver("A "+match.getPlayers().get(client_index).getNickname()+" è stata assegnata casualmente la carta schema non essendo connesso");
@@ -251,13 +253,13 @@ public class ControllerG {
             }
             else{
                 hub.notifyOthers(hub.getListofobserver().get(k), Constants.DISCONNECTED);
-                hub.notifyOthers(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname());
+                hub.notifyOthers(hub.getListofobserver().get(k),match.getPlayers().get(k).getNickname());
             }
         } catch (UnmarshalException | ConnectException e) {
             round.getTurns().get(z).getOneplayer().setConnected(false);
             System.out.println(round.getTurns().get(z).getOneplayer().getNickname()+" disconnesso");
             hub.notifyOthers(hub.getListofobserver().get(k), Constants.DISCONNECTED);
-            hub.notifyOthers(hub.getListofobserver().get(k),round.getTurns().get(z).getOneplayer().getNickname());
+            hub.notifyOthers(hub.getListofobserver().get(k),match.getPlayers().get(k).getNickname());
             timerTurn.cancel();
             return;
         } catch (InterruptedException ignored) {
