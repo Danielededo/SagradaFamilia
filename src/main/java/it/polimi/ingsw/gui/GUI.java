@@ -154,13 +154,14 @@ public class GUI extends Application implements ClientInt {
                 stage.setScene(new Scene(wr));
                 stage.show();
             });
-        } else if (newie.equals(Constants.RECONNECTED)){
+        } else if(oldie.equals(Constants.RECONNECTED)){
             Platform.runLater(() -> {
-                stage.setScene(new Scene(main));
-                stage.show();
+                    main.unpackForReset(new JSONObject(newie));
+                    stage.setScene(new Scene(main));
+                    stage.show();
             });
-
-        }else if (oldie.equals("connesso")) {
+        }
+        else if (oldie.equals("connesso")) {
             Platform.runLater(() -> {
                 Label gioc = new Label(newie);
                 wr.getPlayers().getChildren().add(gioc);

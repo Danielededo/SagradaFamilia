@@ -393,25 +393,23 @@ public class MainBoard extends GridPane{
                     i--;
                 }
             });
-        } else if(oldie.equals(Constants.PAY_UP)){
+        } else if(oldie.equals(Constants.PAY_UP)) {
             Platform.runLater(() -> {
-                if((tspace.getMoney().size() - Integer.parseInt(newie)) == 1){
+                if ((tspace.getMoney().size() - Integer.parseInt(newie)) == 1) {
                     tspace.getChildren().remove(0);
                     tspace.getMoney().remove(0);
-                }else if((tspace.getMoney().size() - Integer.parseInt(newie)) == 2){
+                } else if ((tspace.getMoney().size() - Integer.parseInt(newie)) == 2) {
                     tspace.getChildren().remove(0);
                     tspace.getChildren().remove(0);
                     tspace.getMoney().remove(0);
                     tspace.getMoney().remove(0);
-                }else{
-                    while(tspace.getMoney().size()!=0){
+                } else {
+                    while (tspace.getMoney().size() != 0) {
                         tspace.getChildren().remove(0);
                         tspace.getMoney().remove(0);
                     }
                 }
             });
-        } else if(oldie.equals(Constants.RECONNECTED)){
-            Platform.runLater(() -> unpackForReset(new JSONObject(newie)));
         }
     }
 
@@ -461,11 +459,11 @@ public class MainBoard extends GridPane{
 
     public void unpackForReset(JSONObject obj){
 
-        JSONArray publi = new JSONArray(obj.getJSONArray("public"));
+        //JSONArray publi = new JSONArray(obj.getJSONArray("public"));
         int i = 0;
-        while (i < publi.length()) {
+        while (i < obj.getJSONArray("public").length()) {
             for (PubbObj p : necessary.buildingPubb(necessary.getPubpath())) {
-                if (p.getName().equals(publi.getString(i))) {
+                if (p.getName().equals(obj.getJSONArray("public").getString(i))) {
                     pubb.add(p);
                     cardsp.getChildren().add(p);
                 }
@@ -473,11 +471,11 @@ public class MainBoard extends GridPane{
             i++;
         }
 
-        JSONArray too = new JSONArray(obj.getJSONArray("tool"));
+        //JSONArray too = new JSONArray(obj.getJSONArray("tool"));
         i = 0;
-        while(i < too.length()) {
+        while(i < obj.getJSONArray("tool").length()) {
             for (Tools p : necessary.buildingTools(necessary.getToolpath())) {
-                if (p.getName().equals(too.getString(i))) {
+                if (p.getName().equals(obj.getJSONArray("tool").getString(i))) {
                     p.setValue(i);
                     toolz.add(p);
                     cardst.add(p,i,0);
@@ -496,13 +494,13 @@ public class MainBoard extends GridPane{
         scheme = updatingScheme(obj.getJSONObject("personal"));
 
         i = 0;
-        JSONArray players = obj.getJSONArray("others");
-        while(i < players.length()) {
-            Adversary provv = updatingAdversary(new JSONObject(players.getJSONObject(i)));
+        //JSONArray players = obj.getJSONArray("others");
+        while(i < obj.getJSONArray("others").length()) {
+            Adversary provv = updatingAdversary(new JSONObject(obj.getJSONArray("others").getJSONObject(i)));
             adv.add(provv);
             adversus.getChildren().add(adv.get(adv.size() - 1));
+            i++;
         }
-
 
     }
 
