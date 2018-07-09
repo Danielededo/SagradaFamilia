@@ -126,7 +126,8 @@ public class Constants {
     public static final String END_GAME = "LA PARTITA E' TERMINATA";
     public static final String PAY_UP = "Segnalini favore necessari";
     public static final String RECONNECTED = "Sei stato riconnesso";
-
-
+    public static final String TOKEN = "Ricarica token";
+    public static final String SCHEME_NAME="Nome carta schema";
+    public static final String PLAY_AGAIN="E' stato riconnesso";
 
 }

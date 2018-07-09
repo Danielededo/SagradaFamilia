@@ -794,7 +794,7 @@ public class ControllerG {
 
      public JSONObject roundtrackPacking(){
         JSONObject object = new JSONObject();
-        object.put("round", match.getRound());
+        object.put("round", match.getRound()-2);
         object.put("roundtrack", dicePacking(match.getRoundTrackList(match.getRound() - 2)));
         return object;
      }

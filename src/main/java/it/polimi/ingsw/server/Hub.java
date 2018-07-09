@@ -88,9 +88,16 @@ public class Hub {
                 listofobserver.set(i,o);
                 controller.match.getPlayers().get(i).setConnected(true);
                 JSONObject rec = controller.packForReconnecting(i);
-
                 notify(o, Constants.RECONNECTED);
                 notify(o, rec.toString());
+                notify(o,Constants.TOKEN);
+                notify(o,controller.match.getPlayers().get(i).getMarker()+"");
+                notify(o,Constants.SCHEME_NAME);
+                notify(o,controller.match.getPlayers().get(i).getWindow().getName());
+                notify(o,Constants.SCHEME_RELOAD);
+                notify(o,controller.updateWindow(controller.match.getPlayers().get(i).getWindow()).toString());
+                notifyOthers(o,Constants.PLAY_AGAIN);
+                notifyOthers(o,controller.match.getPlayers().get(i).getNickname());
                 System.out.println(o.getNickname()+" riconnesso");
                 if(!endRound) {
                     thread = new DisconnectionThread(this);

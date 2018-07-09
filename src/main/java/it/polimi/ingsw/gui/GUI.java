@@ -208,9 +208,11 @@ public class GUI extends Application implements ClientInt {
         }else if(oldie.equals(Constants.DISCONNECTED)){
             Platform.runLater(()->{
                 for(Adversary a: main.getAdv()){
-                    if(a.getName().equals(newie))
+                    if(a.getName().equals(newie)){
                         a.getLabel().setText("disconnesso");
+                    }
                 }
+                main.getError().setText(newie+ " è stato disconnesso");
             });
         }else if(newie.equals(Constants.WINNER)){
             Platform.runLater(()->{

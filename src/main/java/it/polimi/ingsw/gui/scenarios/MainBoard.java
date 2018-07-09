@@ -156,6 +156,15 @@ public class MainBoard extends GridPane{
                 adv.add(provv);
                 adversus.getChildren().add(adv.get(adv.size() - 1));
             });
+        }else if(oldie.equals(Constants.PLAY_AGAIN)){
+            Platform.runLater(()->{
+                for(Adversary a: adv){
+                    if(a.getName().equals(newie)){
+                        a.getLabel().setText("connesso");
+                    }
+                }
+                error.setText(newie+ " è stato riconnesso");
+            });
         }
     }
 
@@ -236,10 +245,22 @@ public class MainBoard extends GridPane{
                 diceUnpackR(obj.getJSONArray("roundtrack"), i);
                 hey.setValue(-1);
             });
-        }else if(oldie.equals(Constants.RECONNECTED)){
-
+        }else if(oldie.equals(Constants.TOKEN)){
+            Platform.runLater(()->{
+                scheme.setDifficulty(Integer.parseInt(newie));
+                tspace.setTok(scheme.getDifficulty());
+            });
+        }else if(oldie.equals(Constants.SCHEME_NAME)){
+            Platform.runLater(()->{
+                scheme.setName(newie);
+                personal.getChildren().add(new Label(scheme.getName()));
+            });
         }
 
+    }
+
+    public Label getError() {
+        return error;
     }
 
     public void placeThatDie(String oldie, String newie, IntegerProperty hey){
@@ -491,12 +512,25 @@ public class MainBoard extends GridPane{
             }
         }
 
-        scheme = updatingScheme(obj.getJSONObject("personal"));
+        JSONObject a=obj.getJSONObject("personal");
+        scheme=new Windows();
+        scheme.setName(a.getString("name"));
+        scheme.setDifficulty(a.getInt("diff"));
+        JSONArray tass = a.getJSONArray("glass");
+
+        for(i= 0; i < Constants.F_SLOT; i++){
+            JSONObject provv = tass.getJSONObject(i);
+            scheme.getList().get(i).getChildren().add(necessary.faceComparing(provv.getString("face")));
+            scheme.getList().get(i).setStyle("-fx-background-color: " + necessary.colorComparing(provv.getString("color")));
+        }
+
 
         i = 0;
         //JSONArray players = obj.getJSONArray("others");
         while(i < obj.getJSONArray("others").length()) {
-            Adversary provv = updatingAdversary(new JSONObject(obj.getJSONArray("others").getJSONObject(i)));
+            String object=obj.getJSONArray("others").getJSONObject(i).getString("player");
+            Adversary provv = new Adversary(object);
+            provv.setGlasswindow(updatingScheme(obj.getJSONArray("others").getJSONObject(i).getJSONObject("glasswindow")));
             adv.add(provv);
             adversus.getChildren().add(adv.get(adv.size() - 1));
             i++;
