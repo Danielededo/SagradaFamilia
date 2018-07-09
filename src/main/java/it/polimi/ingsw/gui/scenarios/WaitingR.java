@@ -6,20 +6,18 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
-public class WaitingR extends BorderPane{
+public class WaitingR extends GridPane {
 
 
     private String planciapath = new String(Constants.IMG_PRINC + Constants.IMG_SCHE + "/planciaBlue.png");
 
     private Label current = new Label("");
     private VBox players = new VBox();
-    private HBox rulez = new HBox();
     private Label other = new Label();
     private Label soli = new Label("");
 
@@ -35,7 +33,7 @@ public class WaitingR extends BorderPane{
         current.setTextFill(Paint.valueOf("#ffffff"));
         gioc1.getChildren().addAll(vetcurr, current);
 
-        setLeft(gioc1);
+        add(gioc1, 0,2);
 
         Label label = new Label("Lista d'attesa: ");
         label.setTextFill(Paint.valueOf("#ffffff"));
@@ -43,15 +41,16 @@ public class WaitingR extends BorderPane{
         label.setFont(Font.font("Times New Roman"));
         label.setStyle("-fx-font-size: 20");
         players.getChildren().add(label);
+        soli.setTextFill(Paint.valueOf("#ffffff"));
+        other.setTextFill(Paint.valueOf("#ffffff"));
+        other.setStyle("-fx-font-size: 50");
 
-        setTop(other);
-
-        setRight(players);
-        setCenter(rulez);
-        setBottom(soli);
+        add(other, 0, 0);
+        add(players, 1,2, 3,1);
+        add(soli, 0,4);
 
         setStyle("-fx-background-color: black;");
-
+        setAlignment(Pos.CENTER);
     }
 
 

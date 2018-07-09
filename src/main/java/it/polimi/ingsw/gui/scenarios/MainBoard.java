@@ -70,7 +70,9 @@ public class MainBoard extends GridPane{
 
 
         Label segnfav = new Label("SEGNALINI FAVORE");
+        segnfav.setStyle("-fx-font-size: 30");
         Label vetr = new Label("CARTA VETRATA SCELTA");
+        vetr.setStyle("-fx-font-size: 30");
         half.getChildren().add(draftp);
 
         half.getChildren().add(adversus);
@@ -84,7 +86,9 @@ public class MainBoard extends GridPane{
         two.getChildren().add(lower);
 
         mainone.setCenter(two);
+        mex.setStyle("-fx-font-size: 30");
         messages.setLeft(mex);
+        error.setStyle("-fx-font-size: 30");
         messages.setRight(error);
         mainone.setBottom(messages);
         mainone.setTop(roundtrack);

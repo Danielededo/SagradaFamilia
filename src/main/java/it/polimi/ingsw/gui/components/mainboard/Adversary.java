@@ -14,6 +14,8 @@ public class Adversary extends VBox {
         super();
         name = nom;
         Label etich = new Label(nom);
+        etich.setStyle("-fx-font-size: 30");
+        label.setStyle("-fx-font-size: 30");
         getChildren().addAll(etich, label);
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.client.ClientGui;
-import it.polimi.ingsw.gui.components.BoxUnsure;
 import it.polimi.ingsw.gui.components.mainboard.Adversary;
 import it.polimi.ingsw.gui.scenarios.*;
 import it.polimi.ingsw.rmi.ClientInt;
@@ -22,7 +21,6 @@ import org.json.JSONObject;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 
 
 public class GUI extends Application implements ClientInt {
@@ -38,11 +36,6 @@ public class GUI extends Application implements ClientInt {
     private MainBoard main = new MainBoard();
     private Disconnected dis = new Disconnected();
     private Ranking rank = new Ranking();
-
-
-    private BoxUnsure uscita = new BoxUnsure();
-
-    private ArrayList<String> players = new ArrayList<>();
 
 
 
@@ -131,11 +124,6 @@ public class GUI extends Application implements ClientInt {
         clientGui.toServerProperty().bind(guisays);
     }
 
-    /*public void closeProgram(Stage stage){
-        Boolean esito = uscita.display("Uscita", "Sei sicuro di voler uscire?");
-        if(esito){ stage.close(); }
-    }*/
-
     @Override
     public void update(String msg) throws RemoteException {
     }
@@ -151,7 +139,7 @@ public class GUI extends Application implements ClientInt {
         if (oldie.equals("welcome")) {
             Platform.runLater(() -> {
                 wr.getCurrent().setText(newie);
-                stage.setScene(new Scene(wr));
+                stage.setScene(new Scene(wr, 600,600));
                 stage.show();
             });
         } else if(oldie.equals(Constants.RECONNECTED)){
@@ -164,13 +152,15 @@ public class GUI extends Application implements ClientInt {
         else if (oldie.equals("connesso")) {
             Platform.runLater(() -> {
                 Label gioc = new Label(newie);
+                gioc.setTextFill(Paint.valueOf("#ffffff"));
                 wr.getPlayers().getChildren().add(gioc);
+                wr.getSoli().setText("");
             });
         } else if (oldie.equals("Left")) {
             Platform.runLater(() -> {
                 Label gioc = new Label(newie);
+                gioc.setTextFill(Paint.valueOf("#ffffff"));
                 wr.getPlayers().getChildren().add(gioc);
-                wr.getSoli().setText("");
             });
         } else if (oldie.equals("Timer stop")) {
             if (newie.equals("Solo")) {
